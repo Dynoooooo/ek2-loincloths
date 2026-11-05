@@ -1,0 +1,4 @@
+﻿# EK2 Loincloths accessories
+ek2lc_m_reach_hide_01 = {
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_hide_01_entity }
+}
