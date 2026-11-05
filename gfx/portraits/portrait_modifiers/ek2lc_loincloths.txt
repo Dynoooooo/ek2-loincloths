@@ -1,6 +1,7 @@
 ﻿# EK2 Loincloths: who wears a loincloth.
 # Priority 101 applies this after every EK2 outfit group (EK2's highest is 100), so a
 # loincloth wearer never gets an EK2 outfit, legwear or cloak on top of the loincloth.
+# Every modifier sets both of our genes, so nothing is left over from another choice.
 ek2lc_loincloth = {
 	usage = game
 	selection_behavior = weighted_random
@@ -12,6 +13,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_loincloth
 				template = ek2lc_no_loincloth
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
 				range = { 0 1 }
 			}
 		}
@@ -47,12 +54,69 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_hide
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
 			modifier = {
 				add = 100
 				is_female = no
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Reach women who are commoners: the loincloth and always the chest band.
+	ek2lc_reach_hide_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				is_adult = yes
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach

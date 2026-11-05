@@ -1,39 +1,53 @@
-"""Build the Reach hide loincloth for adult men (EK2 Loincloths).
+"""Build the Reach hide loincloth for EK2 Loincloths, and for women the hide chest band.
 
-Makes the mesh on CK3's vanilla male body (EK2 uses the same body mesh), its five
-body-shape meshes (fat, gaunt, muscular, old, dwarf), the textures (PNG sources in
-source/textures, DDS in the mod), the .asset file, a .blend and a small preview.
+Fits everything on CK3's vanilla bodies (EK2 uses the same body meshes) and rebuilds each
+piece on every body shape, so the shapes match the body vertex for vertex. Exports the .mesh
+files, the body-shape .mesh files, the .asset files, the shared textures (PNG sources in
+source/textures, DDS in the mod), a .blend and a small preview.
 
-Pieces: a rawhide cord belt, a strip passing between the legs, and fringed hide
-flaps hanging in front and behind.
+Pieces: a rawhide cord belt, a strip passing between the legs (a pouch over the fig leaf),
+fringed hide flaps tucked under the belt in front and behind, and for women a chest band
+that bridges the cleavage like real cloth.
 
-Run:
+Run once per body:
   /Applications/Blender.app/Contents/MacOS/Blender --background \
-      --python build_reach_hide_m.py -- "<CK3 game dir>" "<mod dir>"
+      --python build_reach_hide.py -- "<CK3 game dir>" "<mod dir>" male|female
 """
 import bpy, bmesh, addon_utils, sys, os, math, subprocess, time
 import numpy as np
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
 from mathutils.interpolate import poly_3d_calc
+from mathutils.geometry import intersect_line_line_2d
 
 T0 = time.time()
 argv = sys.argv[sys.argv.index("--") + 1:]
 GAME, MOD = argv[0], argv[1]
+SEX = argv[2] if len(argv) > 2 else "male"
+assert SEX in ("male", "female")
+S1 = SEX[0]
 MAGICK = "/opt/homebrew/bin/magick"
 
-NAME = "ek2lc_m_reach_hide_01"
-NODE = NAME + "Shape"  # mesh node name in the .mesh; the .asset meshsettings name must match
-OUT = os.path.join(MOD, "gfx/models/portraits/ek2lc/m_reach_hide_01")
+SET = "ek2lc_reach_hide_01"  # texture set shared by both bodies and the chest band
+NAME = "ek2lc_%s_reach_hide_01" % S1
+BAND = "ek2lc_f_reach_band_01"
+OUT = os.path.join(MOD, "gfx/models/portraits/ek2lc/reach_hide_01")
 SRC = os.path.join(MOD, "source")
 TEXSRC = os.path.join(SRC, "textures")
 PREV = os.path.join(SRC, "preview")
 for d in (OUT, TEXSRC, PREV):
     os.makedirs(d, exist_ok=True)
 
-BODY_DIR = os.path.join(GAME, "gfx/models/portraits/male_body")
-FIG_MESH = os.path.join(GAME, "gfx/models/portraits/m_clothes/western/nudity_01/m_clothes_secular_western_nudity_01.mesh")
-SHAPES = ["fat", "gaunt", "muscular", "old", "dwarf"]
+BODY_DIR = os.path.join(GAME, "gfx/models/portraits/%s_body" % SEX)
+FIG_MESH = os.path.join(GAME, "gfx/models/portraits/%s_clothes/western/nudity_01/%s_clothes_secular_western_nudity_01.mesh" % (S1, S1))
+SHAPE_DEFS = [(s, "%s_bs_body_%s_1.mesh" % (SEX, s), "bs_body_%s_1" % s) for s in ("fat", "gaunt", "muscular", "old", "dwarf")]
+if SEX == "female":
+    SHAPE_DEFS += [("pregnant", "female_bs_body_pregnant_1.mesh", "bs_body_pregnant_1"),
+                   ("breast_max", "female_bs_body_breast_size_max.mesh", "bs_body_breast_size_max"),
+                   ("breast_min", "female_bs_body_breast_size_min.mesh", "bs_body_breast_size_min")]
+SHAPES = [s for s, f, a in SHAPE_DEFS]
+SHAPE_FILE = {s: f for s, f, a in SHAPE_DEFS}
+SHAPE_ATTR = {s: a for s, f, a in SHAPE_DEFS}
 ALL = ["basis"] + SHAPES
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -60,7 +74,7 @@ def drop(objs):
 
 
 # ------------------------------------------------------------------ body and its shapes
-objs = pdx_import(os.path.join(BODY_DIR, "male_body.mesh"), True)
+objs = pdx_import(os.path.join(BODY_DIR, "%s_body.mesh" % SEX), True)
 rig = next(o for o in objs if o.type == "ARMATURE")
 body = next(o for o in objs if o.type == "MESH")
 W = body.matrix_world.copy()
@@ -69,7 +83,7 @@ WI = W.inverted()
 
 COORDS = {"basis": world_coords(body)}
 for s in SHAPES:
-    tmp = pdx_import(os.path.join(BODY_DIR, "blendshapes", "male_bs_body_%s_1.mesh" % s), False)
+    tmp = pdx_import(os.path.join(BODY_DIR, "blendshapes", SHAPE_FILE[s]), False)
     m = next(o for o in tmp if o.type == "MESH")
     assert len(m.data.vertices) == len(body.data.vertices), s
     COORDS[s] = world_coords(m)
@@ -132,18 +146,22 @@ def center_y(z, s="basis"):
 # fig leaf (drawn under "no clothes" when nudity is off): the loincloth must cover it
 tmp = pdx_import(FIG_MESH, False)
 _fo = next(o for o in tmp if o.type == "MESH")
-FIG = world_coords(_fo)
+FIG_ALL = world_coords(_fo)
 _fb = bmesh.new()
 _fb.from_mesh(_fo.data)
 _fb.transform(_fo.matrix_world)
 FIG_BVH = BVHTree.FromBMesh(_fb)
 _fb.free()
 drop(tmp)
+FIG = [p for p in FIG_ALL if p.z < HIP_Z + 8]  # the part at the groin
+FIG_CHEST = [p for p in FIG_ALL if p.z >= HIP_Z + 8]  # any part over the chest (women)
 FIG_D = max(BVH["basis"].find_nearest(p)[3] for p in FIG)
 FIG_X = max(abs(p.x) for p in FIG)
 FIG_Z = (min(p.z for p in FIG), max(p.z for p in FIG))
-print("BODY front=%s hip_z=%.1f crotch_z=%.1f belt_z=%.1f | fig: dist=%.2f half_w=%.1f z=%.1f..%.1f"
-      % (tuple(FRONT), HIP_Z, CROTCH_Z, BELT_Z, FIG_D, FIG_X, FIG_Z[0], FIG_Z[1]))
+print("BODY %s front=%s hip_z=%.1f crotch_z=%.1f belt_z=%.1f | fig: dist=%.2f half_w=%.1f z=%.1f..%.1f | chest part: %d pts%s"
+      % (SEX, tuple(FRONT), HIP_Z, CROTCH_Z, BELT_Z, FIG_D, FIG_X, FIG_Z[0], FIG_Z[1], len(FIG_CHEST),
+         " dist=%.2f z=%.1f..%.1f" % (max(BVH["basis"].find_nearest(p)[3] for p in FIG_CHEST),
+                                      min(p.z for p in FIG_CHEST), max(p.z for p in FIG_CHEST)) if FIG_CHEST else ""))
 
 
 # ------------------------------------------------------------------ binding to the body surface
@@ -238,8 +256,8 @@ for s in ALL:
 
 # flaps: stiff hide tucked under the belt (between belt and skin) and hanging straight down.
 # Draped over the belt, their top edge got swallowed when the belly folds down in some poses.
-# the back flap is no wider and a bit shorter than the front one, so from the front it
-# doesn't peek out between the legs below or beside the front flap
+# The back flap is no wider and a bit shorter than the front one, so from the front it
+# doesn't peek out between the legs below or beside the front flap.
 FLAPS = {+1: dict(w_top=20.0, w_bot=17.0, length=34.0), -1: dict(w_top=20.0, w_bot=17.0, length=31.0)}
 FR, FC, THICK = 14, 7, 0.35
 Z_ATTACH = BELT_Z + 0.9  # inside the belt band (belt spans BELT_Z +-1.7)
@@ -284,7 +302,7 @@ def positions(s):
 
 POS = {s: positions(s) for s in ALL}
 
-# ------------------------------------------------------------------ topology and UVs
+# ------------------------------------------------------------------ loincloth topology and UVs
 UVS, FACES, PART, WRAP = [], [], [], set()
 
 
@@ -342,42 +360,9 @@ add_flap(+1, 0.01, 0.49)
 add_flap(-1, 0.51, 0.99)
 assert len(POS["basis"]) == len(UVS)
 
-me = bpy.data.meshes.new(NODE)
-me.from_pydata([WI @ p for p in POS["basis"]], [], FACES)
-me.update()
-bm = bmesh.new()
-bm.from_mesh(me)
-bm.faces.ensure_lookup_table()
-
-
-def orient(prefix, expected, vote_prefix=None):
-    fs = [f for f in bm.faces if PART[f.index].startswith(prefix)]
-    bmesh.ops.recalc_face_normals(bm, faces=fs)
-    voters = [f for f in fs if PART[f.index].startswith(vote_prefix or prefix)]
-    score = sum(f.normal.dot(expected(f.calc_center_median())) for f in voters)
-    if score < 0:
-        bmesh.ops.reverse_faces(bm, faces=fs)
-
-
-orient("belt", lambda c: Vector((c.x, c.y - YC[0.0], 0)))
-orient("strip", lambda c: c - P0)
-orient("flap+1", lambda c: FRONT, "flap+1o")
-orient("flap-1", lambda c: -FRONT, "flap-1o")
-uvl = bm.loops.layers.uv.new("map1")
-for f in bm.faces:
-    for l in f.loops:
-        u, v = UVS[l.vert.index]
-        if f.index in WRAP and l.vert.index < 5:
-            u = 1.0
-        l[uvl].uv = (u, v)
-    f.smooth = True
-bm.to_mesh(me)
-bm.free()
-me.update()
-FACES_FINAL = [list(p.vertices) for p in me.polygons]
-
 # ------------------------------------------------------------------ skin weights (copied from the body)
 VG = [g.name for g in body.vertex_groups]
+GI = {n: i for i, n in enumerate(VG)}
 BW = [{} for _ in body.data.vertices]
 for v in body.data.vertices:
     for g in v.groups:
@@ -397,14 +382,10 @@ def weights_at(tri, bary):
     return [(gi, w / s) for gi, w in top]
 
 
-VW = [weights_at(b[0], b[1]) for b in belt_bind + strip_bind]
-
-# Flap weights. The top rows (over and around the belt) copy the skin under them, as the belt
-# does, so fold, belt and belly move together. Lower down they blend into one stiff-apron set
-# (pelvis plus both thighs evenly), the same across the width, so a pose with one leg forward
-# can't twist or split the flap. Below the belt the skin is sampled at belt height, so no thigh
-# leaks in from one side. The right half mirrors the left, so both sides match exactly.
-GI = {n: i for i, n in enumerate(VG)}
+def nearest_weights(p):
+    loc, nor, fi, dist = BVH["basis"].find_nearest(p)
+    tri = TRIS["basis"][fi]
+    return weights_at(tri, poly_3d_calc([C0[k] for k in tri], loc))
 
 
 def mirror_bone(gi):
@@ -419,12 +400,17 @@ def skin_weights_at(x, z, side):
     return dict(weights_at(tri, poly_3d_calc([C0[i] for i in tri], loc)))
 
 
+# Flap weights. The top rows (under the belt) copy the skin behind them, as the belt does.
+# Lower down they blend into one stiff-apron set (pelvis plus both thighs evenly), the same
+# across the width, so a pose with one leg forward can't twist or split the flap. Below the
+# belt the skin is sampled at belt height, so no thigh leaks in from one side. The right half
+# mirrors the left, so both sides match exactly.
 def flap_weights(side):
     sp = FLAPS[side]
     apron = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3, GI["bn_r_hip"]: 0.3}
     mid = (FC - 1) // 2
-    base = NB * 5 + NS * SC + (0 if side == 1 else 2 * FR * FC)
-    outer = POS["basis"][base:base + FR * FC]
+    b0 = NB * 5 + NS * SC + (0 if side == 1 else 2 * FR * FC)
+    outer = POS["basis"][b0:b0 + FR * FC]
     grid = {}
     for j in range(FR):
         t = j / (FR - 1)
@@ -434,9 +420,7 @@ def flap_weights(side):
         s = u * u * (3 - 2 * u)  # 0 = skin weights, 1 = apron weights
         for i in range(mid + 1):
             if j <= 1:  # under the belt: move with the skin right behind, as the belt does
-                loc, nor, fi, dist = BVH["basis"].find_nearest(outer[j * FC + i])
-                tri = TRIS["basis"][fi]
-                skin = dict(weights_at(tri, poly_3d_calc([C0[k] for k in tri], loc)))
+                skin = dict(nearest_weights(outer[j * FC + i]))
             else:
                 skin = skin_weights_at((i / (FC - 1) - 0.5) * w, max(z, BELT_Z - 1.7), side) if s < 1 else {}
             if i == mid:  # centre column: make it exactly symmetric
@@ -458,10 +442,109 @@ def flap_weights(side):
     return [grid[(j, i)] for layer in range(2) for j in range(FR) for i in range(FC)]
 
 
+VW = [weights_at(b[0], b[1]) for b in belt_bind + strip_bind]
 VW += flap_weights(+1) + flap_weights(-1)
 
+PIECES = [dict(name=NAME, pos=POS, faces=FACES, part=PART, wrap=WRAP, wrap_u={i: 1.0 for i in range(5)}, uvs=UVS, vw=VW,
+               orient=[("belt", lambda c: Vector((c.x, c.y - YC[0.0], 0)), None), ("strip", lambda c: c - P0, None),
+                       ("flap+1", lambda c: FRONT, "flap+1o"), ("flap-1", lambda c: -FRONT, "flap-1o")])]
 
-# ------------------------------------------------------------------ textures
+
+# ------------------------------------------------------------------ chest band (women)
+def convex_hull_2d(pts):
+    pts = sorted(set((round(p.x, 4), round(p.y, 4)) for p in pts))
+    cross = lambda o, a, b: (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+    lower, upper = [], []
+    for p in pts:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+    for p in reversed(pts):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+    return [Vector(p) for p in lower[:-1] + upper[:-1]]
+
+
+def ray_to_hull(c, d, hull):
+    far = c + d * 200
+    for i in range(len(hull)):
+        p = intersect_line_line_2d(c, far, hull[i], hull[(i + 1) % len(hull)])
+        if p is not None:
+            return (p - c).length
+    return 0.0
+
+
+if SEX == "female":
+    best = None  # bust apex: the most forward point of the chest
+    for zz in np.arange(HIP_Z + 15, HIP_Z + 60, 0.5):
+        for xx in (6.0, 9.0, 12.0):
+            hit = BVH["basis"].ray_cast(Vector((xx, 0, zz)) + FRONT * 200, -FRONT, 400)[0]
+            if hit is not None and (best is None or hit.dot(FRONT) > best[0]):
+                best = (hit.dot(FRONT), zz)
+    APEX_Z = best[1]
+    B_LO, B_HI = APEX_Z - 7.0, APEX_Z + 4.5  # top kept below the armpits: upper arms swing over it
+    if FIG_CHEST:  # the nudity cover's chest part must end up under the band
+        B_LO = min(B_LO, min(p.z for p in FIG_CHEST) - 1.0)
+        B_HI = max(B_HI, max(p.z for p in FIG_CHEST) + 1.0)
+    NBB, NRB = 48, 7
+    loc, nor, fi, dist = BVH["basis"].ray_cast(Vector((0, 0, APEX_Z)) + FRONT * 200, -FRONT, 400)
+    BREF = bind(loc, fi, 0.0)  # sternum at the apex height: the band moves up and down with it
+    FIGC_BVH = FIG_BVH if FIG_CHEST else None
+    print("BAND apex_z=%.1f rows %.1f..%.1f" % (APEX_Z, B_LO, B_HI))
+
+    def band_positions(s):
+        dz = (recon(BREF, s) - recon(BREF, "basis")).z
+        rows = []
+        for r in range(NRB):
+            z = B_LO + (B_HI - B_LO) * r / (NRB - 1) + dz
+            fy = BVH[s].ray_cast(Vector((0, 0, z)) + FRONT * 200, -FRONT, 400)[0]
+            by = BVH[s].ray_cast(Vector((0, 0, z)) - FRONT * 200, FRONT, 400)[0]
+            c = Vector((0, (fy.y + by.y) / 2, z))
+            dirs, pts = [], []
+            for k in range(NBB):
+                th = 2 * math.pi * k / NBB
+                d = (-FRONT) * math.cos(th) + RIGHT * math.sin(th)  # k = 0 at the back
+                hit = BVH[s].ray_cast(c, d, 100)[0]
+                pts.append(hit)
+                if FIGC_BVH is not None and s == "basis":  # cover the nudity cover too
+                    fh = FIGC_BVH.ray_cast(c + d * (hit - c).length * 0.5, d, 30)[0]
+                    if fh is not None and abs(fh.z - z) < 1.0:
+                        pts.append(fh)
+                dirs.append(d)
+            hull = convex_hull_2d(pts)  # bridges the cleavage like real cloth
+            rows.append((c, dirs, [ray_to_hull(c.to_2d(), d.to_2d(), hull) for d in dirs]))
+        out = []
+        for k in range(NBB):
+            c, dirs, rad = rows[0]
+            out.append(c + dirs[k] * (rad[k] + 0.35))  # inner edge, bottom
+            for r in range(NRB):
+                c, dirs, rad = rows[r]
+                out.append(c + dirs[k] * (rad[k] + 1.0 + 0.2 * math.sin(math.pi * r / (NRB - 1))))  # thick hide
+            c, dirs, rad = rows[-1]
+            out.append(c + dirs[k] * (rad[k] + 0.35))  # inner edge, top
+        return out
+
+    BPOS = {s: band_positions(s) for s in ALL}
+    CPB = NRB + 2  # vertices per band column
+    BUVS, BFACES, BPART, BWRAP = [], [], [], set()
+    for k in range(NBB):
+        for r in range(CPB):
+            BUVS.append((0.01 + 0.98 * k / NBB, 0.755 + 0.115 * r / (CPB - 1)))  # plain hide (the strip's area)
+    for k in range(NBB):
+        k2 = (k + 1) % NBB
+        for r in range(CPB - 1):
+            if k2 == 0:
+                BWRAP.add(len(BFACES))
+            BFACES.append([k * CPB + r, k2 * CPB + r, k2 * CPB + r + 1, k * CPB + r + 1])
+            BPART.append("band")
+    BVW = [nearest_weights(p) for p in BPOS["basis"]]
+    BAND_YC = sum(p.y for p in BPOS["basis"]) / len(BPOS["basis"])
+    PIECES.append(dict(name=BAND, pos=BPOS, faces=BFACES, part=BPART, wrap=BWRAP, wrap_u={i: 0.99 for i in range(CPB)},
+                       uvs=BUVS, vw=BVW, orient=[("band", lambda c: Vector((c.x, c.y - BAND_YC, 0)), None)]))
+
+
+# ------------------------------------------------------------------ textures (shared by every piece)
 def make_textures():
     H = WD = 1024
     rng = np.random.default_rng(11)
@@ -524,7 +607,7 @@ def make_textures():
     flap(0.51, 0.99, 0.01, 0.74)
     x0, y0 = px(0.0, 0.875)
     x1, y1 = px(1.0, 0.75)
-    sub = img[y0:y1, x0:x1]  # strip: a little darker, lengthwise folds
+    sub = img[y0:y1, x0:x1]  # strip and chest band: a little darker, lengthwise folds
     yy = np.mgrid[0:sub.shape[0], 0:sub.shape[1]][0].astype(np.float32)
     sub[..., :3] *= (0.82 + 0.08 * np.sin(yy / sub.shape[0] * np.pi * 6))[..., None]
     x0, y0 = px(0.0, 1.0)
@@ -545,17 +628,16 @@ def make_textures():
 
 IMAGES = {}
 for kind, arr in make_textures().items():
-    png = os.path.join(TEXSRC, "%s_%s.png" % (NAME, kind))
-    im = bpy.data.images.new("%s_%s" % (NAME, kind), arr.shape[1], arr.shape[0], alpha=True)
+    png = os.path.join(TEXSRC, "%s_%s.png" % (SET, kind))
+    im = bpy.data.images.new("%s_%s" % (SET, kind), arr.shape[1], arr.shape[0], alpha=True)
     im.pixels.foreach_set(np.ascontiguousarray(np.flipud(arr), dtype=np.float32).ravel())
     im.filepath_raw = png
     im.file_format = "PNG"
     im.save()
     IMAGES[kind] = im
     subprocess.run([MAGICK, png, "-define", "dds:compression=dxt5", "-define", "dds:mipmaps=10",
-                    os.path.join(OUT, "%s_%s.dds" % (NAME, kind))], check=True)
+                    os.path.join(OUT, "%s_%s.dds" % (SET, kind))], check=True)
 
-# ------------------------------------------------------------------ material, object, export
 mat = bpy.data.materials.new("ek2lc_reach_hide")
 mat["shader"] = "portrait_attachment_alpha_to_coverage"
 try:
@@ -569,19 +651,8 @@ tex.image = IMAGES["diffuse"]
 nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
 nt.nodes.active = tex
 
-lo = bpy.data.objects.new(NAME, me)
-scene.collection.objects.link(lo)
-lo.matrix_world = W
-me.materials.append(mat)
-vgroups = {}
-for vi, ws in enumerate(VW):
-    for gi, w in ws:
-        if VG[gi] not in vgroups:
-            vgroups[VG[gi]] = lo.vertex_groups.new(name=VG[gi])
-        vgroups[VG[gi]].add([vi], w, "REPLACE")
-lo.modifiers.new("Armature", "ARMATURE").object = rig
 
-
+# ------------------------------------------------------------------ make, export and check every piece
 def export(obj, path, as_bs):
     for o in bpy.context.view_layer.objects:
         o.select_set(False)
@@ -591,87 +662,118 @@ def export(obj, path, as_bs):
                                      chk_selected=True, chk_mesh_blendshape=as_bs)
 
 
-export(lo, os.path.join(OUT, NAME + ".mesh"), False)
-uv_flat = np.empty(len(me.loops) * 2, np.float32)
-me.uv_layers[0].data.foreach_get("uv", uv_flat)
-counts = {}
-for s in SHAPES:
-    ms = bpy.data.meshes.new("bs_" + s)
-    ms.from_pydata([WI @ p for p in POS[s]], [], FACES_FINAL)
-    ms.update()
-    ms.uv_layers.new(name="map1").data.foreach_set("uv", uv_flat)
-    for p in ms.polygons:
-        p.use_smooth = True
-    ms.materials.append(mat)
-    o = bpy.data.objects.new("bs_" + s, ms)
-    scene.collection.objects.link(o)
-    o.matrix_world = W
-    me.name = "base_tmp"
-    ms.name = NODE
-    export(o, os.path.join(OUT, "%s_bs_%s.mesh" % (NAME, s)), True)
-    try:
-        nb = len(pdx_io.get_mesh_info(lo, 0, split_criteria=None, split_all=False, sort_vertices=True)[0]["p"]) // 3
-        ns_ = len(pdx_io.get_mesh_info(o, 0, split_criteria=["id", "p", "uv"], split_all=False, sort_vertices=True)[0]["p"]) // 3
-        counts[s] = (nb, ns_)
-    except Exception as e:
-        counts[s] = repr(e)[:120]
-    ms.name = "bs_" + s
-    me.name = NODE
-    drop([o])
-print("EXPORT vertex counts (base, shape):", counts)
-
-bs_lines = "\n".join('\tblend_shape = { id = "%s_bs_%s"\ttype = "%s_bs_%s.mesh" }' % (NAME, s, NAME, s) for s in SHAPES)
-attr_lines = "\n".join('\tattribute = { name = "bs_body_%s_1"\tblend_shape = "%s_bs_%s" }' % (s, NAME, s) for s in SHAPES)
-with open(os.path.join(OUT, NAME + ".asset"), "w") as f:
-    f.write(f"""pdxmesh = {{
-	name = "{NAME}_mesh"
-	file = "{NAME}.mesh"
+def finish_piece(pc):
+    name, node = pc["name"], pc["name"] + "Shape"  # mesh node name in the .mesh = meshsettings name
+    me = bpy.data.meshes.new(node)
+    me.from_pydata([WI @ p for p in pc["pos"]["basis"]], [], pc["faces"])
+    me.update()
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.faces.ensure_lookup_table()
+    for prefix, expected, vote in pc["orient"]:
+        fs = [f for f in bm.faces if pc["part"][f.index].startswith(prefix)]
+        bmesh.ops.recalc_face_normals(bm, faces=fs)
+        voters = [f for f in fs if pc["part"][f.index].startswith(vote or prefix)]
+        if sum(f.normal.dot(expected(f.calc_center_median())) for f in voters) < 0:
+            bmesh.ops.reverse_faces(bm, faces=fs)
+    uvl = bm.loops.layers.uv.new("map1")
+    for f in bm.faces:
+        for l in f.loops:
+            u, v = pc["uvs"][l.vert.index]
+            if f.index in pc["wrap"] and l.vert.index in pc["wrap_u"]:
+                u = pc["wrap_u"][l.vert.index]
+            l[uvl].uv = (u, v)
+        f.smooth = True
+    bm.to_mesh(me)
+    bm.free()
+    me.update()
+    faces_final = [list(p.vertices) for p in me.polygons]
+    obj = bpy.data.objects.new(name, me)
+    scene.collection.objects.link(obj)
+    obj.matrix_world = W
+    me.materials.append(mat)
+    vgroups = {}
+    for vi, ws in enumerate(pc["vw"]):
+        for gi, w in ws:
+            if VG[gi] not in vgroups:
+                vgroups[VG[gi]] = obj.vertex_groups.new(name=VG[gi])
+            vgroups[VG[gi]].add([vi], w, "REPLACE")
+    obj.modifiers.new("Armature", "ARMATURE").object = rig
+    export(obj, os.path.join(OUT, name + ".mesh"), False)
+    uv_flat = np.empty(len(me.loops) * 2, np.float32)
+    me.uv_layers[0].data.foreach_get("uv", uv_flat)
+    counts = {}
+    for s in SHAPES:
+        ms = bpy.data.meshes.new("bs_" + s)
+        ms.from_pydata([WI @ p for p in pc["pos"][s]], [], faces_final)
+        ms.update()
+        ms.uv_layers.new(name="map1").data.foreach_set("uv", uv_flat)
+        for p in ms.polygons:
+            p.use_smooth = True
+        ms.materials.append(mat)
+        o = bpy.data.objects.new("bs_" + s, ms)
+        scene.collection.objects.link(o)
+        o.matrix_world = W
+        me.name = "base_tmp"
+        ms.name = node
+        export(o, os.path.join(OUT, "%s_bs_%s.mesh" % (name, s)), True)
+        try:
+            nb = len(pdx_io.get_mesh_info(obj, 0, split_criteria=None, split_all=False, sort_vertices=True)[0]["p"]) // 3
+            ns_ = len(pdx_io.get_mesh_info(o, 0, split_criteria=["id", "p", "uv"], split_all=False, sort_vertices=True)[0]["p"]) // 3
+            counts[s] = (nb, ns_)
+        except Exception as e:
+            counts[s] = repr(e)[:120]
+        ms.name = "bs_" + s
+        me.name = node
+        drop([o])
+    print("EXPORT %s vertex counts (base, shape): %s" % (name, counts))
+    bs_lines = "\n".join('\tblend_shape = { id = "%s_bs_%s"\ttype = "%s_bs_%s.mesh" }' % (name, s, name, s) for s in SHAPES)
+    attr_lines = "\n".join('\tattribute = { name = "%s"\tblend_shape = "%s_bs_%s" }' % (SHAPE_ATTR[s], name, s) for s in SHAPES)
+    with open(os.path.join(OUT, name + ".asset"), "w") as f:
+        f.write(f"""pdxmesh = {{
+	name = "{name}_mesh"
+	file = "{name}.mesh"
 {bs_lines}
 
 	meshsettings = {{
-		name = "{NODE}"
+		name = "{node}"
 		index = 0
-		texture_diffuse = "{NAME}_diffuse.dds"
-		texture_normal = "{NAME}_normal.dds"
-		texture_specular = "{NAME}_properties.dds"
+		texture_diffuse = "{SET}_diffuse.dds"
+		texture_normal = "{SET}_normal.dds"
+		texture_specular = "{SET}_properties.dds"
 		shader = "portrait_attachment_alpha_to_coverage"
 		shader_file = "gfx/FX/jomini/portrait.shader"
 	}}
 }}
 
 entity = {{
-	name = "{NAME}_entity"
-	pdxmesh = "{NAME}_mesh"
+	name = "{name}_entity"
+	pdxmesh = "{name}_mesh"
 {attr_lines}
 }}
 """)
-
-# poke-through check: loincloth points inside the body, per body shape
-PARTS = [("belt", 0, NB * 5), ("strip", NB * 5, NB * 5 + NS * SC),
-         ("front", NB * 5 + NS * SC, NB * 5 + NS * SC + 2 * FR * FC), ("back", NB * 5 + NS * SC + 2 * FR * FC, len(UVS))]
-for s in ALL:
-    row = []
-    for pname, a, b in PARTS:
-        inside, worst, wp = 0, 1e9, None
-        for p in POS[s][a:b]:
+    for s in ALL:  # poke-through check: points inside the body, per body shape
+        inside, worst = 0, 1e9
+        for p in pc["pos"][s]:
             loc, nor, fi, d = BVH[s].find_nearest(p)
             sd = (p - loc).dot(nor)
-            if sd < worst:
-                worst, wp = sd, p
+            worst = min(worst, sd)
             inside += sd < 0
-        row.append("%s %d/%.2f%s" % (pname, inside, worst, " @(%.0f,%.0f,%.0f)" % tuple(wp) if inside else ""))
-    print("CLEARANCE %-8s" % s, " | ".join(row))
-print("MESH verts=%d faces=%d groups=%d" % (len(me.vertices), len(me.polygons), len(lo.vertex_groups)))
+        print("CLEARANCE %s %-10s inside=%d min=%.2f" % (name, s, inside, worst))
+    return obj
 
-# body shapes as shape keys on both, so the .blend shows the loincloth following them (export is done)
-for obj, data in ((body, COORDS), (lo, POS)):
+
+OBJS = [finish_piece(pc) for pc in PIECES]
+
+# body shapes as shape keys, so the .blend shows the pieces following them (export is done)
+for obj, data in [(body, COORDS)] + [(o, pc["pos"]) for o, pc in zip(OBJS, PIECES)]:
     obj.shape_key_add(name="Basis")
     for s in SHAPES:
         kb = obj.shape_key_add(name=s, from_mix=False)
         for i, c in enumerate(data[s]):
             kb.data[i].co = WI @ c
         kb.value = 0.0  # new keys start at 1.0 in this Blender; all on at once is a body the game never makes
-bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_m_v01.blend"))
+bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_%s_v01.blend" % S1))
 
 
 # ------------------------------------------------------------------ preview render (Blender, not the game)
@@ -686,12 +788,12 @@ def preview():
     world = bpy.data.worlds.new("bg")
     world.color = (0.16, 0.16, 0.18)
     scene.world = world
-    scene.render.resolution_x, scene.render.resolution_y, scene.render.resolution_percentage = 300, 420, 100
+    scene.render.resolution_x, scene.render.resolution_y, scene.render.resolution_percentage = 300, 520, 100
     skin = bpy.data.materials.new("preview_skin")
     skin.diffuse_color = (0.78, 0.6, 0.5, 1.0)
     body.data.materials.clear()
     body.data.materials.append(skin)
-    green = bpy.data.materials.new("preview_fig")  # the fig leaf in bright green: it must not show
+    green = bpy.data.materials.new("preview_fig")  # the nudity cover in bright green: it must not show
     green.diffuse_color = (0.1, 0.9, 0.1, 1.0)
     for o in pdx_import(FIG_MESH, False):
         if o.type == "MESH":
@@ -699,24 +801,25 @@ def preview():
             o.data.materials.append(green)
     cam = bpy.data.cameras.new("cam")
     cam.type = "ORTHO"
-    cam.ortho_scale = 66
+    cam.ortho_scale = 80 if SEX == "female" else 66
     co = bpy.data.objects.new("cam", cam)
     scene.collection.objects.link(co)
     scene.camera = co
-    target = Vector((0, center_y(HIP_Z), 79))
-    kb = body.data.shape_keys.key_blocks["fat"]
-    kl = lo.data.shape_keys.key_blocks["fat"]
+    target = Vector((0, center_y(HIP_Z), 90 if SEX == "female" else 79))
+    extra = "pregnant" if SEX == "female" else "fat"
+    keys = [o.data.shape_keys.key_blocks[extra] for o in [body] + OBJS]
     shots = []
-    for tag, ang, fat in (("front", 0, 0), ("side", 90, 0), ("back", 180, 0), ("fat", 25, 1)):
-        kb.value = kl.value = fat
+    for tag, ang, on in (("front", 0, 0), ("side", 90, 0), ("back", 180, 0), (extra, 25, 1)):
+        for kb in keys:
+            kb.value = on
         a = math.radians(ang)
         co.location = target + (FRONT * math.cos(a) + RIGHT * math.sin(a)) * 300
         co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
-        scene.render.filepath = os.path.join(PREV, "v_%s.png" % tag)
+        scene.render.filepath = os.path.join(PREV, "v_%s_%s.png" % (S1, tag))
         bpy.ops.render.render(write_still=True)
         shots.append(scene.render.filepath)
-    subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview.png")], check=True)
+    subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview_%s.png" % S1)], check=True)
 
 
 preview()
-print("DONE in %.1fs" % (time.time() - T0))
+print("DONE %s in %.1fs" % (SEX, time.time() - T0))

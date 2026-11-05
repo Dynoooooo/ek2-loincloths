@@ -30,26 +30,29 @@ for scr in bpy.data.screens:
             sp.shading.type = "MATERIAL"
             r = sp.region_3d
             r.view_perspective = "PERSP"
-            r.view_location = (0.0, 0.0, 82.0)
-            r.view_distance = 120.0
+            r.view_location = (0.0, 0.0, 92.0)
+            r.view_distance = 150.0
             r.view_rotation = Euler((math.radians(88), 0, 0)).to_quaternion()  # front
-lo = sc.objects.get("ek2lc_m_reach_hide_01")
-body = next((o for o in sc.objects if o.type == "MESH" and o.name.startswith("male_body")), None)
-if lo and body and lo.data.shape_keys and body.data.shape_keys:
-    # the loincloth's body-shape sliders follow the body's, so a shape is never shown on one only
-    for kb in lo.data.shape_keys.key_blocks[1:]:
-        kb.value = 0.0
-        fc = kb.driver_add("value")
-        var = fc.driver.variables.new()
-        var.name = "v"
-        var.targets[0].id_type = "KEY"
-        var.targets[0].id = body.data.shape_keys
-        var.targets[0].data_path = 'key_blocks["%s"].value' % kb.name
-        fc.driver.expression = "v"
-if lo:
+pieces = [o for o in sc.objects if o.type == "MESH" and o.name.startswith("ek2lc_")]
+body = next((o for o in sc.objects if o.type == "MESH" and o.name.split(".")[0] in ("male_body", "female_body")), None)
+if body and body.data.shape_keys:
+    # every piece's body-shape sliders follow the body's, so a shape is never shown on one only
+    for lo in pieces:
+        if not lo.data.shape_keys:
+            continue
+        for kb in lo.data.shape_keys.key_blocks[1:]:
+            kb.value = 0.0
+            fc = kb.driver_add("value")
+            var = fc.driver.variables.new()
+            var.name = "v"
+            var.targets[0].id_type = "KEY"
+            var.targets[0].id = body.data.shape_keys
+            var.targets[0].data_path = 'key_blocks["%s"].value' % kb.name
+            fc.driver.expression = "v"
+if pieces:
     for o in sc.objects:
         o.select_set(False)
-    lo.select_set(True)
-    bpy.context.view_layer.objects.active = lo
+    pieces[0].select_set(True)
+    bpy.context.view_layer.objects.active = pieces[0]
 bpy.ops.wm.save_as_mainfile(filepath=OUT)
 print("CHECK saved", OUT, "frames", sc.frame_start, sc.frame_end)
