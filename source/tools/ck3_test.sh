@@ -44,7 +44,10 @@ wait)
   ;;
 stop)
   pkill -x ck3 || true
-  for i in $(seq 1 30); do pgrep -x ck3 >/dev/null || break; sleep 1; done
+  for i in $(seq 1 15); do pgrep -x ck3 >/dev/null || break; sleep 1; done
+  pkill -9 -x ck3 2>/dev/null || true   # it can hang on dialogs; it must be gone before restoring
+  for i in $(seq 1 10); do pgrep -x ck3 >/dev/null || break; sleep 1; done
+  pgrep -x ck3 >/dev/null && { echo "CK3 won't quit. Backup kept at $B"; exit 1; }
   [ -e "$B" ] || { echo "No backup to restore."; exit 0; }
   cp -p "$B/pdx_settings.txt" "$B/dlc_load.json" "$CK/"
   [ -f "$B/player/game_rules/presets.txt" ] && cp -p "$B/player/game_rules/presets.txt" "$CK/player/game_rules/"
