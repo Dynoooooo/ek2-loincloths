@@ -493,36 +493,56 @@ if SEX == "female":
     FIGC_BVH = FIG_BVH if FIG_CHEST else None
     print("BAND apex_z=%.1f rows %.1f..%.1f" % (APEX_Z, B_LO, B_HI))
 
+    # The top edge dips under the armpits: level with the bust at the armpit, the torso's
+    # slice takes in the upper arms, and the band wrapped round them and cut into the arms.
+    BAND_DIP = 5.5
+    BDIRS = [(-FRONT) * math.cos(2 * math.pi * k / NBB) + RIGHT * math.sin(2 * math.pi * k / NBB) for k in range(NBB)]  # k = 0 at the back
+    BTOP = [B_HI - BAND_DIP * abs(math.sin(2 * math.pi * k / NBB)) ** 4 for k in range(NBB)]
+    ARM_BONES = [GI[n] for n in VG if any(t in n for t in ("deltoid", "shoulder", "elbow", "forearm", "wrist", "fi_", "sleeve"))]
+    # the arm itself; skin under the armpit is about half deltoid and still counts as torso
+    ARM_V = {i for i, ws in enumerate(BW) if sum(ws.get(g, 0.0) for g in ARM_BONES) > 0.9}
+
+    def band_slice(s, z):
+        fy = BVH[s].ray_cast(Vector((0, 0, z)) + FRONT * 200, -FRONT, 400)[0]
+        by = BVH[s].ray_cast(Vector((0, 0, z)) - FRONT * 200, FRONT, 400)[0]
+        c = Vector((0, (fy.y + by.y) / 2, z))
+        pts, arm = [], set()
+        for k, d in enumerate(BDIRS):
+            hit, nor, fi, dist = BVH[s].ray_cast(c, d, 100)
+            if any(i in ARM_V for i in TRIS[s][fi]):
+                arm.add(k)  # a slice shared with taller columns reaches the arms: keep them out
+                continue
+            pts.append(hit)
+            if FIGC_BVH is not None and s == "basis":  # cover the nudity cover too
+                fh = FIGC_BVH.ray_cast(c + d * (hit - c).length * 0.5, d, 30)[0]
+                if fh is not None and abs(fh.z - z) < 1.0:
+                    pts.append(fh)
+        hull = convex_hull_2d(pts)  # bridges the cleavage like real cloth
+        return c, [ray_to_hull(c.to_2d(), d.to_2d(), hull) for d in BDIRS], arm
+
     def band_positions(s):
         dz = (recon(BREF, s) - recon(BREF, "basis")).z
-        rows = []
-        for r in range(NRB):
-            z = B_LO + (B_HI - B_LO) * r / (NRB - 1) + dz
-            fy = BVH[s].ray_cast(Vector((0, 0, z)) + FRONT * 200, -FRONT, 400)[0]
-            by = BVH[s].ray_cast(Vector((0, 0, z)) - FRONT * 200, FRONT, 400)[0]
-            c = Vector((0, (fy.y + by.y) / 2, z))
-            dirs, pts = [], []
-            for k in range(NBB):
-                th = 2 * math.pi * k / NBB
-                d = (-FRONT) * math.cos(th) + RIGHT * math.sin(th)  # k = 0 at the back
-                hit = BVH[s].ray_cast(c, d, 100)[0]
-                pts.append(hit)
-                if FIGC_BVH is not None and s == "basis":  # cover the nudity cover too
-                    fh = FIGC_BVH.ray_cast(c + d * (hit - c).length * 0.5, d, 30)[0]
-                    if fh is not None and abs(fh.z - z) < 1.0:
-                        pts.append(fh)
-                dirs.append(d)
-            hull = convex_hull_2d(pts)  # bridges the cleavage like real cloth
-            rows.append((c, dirs, [ray_to_hull(c.to_2d(), d.to_2d(), hull) for d in dirs]))
-        out = []
+        cache, out, arm_hits = {}, [], 0
         for k in range(NBB):
-            c, dirs, rad = rows[0]
-            out.append(c + dirs[k] * (rad[k] + 0.35))  # inner edge, bottom
+            col = []
             for r in range(NRB):
-                c, dirs, rad = rows[r]
-                out.append(c + dirs[k] * (rad[k] + 1.0 + 0.2 * math.sin(math.pi * r / (NRB - 1))))  # thick hide
-            c, dirs, rad = rows[-1]
-            out.append(c + dirs[k] * (rad[k] + 0.35))  # inner edge, top
+                z = round(B_LO + (BTOP[k] - B_LO) * r / (NRB - 1) + dz, 3)
+                if z not in cache:
+                    cache[z] = band_slice(s, z)
+                c, rad, arm = cache[z]
+                arm_hits += k in arm
+                col.append((c, rad[k]))
+            d = BDIRS[k]
+            out.append(col[0][0] + d * (col[0][1] + 0.35))  # inner edge, bottom
+            for r, (c, rad) in enumerate(col):
+                out.append(c + d * (rad + 1.0 + 0.2 * math.sin(math.pi * r / (NRB - 1))))  # thick hide
+            out.append(col[-1][0] + d * (col[-1][1] + 0.35))  # inner edge, top
+        if arm_hits:
+            print("BAND WARNING %s: %d band points sit over arm skin" % (s, arm_hits))
+        for i, p in enumerate(out):  # folds (fat bodies under the arms) can still dent the hull
+            loc, nor, fi, dist = BVH[s].find_nearest(p)
+            if (p - loc).dot(nor) < 0.25:
+                out[i] = loc + nor * 0.25
         return out
 
     BPOS = {s: band_positions(s) for s in ALL}
