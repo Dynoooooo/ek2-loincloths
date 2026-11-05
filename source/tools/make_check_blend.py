@@ -34,6 +34,18 @@ for scr in bpy.data.screens:
             r.view_distance = 120.0
             r.view_rotation = Euler((math.radians(88), 0, 0)).to_quaternion()  # front
 lo = sc.objects.get("ek2lc_m_reach_hide_01")
+body = next((o for o in sc.objects if o.type == "MESH" and o.name.startswith("male_body")), None)
+if lo and body and lo.data.shape_keys and body.data.shape_keys:
+    # the loincloth's body-shape sliders follow the body's, so a shape is never shown on one only
+    for kb in lo.data.shape_keys.key_blocks[1:]:
+        kb.value = 0.0
+        fc = kb.driver_add("value")
+        var = fc.driver.variables.new()
+        var.name = "v"
+        var.targets[0].id_type = "KEY"
+        var.targets[0].id = body.data.shape_keys
+        var.targets[0].data_path = 'key_blocks["%s"].value' % kb.name
+        fc.driver.expression = "v"
 if lo:
     for o in sc.objects:
         o.select_set(False)

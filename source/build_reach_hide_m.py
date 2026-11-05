@@ -163,7 +163,7 @@ def recon(b, s):
 
 # belt: a rounded rawhide cord around the hips (5 points per section)
 NB = 40
-BELT_ROWS = [(-1.7, 0.25), (-1.7, 1.1), (0.0, 1.5), (1.7, 1.1), (1.7, 0.25)]  # (height, offset from skin)
+BELT_ROWS = [(-1.7, 0.3), (-1.7, 1.4), (0.0, 1.9), (1.7, 1.4), (1.7, 0.3)]  # (height, offset from skin)
 YC = {dz: center_y(BELT_Z + dz) for dz in (-1.7, 0.0, 1.7)}
 belt_bind = []
 for k in range(NB):
@@ -177,7 +177,7 @@ for k in range(NB):
 NS = 25
 STRIP_COLS = [-1.0, -0.5, 0.0, 0.5, 1.0]
 SC = len(STRIP_COLS)
-STRIP_OFF = 0.5
+STRIP_OFF = 0.5  # more pushes it into the far side of the groin crease
 W_FRONT, W_BACK, W_CROTCH = 8.0, 6.5, 4.5
 P0 = Vector((0, center_y(HIP_Z), BELT_Z - 1.0))
 strip_bind, strip_mid = [], []
@@ -228,19 +228,21 @@ def surface_parts(s):
     return [recon(b, s) for b in belt_bind] + [recon(b, s) for b in strip_bind]
 
 
-# what the flaps must hang clear of: the body, the belt and the strip, per body shape
+# what the flaps must hang clear of: the body and the strip, per body shape. Not the belt:
+# the flaps tuck under it.
 OBST = {}
 for s in ALL:
     nb_ = len(COORDS[s])
     OBST[s] = BVHTree.FromPolygons(list(COORDS[s]) + surface_parts(s),
-                                   [list(t) for t in TRIS[s]] + [[i + nb_ for i in q] for q in SURF_QUADS])
+                                   [list(t) for t in TRIS[s]] + [[i + nb_ for i in q] for q in SURF_QUADS[NB * 4:]])
 
-# flaps: stiff hide folded over the belt and hanging straight down, clear of everything behind
+# flaps: stiff hide tucked under the belt (between belt and skin) and hanging straight down.
+# Draped over the belt, their top edge got swallowed when the belly folds down in some poses.
 # the back flap is no wider and a bit shorter than the front one, so from the front it
 # doesn't peek out between the legs below or beside the front flap
 FLAPS = {+1: dict(w_top=20.0, w_bot=17.0, length=34.0), -1: dict(w_top=20.0, w_bot=17.0, length=31.0)}
 FR, FC, THICK = 14, 7, 0.35
-Z_ATTACH = BELT_Z + 1.9  # just above the belt
+Z_ATTACH = BELT_Z + 0.9  # inside the belt band (belt spans BELT_Z +-1.7)
 REF = {}
 for side in (+1, -1):
     loc, nor, fi, dist = BVH["basis"].ray_cast(Vector((0, center_y(BELT_Z), BELT_Z)), FRONT * side, 100)
@@ -262,7 +264,7 @@ def flap_positions(s, side):
         t = j / (FR - 1)
         z = za - t * sp["length"]
         w = sp["w_top"] + (sp["w_bot"] - sp["w_top"]) * t
-        clear = 0.55 + 0.95 * t
+        clear = 0.45 + 1.05 * t  # top stays under the belt's outer surface (1.4 cm)
         hw = 0.6 + 1.4 * min(1.0, t * 3)  # narrow look-around at the top, wider lower down
         zs = np.arange(z, za + 0.51, 0.75)
         fs = []
@@ -397,30 +399,63 @@ def weights_at(tri, bary):
 
 VW = [weights_at(b[0], b[1]) for b in belt_bind + strip_bind]
 
-# Flaps hang like stiff aprons: at the top they move with the belt, lower down they also follow
-# the average of both thighs. Every column gets the same weights, so a pose with one leg forward
-# can't twist or split the flap (copying each side's nearest thigh did exactly that).
+# Flap weights. The top rows (over and around the belt) copy the skin under them, as the belt
+# does, so fold, belt and belly move together. Lower down they blend into one stiff-apron set
+# (pelvis plus both thighs evenly), the same across the width, so a pose with one leg forward
+# can't twist or split the flap. Below the belt the skin is sampled at belt height, so no thigh
+# leaks in from one side. The right half mirrors the left, so both sides match exactly.
 GI = {n: i for i, n in enumerate(VG)}
 
 
+def mirror_bone(gi):
+    n = VG[gi].replace("bn_l_", "bn_X_").replace("bn_r_", "bn_l_").replace("bn_X_", "bn_r_")
+    return GI.get(n, gi)
+
+
+def skin_weights_at(x, z, side):
+    D = FRONT * side
+    loc, nor, fi, dist = BVH["basis"].ray_cast(Vector((x, 0, z)) + D * 200, -D, 400)
+    tri = TRIS["basis"][fi]
+    return dict(weights_at(tri, poly_3d_calc([C0[i] for i in tri], loc)))
+
+
 def flap_weights(side):
-    top = dict(weights_at(*REF[side][:2]))
-    m = (top.get(GI["bn_l_hip"], 0.0) + top.get(GI["bn_r_hip"], 0.0)) / 2  # mirror-symmetric
-    if m:
-        top[GI["bn_l_hip"]] = top[GI["bn_r_hip"]] = m
-    bottom = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3, GI["bn_r_hip"]: 0.3}
-    rows = []
+    sp = FLAPS[side]
+    apron = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3, GI["bn_r_hip"]: 0.3}
+    mid = (FC - 1) // 2
+    base = NB * 5 + NS * SC + (0 if side == 1 else 2 * FR * FC)
+    outer = POS["basis"][base:base + FR * FC]
+    grid = {}
     for j in range(FR):
-        s = (j / (FR - 1)) ** 1.5
-        d = {}
-        for k, w in top.items():
-            d[k] = d.get(k, 0.0) + w * (1 - s)
-        for k, w in bottom.items():
-            d[k] = d.get(k, 0.0) + w * s
-        row = [(k, w) for k, w in sorted(d.items(), key=lambda kv: -kv[1])[:4] if w > 0.01]
-        tot = sum(w for _, w in row)
-        rows.append([(k, w / tot) for k, w in row])
-    return [rows[j] for layer in range(2) for j in range(FR) for i in range(FC)]
+        t = j / (FR - 1)
+        z = Z_ATTACH - t * sp["length"]
+        w = sp["w_top"] + (sp["w_bot"] - sp["w_top"]) * t
+        u = min(1.0, max(0.0, (t - 0.15) / 0.3))
+        s = u * u * (3 - 2 * u)  # 0 = skin weights, 1 = apron weights
+        for i in range(mid + 1):
+            if j <= 1:  # under the belt: move with the skin right behind, as the belt does
+                loc, nor, fi, dist = BVH["basis"].find_nearest(outer[j * FC + i])
+                tri = TRIS["basis"][fi]
+                skin = dict(weights_at(tri, poly_3d_calc([C0[k] for k in tri], loc)))
+            else:
+                skin = skin_weights_at((i / (FC - 1) - 0.5) * w, max(z, BELT_Z - 1.7), side) if s < 1 else {}
+            if i == mid:  # centre column: make it exactly symmetric
+                sym = {}
+                for k, v in skin.items():
+                    sym[k] = sym.get(k, 0.0) + v / 2
+                    sym[mirror_bone(k)] = sym.get(mirror_bone(k), 0.0) + v / 2
+                skin = sym
+            d = {}
+            for k, v in skin.items():
+                d[k] = d.get(k, 0.0) + v * (1 - s)
+            for k, v in apron.items():
+                d[k] = d.get(k, 0.0) + v * s
+            row = [(k, v) for k, v in sorted(d.items(), key=lambda kv: -kv[1])[:4] if v > 0.01]
+            tot = sum(v for _, v in row)
+            grid[(j, i)] = [(k, v / tot) for k, v in row]
+        for i in range(mid + 1, FC):
+            grid[(j, i)] = [(mirror_bone(k), v) for k, v in grid[(j, FC - 1 - i)]]
+    return [grid[(j, i)] for layer in range(2) for j in range(FR) for i in range(FC)]
 
 
 VW += flap_weights(+1) + flap_weights(-1)
@@ -635,6 +670,7 @@ for obj, data in ((body, COORDS), (lo, POS)):
         kb = obj.shape_key_add(name=s, from_mix=False)
         for i, c in enumerate(data[s]):
             kb.data[i].co = WI @ c
+        kb.value = 0.0  # new keys start at 1.0 in this Blender; all on at once is a body the game never makes
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_m_v01.blend"))
 
 
