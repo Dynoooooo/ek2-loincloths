@@ -203,6 +203,8 @@ for tri, bary, off in strip_bind:
     hit = FIG_BVH.ray_cast(s_ + n_ * 0.01, n_, 10)
     hit_ok = hit[0] is not None and hit[3] <= FIG_D + 0.3  # ignore glancing hits on the fig leaf's sides
     need.append(max(STRIP_OFF, hit[3] + 0.36) if hit_ok else STRIP_OFF)
+# the fig leaf is slightly lopsided; lift both sides the same so the pouch stays symmetric
+need = [max(need[a * SC + c], need[a * SC + SC - 1 - c]) for a in range(NS) for c in range(SC)]
 offs = list(need)
 for _ in range(3):
     blur = []
@@ -234,7 +236,9 @@ for s in ALL:
                                    [list(t) for t in TRIS[s]] + [[i + nb_ for i in q] for q in SURF_QUADS])
 
 # flaps: stiff hide folded over the belt and hanging straight down, clear of everything behind
-FLAPS = {+1: dict(w_top=20.0, w_bot=17.0, length=34.0), -1: dict(w_top=22.0, w_bot=19.0, length=37.0)}
+# the back flap is no wider and a bit shorter than the front one, so from the front it
+# doesn't peek out between the legs below or beside the front flap
+FLAPS = {+1: dict(w_top=20.0, w_bot=17.0, length=34.0), -1: dict(w_top=20.0, w_bot=17.0, length=31.0)}
 FR, FC, THICK = 14, 7, 0.35
 Z_ATTACH = BELT_Z + 1.9  # just above the belt
 REF = {}
@@ -392,10 +396,34 @@ def weights_at(tri, bary):
 
 
 VW = [weights_at(b[0], b[1]) for b in belt_bind + strip_bind]
-for p in POS["basis"][len(belt_bind) + len(strip_bind):]:
-    loc, nor, fi, dist = BVH["basis"].find_nearest(p)
-    tri = TRIS["basis"][fi]
-    VW.append(weights_at(tri, poly_3d_calc([C0[i] for i in tri], loc)))
+
+# Flaps hang like stiff aprons: at the top they move with the belt, lower down they also follow
+# the average of both thighs. Every column gets the same weights, so a pose with one leg forward
+# can't twist or split the flap (copying each side's nearest thigh did exactly that).
+GI = {n: i for i, n in enumerate(VG)}
+
+
+def flap_weights(side):
+    top = dict(weights_at(*REF[side][:2]))
+    m = (top.get(GI["bn_l_hip"], 0.0) + top.get(GI["bn_r_hip"], 0.0)) / 2  # mirror-symmetric
+    if m:
+        top[GI["bn_l_hip"]] = top[GI["bn_r_hip"]] = m
+    bottom = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3, GI["bn_r_hip"]: 0.3}
+    rows = []
+    for j in range(FR):
+        s = (j / (FR - 1)) ** 1.5
+        d = {}
+        for k, w in top.items():
+            d[k] = d.get(k, 0.0) + w * (1 - s)
+        for k, w in bottom.items():
+            d[k] = d.get(k, 0.0) + w * s
+        row = [(k, w) for k, w in sorted(d.items(), key=lambda kv: -kv[1])[:4] if w > 0.01]
+        tot = sum(w for _, w in row)
+        rows.append([(k, w / tot) for k, w in row])
+    return [rows[j] for layer in range(2) for j in range(FR) for i in range(FC)]
+
+
+VW += flap_weights(+1) + flap_weights(-1)
 
 
 # ------------------------------------------------------------------ textures
@@ -599,6 +627,14 @@ for s in ALL:
         row.append("%s %d/%.2f%s" % (pname, inside, worst, " @(%.0f,%.0f,%.0f)" % tuple(wp) if inside else ""))
     print("CLEARANCE %-8s" % s, " | ".join(row))
 print("MESH verts=%d faces=%d groups=%d" % (len(me.vertices), len(me.polygons), len(lo.vertex_groups)))
+
+# body shapes as shape keys on both, so the .blend shows the loincloth following them (export is done)
+for obj, data in ((body, COORDS), (lo, POS)):
+    obj.shape_key_add(name="Basis")
+    for s in SHAPES:
+        kb = obj.shape_key_add(name=s, from_mix=False)
+        for i, c in enumerate(data[s]):
+            kb.data[i].co = WI @ c
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_m_v01.blend"))
 
 
@@ -632,14 +668,8 @@ def preview():
     scene.collection.objects.link(co)
     scene.camera = co
     target = Vector((0, center_y(HIP_Z), 79))
-    body.shape_key_add(name="Basis")
-    kb = body.shape_key_add(name="fat")
-    for i, c in enumerate(COORDS["fat"]):
-        kb.data[i].co = WI @ c
-    lo.shape_key_add(name="Basis")
-    kl = lo.shape_key_add(name="fat")
-    for i, p in enumerate(POS["fat"]):
-        kl.data[i].co = WI @ p
+    kb = body.data.shape_keys.key_blocks["fat"]
+    kl = lo.data.shape_keys.key_blocks["fat"]
     shots = []
     for tag, ang, fat in (("front", 0, 0), ("side", 90, 0), ("back", 180, 0), ("fat", 25, 1)):
         kb.value = kl.value = fat
