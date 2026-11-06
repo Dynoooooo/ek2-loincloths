@@ -1,0 +1,99 @@
+﻿# EK2 Loincloths: barbershop entries, one group per gene, the vanilla way (add_accessory_modifiers).
+# Priority 102 puts a barbershop choice after our game group (101), so it wins on our genes.
+# Chest pieces only list for women.
+
+ek2lc_custom_loincloth = {
+	usage = customization
+	interface_position = 9
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_no_loincloth
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_reach_hide
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_reach_fine
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_reach_royal
+	}
+}
+
+ek2lc_custom_top = {
+	usage = customization
+	interface_position = 10
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_no_top
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_reach_band
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_reach_band_fine
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_reach_band_royal
+		is_valid_custom = { is_female = yes }
+	}
+}
+
+ek2lc_custom_girdle = {
+	usage = customization
+	interface_position = 11
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_no_war
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_reach_war
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_reach_armour
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_reach_duke
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_reach_king
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_reach_emperor
+	}
+}
+
+ek2lc_custom_mantle = {
+	usage = customization
+	interface_position = 12
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_mantle
+		template = ek2lc_no_mantle
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_mantle
+		template = ek2lc_reach_mantle
+	}
+}
