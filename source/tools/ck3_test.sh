@@ -1,7 +1,7 @@
 #!/bin/bash
 # Test launches for EK2 Loincloths. Backs up the user's CK3 settings and saves first,
 # runs CK3 in a window, and puts everything back afterwards.
-#   ck3_test.sh start   back up, switch to windowed 2560x1600, start as Aldrydd of Druadach
+#   ck3_test.sh start   back up, switch to windowed 2560x1600, load only EK2 + this mod, start as Aldrydd of Druadach
 #   ck3_test.sh wait    wait until the map is running (up to 5 minutes)
 #   ck3_test.sh stop    quit CK3 and restore the backups
 set -e
@@ -24,6 +24,14 @@ t = open(p, encoding="utf-8").read()
 t = re.sub(r'("display_mode"=\{\s*version=\d+\s*value=)"[^"]*"', r'\1"windowed"', t)
 t = re.sub(r'("windowed_resolution"=\{\s*version=\d+\s*value=)"[^"]*"', r'\1"2560x1600"', t)
 open(p, "w", encoding="utf-8").write(t)
+PY
+  # test with exactly EK2 and this mod (Steam rewrites the list from its Workshop subscriptions)
+  python3 -I - "$CK/dlc_load.json" <<'PY'
+import json, sys
+p = sys.argv[1]
+d = json.load(open(p))
+d["enabled_mods"] = ["mod/ugc_2887120253.mod", "mod/ek2_loincloths.mod"]
+json.dump(d, open(p, "w"), indent=2)
 PY
   date +%s > "$B/launched_at"
   cd "$BIN"
