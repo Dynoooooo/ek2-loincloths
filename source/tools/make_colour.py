@@ -240,6 +240,9 @@ def main():
                      if os.path.exists(p))
         dif = read_png(dpath)
         props = read_png(os.path.join(TEX, nset + "_properties.png"))
+        if props.shape != dif.shape:  # a smaller diffuse on a bigger set's maps (the grave wraps): soft only where all of it is
+            f = props.shape[0] // dif.shape[0]
+            props = props.reshape(dif.shape[0], f, dif.shape[1], f, 4).max((1, 3))
         base_g = props[..., 1].min()
         soft = props[..., 1] <= base_g + 0.01
         px = dif[soft][:, :3]

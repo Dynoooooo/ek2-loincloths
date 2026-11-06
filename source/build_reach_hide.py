@@ -8,7 +8,9 @@ source/textures, DDS in the mod), a .blend and a small preview.
 Pieces: a rawhide cord belt, a strip passing between the legs (a pouch over the fig leaf),
 fringed hide flaps tucked under the belt in front and behind, and for women a chest band
 that bridges the cleavage like real cloth. A separate war piece (own texture set) adds a wide
-hide girdle above the cord belt and teeth/claws on sinew cords at the hips.
+hide girdle above the cord belt and teeth/claws on sinew cords at the hips. Culture variants
+(cultures.py) and EK2's undead (undead.py: lich's burial regalia, rotted grave wraps) reuse the
+meshes with their own diffuse textures.
 
 Run once per body:
   /Applications/Blender.app/Contents/MacOS/Blender --background \
@@ -17,8 +19,9 @@ Run once per body:
 import bpy, bmesh, addon_utils, sys, os, math, subprocess, time
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from cultures import ROLES, CULTURES, KINDS, TEX_OF
+from cultures import ROLES, CULTURES, KINDS, TEX_OF, LICH
 import colour
+import undead
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
 from mathutils.interpolate import poly_3d_calc
@@ -1797,23 +1800,30 @@ MATS[MSET] = make_material("ek2lc_reach_mantle", save_set(MSET, make_mantle_text
 # so only it is made, once (in the male run). PNGs go to an ignored folder; they're rebuilt here.
 REACH_SET = {"hide": SET, "fine": FSET, "royal": RSET, "war": WSET, "armour": ASET, "mantle": MSET, **ROYAL_SETS}
 CULT_PNG = os.path.join(TEXSRC, "cultures")
+TEX_FNS = [("hide", make_textures), ("fine", lambda: make_textures("fine")), ("royal", lambda: make_textures("royal")),
+           ("war", make_war_textures), ("armour", make_armour_textures), ("mantle", make_mantle_textures),
+           ("duke", lambda: make_royal_textures("duke")), ("king", lambda: make_royal_textures("king")),
+           ("emperor", lambda: make_royal_textures("emperor"))]
+
+
+def save_diffuse(set_name, arr):
+    """A diffuse-only set: PNG in CULT_PNG, DXT5 .dds with every mip level."""
+    png = os.path.join(CULT_PNG, set_name + "_diffuse.png")
+    im = bpy.data.images.new("tmp_" + set_name, arr.shape[1], arr.shape[0], alpha=True)
+    im.pixels.foreach_set(np.ascontiguousarray(np.flipud(arr), dtype=np.float32).ravel())
+    im.filepath_raw, im.file_format = png, "PNG"
+    im.save()
+    bpy.data.images.remove(im)
+    subprocess.run([MAGICK, png, "-define", "dds:compression=dxt5", "-define", "dds:mipmaps=%d" % int(math.log2(arr.shape[0])),
+                    os.path.join(OUT, set_name + "_diffuse.dds")], check=True)
+
+
 if SEX == "male":
     os.makedirs(CULT_PNG, exist_ok=True)
     for _c, _cd in CULTURES.items():
         set_culture(_cd["pal"])
-        for _k, _fn in [("hide", make_textures), ("fine", lambda: make_textures("fine")), ("royal", lambda: make_textures("royal")),
-                        ("war", make_war_textures), ("armour", make_armour_textures), ("mantle", make_mantle_textures),
-                        ("duke", lambda: make_royal_textures("duke")), ("king", lambda: make_royal_textures("king")),
-                        ("emperor", lambda: make_royal_textures("emperor"))]:
-            _arr = _fn()["diffuse"]
-            _png = os.path.join(CULT_PNG, "ek2lc_%s_%s_01_diffuse.png" % (_c, _k))
-            _im = bpy.data.images.new("tmp_" + _c + _k, _arr.shape[1], _arr.shape[0], alpha=True)
-            _im.pixels.foreach_set(np.ascontiguousarray(np.flipud(_arr), dtype=np.float32).ravel())
-            _im.filepath_raw, _im.file_format = _png, "PNG"
-            _im.save()
-            bpy.data.images.remove(_im)
-            subprocess.run([MAGICK, _png, "-define", "dds:compression=dxt5", "-define", "dds:mipmaps=%d" % int(math.log2(_arr.shape[0])),
-                            os.path.join(OUT, "ek2lc_%s_%s_01_diffuse.dds" % (_c, _k))], check=True)
+        for _k, _fn in TEX_FNS:
+            save_diffuse("ek2lc_%s_%s_01" % (_c, _k), _fn()["diffuse"])
         print("CULTURE textures", _c)
     set_culture({})
 
@@ -2285,6 +2295,22 @@ def make_camp_textures():
 
 
 MATS[CSET] = make_material("ek2lc_camp", save_set(CSET, make_camp_textures()))
+# Undead (undead.py), diffuse only, made once (in the male run): the lich's burial regalia, one set per
+# piece type shared by every culture, and each culture's plain loincloth rotted for the other undead.
+if SEX == "male":
+    for _i, (_k, _fn) in enumerate(TEX_FNS + [("camp", make_camp_textures)]):
+        set_culture(LICH["pal"])
+        _arr = _fn()["diffuse"]
+        set_culture(dict(LICH["pal"], metal=(0.0, 1.0, 0.0)))  # where the metal is: it alone changes
+        _metal = np.abs(_fn()["diffuse"][..., :3] - _arr[..., :3]).max(-1) > 0.15
+        if _k == "camp":  # undyed wool: no colour roles
+            _arr = undead.blacken(_arr)
+        save_diffuse("ek2lc_lich_%s_01" % _k, undead.lich_finish(_arr, _metal, 101 + _i))
+    for _c, _pal in [("reach", {})] + [(_c, _cd["pal"]) for _c, _cd in CULTURES.items()]:
+        set_culture(_pal)
+        save_diffuse("ek2lc_%s_grave_01" % _c, undead.grave_rot(make_textures()["diffuse"], 7))
+    set_culture({})
+    print("UNDEAD textures")
 PIECES.append(dict(name=WRAP, set=CSET, pos=CPOS, faces=cf, part=cp, wrap=cwrap, wrap_u={i: 1.0 for i in range(5)}, uvs=cuv,
                    vw=cvw, orient=C_ORIENT))
 print("WRAP %d vertices, %d faces" % (len(CPOS["basis"]), len(cf)))
@@ -2338,6 +2364,19 @@ for _c in CULTURES:  # culture variants: same meshes, the culture's diffuse
             continue
         _mesh = BAND if _piece == "band" else "ek2lc_%s_reach_%s_01" % (S1, _piece)
         write_asset("ek2lc_%s_%s_%s_01" % (S1, _c, _k), _mesh, "ek2lc_%s_%s_01" % (_c, TEX_OF[_k]), REACH_SET[_rset])
+for _k, (_piece, _rset) in KINDS.items():  # the lich's burial regalia: every piece, lich textures
+    if _piece == "band" and SEX != "female":
+        continue
+    _mesh = BAND if _piece == "band" else "ek2lc_%s_reach_%s_01" % (S1, _piece)
+    write_asset("ek2lc_%s_lich_%s_01" % (S1, _k), _mesh, "ek2lc_lich_%s_01" % TEX_OF[_k], REACH_SET[_rset])
+for _t, _tn in TROPHY.items():
+    write_asset("ek2lc_%s_lich_trophy_%d_01" % (S1, _t), _tn, "ek2lc_lich_war_01", WSET)
+write_asset("ek2lc_%s_lich_arena_guard_01" % S1, GUARD, "ek2lc_lich_armour_01", ASET)
+write_asset("ek2lc_%s_lich_camp_wrap_01" % S1, WRAP, "ek2lc_lich_camp_01", CSET)
+for _c in ["reach"] + list(CULTURES):  # the other undead: the culture's plain loincloth (and band), rotted
+    write_asset("ek2lc_%s_%s_grave_01" % (S1, _c), NAME, "ek2lc_%s_grave_01" % _c, SET)
+    if SEX == "female":
+        write_asset("ek2lc_f_%s_grave_band_01" % _c, BAND, "ek2lc_%s_grave_01" % _c, SET)
 
 # body shapes as shape keys, so the .blend shows the pieces following them (export is done)
 for obj, data in [(body, COORDS)] + [(o, pc["pos"]) for o, pc in zip(OBJS, PIECES)]:

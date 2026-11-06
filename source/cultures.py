@@ -123,3 +123,20 @@ KINDS = {
 # texture set each kind's diffuse comes from (the band shares the loincloth's sets)
 TEX_OF = {"hide": "hide", "fine": "fine", "royal": "royal", "band": "hide", "band_fine": "fine", "band_royal": "royal",
           "war": "war", "armour": "armour", "duke": "duke", "king": "king", "emperor": "emperor", "mantle": "mantle"}
+
+# EK2's liches (trait lich_character) wear their rank's pieces in these burial colours, whatever their
+# culture: one texture set per piece type (ek2lc_lich_<kind>_01), then undead.lich_finish() over it.
+# Not in CULTURES: it has no culture inputs of its own.
+LICH = dict(
+    adj="Lich's Burial",
+    pal=dict(motif="zigzag",
+             hide=(0.085, 0.080, 0.075), cord=(0.035, 0.033, 0.030), hide_fine=(0.075, 0.064, 0.058),
+             cord_fine=(0.045, 0.036, 0.034), hide_royal=(0.045, 0.040, 0.045), cord_royal=(0.050, 0.040, 0.042),
+             red=(0.58, 0.57, 0.54), ochre=(0.46, 0.44, 0.40), black=(0.025, 0.024, 0.023), bone=(0.70, 0.63, 0.45),
+             band=(0.60, 0.59, 0.56), girdle=(0.060, 0.055, 0.050), stitch=(0.22, 0.21, 0.20), war_paint=(0.56, 0.55, 0.52),
+             bead=(0.66, 0.59, 0.42), trophy=(0.72, 0.65, 0.47), claw=(0.10, 0.09, 0.07), sinew=(0.060, 0.055, 0.050),
+             armour_hide=(0.070, 0.065, 0.060), armour_stitch=(0.21, 0.20, 0.19), lame=(0.64, 0.58, 0.42),
+             hole=(0.015, 0.014, 0.013), metal=(0.42, 0.33, 0.12), gem=(0.20, 0.06, 0.26), duke_base=(0.080, 0.070, 0.065),
+             king_base=(0.040, 0.035, 0.040), feather=(0.050, 0.050, 0.055), shaft=(0.45, 0.44, 0.42),
+             fur=(0.42, 0.41, 0.39), feather_dark=(0.035, 0.035, 0.040), shaft_dark=(0.32, 0.31, 0.30),
+             lining=(0.09, 0.04, 0.11)))
