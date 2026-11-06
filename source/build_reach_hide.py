@@ -1008,6 +1008,260 @@ PIECES.append(royal_piece("duke"))
 PIECES.append(royal_piece("king"))
 
 
+# ------------------------------------------------------------------ emperor's mantle (both bodies)
+# A thick fur collar round the base of the neck, and a cape of hagraven feathers lined with
+# garnet-dyed hide, from under the collar to the calves. Its own gene, worn with the emperor's
+# pieces. The collar and the cape's top (the yoke, under and just below the collar) follow the
+# skin. Below that the cape hangs free where vanilla cloaks hang (a few cm off the back, taut
+# over the shoulder blades and buttocks, flaring a little to the hem), weighted to the
+# skeleton's cloak bones as vanilla cloaks are, so it sways as they do.
+MANTLE, MSET = "ek2lc_%s_reach_mantle_01" % S1, "ek2lc_reach_mantle_01"
+COLLAR_UV, CAPE_UV, LINING_UV = (0.0, 0.86, 1.0, 0.99), (0.02, 0.02, 0.66, 0.84), (0.70, 0.02, 0.98, 0.84)
+for _n in ["bn_%s_cloak%d" % (c, i) for c in ("b", "lb", "rb") for i in range(1, 6)]:
+    if _n not in GI:  # the body isn't skinned to the cloak bones; the skeleton has them
+        GI[_n] = len(VG)
+        VG.append(_n)
+TOP_Z = max(c.z for c in C0)  # the body ends at the neck (the head is its own mesh)
+NECK_Z = TOP_Z - 3.5  # the collar's inner edge
+COL_C = Vector((0, center_y(TOP_Z - 13.0), TOP_Z - 13.0))  # rays for the collar start here, inside the chest
+NPHI, C_PROFILE = 48, [0.5, 1.9, 2.9, 3.3, 3.0, 2.2, 1.4]  # fur thickness across the collar, neck to edge
+C_ROWS = len(C_PROFILE)
+C_WIDTH = 9.0 if SEX == "male" else 8.0  # along the skin, from the neck outwards
+NCC = 9  # cape columns
+CAPE_ANG = math.radians(55)  # the yoke spans the back this far each side of the spine (from the neck)
+if SEX == "male":
+    YOKE_S = [0.35 * C_WIDTH, 0.55 * C_WIDTH, 0.75 * C_WIDTH, 0.95 * C_WIDTH, C_WIDTH + 2.5, C_WIDTH + 5.0]
+    YOKE_OFF = [0.6, 0.65, 0.7, 0.8, 0.9, 1.0]  # under the collar's fur, then out past its edge
+else:  # the chest band's back reaches up to just under the collar: the yoke ends at the collar's edge
+    YOKE_S = [0.35 * C_WIDTH, 0.5 * C_WIDTH, 0.65 * C_WIDTH, 0.8 * C_WIDTH, 0.92 * C_WIDTH, C_WIDTH + 0.6]
+    YOKE_OFF = [0.6, 0.65, 0.7, 0.75, 0.8, 0.9]
+CAPE_THICK, HW_HEM, FLARE = 0.35, (21.0 if SEX == "male" else 20.0), 0.06
+HANG_GAP = 5.0 if SEX == "male" else 2.0  # first free row below the yoke (women: close, over the band's top edge)
+BACK = -FRONT
+
+
+def collar_walk(phi, s_list):
+    """Skin points at arc lengths s_list from the neck base outwards, at azimuth phi (0 = front)."""
+    h = FRONT * math.cos(phi) + RIGHT * math.sin(phi)
+    es, pts = [], []
+    for i in range(241):  # elevation 85 .. -35 degrees
+        e = math.radians(85 - 0.5 * i)
+        loc = BVH["basis"].ray_cast(COL_C, h * math.cos(e) + UP * math.sin(e), 100)[0]
+        if loc is not None:
+            es.append(e)
+            pts.append(loc)
+    z0 = min(NECK_Z, pts[0].z - 0.5)  # men's neck is cut lower in front: start just under the cut there
+    i0 = next(i for i in range(1, len(pts)) if pts[i].z <= z0)
+    a, b = pts[i0 - 1], pts[i0]
+    t = min(1.0, max(0.0, (a.z - z0) / (a.z - b.z))) if a.z != b.z else 0.0
+    arc, prev, acc = [(0.0, es[i0 - 1] + (es[i0] - es[i0 - 1]) * t)], a.lerp(b, t), 0.0
+    for i in range(i0, len(pts)):
+        acc += (pts[i] - prev).length
+        prev = pts[i]
+        arc.append((acc, es[i]))
+    out = []
+    for s_ in s_list:
+        j = next(j for j in range(1, len(arc)) if arc[j][0] >= s_)
+        (s0, e0), (s1, e1) = arc[j - 1], arc[j]
+        e = e0 + (e1 - e0) * ((s_ - s0) / (s1 - s0) if s1 > s0 else 0.0)
+        for de in (0.0, 1e-3, -1e-3, 3e-3, -3e-3):  # the body is split along UV seams: a ray can slip through
+            loc, nor, fi, dist = BVH["basis"].ray_cast(COL_C, h * math.cos(e + de) + UP * math.sin(e + de), 100)
+            if loc is not None:
+                break
+        out.append((loc, fi))
+    return out
+
+
+_CHAIN = {c: [GI["bn_%s_cloak%d" % (c, i)] for i in range(1, 6)] for c in ("b", "lb", "rb")}
+_CHAIN_Z = {c: [(rig.matrix_world @ rig.data.bones["bn_%s_cloak%d" % (c, i)].head_local).z for i in range(1, 6)]
+            for c in ("b", "lb", "rb")}
+_SIDE_X = abs((rig.matrix_world @ rig.data.bones["bn_lb_cloak2"].head_local).x)
+
+
+def cloak_weights(x, z):
+    """Vanilla-cloak weights: the back chain in the middle, the side chain towards the edges;
+    along each chain, between the bones by height."""
+    side = "lb" if x > 0 else "rb"  # bn_l_* bones are on +x
+    wc = max(0.0, 1.0 - abs(x) / _SIDE_X)
+    out = {}
+    for col, wcol in (("b", wc), (side, 1.0 - wc)):
+        if wcol <= 0:
+            continue
+        zs = _CHAIN_Z[col]
+        mids = [(zs[i] + (zs[i + 1] if i < 4 else zs[4] - 20.0)) / 2 for i in range(5)]
+        if z >= mids[0]:
+            ws = {0: 1.0}
+        elif z <= mids[4]:
+            ws = {4: 1.0}
+        else:
+            i = max(j for j in range(4) if z <= mids[j])
+            t = (mids[i] - z) / (mids[i] - mids[i + 1])
+            ws = {i: 1.0 - t, i + 1: t}
+        for i, w in ws.items():
+            out[_CHAIN[col][i]] = out.get(_CHAIN[col][i], 0.0) + w * wcol
+    return out
+
+
+def _nearest_vert(p):
+    return min(range(len(C0)), key=lambda i: (C0[i] - p).length_squared)
+
+
+# landmarks that follow each body shape: the hem (back of the calf) and the buttocks' apex
+Z_HEM = 0.55 * CROTCH_Z
+HEM_V = _nearest_vert(Vector((9.0, 0, Z_HEM)) + BACK * 25)  # the back of the calf
+_cands = [i for i, c in enumerate(C0) if abs(c.x) < 12 and CROTCH_Z < c.z < HIP_Z + 10]
+BUTT_V = max(_cands, key=lambda i: C0[i].dot(BACK))
+
+
+def mantle_piece():
+    bind_, uvs, faces, part, wrap = [], [], [], [], set()
+    # collar: a ring of NPHI columns from the back (k = 0, the UV seam, under the cape) round
+    for k in range(NPHI):
+        phi = math.pi - 2 * math.pi * k / NPHI
+        for r, (loc, fi) in enumerate(collar_walk(phi, [C_WIDTH * r / (C_ROWS - 1) for r in range(C_ROWS)])):
+            bind_.append(bind(loc, fi, C_PROFILE[r]))
+            uvs.append((k / NPHI, COLLAR_UV[3] - (COLLAR_UV[3] - COLLAR_UV[1]) * r / (C_ROWS - 1)))
+    for k in range(NPHI):
+        k2 = (k + 1) % NPHI
+        for r in range(C_ROWS - 1):
+            if k2 == 0:
+                wrap.add(len(faces))
+            faces.append([k * C_ROWS + r, k2 * C_ROWS + r, k2 * C_ROWS + r + 1, k * C_ROWS + r + 1])
+            part.append("collar")
+    nco = len(bind_)
+    pos = {s: [recon(b, s) for b in bind_] for s in ALL}
+    vw = [weights_at(b[0], b[1]) for b in bind_]
+    # cape yoke: columns walk down the back from under the collar, as the collar's own rows do
+    yoke = []  # [column][row] skin points
+    for c in range(NCC):
+        phi = math.pi + CAPE_ANG * (1 - 2 * c / (NCC - 1))  # c = 0 on -x
+        yoke.append(collar_walk(phi, YOKE_S))
+    NY = len(YOKE_S)
+    yb_out = [[bind(loc, fi, off) for (loc, fi), off in zip(col, YOKE_OFF)] for col in yoke]
+    yb_in = [[(t, w, off - CAPE_THICK) for t, w, off in col] for col in yb_out]
+    # hanging rows: same parameters on every body shape, placed by that shape's own landmarks
+    zyb = recon(yb_out[NCC // 2][-1], "basis").z
+    nh = max(4, int(round((zyb - HANG_GAP - Z_HEM) / 6.0)))
+    T_ROWS = [r / (nh - 1) for r in range(nh)]
+    x_hem = [(2 * c / (NCC - 1) - 1) * HW_HEM for c in range(NCC)]
+    nb_, nl_ = len(C0), len(POS["basis"])
+    king = next(pc for pc in PIECES if pc["name"] == KING)
+    hang = {}
+    for s in ALL:
+        nk_ = len(king["pos"][s])
+        band = (BPOS[s], BFACES) if SEX == "female" else ([], [])
+        obst = BVHTree.FromPolygons(list(COORDS[s]) + POS[s] + king["pos"][s] + band[0],
+                                    [list(t) for t in TRIS[s] if not _ARMV.intersection(t)] +
+                                    [[i + nb_ for i in f] for f in FACES] +
+                                    [[i + nb_ + nl_ for i in f] for f in king["faces"]] +
+                                    [[i + nb_ + nl_ + nk_ for i in f] for f in band[1]])
+
+        def out_at(x, z):
+            hit = obst.ray_cast(Vector((x, 0, z)) + BACK * 100, FRONT, 200)[0]
+            return hit.dot(BACK) if hit is not None else -1e9
+
+        ybs = [recon(col[-1], s) for col in yb_out]
+        z_top = min(p.z for p in ybs) - HANG_GAP
+        z_hem, z_flare = COORDS[s][HEM_V].z, COORDS[s][BUTT_V].z
+        zr = [z_top + (z_hem - z_top) * t for t in T_ROWS]
+        grid = []  # [column][row] (x, z, out)
+        for c in range(NCC):
+            p0 = ybs[c]
+            b0 = p0.dot(BACK)
+            prof, run, z_prev = [], b0, p0.z
+            for r, z in enumerate(zr):
+                x = p0.x + (x_hem[c] - p0.x) * T_ROWS[r]
+                clear = 0.6 + 3.4 * min(1.0, max(0.0, (p0.z - z) / 25.0))
+                for zz in np.arange(z_prev, z - 0.01, -1.0):  # hang straight from anything above
+                    run = max(run, max(out_at(x + dx, zz) for dx in (-0.8, 0.0, 0.8)) + clear)
+                run = max(run, max(out_at(x + dx, z) for dx in (-0.8, 0.0, 0.8)) + clear)
+                prof.append([x, z, run])
+                z_prev = z
+            pts = [(p0.z, b0)] + [(z, b) for x, z, b in prof]
+            for r in range(len(prof)):  # taut: the upper hull of the profile (straight over bumps)
+                z = prof[r][1]
+                for i in range(len(pts)):
+                    for j in range(i + 1, len(pts)):
+                        (za, ba), (zb, bb) = pts[i], pts[j]
+                        if za > z > zb:
+                            prof[r][2] = max(prof[r][2], ba + (bb - ba) * (za - z) / (za - zb))
+            for q in prof:
+                q[2] += FLARE * max(0.0, z_flare - q[1])
+            grid.append(prof)
+        for r in range(nh):  # across: a gentle curve, edges a little forward; never in
+            hw = max(abs(grid[c][r][0]) for c in range(NCC))
+            top = max(grid[c][r][2] for c in range(NCC))
+            bs = [max(grid[c][r][2], top - 3.5 * (grid[c][r][0] / hw) ** 2) for c in range(NCC)]
+            for _ in range(2):
+                bs = [max(bs[i], (bs[max(i - 1, 0)] + 2 * bs[i] + bs[min(i + 1, NCC - 1)]) / 4) for i in range(NCC)]
+            for c in range(NCC):
+                grid[c][r][2] = bs[c]
+        hang[s] = grid
+    NR_ = NY + nh
+    for s in ALL:
+        outer = [[recon(yb_out[c][r], s) for r in range(NY)] +
+                 [Vector((x, 0, z)) + BACK * b for x, z, b in hang[s][c]] for c in range(NCC)]
+        inner = [[recon(yb_in[c][r], s) for r in range(NY)] +
+                 [Vector((x, 0, z)) + BACK * (b - CAPE_THICK) for x, z, b in hang[s][c]] for c in range(NCC)]
+        for layer in (outer, inner):
+            pos[s] += [layer[c][r] for r in range(NR_) for c in range(NCC)]
+    b0 = nco
+    cl = [pos["basis"][b0 + r * NCC + NCC // 2] for r in range(NR_)]
+    sl = [0.0]
+    for a_, b_ in zip(cl, cl[1:]):
+        sl.append(sl[-1] + (b_ - a_).length)
+    for layer, box in ((0, CAPE_UV), (1, LINING_UV)):
+        for r in range(NR_):
+            for c in range(NCC):
+                uvs.append((box[0] + (box[2] - box[0]) * c / (NCC - 1), box[3] - (box[3] - box[1]) * sl[r] / sl[-1]))
+                yb = (yb_out if layer == 0 else yb_in)[c]
+                if r < NY:
+                    vw.append(weights_at(yb[r][0], yb[r][1]))
+                else:
+                    x, z, _ = hang["basis"][c][r - NY]
+                    skin = dict(weights_at(yb[-1][0], yb[-1][1]))
+                    k_ = min(1.0, max(0.0, (recon(yb[-1], "basis").z - z) / 12.0))
+                    vw.append(blend_weights(skin, cloak_weights(x, z), k_))
+    L = lambda layer, r, c: b0 + layer * NR_ * NCC + r * NCC + c
+    for r in range(NR_ - 1):
+        for c in range(NCC - 1):
+            faces.append([L(0, r, c), L(0, r, c + 1), L(0, r + 1, c + 1), L(0, r + 1, c)])
+            part.append("capeo")
+            faces.append([L(1, r, c), L(1, r + 1, c), L(1, r + 1, c + 1), L(1, r, c + 1)])
+            part.append("capei")
+        for c in (0, NCC - 1):
+            faces.append([L(0, r, c), L(0, r + 1, c), L(1, r + 1, c), L(1, r, c)])
+            part.append("capee")
+    for r in (0, NR_ - 1):
+        for c in range(NCC - 1):
+            faces.append([L(0, r, c), L(1, r, c), L(1, r, c + 1), L(0, r, c + 1)])
+            part.append("capee")
+    ctr = Vector((0, COL_C.y, COL_C.z))
+    orient = [("collar", lambda c: c - ctr, None), ("cape", lambda c: BACK, "capeo")]
+    hb = hang["basis"]
+    print("MANTLE %d vertices; collar rows z front %.1f..%.1f back %.1f..%.1f; cape yoke z %.1f, hem z %.1f, "
+          "out from the spine: top %.1f, buttocks %.1f, hem %.1f; hem half width %.1f"
+          % (len(pos["basis"]), pos["basis"][NPHI // 2 * C_ROWS].z, pos["basis"][NPHI // 2 * C_ROWS + C_ROWS - 1].z,
+             pos["basis"][0].z, pos["basis"][C_ROWS - 1].z, zyb, hb[NCC // 2][-1][1], hb[NCC // 2][0][2],
+             max(q[2] for q in hb[NCC // 2] if abs(q[1] - C0[BUTT_V].z) < 4) if any(abs(q[1] - C0[BUTT_V].z) < 4 for q in hb[NCC // 2]) else -1,
+             hb[NCC // 2][-1][2], HW_HEM))
+    if SEX == "female":  # the collar must stay clear of the chest band
+        bk = [q for q in BPOS["basis"] if q.dot(BACK) > 0]
+        print("MANTLE band back z %.1f..%.1f" % (min(q.z for q in bk), max(q.z for q in bk)))
+        for s in ALL:  # band points with the cape between them and the body poke through it
+            co = BVHTree.FromPolygons(pos[s], [f for f, pt in zip(faces, part) if pt == "capeo"])
+            n = sum(1 for q in BPOS[s] if co.ray_cast(q, FRONT, 20)[0] is not None)
+            print("MANTLE cape-band %-9s band points outside the cape: %d" % (s, n))
+        for s in ALL:
+            bt = BVHTree.FromPolygons(BPOS[s], BFACES)
+            print("MANTLE collar-band gap %-9s %.2f" % (s, min(bt.find_nearest(p)[3] for p in pos[s][:nco])))
+    return dict(name=MANTLE, set=MSET, pos=pos, faces=faces, part=part, wrap=wrap,
+                wrap_u={i: 1.0 for i in range(C_ROWS)}, uvs=uvs, vw=vw, orient=orient)
+
+
+PIECES.append(mantle_piece())
+
+
 # ------------------------------------------------------------------ textures (shared by every piece)
 HIDE_STYLES = {  # base loincloth and chest band: plain (commoners), fine (county, duke), royal (king, emperor)
     "plain": dict(hide=(0.52, 0.37, 0.24), cord=(0.33, 0.22, 0.14)),
@@ -1351,6 +1605,98 @@ def make_royal_textures(tier):
     return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
 
 
+def make_mantle_textures():
+    """Emperor's mantle: pale snow-bear fur collar (strands from the neck outwards, tufted edge);
+    cape of overlapping hagraven feathers (rows of garnet ones, a garnet-tipped hem), feather-tip
+    hem cut out of both sides; lining of garnet-dyed hide with a bronze border and a bone zig-zag."""
+    H = WD = 1024
+    rng = np.random.default_rng(47)
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v, u = 1 - yy / (H - 1), xx / (WD - 1)
+    img = np.zeros((H, WD, 4), np.float32)
+    img[..., :3], img[..., 3] = 0.05, 1.0
+    props = np.zeros((H, WD, 4), np.float32)
+    props[..., 1], props[..., 3] = 0.22, 0.58
+    BRONZE, GARNET = np.array((0.70, 0.50, 0.22), np.float32), np.array((0.45, 0.03, 0.07), np.float32)
+    # collar
+    m = v >= 0.855
+    fv = np.clip((COLLAR_UV[3] - v) / (COLLAR_UV[3] - COLLAR_UV[1]), 0, 1)  # 0 at the neck .. 1 at the edge
+    s1 = np.convolve(rng.random(WD + 8), np.ones(3) / 3, "same")[4:WD + 4].astype(np.float32)
+    s2 = rng.random(WD).astype(np.float32)
+    xi = xx.astype(np.int32)
+    wav = (xi + (3 * np.sin(yy * 0.07 + xx * 0.013)).astype(np.int32)) % WD
+    fur = np.array((0.80, 0.77, 0.70), np.float32)[None, None, :] * (0.72 + 0.32 * s1[wav])[..., None]
+    fur *= (0.62 + 0.38 * np.clip(fv * 1.4, 0, 1))[..., None]  # darker at the roots
+    fur = np.where((s2[wav] < 0.12)[..., None], fur * 0.55, fur)  # dark guard hairs
+    img[m, :3] = fur[m]
+    tuft_p = 13
+    tid = xi // tuft_p
+    trnd = rng.random(int(tid.max()) + 2).astype(np.float32)
+    tri = np.abs(((xx + trnd[tid] * 5) % tuft_p) / tuft_p - 0.5) * 2  # 0 at a tuft's tip .. 1 between tufts
+    img[m & (fv > 0.80 + 0.17 * (1 - tri) * (0.6 + 0.4 * trnd[tid])), 3] = 0.0
+    img[m & (fv > 0.985), 3] = 0.0
+    # feathers (cape outside) and the same hem silhouette on the lining
+    NFR, NFC = 20, 12
+    p = 0.99 / (NFR + 0.6)
+    frnd = rng.random((NFR + 2, NFC + 2)).astype(np.float32)
+
+    def field(au, al):
+        """Visible feather at (au, al): covered, row, fx (-1..1 across), fy (0 base .. 1 tip), shade."""
+        r0 = np.floor(al / p).astype(np.int32)
+        best = [np.zeros(au.shape, bool), np.zeros(au.shape, np.int32), np.zeros(au.shape, np.float32),
+                np.zeros(au.shape, np.float32), np.zeros(au.shape, np.float32)]
+        for r in (r0, r0 - 1):  # the upper row lies over the lower: written last
+            ok = (r >= 0) & (r < NFR)
+            cu = au * NFC + 0.5 * (r % 2)
+            ci = np.clip(np.floor(cu).astype(np.int32), 0, NFC + 1)
+            fx = (cu % 1.0) * 2 - 1
+            fy = (al - r * p) / (1.6 * p)
+            wdt = 1.15 * np.sin(np.pi * np.clip(fy, 0, 1) ** 0.8)
+            inside = ok & (fy >= 0) & (fy <= 1) & (np.abs(fx) < wdt)
+            sh = frnd[np.clip(r, 0, NFR + 1), ci]
+            for k, val in enumerate((True, r, fx, fy, sh)):
+                best[k] = np.where(inside, val, best[k])
+        return best
+
+    for box, is_cape in ((CAPE_UV, True), (LINING_UV, False)):
+        reg = (u >= box[0]) & (u <= box[2]) & (v >= box[1]) & (v <= box[3])
+        au = np.clip((u - box[0]) / (box[2] - box[0]), 0, 1)
+        al = np.clip((box[3] - v) / (box[3] - box[1]), 0, 1)  # 0 top .. 1 hem
+        cov, row, fx, fy, sh = field(au, al)
+        dark = np.array((0.085, 0.085, 0.095), np.float32)
+        col = dark[None, None, :] * (0.75 + 0.5 * sh)[..., None]
+        col = np.where(((row % 5) == 3)[..., None], GARNET[None, None, :] * (0.8 + 0.4 * sh)[..., None], col)
+        col = np.where(((row == NFR - 1) & (fy > 0.65))[..., None], GARNET[None, None, :] * 1.2, col)
+        barbs = 0.72 + 0.28 * np.sin(fy * 55 - np.abs(fx) * 16)
+        rim = 0.55 + 0.45 * (1 - np.clip(np.abs(fx), 0, 1) ** 4)
+        col = col * (barbs * rim)[..., None]
+        shaft = np.abs(fx) < 0.06
+        col = np.where(shaft[..., None], np.array((0.52, 0.50, 0.46), np.float32)[None, None, :] * (1 - 0.5 * fy)[..., None], col)
+        hem = al > (NFR - 1) * p  # below the last row's quills: only feathers, nothing between them
+        if is_cape:
+            m = reg & cov
+            img[m, :3] = col[m]
+            props[m, 1] = 0.3
+        else:  # lining: garnet-dyed hide; the hem's feather tips show their dark undersides
+            n = rng.random((H, WD)).astype(np.float32)
+            m = reg
+            img[m, :3] = np.array((0.30, 0.055, 0.055), np.float32) * (0.8 + 0.3 * n[m])[:, None]
+            edge = np.minimum(au, 1 - au)
+            b = reg & (edge > 0.015) & (edge < 0.045)
+            img[b, :3] = BRONZE
+            props[b, 1] = 0.5
+            zz = 0.81 + 0.02 * (np.abs((au * 14) % 1.0 - 0.5) * 2 - 0.5)
+            img[reg & (np.abs(al - 0.81) < 0.025) & (edge > 0.05), :3] = C_BLACK
+            img[reg & (np.abs(al - zz) < 0.006) & (edge > 0.05), :3] = C_BONE
+            m = reg & hem & cov
+            img[m, :3] = col[m] * 0.8
+        img[reg & hem & ~cov, 3] = 0.0
+    img[v < 0.025, 3] = 0.0  # the hem's edge faces sample here: keep them invisible
+    normal = np.zeros((H, WD, 4), np.float32)
+    normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
 MATS = {SET: make_material("ek2lc_reach_hide", save_set(SET, make_textures())),
         WSET: make_material("ek2lc_reach_war", save_set(WSET, make_war_textures())),
         ASET: make_material("ek2lc_reach_armour", save_set(ASET, make_armour_textures())),
@@ -1358,6 +1704,7 @@ MATS = {SET: make_material("ek2lc_reach_hide", save_set(SET, make_textures())),
         RSET: make_material("ek2lc_reach_royal", save_set(RSET, make_textures("royal")))}
 for _t, _set in ROYAL_SETS.items():
     MATS[_set] = make_material("ek2lc_reach_" + _t, save_set(_set, make_royal_textures(_t)))
+MATS[MSET] = make_material("ek2lc_reach_mantle", save_set(MSET, make_mantle_textures()))
 
 
 # ------------------------------------------------------------------ make, export and check every piece
@@ -1568,6 +1915,29 @@ def preview_royal():
     subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview_royal_%s.png" % S1)], check=True)
 
 
+def preview_mantle():
+    """The emperor with the mantle, whole figure: front, three-quarter, side, back."""
+    objs = {o.name: o for o in OBJS}
+    co = scene.camera
+    co.data.ortho_scale = TOP_Z + 14
+    target = Vector((0, center_y(HIP_Z), TOP_Z / 2))
+    for o in OBJS:
+        o.hide_render = o.name not in (NAME, BAND, KING, MANTLE)
+        if o.name in (NAME, BAND):
+            o.data.materials[0] = MATS[RSET]
+    objs[KING].data.materials[0] = MATS[ROYAL_SETS["emperor"]]
+    shots = []
+    for tag, ang in (("front", 0), ("three", 35), ("side", 90), ("back", 180)):
+        a = math.radians(ang)
+        co.location = target + (FRONT * math.cos(a) + RIGHT * math.sin(a)) * 300
+        co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
+        scene.render.filepath = os.path.join(PREV, "mt_%s_%s.png" % (S1, tag))
+        bpy.ops.render.render(write_still=True)
+        shots.append(scene.render.filepath)
+    subprocess.run([MAGICK] + shots + ["+append", "-resize", "800x", os.path.join(PREV, "preview_mantle_%s.png" % S1)], check=True)
+
+
 preview()
 preview_royal()
+preview_mantle()
 print("DONE %s in %.1fs" % (SEX, time.time() - T0))

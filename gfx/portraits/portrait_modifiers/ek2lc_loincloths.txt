@@ -27,6 +27,12 @@ ek2lc_loincloth = {
 				template = ek2lc_no_war
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 1
@@ -70,6 +76,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
 				range = { 0 1 }
 			}
 		}
@@ -129,6 +141,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
 				range = { 0 1 }
 			}
 		}
@@ -191,6 +209,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_war
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -246,6 +270,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_reach_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
 				range = { 0 1 }
 			}
 		}
@@ -305,6 +335,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_armour
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -361,6 +397,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_armour
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -414,6 +456,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
 				range = { 0 1 }
 			}
 		}
@@ -472,6 +520,12 @@ ek2lc_loincloth = {
 				template = ek2lc_no_war
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -526,6 +580,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_reach_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
 				range = { 0 1 }
 			}
 		}
@@ -584,6 +644,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_duke
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -638,6 +704,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_reach_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
 				range = { 0 1 }
 			}
 		}
@@ -696,6 +768,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_king
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -713,7 +791,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet.
+	# Reach men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet, and the fur-and-feather mantle.
 	ek2lc_reach_royal_emperor_m = {
 		dna_modifiers = {
 			accessory = {
@@ -752,6 +830,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_emperor
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_reach_mantle
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -769,7 +853,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet.
+	# Reach women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet, and the fur-and-feather mantle.
 	ek2lc_reach_royal_emperor_f = {
 		dna_modifiers = {
 			accessory = {
@@ -806,6 +890,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_war
 				template = ek2lc_reach_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_reach_mantle
 				range = { 0 1 }
 			}
 		}
