@@ -1932,8 +1932,8 @@ def finish_piece(pc):
             worst = min(worst, sd)
             inside += sd < 0
         print("CLEARANCE %s %-10s inside=%d min=%.2f" % (name, s, inside, worst))
-        if name == NAME and s in ("khadigi", "infant", "dwarf"):
-            assert inside == 0, "loincloth still penetrates the body on shape " + s
+        if (name == NAME and s in ("khadigi", "infant", "dwarf")) or name in STRICT:
+            assert inside == 0, "%s still penetrates the body on shape %s" % (name, s)
     return obj
 
 
@@ -2022,6 +2022,288 @@ for _tier, _items in TROPHY_TIERS.items():
     PIECES.append(dict(name=TROPHY[_tier], set=WSET, pos=_pos, faces=tf, part=tp, wrap=set(), wrap_u={}, uvs=tu,
                        vw=[weights_at(b[0], b[1]) for b in tb], orient=_orient))
     print("TROPHY tier %d: %d vertices, %d trophies" % (_tier, len(tb), k))
+
+
+# ------------------------------------------------------------------ arena shoulder guard (extra, both bodies)
+# One guard on the left shoulder for tournament fighters, like a gladiator's galerus: three
+# overlapping hide lames faced with bone (the armoured skirt's texture), the top one capping the
+# shoulder, and a strap round the upper arm below them. No chest strap: it would fight the
+# women's chest band. Every point is bound to the skin of the shoulder and upper arm and takes
+# that skin's weights, so the guard follows the arm in every pose and on every body shape.
+GUARD = "ek2lc_%s_arena_guard_01" % S1
+_SJ = rig.matrix_world @ rig.data.bones["bn_l_shoulder"].head_local
+_SE = rig.matrix_world @ rig.data.bones["bn_l_elbow"].head_local
+ARM_AX = (_SE - _SJ).normalized()  # down the upper arm (the rest pose is an A-pose)
+ARM_O = (UP - ARM_AX * UP.dot(ARM_AX)).normalized()  # the arm's upper outer side
+ARM_F = (FRONT - ARM_AX * FRONT.dot(ARM_AX) - ARM_O * FRONT.dot(ARM_O)).normalized()
+
+
+def arm_hit(sa, phi):
+    """Skin of the shoulder and upper arm: sa cm down the arm from the shoulder joint (negative: over
+    the shoulder top, a dome round the joint, 8 degrees per cm), phi degrees round the arm from its
+    upper outer side (positive: to the front). Rays start inside, on the arm's axis."""
+    rad = ARM_O * math.cos(math.radians(phi)) + ARM_F * math.sin(math.radians(phi))
+    if sa < 0:
+        t = math.radians(-sa * 8.0)
+        org, d = _SJ, rad * math.cos(t) - ARM_AX * math.sin(t)
+    else:
+        org, d = _SJ + ARM_AX * sa, rad
+    loc, nor, fi, dist = BVH["basis"].ray_cast(org, d, 40)
+    assert loc is not None, "no shoulder skin at %.1f cm, %d deg" % (sa, phi)
+    return loc, fi
+
+
+def slab(B, U, F, P, wrap, wrap_u, hits, offs, uv, tag, closed=False, u_end=None):
+    """A plate or strap: two skin-bound grids (outer and inner offset; hits[row][col] = (loc, face))
+    and its edges. uv(layer, row, col) -> (u, v). closed: round the arm (the seam faces get u_end)."""
+    b0 = len(B)
+    R, C = len(hits), len(hits[0])
+    for layer, o_ in enumerate(offs):
+        for i, row in enumerate(hits):
+            for j, (loc, fi) in enumerate(row):
+                B.append(bind(loc, fi, o_))
+                U.append(uv(layer, i, j))
+    V = lambda layer, i, j: b0 + layer * R * C + i * C + j % C  # noqa: E731
+    jn = C if closed else C - 1
+    for j in range(jn):
+        seam = closed and j == C - 1
+        for i in range(R - 1):
+            for q in ([V(0, i, j), V(0, i, j + 1), V(0, i + 1, j + 1), V(0, i + 1, j)], [V(1, i, j), V(1, i + 1, j), V(1, i + 1, j + 1), V(1, i, j + 1)]):
+                if seam:
+                    wrap.add(len(F))
+                F.append(q)
+                P.append(tag + ("o" if q[0] < b0 + R * C else "i"))
+        for i in (0, R - 1):  # top and bottom edges
+            if seam:
+                wrap.add(len(F))
+            F.append([V(0, i, j), V(1, i, j), V(1, i, j + 1), V(0, i, j + 1)])
+            P.append(tag + "e")
+    if closed:
+        for layer in range(2):
+            for i in range(R):
+                wrap_u[V(layer, i, 0)] = u_end
+    else:
+        for j in (0, C - 1):  # the side edges
+            for i in range(R - 1):
+                F.append([V(0, i, j), V(0, i + 1, j), V(1, i + 1, j), V(1, i, j)])
+                P.append(tag + "e")
+
+
+# (first and last row, cm down the arm; half span round the arm, degrees; outer offset from the skin;
+# texture v of the bone bar it shows). Each lame overlaps the next by a centimetre, outside it.
+LAMES = [(-5.5, 3.5, 100, 1.6, 0.31), (2.5, 7.0, 92, 1.1, 0.20), (6.0, 11.5, 84, 0.6, 0.093)]
+L_THICK = 0.25
+G_STRAP = (12.2, 14.2, 0.55, 0.3)  # rows, outer offset, thickness (higher, it touched the girls' chest band)
+gb, guv, gf, gp, gwrap, gwu = [], [], [], [], set(), {}
+for k, (s0, s1, span, off, vb) in enumerate(LAMES):
+    rows = list(np.linspace(s0, s1, max(3, round(s1 - s0) + 1)))
+    cols = list(np.linspace(-span, span, round(2 * span / 10) + 1))
+    R_, C_ = len(rows), len(cols)
+    slab(gb, guv, gf, gp, gwrap, gwu, [[arm_hit(sa, phi) for phi in cols] for sa in rows], (off, off - L_THICK),
+         (lambda vb_, R_, C_: lambda layer, i, j: (0.085 + 0.83 * j / (C_ - 1), vb_ + 0.065 - 0.13 * i / (R_ - 1)) if layer == 0
+          else (0.15 + 0.7 * j / (C_ - 1), 0.42 - 0.06 * i / (R_ - 1)))(vb, R_, C_), "l%d" % k)
+_srows = list(np.linspace(G_STRAP[0], G_STRAP[1], 3))
+_scols = [360.0 * j / 36 for j in range(36)]
+slab(gb, guv, gf, gp, gwrap, gwu, [[arm_hit(sa, phi) for phi in _scols] for sa in _srows], (G_STRAP[2], G_STRAP[2] - G_STRAP[3]),
+     lambda layer, i, j: (0.4 * j / 36, 0.895 - 0.045 * i), "st", closed=True, u_end=0.4)
+GPOS = {s: [recon(b, s) for b in gb] for s in ALL}
+_away = lambda c: c - (_SJ + ARM_AX * max(0.0, (c - _SJ).dot(ARM_AX)))  # noqa: E731
+G_ORIENT = [(t, _away, t + "o") for t in ["l%d" % k for k in range(len(LAMES))] + ["st"]]
+PIECES.append(dict(name=GUARD, set=ASET, pos=GPOS, faces=gf, part=gp, wrap=gwrap, wrap_u=gwu, uvs=guv,
+                   vw=[weights_at(b[0], b[1]) for b in gb], orient=G_ORIENT))
+print("GUARD %d vertices, %d faces, arm axis %s" % (len(gb), len(gf), tuple(round(c, 2) for c in ARM_AX)))
+
+
+# ------------------------------------------------------------------ camp follower's wrap (extra, both bodies)
+# Plain, patched cloth for the people who travel with armies: a sash wound round the waist where the
+# war girdle sits (the girdle's shape; the game hides the wrap under any girdle by tag), knotted at
+# the left hip with two short tails hanging down the thigh, and a small cloth bundle on a cord at the
+# right hip. Own texture: undyed wool with patches.
+WRAP = "ek2lc_%s_camp_wrap_01" % S1
+CSET = "ek2lc_camp_01"
+cb, cuv = list(war_bind[:NGV]), list(WUVS[:NGV])
+cf, cp, cwrap = [list(f) for f in GFACES], ["sash"] * len(GFACES), set(AWRAP)
+KNOT_UV, POUCH_UV, TAIL_UV = (0.53, 0.27, 0.97, 0.48), (0.53, 0.02, 0.97, 0.23), (0.03, 0.02, 0.47, 0.48)
+_ct = (cb, cuv, cf, cp)
+_kz = BELT_Z + 4.5  # the knot, over the sash's middle at the left hip
+add_tube(math.pi / 2, [(0, _kz + 2.0, 1.4), (0, _kz + 1.0, 2.1), (0, _kz, 2.4), (0, _kz - 1.0, 2.1), (0, _kz - 2.0, 1.4)],
+         [0.5, 1.4, 1.65, 1.4, 0.5], 0.7, KNOT_UV, "knot", tgt=_ct)
+# the bundle: a cord from the sash over the cord belt, then a flat cloth bag pushed clear of the body and loincloth
+_PB = [BVHTree.FromPolygons(COORDS[s] + POS[s], [list(t) for t in TRIS[s]] + [[i + len(COORDS[s]) for i in f] for f in FACES])
+       for s in ALL]
+_pz, _pout = BELT_Z - 2.4, 1.85
+for _try in range(8):
+    _pt = ([], [], [], [])
+    add_tube(-math.pi / 2, [(0, _pz, _pout), (0, _pz - 1.0, _pout), (0, _pz - 3.0, _pout), (0, _pz - 5.5, _pout), (0, _pz - 6.8, _pout)],
+             [0.55, 1.8, 2.6, 2.3, 0], 0.55, POUCH_UV, "pouch", cap_tip=True, tgt=_pt)
+    _pgap = min(bvh.find_nearest(recon(b, s))[3] for bvh, s in zip(_PB, ALL) for b in _pt[0])
+    if _pgap >= 0.3:
+        break
+    _pout += 0.3 - _pgap + 0.05
+assert _pgap >= 0.3, "bundle can't clear the body: gap %.2f" % _pgap
+add_tube(-math.pi / 2, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4), (0, BELT_Z - 1.9, 2.4), (0, _pz + 0.3, _pout)],
+         [0.2] * 4, 1.0, KNOT_UV, "cord", tgt=_ct)
+_o = len(cb)
+cb += _pt[0]
+cuv += _pt[1]
+cf += [[i + _o for i in f] for f in _pt[2]]
+cp += _pt[3]
+print("WRAP bundle out %.2f, gap %.2f" % (_pout, _pgap))
+NGC = len(cb)  # skin-bound vertices; the tails follow
+# tails: flat cloth hanging straight from under the knot, as far out as anything above them needs
+TAILS = [(84, 1.7, [4.0, 2.1, 0.0, -1.9, -5.0, -9.0, -12.5]), (97, 1.5, [4.0, 2.1, 0.0, -1.9, -5.0, -8.5, -10.0])]
+T_CLEAR = [0.35, 0.55, 0.7, 0.7, 0.8, 0.8, 0.8]
+T_COLS, T_THICK = 3, 0.2
+
+
+def tail_positions(s):
+    out = []
+    for ang, hw, zs_ in TAILS:
+        th = math.radians(ang)
+        d, t = s_frame(th)
+        xs = [(c / (T_COLS - 1) - 0.5) * 2 * hw for c in range(T_COLS)]
+        z_top = BELT_Z + zs_[0]
+        rows = []
+        for dz, clear in zip(zs_, T_CLEAR):
+            z = BELT_Z + dz
+            zz_ = list(np.arange(z - 0.6, z_top + 2.6, 0.75))  # from a little below: the cord belt's top bulges up
+            h = max(s_out(s, th, x + dx, zz) for x in xs for dx in (-0.6, 0.0, 0.6) for zz in zz_) + clear
+            rows.append([S_BASE + t * x + d * h + UP * z for x in xs])
+        out += [p for row in rows for p in row]
+        out += [p - d * T_THICK for row in rows for p in row]
+    return out
+
+
+TPOS = {s: tail_positions(s) for s in ALL}
+CPOS = {s: [recon(b, s) for b in cb] + TPOS[s] for s in ALL}
+cvw = [weights_at(b[0], b[1]) for b in cb]
+NTR = len(T_CLEAR)
+for k, (ang, hw, zs_) in enumerate(TAILS):
+    b0 = NGC + k * 2 * NTR * T_COLS
+    lb = leg_bind(math.radians(ang), BELT_Z - 10.0, 0.0)
+    stiff = dict(weights_at(lb[0], lb[1]))
+    for layer in range(2):
+        for r in range(NTR):
+            for c in range(T_COLS):
+                cuv.append((TAIL_UV[0] + (TAIL_UV[2] - TAIL_UV[0]) * (0.5 * k + 0.5 * c / (T_COLS - 1)),
+                            TAIL_UV[3] - (TAIL_UV[3] - TAIL_UV[1]) * r / (NTR - 1)))
+                k_ = (0.0, 0.0, 0.0, 0.25, 0.6)[r] if r < 5 else 1.0  # on the sash: with the skin; lower: with the thigh
+                skin = dict(nearest_weights(CPOS["basis"][b0 + layer * NTR * T_COLS + r * T_COLS + c]))
+                dd = {}
+                for g, w in skin.items():
+                    dd[g] = dd.get(g, 0.0) + w * (1 - k_)
+                for g, w in stiff.items():
+                    dd[g] = dd.get(g, 0.0) + w * k_
+                row = [(g, w) for g, w in sorted(dd.items(), key=lambda kv: -kv[1])[:4] if w > 0.01]
+                tot = sum(w for _, w in row)
+                cvw.append([(g, w / tot) for g, w in row])
+    L = lambda layer, r, c: b0 + layer * NTR * T_COLS + r * T_COLS + c  # noqa: E731
+    tag = "tail%d" % k
+    for r in range(NTR - 1):
+        for c in range(T_COLS - 1):
+            cf.append([L(0, r, c), L(0, r, c + 1), L(0, r + 1, c + 1), L(0, r + 1, c)])
+            cp.append(tag + "o")
+            cf.append([L(1, r, c), L(1, r + 1, c), L(1, r + 1, c + 1), L(1, r, c + 1)])
+            cp.append(tag + "i")
+        for c in (0, T_COLS - 1):
+            cf.append([L(0, r, c), L(0, r + 1, c), L(1, r + 1, c), L(1, r, c)])
+            cp.append(tag + "e")
+    for r in (0, NTR - 1):
+        for c in range(T_COLS - 1):
+            cf.append([L(0, r, c), L(1, r, c), L(1, r, c + 1), L(0, r, c + 1)])
+            cp.append(tag + "e")
+C_ORIENT = [("sash", lambda c: Vector((c.x, c.y - W_YC, 0)), None)]
+for k in range(len(TAILS)):
+    C_ORIENT.append(("tail%d" % k, lambda c: Vector((c.x, c.y - W_YC, 0)), "tail%do" % k))
+_cc = {}
+for f, p in zip(cf, cp):
+    if p in ("knot", "pouch", "cord"):
+        _cc.setdefault(p, []).extend(CPOS["basis"][i] for i in f)
+for p, ps in _cc.items():
+    C_ORIENT.append((p, (lambda c0: (lambda c: c - c0))(sum(ps, Vector()) / len(ps)), None))
+
+
+def make_camp_textures():
+    """Undyed wool, worn and patched: sash (v > .5), tails (u < .5), knot and bundle (u > .5)."""
+    H = WD = 512
+    rng = np.random.default_rng(31)
+
+    def noise(k):
+        g = rng.random((k + 2, k + 2)).astype(np.float32)
+        ys = np.linspace(0, k, H, endpoint=False)
+        y0 = ys.astype(np.int32)
+        f = (ys - y0) * (ys - y0) * (3 - 2 * (ys - y0))
+        a, b, c, d = g[np.ix_(y0, y0)], g[np.ix_(y0, y0 + 1)], g[np.ix_(y0 + 1, y0)], g[np.ix_(y0 + 1, y0 + 1)]
+        fx, fy = f[None, :], f[:, None]
+        return (a * (1 - fx) + b * fx) * (1 - fy) + (c * (1 - fx) + d * fx) * fy
+
+    n = (noise(5) + 0.5 * noise(20) + 0.25 * noise(60)) / 1.75
+    n2 = noise(40)
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v = 1 - yy / (H - 1)
+    u = xx / (WD - 1)
+    weave = 0.93 + 0.07 * np.sin(xx * 2.4) * np.sin(yy * 2.4)
+    img = np.ones((H, WD, 4), np.float32)
+    img[..., :3] = K(0.58, 0.53, 0.43) * ((0.8 + 0.35 * n) * weave)[..., None]
+    # patches: other cloth sewn on with coarse dark thread (u0, v0, u1, v1, colour)
+    patches = [(0.06, 0.60, 0.15, 0.86, (0.34, 0.36, 0.40)), (0.33, 0.56, 0.41, 0.80, (0.45, 0.34, 0.22)),
+               (0.57, 0.66, 0.68, 0.93, (0.52, 0.44, 0.26)), (0.80, 0.58, 0.88, 0.84, (0.34, 0.36, 0.40)),
+               (0.10, 0.18, 0.20, 0.33, (0.45, 0.34, 0.22)), (0.31, 0.06, 0.40, 0.22, (0.52, 0.44, 0.26)),
+               (0.62, 0.05, 0.78, 0.14, (0.34, 0.36, 0.40))]
+    j = (n2 - 0.5) * 0.012  # wobbly edges
+    for u0, v0, u1, v1, col in patches:
+        m = (u > u0 + j) & (u < u1 - j) & (v > v0 + j) & (v < v1 - j)
+        img[m, :3] = K(*col) * ((0.8 + 0.35 * n[m]) * weave[m])[:, None]
+        e = 4.0 / WD
+        edge = m & ~((u > u0 + j + e) & (u < u1 - j - e) & (v > v0 + j + e) & (v < v1 - j - e))
+        img[edge & (((xx + yy) % 7) < 3), :3] = K(0.20, 0.16, 0.12)
+    # sash: soft fold lines along its length
+    s = v >= 0.5
+    gv = (v - 0.52) / 0.46
+    fold = 1 - 0.18 * np.exp(-((((gv * 3.0) % 1.0) - 0.5) / 0.08) ** 2)
+    img[s, :3] *= fold[s][:, None]
+    # tails: frayed ends at the bottom
+    t = (u < 0.5) & (v < 0.06)
+    img[t & ((xx % 4) < 2), :3] *= 0.55
+    # knot: deep folds
+    kn = (u >= 0.5) & (v >= 0.25) & (v < 0.5)
+    img[kn, :3] *= (0.75 + 0.25 * np.sin((xx[kn] + yy[kn] * 0.6) * 0.15))[:, None]
+    # bundle: the tie near its neck
+    b = (u >= 0.5) & (v >= 0.19) & (v < 0.23)
+    img[b, :3] = K(0.40, 0.31, 0.21) * (0.75 + 0.3 * np.sin(xx[b] * 0.9 + yy[b] * 0.6))[:, None]
+    img[..., :3] *= (0.85 + 0.15 * n2)[..., None]  # dirt
+    normal = np.zeros((H, WD, 4), np.float32)
+    normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5
+    props = np.zeros((H, WD, 4), np.float32)
+    props[..., 1], props[..., 3] = 0.15, 0.65  # dull cloth
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
+MATS[CSET] = make_material("ek2lc_camp", save_set(CSET, make_camp_textures()))
+PIECES.append(dict(name=WRAP, set=CSET, pos=CPOS, faces=cf, part=cp, wrap=cwrap, wrap_u={i: 1.0 for i in range(5)}, uvs=cuv,
+                   vw=cvw, orient=C_ORIENT))
+print("WRAP %d vertices, %d faces" % (len(CPOS["basis"]), len(cf)))
+STRICT = {GUARD}
+  # finish_piece: no point of these inside the body on any shape
+
+# closest point of the new pieces to each piece they may be worn with, per body shape
+for _xn in (GUARD, WRAP):
+    _xp = next(pc for pc in PIECES if pc["name"] == _xn)
+    for _o in PIECES:
+        if _o["name"] == _xn:
+            continue
+        _vpart = {}
+        for f, prt in zip(_xp["faces"], _xp["part"]):
+            for i in f:
+                _vpart[i] = prt
+        _worst, _low = (1e9, None, None), []
+        for s in ALL:
+            _bvh = BVHTree.FromPolygons(_o["pos"][s], [list(f) for f in _o["faces"]])
+            _ws = min((_bvh.find_nearest(p)[3], s, _vpart.get(i)) for i, p in enumerate(_xp["pos"][s]))
+            _worst = min(_worst, _ws)
+            if _ws[0] < 0.3:
+                _low.append("%s %.2f %s" % (s, _ws[0], _ws[2]))
+        print("XGAP %s vs %-26s min=%.2f (%s, %s)%s" % (_xn, _o["name"], *_worst, "  low: " + ", ".join(_low) if _low else ""))
 
 
 OBJS = [finish_piece(pc) for pc in PIECES]
@@ -2157,7 +2439,30 @@ def preview_mantle():
     subprocess.run([MAGICK] + shots + ["+append", "-resize", "800x", os.path.join(PREV, "preview_mantle_%s.png" % S1)], check=True)
 
 
+def preview_extras():
+    """The arena shoulder guard and the camp follower's wrap on the plain loincloth: front, three-quarter
+    and side (the left, where the guard and the knot are), back."""
+    co = scene.camera
+    lo = BELT_Z - 24
+    co.data.ortho_scale = TOP_Z - lo + 6
+    target = Vector((0, center_y(HIP_Z), (TOP_Z + lo) / 2))
+    for o in OBJS:
+        o.hide_render = o.name not in (NAME, BAND, GUARD, WRAP)
+        if o.name in (NAME, BAND):
+            o.data.materials[0] = MATS[SET]
+    shots = []
+    for tag, ang in (("front", 0), ("three", 40), ("side", 90), ("back", 180)):
+        a = math.radians(ang)
+        co.location = target + (FRONT * math.cos(a) + RIGHT * math.sin(a)) * 300
+        co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
+        scene.render.filepath = os.path.join(PREV, "x_%s_%s.png" % (S1, tag))
+        bpy.ops.render.render(write_still=True)
+        shots.append(scene.render.filepath)
+    subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview_extras_%s.png" % S1)], check=True)
+
+
 preview()
 preview_royal()
 preview_mantle()
+preview_extras()
 print("DONE %s in %.1fs" % (SEX, time.time() - T0))

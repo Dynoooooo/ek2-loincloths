@@ -45,3 +45,20 @@ ek2lc_royal_tier_trigger = {
 	highest_held_title_tier <= tier_$HIGH$
 	NOT = { primary_spouse ?= { highest_held_title_tier > tier_$HIGH$ } }
 }
+
+# Camp followers: people who travel with an army but don't fight. The courtiers of a landless
+# adventurer's camp (not the adventurer), and anyone whose spouse is away with an army.
+# Never a knight or anyone in a war role.
+ek2lc_camp_follower_trigger = {
+	exists = this
+	is_imprisoned = no
+	is_knight = no
+	ek2lc_war_role_trigger = no
+	OR = {
+		AND = {
+			is_ruler = no  # (a courtier reports the camp's government, so is_landless_adventurer can't tell them apart)
+			liege ?= { is_landless_adventurer = yes }
+		}
+		any_spouse = { is_in_army = yes }
+	}
+}

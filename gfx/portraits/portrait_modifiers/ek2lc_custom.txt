@@ -529,3 +529,33 @@ ek2lc_custom_trophy = {
 		template = ek2lc_trophy_3
 	}
 }
+
+ek2lc_custom_arena = {
+	usage = customization
+	interface_position = 14
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_arena
+		template = ek2lc_no_arena
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_arena
+		template = ek2lc_arena_guard
+	}
+}
+
+ek2lc_custom_camp = {
+	usage = customization
+	interface_position = 15
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_camp
+		template = ek2lc_no_camp
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_camp
+		template = ek2lc_camp_wrap
+	}
+}

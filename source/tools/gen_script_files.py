@@ -27,13 +27,26 @@ GENES = {
     "gene_ek2lc_mantle": ("ek2lc_no_mantle", ["mantle"]),
 }
 WOMEN_ONLY = {"band", "band_fine", "band_royal"}
-# Culture-independent extras: gene -> (none template, [(kind, barbershop name, game rule)]). Their
-# accessories draw only while one of our loincloths is worn (LOINCLOTH_TAG), so the game rule needs
-# no culture or look: anyone 14+ qualifies, and EK2 clothes simply hide nothing.
+# Culture-independent extras: gene -> (none template, [(kind, barbershop name, game rule)], barbershop
+# group name, its "none" name, tags that hide it). Their accessories draw only while one of our
+# loincloths is worn (LOINCLOTH_TAG) and none of their hiding tags is set, so the game rule needs no
+# culture or look: anyone 14+ qualifies, and EK2 clothes simply hide nothing.
+LOINCLOTH_TAG = "ek2lc_loincloth"
+GIRDLE_TAG = "ek2lc_girdle"  # set by every piece of gene_ek2lc_war (war, armoured and royal girdles)
+MANTLE_TAG = "ek2lc_mantle"  # set by the emperor's mantle
 EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     ("trophy_1", "Trophy Belt: Two Trophies", "prowess >= 8\n\t\t\t\tprowess < 12"),
     ("trophy_2", "Trophy Belt: Four Trophies", "prowess >= 12\n\t\t\t\tprowess < 16"),
-    ("trophy_3", "Trophy Belt: Four Trophies and Beads", "prowess >= 16")])}
+    ("trophy_3", "Trophy Belt: Four Trophies and Beads", "prowess >= 16")], "Trophy Belt", "No Trophy Belt", []),
+    # tournament fighters who have fought on foot (melee, wrestling, duels): one guard on the left shoulder
+    "gene_ek2lc_arena": ("ek2lc_no_arena", [
+        ("arena_guard", "Hide-and-Bone Shoulder Guard",
+         "has_trait = tourney_participant\n\t\t\t\thas_trait_xp = { trait = tourney_participant track = foot value > 0 }")],
+        "Shoulder Guard", "No Shoulder Guard", [MANTLE_TAG]),  # the mantle's collar covers that shoulder
+    # non-fighters who travel with an army (ek2lc_camp_follower_trigger); the sash sits where a girdle does
+    "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", "ek2lc_camp_follower_trigger = yes")],
+                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG]),
+}
 
 
 def xacc(s, k):  # an extra's accessory: ek2lc_m_trophy_1_01
@@ -80,7 +93,7 @@ special_genes = {
 				girl = { 1 = %s }
 			}""" % (t, i, m, f, m, f))  # children: the same pieces (every piece has the infant shape)
         out.append("\t\t}")
-    for gene, (none, kinds) in EXTRA.items():
+    for gene, (none, kinds, *_) in EXTRA.items():
         out.append("\t\t%s = {" % gene)
         for i, k in enumerate([None] + [k for k, _, _ in kinds]):
             m, f = ("empty", "empty") if k is None else (xacc("m", k), xacc("f", k))
@@ -114,18 +127,20 @@ def accessories():
                         order.append((c, s, k))
     for c, s, k in order:
         a = acc(s, c, k)
-        tags = '\tset_tags = "%s"\n' % LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else ""
+        tag = LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else GIRDLE_TAG if k in GENES["gene_ek2lc_war"][1] \
+            else MANTLE_TAG if k in GENES["gene_ek2lc_mantle"][1] else None
+        tags = '\tset_tags = "%s"\n' % tag if tag else ""
         out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, tags, a))
-    for gene, (none, kinds) in EXTRA.items():
+    for gene, (none, kinds, _, _, hide) in EXTRA.items():
         for k, _, _ in kinds:
             for s in ("m", "f"):
                 a = xacc(s, k)
-                out.append("%s = {\n\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n"
-                           "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}" % (a, LOINCLOTH_TAG, a))
+                out.append("%s = {\n%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n"
+                           "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}"
+                           % (a, "".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide),
+                              LOINCLOTH_TAG, a))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
-
-LOINCLOTH_TAG = "ek2lc_loincloth"
 
 
 def figleaf():
@@ -257,6 +272,12 @@ ek2lc_loincloth = {
                                     % (adj, people, ": the loincloth and always the chest band" if s == "f" else ""),
                                     (T("hide"), top("band"), None, None), [(100, com)]))
             cul = culture_cond(cd, False)
+            if look == "hide":
+                out.append(modifier("ek2lc_%s_camp_%s" % (c, s), "%s %s (14+) who follow an army without fighting (ek2lc_camp_follower_trigger): the plain "
+                                    "loincloth%s, under the camp follower's wrap. EK2 dresses an adventurer's camp as low nobility, "
+                                    "so the commoner rule alone would miss them." % (adj, people, " and the chest band" if s == "f" else ""),
+                                    (T("hide"), top("band"), None, None),
+                                    [(100, base + [TEENS, cul, "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_camp_follower_trigger = yes"])]))
             if look == "war":
                 out.append(modifier("ek2lc_%s_war_%s" % (c, s), "%s %s (14+) in a war role while their realm is at war: the loincloth with the "
                                 "war girdle and trophies%s, instead of EK2's armour." % (adj, people, ", and always the chest band" if s == "f" else ""),
@@ -277,7 +298,7 @@ ek2lc_loincloth = {
                                       ["\t\t\t\tis_female = %s" % fem, KIDS, cul, "\t\t\t\tek2lc_war_role_trigger = no",
                                        "\t\t\t\tek2lc_royal_tier_trigger = { LOW = %s HIGH = %s }" % (lo, hi)])]))
     out.append("}\n")
-    for gene, (none, kinds) in EXTRA.items():
+    for gene, (none, kinds, *_) in EXTRA.items():
         g = gene.replace("gene_", "")
         out.append("""# %s: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
 %s = {
@@ -350,14 +371,14 @@ def barbershop():
                 else:
                     loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, m, piece_name(cd, k)))
                     loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, f, grp, m))
-    for pos, (gene, (none, kinds)) in enumerate(EXTRA.items(), start=13):
+    for pos, (gene, (none, kinds, title, none_title, _)) in enumerate(EXTRA.items(), start=13):
         grp = "ek2lc_custom_" + gene.replace("gene_ek2lc_", "")
         out += ["%s = {" % grp, "\tusage = customization", "\tinterface_position = %d" % pos, "\tpriority = 102", ""]
         for tm in [none] + ["ek2lc_" + k for k, _, _ in kinds]:
             out += ["\tadd_accessory_modifiers = {", "\t\tgene = %s" % gene, "\t\ttemplate = %s" % tm, "\t}"]
         out += ["}", ""]
-        loc.append(' PORTRAIT_MODIFIER_%s: "Trophy Belt"' % grp)
-        loc.append(' PORTRAIT_MODIFIER_%s_none: "No Trophy Belt"' % grp)
+        loc.append(' PORTRAIT_MODIFIER_%s: "%s"' % (grp, title))
+        loc.append(' PORTRAIT_MODIFIER_%s_none: "%s"' % (grp, none_title))
         for s in ("male", "female", "boy", "girl"):
             loc.append(' PORTRAIT_MODIFIER_%s_%s_empty: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, s, grp))
         for k, name, _ in kinds:
