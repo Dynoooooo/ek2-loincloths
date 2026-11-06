@@ -132,7 +132,7 @@ def main():
         m = np.zeros(dif.shape, np.float32)
         for k in range(len(cent)):
             m[..., k] = lab == k
-        m[..., 3] = 1.0  # DXT1 reads alpha as 1 anyway; channel A's pattern is vanilla's "no colour" one
+        m[..., 3] = 1.0  # DXT1 reads alpha as 1 anyway; channel A's pattern is the neutral ek2lc_none
         key = hashlib.sha1(np.round(m * 255).astype(np.uint8).tobytes()).hexdigest()
         if key not in masks:
             masks[key] = tset
@@ -170,10 +170,13 @@ def main():
         out.append('pattern_textures = {\n\tname = "%s"\n\tcolormask = "%s/ek2lc_pattern_colormask.dds"\n'
                    '\tnormal = "%s/ek2lc_pattern_normal.dds"\n\tproperties = "%s/%s_properties.dds"\n}'
                    % (pt, colour.PATTERN_DIR, colour.PATTERN_DIR, colour.PATTERN_DIR, pt))
-    # vanilla's own neutral textures (referenced, not copied): colour mask 0, so the pattern changes nothing
-    vt = "gfx/portraits/accessory_variations/textures"
-    out.append('pattern_textures = {\n\tname = "ek2lc_none"\n\tcolormask = "%s/no_color.dds"\n\tnormal = "%s/no_normal.dds"\n'
-               '\tproperties = "%s/no_properties.dds"\n}' % (vt, vt, vt))
+    # a neutral pattern for channel A (colour mask 0, so it changes nothing). Our own, not vanilla's no_*.dds:
+    # those are DXT3, and every texture in a variation's pattern array must share size and format.
+    solid((0, 0, 0, 0), os.path.join(PAT, "ek2lc_pattern_none_colormask.dds"))
+    solid((255, 56, 0, 148), os.path.join(PAT, "ek2lc_pattern_none_properties.dds"))
+    out.append('pattern_textures = {\n\tname = "ek2lc_none"\n\tcolormask = "%s/ek2lc_pattern_none_colormask.dds"\n'
+               '\tnormal = "%s/ek2lc_pattern_normal.dds"\n\tproperties = "%s/ek2lc_pattern_none_properties.dds"\n}'
+               % (colour.PATTERN_DIR, colour.PATTERN_DIR, colour.PATTERN_DIR))
     out.append('pattern_layout = {\n\tname = "ek2lc_flat"\n\tscale = { min = 1.0\tmax = 1.0 }\n\trotation = { min = 0\tmax = 0 }\n'
                '\toffset = { x = { min = 0\tmax = 0 }\ty = { min = 0\tmax = 0 } }\n}')  # vanilla's fixed-layout form
     for tset in sorted(sets):

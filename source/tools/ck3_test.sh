@@ -1,7 +1,8 @@
 #!/bin/bash
 # Test launches for EK2 Loincloths. Backs up the user's CK3 settings and saves first,
 # runs CK3 in a window, and puts everything back afterwards.
-#   ck3_test.sh start   back up, switch to windowed 2560x1600, load only EK2 + this mod, start as Aldrydd of Druadach
+#   ck3_test.sh start [mod ...]   back up, switch to windowed 2560x1600, load only EK2 + this mod (+ the named mods
+#                       after it, e.g. ugc_2220326926 = Better Barbershop), start as Aldrydd of Druadach
 #   ck3_test.sh wait    wait until the map is running (up to 5 minutes)
 #   ck3_test.sh stop    quit CK3 and restore the backups
 set -e
@@ -26,11 +27,12 @@ t = re.sub(r'("windowed_resolution"=\{\s*version=\d+\s*value=)"[^"]*"', r'\1"256
 open(p, "w", encoding="utf-8").write(t)
 PY
   # test with exactly EK2 and this mod (Steam rewrites the list from its Workshop subscriptions)
-  python3 -I - "$CK/dlc_load.json" <<'PY'
+  shift
+  python3 -I - "$CK/dlc_load.json" "$@" <<'PY'
 import json, sys
 p = sys.argv[1]
 d = json.load(open(p))
-d["enabled_mods"] = ["mod/ugc_2887120253.mod", "mod/ek2_loincloths.mod"]
+d["enabled_mods"] = ["mod/ugc_2887120253.mod", "mod/ek2_loincloths.mod"] + ["mod/%s.mod" % m for m in sys.argv[2:]]
 json.dump(d, open(p, "w"), indent=2)
 PY
   date +%s > "$B/launched_at"
@@ -64,6 +66,6 @@ stop)
   echo "restored"
   ;;
 *)
-  echo "usage: $0 start|wait|stop"; exit 2
+  echo "usage: $0 start [mod ...]|wait|stop"; exit 2
   ;;
 esac

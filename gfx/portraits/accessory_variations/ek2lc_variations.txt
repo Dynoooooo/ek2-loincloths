@@ -18,9 +18,9 @@ pattern_textures = {
 
 pattern_textures = {
 	name = "ek2lc_none"
-	colormask = "gfx/portraits/accessory_variations/textures/no_color.dds"
-	normal = "gfx/portraits/accessory_variations/textures/no_normal.dds"
-	properties = "gfx/portraits/accessory_variations/textures/no_properties.dds"
+	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_none_colormask.dds"
+	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_none_properties.dds"
 }
 
 pattern_layout = {
