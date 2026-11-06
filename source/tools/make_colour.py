@@ -62,6 +62,30 @@ def write_dds(arr, path, compression, mips=True):
                     "-define", "dds:mipmaps=%d" % nm, path], input=data, check=True)
 
 
+def pyramid(a):
+    """Mip levels of a square array, 2x2 box filter down to 1x1."""
+    out = [a]
+    while out[-1].shape[0] > 1:
+        b = out[-1]
+        out.append(b.reshape(b.shape[0] // 2, 2, b.shape[1] // 2, 2, -1).mean((1, 3)))
+    return out
+
+
+def write_dds_levels(levels, path, compression):
+    """DDS with our own mip levels (ImageMagick's dds:mipmaps=fromlist)."""
+    tmp = path + ".levels"
+    os.makedirs(tmp, exist_ok=True)
+    args = [MAGICK, "-depth", "8"]
+    for i, lv in enumerate(levels):
+        f = os.path.join(tmp, "%d.rgba" % i)
+        open(f, "wb").write(np.clip(np.round(lv * 255.0), 0, 255).astype(np.uint8).tobytes())
+        args += ["-size", "%dx%d" % (lv.shape[1], lv.shape[0]), "rgba:" + f]
+    subprocess.run(args + ["-define", "dds:compression=" + compression, "-define", "dds:mipmaps=fromlist", path], check=True)
+    for i in range(len(levels)):
+        os.remove(os.path.join(tmp, "%d.rgba" % i))
+    os.rmdir(tmp)
+
+
 def features(px):
     s = px[:, 0] + px[:, 1] + px[:, 2] + 1e-3
     lum = 0.3 * px[:, 0] + 0.59 * px[:, 1] + 0.11 * px[:, 2]
@@ -142,17 +166,24 @@ def main():
         key = hashlib.sha1(np.round(m * 255).astype(np.uint8).tobytes()).hexdigest()
         if key not in masks:
             masks[key] = tset
-            write_dds(m, os.path.join(OUT, tset + "_masks.dds"), "dxt1")
+            write_dds_levels(pyramid(m), os.path.join(OUT, tset + "_masks.dds"), "dxt1")
         mask_of[tset] = masks[key]
-        # Divide by exactly what the shader multiplies by: the compressed mask as the game reads it,
-        # lerping from white to each group's colour in channel order. Compression errors then cancel.
-        dm = read_png(os.path.join(OUT, masks[key] + "_masks.dds") + "[0]")
-        col = np.ones(dif.shape[:2] + (3,), np.float32)
-        for k, ref in enumerate(refs):
-            col += (ref - col) * dm[..., k:k + 1]
-        new = dif.copy()
-        new[..., :3] = np.clip(dif[..., :3] / np.maximum(col, 1e-3), 0, 1)
-        write_dds(new, os.path.join(OUT, tset + "_diffuse.dds"), "dxt5")
+        # Divide by exactly what the shader multiplies by: the mask as the game reads it (compressed,
+        # for the full-size level), lerping from white to each group's colour in channel order.
+        # Done for every mip level separately (the original's mip / that mip's colour), because in
+        # portraits the game samples small mips: there, dividing the full size and averaging after
+        # left thin unmasked lines (painted zigzags) pale.
+        mlev = pyramid(m)
+        mlev[0] = read_png(os.path.join(OUT, masks[key] + "_masks.dds") + "[0]")
+        levels = []
+        for dl, ml in zip(pyramid(dif), mlev):
+            col = np.ones(dl.shape[:2] + (3,), np.float32)
+            for k, ref in enumerate(refs):
+                col += (ref - col) * ml[..., k:k + 1]
+            nl = dl.copy()
+            nl[..., :3] = np.clip(dl[..., :3] / np.maximum(col, 1e-3), 0, 1)
+            levels.append(nl)
+        write_dds_levels(levels, os.path.join(OUT, tset + "_diffuse.dds"), "dxt5")
         pal = np.ones((1, 16, 4), np.float32)
         for k, ref in enumerate(refs):
             pal[0, k * 4, :3] = ref
