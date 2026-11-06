@@ -1,0 +1,9 @@
+﻿# EK2 Loincloths: hide vanilla's fig leaf under our loincloths (vanilla definitions: gfx/portraits/accessories/clothes.txt)
+male_clothes_secular_western_nudity_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = male_clothes_secular_western_nudity_01_entity }
+}
+female_clothes_secular_western_nudity_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = female_clothes_secular_western_nudity_01_entity }
+}

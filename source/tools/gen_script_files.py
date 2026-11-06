@@ -91,8 +91,26 @@ def accessories():
                         order.append((c, s, k))
     for c, s, k in order:
         a = acc(s, c, k)
-        out.append("%s = {\n\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, a))
+        tags = '\tset_tags = "%s"\n' % LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else ""
+        out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, tags, a))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
+
+
+LOINCLOTH_TAG = "ek2lc_loincloth"
+
+
+def figleaf():
+    # The clothes gene's no_clothes template (which our wearers use) draws vanilla's fig leaf mesh in front of
+    # the hips; from the side it peeks out beside our loincloth. Redefine its two accessories with a first variant
+    # that draws nothing while one of our loincloths sets LOINCLOTH_TAG (the vanilla required_tags pattern,
+    # as on ccp4's khanty hood). The fallback entity is vanilla's, so nobody else changes.
+    # The "zz_" name sorts after vanilla's clothes.txt, so this definition is read last.
+    out = [BOM + "# EK2 Loincloths: hide vanilla's fig leaf under our loincloths (vanilla definitions: gfx/portraits/accessories/clothes.txt)"]
+    for sex in ("male", "female"):
+        a = "%s_clothes_secular_western_nudity_01" % sex
+        out.append("%s = {\n\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
+                   "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, a))
+    write("gfx/portraits/accessories/zz_ek2lc_figleaf.txt", "\n".join(out) + "\n")
 
 
 # ------------------------------------------------------------------ portrait modifiers (who wears what)
@@ -257,5 +275,6 @@ def barbershop():
 if __name__ == "__main__":
     genes()
     accessories()
+    figleaf()
     modifiers()
     barbershop()
