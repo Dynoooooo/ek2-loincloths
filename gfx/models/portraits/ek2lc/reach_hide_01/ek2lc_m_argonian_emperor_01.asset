@@ -6,6 +6,7 @@ pdxmesh = {
 	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_muscular"	type = "ek2lc_m_reach_king_01_bs_muscular.mesh" }
 	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_old"	type = "ek2lc_m_reach_king_01_bs_old.mesh" }
 	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_dwarf"	type = "ek2lc_m_reach_king_01_bs_dwarf.mesh" }
+	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_infant"	type = "ek2lc_m_reach_king_01_bs_infant.mesh" }
 	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_khajiit"	type = "ek2lc_m_reach_king_01_bs_khajiit.mesh" }
 	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_argdigi"	type = "ek2lc_m_reach_king_01_bs_argdigi.mesh" }
 	blend_shape = { id = "ek2lc_m_argonian_emperor_01_bs_khadigi"	type = "ek2lc_m_reach_king_01_bs_khadigi.mesh" }
@@ -29,6 +30,7 @@ entity = {
 	attribute = { name = "bs_body_muscular_1"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_muscular" }
 	attribute = { name = "bs_body_old_1"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_old" }
 	attribute = { name = "bs_body_dwarf_1"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_dwarf" }
+	attribute = { name = "bs_body_infant_1"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_infant" }
 	attribute = { name = "bs_khajiit_body"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_khajiit" }
 	attribute = { name = "argonian_digitigrade_bs"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_argdigi" }
 	attribute = { name = "khajiit_digitigrade_bs"	blend_shape = "ek2lc_m_argonian_emperor_01_bs_khadigi" }

@@ -48,6 +48,9 @@ if SEX == "female":
     SHAPE_DEFS += [("pregnant", "female_bs_body_pregnant_1.mesh", "bs_body_pregnant_1"),
                    ("breast_max", "female_bs_body_breast_size_max.mesh", "bs_body_breast_size_max"),
                    ("breast_min", "female_bs_body_breast_size_min.mesh", "bs_body_breast_size_min")]
+# Children: CK3's boy and girl bodies are these same meshes with the infant shape (plus shorter bones),
+# so this one shape makes every piece child-sized.
+SHAPE_DEFS += [("infant", "%s_bs_body_infant%s.mesh" % (SEX, "_1" if SEX == "female" else ""), "bs_body_infant_1")]
 # EK2's beast-race body shapes (read from EK2, never copied): the Khajiit body, and the digitigrade
 # legs of Argonians (all of them) and of Lilmothiit. A full path wins over BODY_DIR in os.path.join.
 EK2 = os.path.normpath(os.path.join(GAME, "../../../workshop/content/1158310/2887120253"))
@@ -254,8 +257,8 @@ SURF_QUADS += [[NB * 5 + a * SC + c, NB * 5 + a * SC + c + 1, NB * 5 + (a + 1) *
 
 def surface_parts(s):
     strip = [recon(b, s) for b in strip_bind]
-    if s == "khadigi":
-        # The Lilmothiit groin folds past a few barycentrically reconstructed strip points.
+    if s in ("khadigi", "infant", "dwarf"):
+        # The Lilmothiit groin (and, slightly, a child's and a dwarf's) folds past a few barycentrically reconstructed strip points.
         for i, p in enumerate(strip):
             loc, nor, fi, d = BVH[s].find_nearest(p)
             if (p - loc).dot(nor) < 0:
@@ -264,7 +267,7 @@ def surface_parts(s):
                 if (q - loc).dot(nor) < 0:
                     # A folded crease's normal can point into its opposite wall; clear it from below.
                     hit = BVH[s].ray_cast(p - UP * 5, UP, 10)[0]
-                    assert hit is not None, "Cannot clear the Lilmothiit groin fold"
+                    assert hit is not None, "Cannot clear the groin fold on shape " + s
                     q = hit - UP * 0.15
                 strip[i] = q
     return [recon(b, s) for b in belt_bind] + strip
@@ -1926,8 +1929,8 @@ def finish_piece(pc):
             worst = min(worst, sd)
             inside += sd < 0
         print("CLEARANCE %s %-10s inside=%d min=%.2f" % (name, s, inside, worst))
-        if name == NAME and s == "khadigi":
-            assert inside == 0, "Lilmothiit loincloth still penetrates the body"
+        if name == NAME and s in ("khadigi", "infant", "dwarf"):
+            assert inside == 0, "loincloth still penetrates the body on shape " + s
     return obj
 
 

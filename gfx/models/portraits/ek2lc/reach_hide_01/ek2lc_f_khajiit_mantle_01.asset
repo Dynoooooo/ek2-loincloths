@@ -9,6 +9,7 @@ pdxmesh = {
 	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_pregnant"	type = "ek2lc_f_reach_mantle_01_bs_pregnant.mesh" }
 	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_breast_max"	type = "ek2lc_f_reach_mantle_01_bs_breast_max.mesh" }
 	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_breast_min"	type = "ek2lc_f_reach_mantle_01_bs_breast_min.mesh" }
+	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_infant"	type = "ek2lc_f_reach_mantle_01_bs_infant.mesh" }
 	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_khajiit"	type = "ek2lc_f_reach_mantle_01_bs_khajiit.mesh" }
 	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_argdigi"	type = "ek2lc_f_reach_mantle_01_bs_argdigi.mesh" }
 	blend_shape = { id = "ek2lc_f_khajiit_mantle_01_bs_khadigi"	type = "ek2lc_f_reach_mantle_01_bs_khadigi.mesh" }
@@ -35,6 +36,7 @@ entity = {
 	attribute = { name = "bs_body_pregnant_1"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_pregnant" }
 	attribute = { name = "bs_body_breast_size_max"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_breast_max" }
 	attribute = { name = "bs_body_breast_size_min"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_breast_min" }
+	attribute = { name = "bs_body_infant_1"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_infant" }
 	attribute = { name = "bs_khajiit_body"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_khajiit" }
 	attribute = { name = "argonian_digitigrade_bs"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_argdigi" }
 	attribute = { name = "khajiit_digitigrade_bs"	blend_shape = "ek2lc_f_khajiit_mantle_01_bs_khadigi" }

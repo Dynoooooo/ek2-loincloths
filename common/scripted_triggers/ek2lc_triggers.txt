@@ -3,7 +3,7 @@
 # Adults in a war role while their realm is at war: knights, commanders, anyone in an army.
 ek2lc_war_role_trigger = {
 	exists = this
-	is_adult = yes
+	age >= 14  # brief: teens 14+ in war roles get the war and armoured looks
 	is_incapable = no
 	is_imprisoned = no
 	OR = {
@@ -28,8 +28,7 @@ ek2lc_armour_role_trigger = {
 
 # Rulers and their spouses (adults): their royal look follows the higher of their two top title tiers.
 ek2lc_royal_trigger = {
-	exists = this
-	is_adult = yes
+	exists = this  # child rulers too (brief); the modifiers leave out children under 4
 	OR = {
 		highest_held_title_tier >= tier_barony
 		primary_spouse ?= { highest_held_title_tier >= tier_barony }

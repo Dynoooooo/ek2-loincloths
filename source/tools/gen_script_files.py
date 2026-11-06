@@ -65,9 +65,9 @@ special_genes = {
 				index = %d
 				male = { 1 = %s }
 				female = { 1 = %s }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
-			}""" % (t, i, m, f))
+				boy = { 1 = %s }
+				girl = { 1 = %s }
+			}""" % (t, i, m, f, m, f))  # children: the same pieces (every piece has the infant shape)
         out.append("\t\t}")
     out.append("\t}\n}\n")
     write("common/genes/ek2lc_genes.txt", "\n".join(out))
@@ -105,17 +105,37 @@ def figleaf():
     # that draws nothing while one of our loincloths sets LOINCLOTH_TAG (the vanilla required_tags pattern,
     # as on ccp4's khanty hood). The fallback entity is vanilla's, so nobody else changes.
     # The "zz_" name sorts after vanilla's clothes.txt, so this definition is read last.
-    out = [BOM + "# EK2 Loincloths: hide vanilla's fig leaf under our loincloths (vanilla definitions: gfx/portraits/accessories/clothes.txt)"]
+    out = [BOM + "# EK2 Loincloths: under our loincloths, hide vanilla's fig leaf (adults) and bedchamber nightshirt (children).\n# Vanilla definitions: gfx/portraits/accessories/clothes.txt; the fallback lines are vanilla's own."]
     for sex in ("male", "female"):
         a = "%s_clothes_secular_western_nudity_01" % sex
         out.append("%s = {\n\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
+                   "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, a))
+    # For children (boy/girl) the same no_clothes template gives vanilla's bedchamber nightshirt instead, which
+    # would sit under our pieces. Same trick: nothing while our loincloth is worn (its strip covers the groin,
+    # the band covers girls). set_tags is per accessory, so vanilla's shrink tags stay;
+    # our modifiers switch the shrinking itself off (dna(unshrink=True)).
+    for sex in ("male", "female"):
+        a = "%s_clothes_situational_western_bedchamber_01_common" % sex
+        out.append("%s = {\n\tset_tags = \"shrink_arms,shrink_chest,shrink_belly\"\n"
+                   "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
                    "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, a))
     write("gfx/portraits/accessories/zz_ek2lc_figleaf.txt", "\n".join(out) + "\n")
 
 
 # ------------------------------------------------------------------ portrait modifiers (who wears what)
-def dna(pairs):
+def dna(pairs, unshrink=False):
     lines = ["\t\tdna_modifiers = {"]
+    if unshrink:
+        # Clothes accessories set shrink tags (children's nightshirt: arms, chest, belly) and EK2's
+        # special_shrink_body turns them into body shapes. Our wearers are bare under our pieces
+        # (the nightshirt is hidden, see figleaf()), so switch the shrinking off for them.
+        # (mode = add: special genes take no replace; our group is applied after EK2's, so this wins.)
+        lines.append("""			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}""")
     for gene, t in pairs:
         lines.append("""			accessory = {
 				mode = add
@@ -125,6 +145,10 @@ def dna(pairs):
 			}""" % (gene, t))
     lines.append("\t\t}")
     return "\n".join(lines)
+
+
+KIDS = "\t\t\t\tscope:age >= 4"   # under 4: vanilla's small-children clothes
+TEENS = "\t\t\t\tscope:age >= 14"  # war and armour looks (brief: teens 14+ in war roles)
 
 
 NUDE = """				NOR = {
@@ -156,7 +180,7 @@ def modifier(name, comment, pieces, mods):
         w.append(NUDE)
         w.append("\t\t\t}")
     w.append("\t\t}")
-    return "\t# %s\n\t%s = {\n%s\n%s\n\t}\n" % (comment, name, dna(pairs), "\n".join(w))
+    return "\t# %s\n\t%s = {\n%s\n%s\n\t}\n" % (comment, name, dna(pairs, unshrink=True), "\n".join(w))
 
 
 TIERS = [("county", "barony", "county", "fine", "fine", None, "county and below: the loincloth (and chest band) in finer dyed material"),
@@ -189,31 +213,31 @@ ek2lc_loincloth = {
           for s, sex, fem, people in SEXES:
             top = (lambda k: T(k)) if s == "f" else (lambda k: None)
             base = ["\t\t\t\tis_female = %s" % fem]
-            com = base + ["\t\t\t\tis_adult = yes", culture_cond(cd, True), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no"]
+            com = base + [KIDS, culture_cond(cd, True), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no"]
             if look != "hide":
                 pass
             elif s == "f" and cd.get("bare_f"):
-                out.append(modifier("ek2lc_%s_hide_f" % c, "Adult %s women who are commoners: the loincloth and the chest band; "
+                out.append(modifier("ek2lc_%s_hide_f" % c, "%s women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: "
                                     "while \"Show nudity\" is on, one in three goes bare-chested (next modifier)." % adj,
                                     (T("hide"), T("band"), None, None),
-                                    [(100, com + ["\t\t\t\tshould_show_nudity = no"]), (60, com + ["\t\t\t\tshould_show_nudity = yes"])]))
+                                    [(100, com + ["\t\t\t\tshould_show_nudity = no"]), (60, com + ["\t\t\t\tshould_show_nudity = yes"])]))  # girls: 60 here, 0 for bare
                 out.append(modifier("ek2lc_%s_hide_f_bare" % c, "Adult %s women who are commoners, bare-chested, only while \"Show nudity\" is on." % adj,
-                                    (T("hide"), None, None, None), [(30, com + ["\t\t\t\tshould_show_nudity = yes"])]))
+                                    (T("hide"), None, None, None), [(30, com + ["\t\t\t\tis_adult = yes", "\t\t\t\tshould_show_nudity = yes"])]))
             else:
-                out.append(modifier("ek2lc_%s_hide_%s" % (c, s), "Adult %s %s who are commoners%s. EK2's commoner rule already leaves out armour."
+                out.append(modifier("ek2lc_%s_hide_%s" % (c, s), "%s %s and children (4+) who are commoners%s. EK2's commoner rule already leaves out armour."
                                     % (adj, people, ": the loincloth and always the chest band" if s == "f" else ""),
                                     (T("hide"), top("band"), None, None), [(100, com)]))
             cul = culture_cond(cd, False)
             if look == "war":
-                out.append(modifier("ek2lc_%s_war_%s" % (c, s), "Adult %s %s in a war role while their realm is at war: the loincloth with the "
+                out.append(modifier("ek2lc_%s_war_%s" % (c, s), "%s %s (14+) in a war role while their realm is at war: the loincloth with the "
                                 "war girdle and trophies%s, instead of EK2's armour." % (adj, people, ", and always the chest band" if s == "f" else ""),
                                 (T("hide"), top("band"), T("war"), None),
-                                [(100, base + [cul, "\t\t\t\tek2lc_war_role_trigger = yes", "\t\t\t\tek2lc_armour_role_trigger = no"])]))
+                                [(100, base + [TEENS, cul, "\t\t\t\tek2lc_war_role_trigger = yes", "\t\t\t\tek2lc_armour_role_trigger = no"])]))
             if look == "armour":
-                out.append(modifier("ek2lc_%s_armour_%s" % (c, s), "Adult %s %s among the best fighters (knights, or prowess 12+) while their realm "
+                out.append(modifier("ek2lc_%s_armour_%s" % (c, s), "%s %s (14+) among the best fighters (knights, or prowess 12+) while their realm "
                                 "is at war: the loincloth with the war girdle and the strip skirt%s." % (adj, people, ", and always the chest band" if s == "f" else ""),
                                 (T("hide"), top("band"), T("armour"), None),
-                                [(100, base + [cul, "\t\t\t\tek2lc_armour_role_trigger = yes"])]))
+                                [(100, base + [TEENS, cul, "\t\t\t\tek2lc_armour_role_trigger = yes"])]))
         for tier, lo, hi, lk, bk, wk, desc in TIERS:
             for s, sex, fem, people in SEXES:
                 top = T("band" if bk == "hide" else "band_" + bk) if s == "f" else None
@@ -221,7 +245,7 @@ ek2lc_loincloth = {
                                     "%s %s, rulers and their spouses (higher of the two top title tiers), %s." % (adj, people, desc),
                                     (T(lk), top, T(wk) if wk else None, T("mantle") if tier == "emperor" else None),
                                     [('2  # against 1 for "no loincloth": two in three %s rulers wear it' % adj,
-                                      ["\t\t\t\tis_female = %s" % fem, cul, "\t\t\t\tek2lc_war_role_trigger = no",
+                                      ["\t\t\t\tis_female = %s" % fem, KIDS, cul, "\t\t\t\tek2lc_war_role_trigger = no",
                                        "\t\t\t\tek2lc_royal_tier_trigger = { LOW = %s HIGH = %s }" % (lo, hi)])]))
     out.append("}\n")
     write("gfx/portraits/portrait_modifiers/ek2lc_loincloths.txt", "\n".join(out))

@@ -18,190 +18,190 @@ special_genes = {
 				index = 1
 				male = { 1 = ek2lc_m_reach_hide_01 }
 				female = { 1 = ek2lc_f_reach_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_hide_01 }
+				girl = { 1 = ek2lc_f_reach_hide_01 }
 			}
 			ek2lc_reach_fine = {
 				index = 2
 				male = { 1 = ek2lc_m_reach_fine_01 }
 				female = { 1 = ek2lc_f_reach_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_fine_01 }
+				girl = { 1 = ek2lc_f_reach_fine_01 }
 			}
 			ek2lc_reach_royal = {
 				index = 3
 				male = { 1 = ek2lc_m_reach_royal_01 }
 				female = { 1 = ek2lc_f_reach_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_royal_01 }
+				girl = { 1 = ek2lc_f_reach_royal_01 }
 			}
 			ek2lc_ashlander_hide = {
 				index = 4
 				male = { 1 = ek2lc_m_ashlander_hide_01 }
 				female = { 1 = ek2lc_f_ashlander_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_hide_01 }
+				girl = { 1 = ek2lc_f_ashlander_hide_01 }
 			}
 			ek2lc_ashlander_fine = {
 				index = 5
 				male = { 1 = ek2lc_m_ashlander_fine_01 }
 				female = { 1 = ek2lc_f_ashlander_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_fine_01 }
+				girl = { 1 = ek2lc_f_ashlander_fine_01 }
 			}
 			ek2lc_ashlander_royal = {
 				index = 6
 				male = { 1 = ek2lc_m_ashlander_royal_01 }
 				female = { 1 = ek2lc_f_ashlander_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_royal_01 }
+				girl = { 1 = ek2lc_f_ashlander_royal_01 }
 			}
 			ek2lc_bosmer_hide = {
 				index = 7
 				male = { 1 = ek2lc_m_bosmer_hide_01 }
 				female = { 1 = ek2lc_f_bosmer_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_hide_01 }
+				girl = { 1 = ek2lc_f_bosmer_hide_01 }
 			}
 			ek2lc_bosmer_fine = {
 				index = 8
 				male = { 1 = ek2lc_m_bosmer_fine_01 }
 				female = { 1 = ek2lc_f_bosmer_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_fine_01 }
+				girl = { 1 = ek2lc_f_bosmer_fine_01 }
 			}
 			ek2lc_bosmer_royal = {
 				index = 9
 				male = { 1 = ek2lc_m_bosmer_royal_01 }
 				female = { 1 = ek2lc_f_bosmer_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_royal_01 }
+				girl = { 1 = ek2lc_f_bosmer_royal_01 }
 			}
 			ek2lc_argonian_hide = {
 				index = 10
 				male = { 1 = ek2lc_m_argonian_hide_01 }
 				female = { 1 = ek2lc_f_argonian_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_hide_01 }
+				girl = { 1 = ek2lc_f_argonian_hide_01 }
 			}
 			ek2lc_argonian_fine = {
 				index = 11
 				male = { 1 = ek2lc_m_argonian_fine_01 }
 				female = { 1 = ek2lc_f_argonian_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_fine_01 }
+				girl = { 1 = ek2lc_f_argonian_fine_01 }
 			}
 			ek2lc_argonian_royal = {
 				index = 12
 				male = { 1 = ek2lc_m_argonian_royal_01 }
 				female = { 1 = ek2lc_f_argonian_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_royal_01 }
+				girl = { 1 = ek2lc_f_argonian_royal_01 }
 			}
 			ek2lc_khajiit_hide = {
 				index = 13
 				male = { 1 = ek2lc_m_khajiit_hide_01 }
 				female = { 1 = ek2lc_f_khajiit_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_hide_01 }
+				girl = { 1 = ek2lc_f_khajiit_hide_01 }
 			}
 			ek2lc_khajiit_fine = {
 				index = 14
 				male = { 1 = ek2lc_m_khajiit_fine_01 }
 				female = { 1 = ek2lc_f_khajiit_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_fine_01 }
+				girl = { 1 = ek2lc_f_khajiit_fine_01 }
 			}
 			ek2lc_khajiit_royal = {
 				index = 15
 				male = { 1 = ek2lc_m_khajiit_royal_01 }
 				female = { 1 = ek2lc_f_khajiit_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_royal_01 }
+				girl = { 1 = ek2lc_f_khajiit_royal_01 }
 			}
 			ek2lc_orc_hide = {
 				index = 16
 				male = { 1 = ek2lc_m_orc_hide_01 }
 				female = { 1 = ek2lc_f_orc_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_hide_01 }
+				girl = { 1 = ek2lc_f_orc_hide_01 }
 			}
 			ek2lc_orc_fine = {
 				index = 17
 				male = { 1 = ek2lc_m_orc_fine_01 }
 				female = { 1 = ek2lc_f_orc_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_fine_01 }
+				girl = { 1 = ek2lc_f_orc_fine_01 }
 			}
 			ek2lc_orc_royal = {
 				index = 18
 				male = { 1 = ek2lc_m_orc_royal_01 }
 				female = { 1 = ek2lc_f_orc_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_royal_01 }
+				girl = { 1 = ek2lc_f_orc_royal_01 }
 			}
 			ek2lc_goblin_hide = {
 				index = 19
 				male = { 1 = ek2lc_m_goblin_hide_01 }
 				female = { 1 = ek2lc_f_goblin_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_hide_01 }
+				girl = { 1 = ek2lc_f_goblin_hide_01 }
 			}
 			ek2lc_goblin_fine = {
 				index = 20
 				male = { 1 = ek2lc_m_goblin_fine_01 }
 				female = { 1 = ek2lc_f_goblin_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_fine_01 }
+				girl = { 1 = ek2lc_f_goblin_fine_01 }
 			}
 			ek2lc_goblin_royal = {
 				index = 21
 				male = { 1 = ek2lc_m_goblin_royal_01 }
 				female = { 1 = ek2lc_f_goblin_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_royal_01 }
+				girl = { 1 = ek2lc_f_goblin_royal_01 }
 			}
 			ek2lc_kothringi_hide = {
 				index = 22
 				male = { 1 = ek2lc_m_kothringi_hide_01 }
 				female = { 1 = ek2lc_f_kothringi_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_hide_01 }
+				girl = { 1 = ek2lc_f_kothringi_hide_01 }
 			}
 			ek2lc_kothringi_fine = {
 				index = 23
 				male = { 1 = ek2lc_m_kothringi_fine_01 }
 				female = { 1 = ek2lc_f_kothringi_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_fine_01 }
+				girl = { 1 = ek2lc_f_kothringi_fine_01 }
 			}
 			ek2lc_kothringi_royal = {
 				index = 24
 				male = { 1 = ek2lc_m_kothringi_royal_01 }
 				female = { 1 = ek2lc_f_kothringi_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_royal_01 }
+				girl = { 1 = ek2lc_f_kothringi_royal_01 }
 			}
 			ek2lc_lilmothiit_hide = {
 				index = 25
 				male = { 1 = ek2lc_m_lilmothiit_hide_01 }
 				female = { 1 = ek2lc_f_lilmothiit_hide_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_hide_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_hide_01 }
 			}
 			ek2lc_lilmothiit_fine = {
 				index = 26
 				male = { 1 = ek2lc_m_lilmothiit_fine_01 }
 				female = { 1 = ek2lc_f_lilmothiit_fine_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_fine_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_fine_01 }
 			}
 			ek2lc_lilmothiit_royal = {
 				index = 27
 				male = { 1 = ek2lc_m_lilmothiit_royal_01 }
 				female = { 1 = ek2lc_f_lilmothiit_royal_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_royal_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_royal_01 }
 			}
 		}
 		gene_ek2lc_top = {
@@ -217,189 +217,189 @@ special_genes = {
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_reach_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_reach_band_01 }
 			}
 			ek2lc_reach_band_fine = {
 				index = 2
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_reach_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_reach_band_fine_01 }
 			}
 			ek2lc_reach_band_royal = {
 				index = 3
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_reach_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_reach_band_royal_01 }
 			}
 			ek2lc_ashlander_band = {
 				index = 4
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_ashlander_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_ashlander_band_01 }
 			}
 			ek2lc_ashlander_band_fine = {
 				index = 5
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_ashlander_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_ashlander_band_fine_01 }
 			}
 			ek2lc_ashlander_band_royal = {
 				index = 6
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_ashlander_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_ashlander_band_royal_01 }
 			}
 			ek2lc_bosmer_band = {
 				index = 7
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_bosmer_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_bosmer_band_01 }
 			}
 			ek2lc_bosmer_band_fine = {
 				index = 8
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_bosmer_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_bosmer_band_fine_01 }
 			}
 			ek2lc_bosmer_band_royal = {
 				index = 9
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_bosmer_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_bosmer_band_royal_01 }
 			}
 			ek2lc_argonian_band = {
 				index = 10
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_argonian_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_argonian_band_01 }
 			}
 			ek2lc_argonian_band_fine = {
 				index = 11
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_argonian_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_argonian_band_fine_01 }
 			}
 			ek2lc_argonian_band_royal = {
 				index = 12
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_argonian_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_argonian_band_royal_01 }
 			}
 			ek2lc_khajiit_band = {
 				index = 13
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_khajiit_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_khajiit_band_01 }
 			}
 			ek2lc_khajiit_band_fine = {
 				index = 14
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_khajiit_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_khajiit_band_fine_01 }
 			}
 			ek2lc_khajiit_band_royal = {
 				index = 15
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_khajiit_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_khajiit_band_royal_01 }
 			}
 			ek2lc_orc_band = {
 				index = 16
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_orc_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_orc_band_01 }
 			}
 			ek2lc_orc_band_fine = {
 				index = 17
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_orc_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_orc_band_fine_01 }
 			}
 			ek2lc_orc_band_royal = {
 				index = 18
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_orc_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_orc_band_royal_01 }
 			}
 			ek2lc_goblin_band = {
 				index = 19
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_goblin_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_goblin_band_01 }
 			}
 			ek2lc_goblin_band_fine = {
 				index = 20
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_goblin_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_goblin_band_fine_01 }
 			}
 			ek2lc_goblin_band_royal = {
 				index = 21
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_goblin_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_goblin_band_royal_01 }
 			}
 			ek2lc_kothringi_band = {
 				index = 22
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_kothringi_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_kothringi_band_01 }
 			}
 			ek2lc_kothringi_band_fine = {
 				index = 23
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_kothringi_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_kothringi_band_fine_01 }
 			}
 			ek2lc_kothringi_band_royal = {
 				index = 24
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_kothringi_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_kothringi_band_royal_01 }
 			}
 			ek2lc_lilmothiit_band = {
 				index = 25
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_lilmothiit_band_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_lilmothiit_band_01 }
 			}
 			ek2lc_lilmothiit_band_fine = {
 				index = 26
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_lilmothiit_band_fine_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_lilmothiit_band_fine_01 }
 			}
 			ek2lc_lilmothiit_band_royal = {
 				index = 27
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_lilmothiit_band_royal_01 }
 				boy = { 1 = empty }
-				girl = { 1 = empty }
+				girl = { 1 = ek2lc_f_lilmothiit_band_royal_01 }
 			}
 		}
 		gene_ek2lc_war = {
@@ -414,316 +414,316 @@ special_genes = {
 				index = 1
 				male = { 1 = ek2lc_m_reach_war_01 }
 				female = { 1 = ek2lc_f_reach_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_war_01 }
+				girl = { 1 = ek2lc_f_reach_war_01 }
 			}
 			ek2lc_reach_armour = {
 				index = 2
 				male = { 1 = ek2lc_m_reach_armour_01 }
 				female = { 1 = ek2lc_f_reach_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_armour_01 }
+				girl = { 1 = ek2lc_f_reach_armour_01 }
 			}
 			ek2lc_reach_duke = {
 				index = 3
 				male = { 1 = ek2lc_m_reach_duke_01 }
 				female = { 1 = ek2lc_f_reach_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_duke_01 }
+				girl = { 1 = ek2lc_f_reach_duke_01 }
 			}
 			ek2lc_reach_king = {
 				index = 4
 				male = { 1 = ek2lc_m_reach_king_01 }
 				female = { 1 = ek2lc_f_reach_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_king_01 }
+				girl = { 1 = ek2lc_f_reach_king_01 }
 			}
 			ek2lc_reach_emperor = {
 				index = 5
 				male = { 1 = ek2lc_m_reach_emperor_01 }
 				female = { 1 = ek2lc_f_reach_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_emperor_01 }
+				girl = { 1 = ek2lc_f_reach_emperor_01 }
 			}
 			ek2lc_ashlander_war = {
 				index = 6
 				male = { 1 = ek2lc_m_ashlander_war_01 }
 				female = { 1 = ek2lc_f_ashlander_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_war_01 }
+				girl = { 1 = ek2lc_f_ashlander_war_01 }
 			}
 			ek2lc_ashlander_armour = {
 				index = 7
 				male = { 1 = ek2lc_m_ashlander_armour_01 }
 				female = { 1 = ek2lc_f_ashlander_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_armour_01 }
+				girl = { 1 = ek2lc_f_ashlander_armour_01 }
 			}
 			ek2lc_ashlander_duke = {
 				index = 8
 				male = { 1 = ek2lc_m_ashlander_duke_01 }
 				female = { 1 = ek2lc_f_ashlander_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_duke_01 }
+				girl = { 1 = ek2lc_f_ashlander_duke_01 }
 			}
 			ek2lc_ashlander_king = {
 				index = 9
 				male = { 1 = ek2lc_m_ashlander_king_01 }
 				female = { 1 = ek2lc_f_ashlander_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_king_01 }
+				girl = { 1 = ek2lc_f_ashlander_king_01 }
 			}
 			ek2lc_ashlander_emperor = {
 				index = 10
 				male = { 1 = ek2lc_m_ashlander_emperor_01 }
 				female = { 1 = ek2lc_f_ashlander_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_emperor_01 }
+				girl = { 1 = ek2lc_f_ashlander_emperor_01 }
 			}
 			ek2lc_bosmer_war = {
 				index = 11
 				male = { 1 = ek2lc_m_bosmer_war_01 }
 				female = { 1 = ek2lc_f_bosmer_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_war_01 }
+				girl = { 1 = ek2lc_f_bosmer_war_01 }
 			}
 			ek2lc_bosmer_armour = {
 				index = 12
 				male = { 1 = ek2lc_m_bosmer_armour_01 }
 				female = { 1 = ek2lc_f_bosmer_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_armour_01 }
+				girl = { 1 = ek2lc_f_bosmer_armour_01 }
 			}
 			ek2lc_bosmer_duke = {
 				index = 13
 				male = { 1 = ek2lc_m_bosmer_duke_01 }
 				female = { 1 = ek2lc_f_bosmer_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_duke_01 }
+				girl = { 1 = ek2lc_f_bosmer_duke_01 }
 			}
 			ek2lc_bosmer_king = {
 				index = 14
 				male = { 1 = ek2lc_m_bosmer_king_01 }
 				female = { 1 = ek2lc_f_bosmer_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_king_01 }
+				girl = { 1 = ek2lc_f_bosmer_king_01 }
 			}
 			ek2lc_bosmer_emperor = {
 				index = 15
 				male = { 1 = ek2lc_m_bosmer_emperor_01 }
 				female = { 1 = ek2lc_f_bosmer_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_emperor_01 }
+				girl = { 1 = ek2lc_f_bosmer_emperor_01 }
 			}
 			ek2lc_argonian_war = {
 				index = 16
 				male = { 1 = ek2lc_m_argonian_war_01 }
 				female = { 1 = ek2lc_f_argonian_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_war_01 }
+				girl = { 1 = ek2lc_f_argonian_war_01 }
 			}
 			ek2lc_argonian_armour = {
 				index = 17
 				male = { 1 = ek2lc_m_argonian_armour_01 }
 				female = { 1 = ek2lc_f_argonian_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_armour_01 }
+				girl = { 1 = ek2lc_f_argonian_armour_01 }
 			}
 			ek2lc_argonian_duke = {
 				index = 18
 				male = { 1 = ek2lc_m_argonian_duke_01 }
 				female = { 1 = ek2lc_f_argonian_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_duke_01 }
+				girl = { 1 = ek2lc_f_argonian_duke_01 }
 			}
 			ek2lc_argonian_king = {
 				index = 19
 				male = { 1 = ek2lc_m_argonian_king_01 }
 				female = { 1 = ek2lc_f_argonian_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_king_01 }
+				girl = { 1 = ek2lc_f_argonian_king_01 }
 			}
 			ek2lc_argonian_emperor = {
 				index = 20
 				male = { 1 = ek2lc_m_argonian_emperor_01 }
 				female = { 1 = ek2lc_f_argonian_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_emperor_01 }
+				girl = { 1 = ek2lc_f_argonian_emperor_01 }
 			}
 			ek2lc_khajiit_war = {
 				index = 21
 				male = { 1 = ek2lc_m_khajiit_war_01 }
 				female = { 1 = ek2lc_f_khajiit_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_war_01 }
+				girl = { 1 = ek2lc_f_khajiit_war_01 }
 			}
 			ek2lc_khajiit_armour = {
 				index = 22
 				male = { 1 = ek2lc_m_khajiit_armour_01 }
 				female = { 1 = ek2lc_f_khajiit_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_armour_01 }
+				girl = { 1 = ek2lc_f_khajiit_armour_01 }
 			}
 			ek2lc_khajiit_duke = {
 				index = 23
 				male = { 1 = ek2lc_m_khajiit_duke_01 }
 				female = { 1 = ek2lc_f_khajiit_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_duke_01 }
+				girl = { 1 = ek2lc_f_khajiit_duke_01 }
 			}
 			ek2lc_khajiit_king = {
 				index = 24
 				male = { 1 = ek2lc_m_khajiit_king_01 }
 				female = { 1 = ek2lc_f_khajiit_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_king_01 }
+				girl = { 1 = ek2lc_f_khajiit_king_01 }
 			}
 			ek2lc_khajiit_emperor = {
 				index = 25
 				male = { 1 = ek2lc_m_khajiit_emperor_01 }
 				female = { 1 = ek2lc_f_khajiit_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_emperor_01 }
+				girl = { 1 = ek2lc_f_khajiit_emperor_01 }
 			}
 			ek2lc_orc_war = {
 				index = 26
 				male = { 1 = ek2lc_m_orc_war_01 }
 				female = { 1 = ek2lc_f_orc_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_war_01 }
+				girl = { 1 = ek2lc_f_orc_war_01 }
 			}
 			ek2lc_orc_armour = {
 				index = 27
 				male = { 1 = ek2lc_m_orc_armour_01 }
 				female = { 1 = ek2lc_f_orc_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_armour_01 }
+				girl = { 1 = ek2lc_f_orc_armour_01 }
 			}
 			ek2lc_orc_duke = {
 				index = 28
 				male = { 1 = ek2lc_m_orc_duke_01 }
 				female = { 1 = ek2lc_f_orc_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_duke_01 }
+				girl = { 1 = ek2lc_f_orc_duke_01 }
 			}
 			ek2lc_orc_king = {
 				index = 29
 				male = { 1 = ek2lc_m_orc_king_01 }
 				female = { 1 = ek2lc_f_orc_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_king_01 }
+				girl = { 1 = ek2lc_f_orc_king_01 }
 			}
 			ek2lc_orc_emperor = {
 				index = 30
 				male = { 1 = ek2lc_m_orc_emperor_01 }
 				female = { 1 = ek2lc_f_orc_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_emperor_01 }
+				girl = { 1 = ek2lc_f_orc_emperor_01 }
 			}
 			ek2lc_goblin_war = {
 				index = 31
 				male = { 1 = ek2lc_m_goblin_war_01 }
 				female = { 1 = ek2lc_f_goblin_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_war_01 }
+				girl = { 1 = ek2lc_f_goblin_war_01 }
 			}
 			ek2lc_goblin_armour = {
 				index = 32
 				male = { 1 = ek2lc_m_goblin_armour_01 }
 				female = { 1 = ek2lc_f_goblin_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_armour_01 }
+				girl = { 1 = ek2lc_f_goblin_armour_01 }
 			}
 			ek2lc_goblin_duke = {
 				index = 33
 				male = { 1 = ek2lc_m_goblin_duke_01 }
 				female = { 1 = ek2lc_f_goblin_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_duke_01 }
+				girl = { 1 = ek2lc_f_goblin_duke_01 }
 			}
 			ek2lc_goblin_king = {
 				index = 34
 				male = { 1 = ek2lc_m_goblin_king_01 }
 				female = { 1 = ek2lc_f_goblin_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_king_01 }
+				girl = { 1 = ek2lc_f_goblin_king_01 }
 			}
 			ek2lc_goblin_emperor = {
 				index = 35
 				male = { 1 = ek2lc_m_goblin_emperor_01 }
 				female = { 1 = ek2lc_f_goblin_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_emperor_01 }
+				girl = { 1 = ek2lc_f_goblin_emperor_01 }
 			}
 			ek2lc_kothringi_war = {
 				index = 36
 				male = { 1 = ek2lc_m_kothringi_war_01 }
 				female = { 1 = ek2lc_f_kothringi_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_war_01 }
+				girl = { 1 = ek2lc_f_kothringi_war_01 }
 			}
 			ek2lc_kothringi_armour = {
 				index = 37
 				male = { 1 = ek2lc_m_kothringi_armour_01 }
 				female = { 1 = ek2lc_f_kothringi_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_armour_01 }
+				girl = { 1 = ek2lc_f_kothringi_armour_01 }
 			}
 			ek2lc_kothringi_duke = {
 				index = 38
 				male = { 1 = ek2lc_m_kothringi_duke_01 }
 				female = { 1 = ek2lc_f_kothringi_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_duke_01 }
+				girl = { 1 = ek2lc_f_kothringi_duke_01 }
 			}
 			ek2lc_kothringi_king = {
 				index = 39
 				male = { 1 = ek2lc_m_kothringi_king_01 }
 				female = { 1 = ek2lc_f_kothringi_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_king_01 }
+				girl = { 1 = ek2lc_f_kothringi_king_01 }
 			}
 			ek2lc_kothringi_emperor = {
 				index = 40
 				male = { 1 = ek2lc_m_kothringi_emperor_01 }
 				female = { 1 = ek2lc_f_kothringi_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_emperor_01 }
+				girl = { 1 = ek2lc_f_kothringi_emperor_01 }
 			}
 			ek2lc_lilmothiit_war = {
 				index = 41
 				male = { 1 = ek2lc_m_lilmothiit_war_01 }
 				female = { 1 = ek2lc_f_lilmothiit_war_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_war_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_war_01 }
 			}
 			ek2lc_lilmothiit_armour = {
 				index = 42
 				male = { 1 = ek2lc_m_lilmothiit_armour_01 }
 				female = { 1 = ek2lc_f_lilmothiit_armour_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_armour_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_armour_01 }
 			}
 			ek2lc_lilmothiit_duke = {
 				index = 43
 				male = { 1 = ek2lc_m_lilmothiit_duke_01 }
 				female = { 1 = ek2lc_f_lilmothiit_duke_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_duke_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_duke_01 }
 			}
 			ek2lc_lilmothiit_king = {
 				index = 44
 				male = { 1 = ek2lc_m_lilmothiit_king_01 }
 				female = { 1 = ek2lc_f_lilmothiit_king_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_king_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_king_01 }
 			}
 			ek2lc_lilmothiit_emperor = {
 				index = 45
 				male = { 1 = ek2lc_m_lilmothiit_emperor_01 }
 				female = { 1 = ek2lc_f_lilmothiit_emperor_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_emperor_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_emperor_01 }
 			}
 		}
 		gene_ek2lc_mantle = {
@@ -738,64 +738,64 @@ special_genes = {
 				index = 1
 				male = { 1 = ek2lc_m_reach_mantle_01 }
 				female = { 1 = ek2lc_f_reach_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_reach_mantle_01 }
+				girl = { 1 = ek2lc_f_reach_mantle_01 }
 			}
 			ek2lc_ashlander_mantle = {
 				index = 2
 				male = { 1 = ek2lc_m_ashlander_mantle_01 }
 				female = { 1 = ek2lc_f_ashlander_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_ashlander_mantle_01 }
+				girl = { 1 = ek2lc_f_ashlander_mantle_01 }
 			}
 			ek2lc_bosmer_mantle = {
 				index = 3
 				male = { 1 = ek2lc_m_bosmer_mantle_01 }
 				female = { 1 = ek2lc_f_bosmer_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_bosmer_mantle_01 }
+				girl = { 1 = ek2lc_f_bosmer_mantle_01 }
 			}
 			ek2lc_argonian_mantle = {
 				index = 4
 				male = { 1 = ek2lc_m_argonian_mantle_01 }
 				female = { 1 = ek2lc_f_argonian_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_argonian_mantle_01 }
+				girl = { 1 = ek2lc_f_argonian_mantle_01 }
 			}
 			ek2lc_khajiit_mantle = {
 				index = 5
 				male = { 1 = ek2lc_m_khajiit_mantle_01 }
 				female = { 1 = ek2lc_f_khajiit_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_khajiit_mantle_01 }
+				girl = { 1 = ek2lc_f_khajiit_mantle_01 }
 			}
 			ek2lc_orc_mantle = {
 				index = 6
 				male = { 1 = ek2lc_m_orc_mantle_01 }
 				female = { 1 = ek2lc_f_orc_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_orc_mantle_01 }
+				girl = { 1 = ek2lc_f_orc_mantle_01 }
 			}
 			ek2lc_goblin_mantle = {
 				index = 7
 				male = { 1 = ek2lc_m_goblin_mantle_01 }
 				female = { 1 = ek2lc_f_goblin_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_goblin_mantle_01 }
+				girl = { 1 = ek2lc_f_goblin_mantle_01 }
 			}
 			ek2lc_kothringi_mantle = {
 				index = 8
 				male = { 1 = ek2lc_m_kothringi_mantle_01 }
 				female = { 1 = ek2lc_f_kothringi_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_kothringi_mantle_01 }
+				girl = { 1 = ek2lc_f_kothringi_mantle_01 }
 			}
 			ek2lc_lilmothiit_mantle = {
 				index = 9
 				male = { 1 = ek2lc_m_lilmothiit_mantle_01 }
 				female = { 1 = ek2lc_f_lilmothiit_mantle_01 }
-				boy = { 1 = empty }
-				girl = { 1 = empty }
+				boy = { 1 = ek2lc_m_lilmothiit_mantle_01 }
+				girl = { 1 = ek2lc_f_lilmothiit_mantle_01 }
 			}
 		}
 	}

@@ -39,9 +39,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach men who are commoners. EK2's commoner rule already leaves out armour.
+	# Reach men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_reach_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -90,7 +96,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
@@ -104,9 +110,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Reach women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_reach_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -155,7 +167,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
@@ -169,9 +181,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Reach men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_reach_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -220,6 +238,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -231,9 +250,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Reach women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_reach_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -282,6 +307,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -293,9 +319,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Reach men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_reach_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -344,6 +376,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -354,9 +387,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Reach women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_reach_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -405,6 +444,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -418,6 +458,12 @@ ek2lc_loincloth = {
 	# Reach men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_reach_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -466,6 +512,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -480,6 +527,12 @@ ek2lc_loincloth = {
 	# Reach women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_reach_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -528,6 +581,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -542,6 +596,12 @@ ek2lc_loincloth = {
 	# Reach men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_reach_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -590,6 +650,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -604,6 +665,12 @@ ek2lc_loincloth = {
 	# Reach women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_reach_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -652,6 +719,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -666,6 +734,12 @@ ek2lc_loincloth = {
 	# Reach men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_reach_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -714,6 +788,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -728,6 +803,12 @@ ek2lc_loincloth = {
 	# Reach women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_reach_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -776,6 +857,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -790,6 +872,12 @@ ek2lc_loincloth = {
 	# Reach men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_reach_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -838,6 +926,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -852,6 +941,12 @@ ek2lc_loincloth = {
 	# Reach women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_reach_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -900,6 +995,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -911,9 +1007,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Ashlander men who are commoners. EK2's commoner rule already leaves out armour.
+	# Ashlander men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_ashlander_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -962,7 +1064,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_ashlander
 				}
@@ -976,9 +1078,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Ashlander women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Ashlander women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_ashlander_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1027,7 +1135,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_ashlander
 				}
@@ -1041,9 +1149,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Ashlander men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Ashlander men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_ashlander_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1092,6 +1206,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -1103,9 +1218,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Ashlander women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Ashlander women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_ashlander_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1154,6 +1275,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -1165,9 +1287,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Ashlander men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Ashlander men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_ashlander_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1216,6 +1344,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -1226,9 +1355,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Ashlander women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Ashlander women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_ashlander_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1277,6 +1412,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -1290,6 +1426,12 @@ ek2lc_loincloth = {
 	# Ashlander men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_ashlander_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1338,6 +1480,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -1352,6 +1495,12 @@ ek2lc_loincloth = {
 	# Ashlander women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_ashlander_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1400,6 +1549,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -1414,6 +1564,12 @@ ek2lc_loincloth = {
 	# Ashlander men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_ashlander_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1462,6 +1618,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -1476,6 +1633,12 @@ ek2lc_loincloth = {
 	# Ashlander women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_ashlander_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1524,6 +1687,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -1538,6 +1702,12 @@ ek2lc_loincloth = {
 	# Ashlander men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_ashlander_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1586,6 +1756,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -1600,6 +1771,12 @@ ek2lc_loincloth = {
 	# Ashlander women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_ashlander_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1648,6 +1825,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -1662,6 +1840,12 @@ ek2lc_loincloth = {
 	# Ashlander men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_ashlander_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1710,6 +1894,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -1724,6 +1909,12 @@ ek2lc_loincloth = {
 	# Ashlander women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_ashlander_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1772,6 +1963,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_ashlander_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -1783,9 +1975,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Bosmer men who are commoners. EK2's commoner rule already leaves out armour.
+	# Bosmer men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_bosmer_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1834,7 +2032,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_bosmeri
 				}
@@ -1848,9 +2046,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Bosmer women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Bosmer women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_bosmer_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1899,7 +2103,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_bosmeri
 				}
@@ -1913,9 +2117,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Bosmer men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Bosmer men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_bosmer_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -1964,6 +2174,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -1975,9 +2186,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Bosmer women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Bosmer women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_bosmer_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2026,6 +2243,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -2037,9 +2255,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Bosmer men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Bosmer men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_bosmer_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2088,6 +2312,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -2098,9 +2323,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Bosmer women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Bosmer women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_bosmer_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2149,6 +2380,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -2162,6 +2394,12 @@ ek2lc_loincloth = {
 	# Bosmer men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_bosmer_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2210,6 +2448,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -2224,6 +2463,12 @@ ek2lc_loincloth = {
 	# Bosmer women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_bosmer_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2272,6 +2517,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -2286,6 +2532,12 @@ ek2lc_loincloth = {
 	# Bosmer men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_bosmer_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2334,6 +2586,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -2348,6 +2601,12 @@ ek2lc_loincloth = {
 	# Bosmer women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_bosmer_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2396,6 +2655,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -2410,6 +2670,12 @@ ek2lc_loincloth = {
 	# Bosmer men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_bosmer_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2458,6 +2724,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -2472,6 +2739,12 @@ ek2lc_loincloth = {
 	# Bosmer women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_bosmer_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2520,6 +2793,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -2534,6 +2808,12 @@ ek2lc_loincloth = {
 	# Bosmer men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_bosmer_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2582,6 +2862,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -2596,6 +2877,12 @@ ek2lc_loincloth = {
 	# Bosmer women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_bosmer_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2644,6 +2931,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_bosmeri_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -2655,9 +2943,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Argonian men who are commoners. EK2's commoner rule already leaves out armour.
+	# Argonian men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_argonian_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2706,7 +3000,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -2720,9 +3014,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Argonian women who are commoners: the loincloth and the chest band; while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	# Argonian women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
 	ek2lc_argonian_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2771,7 +3071,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -2786,7 +3086,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -2804,6 +3104,12 @@ ek2lc_loincloth = {
 	# Adult Argonian women who are commoners, bare-chested, only while "Show nudity" is on.
 	ek2lc_argonian_hide_f_bare = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2852,12 +3158,13 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
+				is_adult = yes
 				should_show_nudity = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -2867,9 +3174,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Argonian men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Argonian men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_argonian_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2918,6 +3231,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -2929,9 +3243,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Argonian women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Argonian women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_argonian_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -2980,6 +3300,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -2991,9 +3312,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Argonian men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Argonian men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_argonian_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3042,6 +3369,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -3052,9 +3380,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Argonian women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Argonian women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_argonian_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3103,6 +3437,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -3116,6 +3451,12 @@ ek2lc_loincloth = {
 	# Argonian men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_argonian_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3164,6 +3505,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -3178,6 +3520,12 @@ ek2lc_loincloth = {
 	# Argonian women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_argonian_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3226,6 +3574,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -3240,6 +3589,12 @@ ek2lc_loincloth = {
 	# Argonian men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_argonian_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3288,6 +3643,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -3302,6 +3658,12 @@ ek2lc_loincloth = {
 	# Argonian women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_argonian_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3350,6 +3712,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -3364,6 +3727,12 @@ ek2lc_loincloth = {
 	# Argonian men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_argonian_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3412,6 +3781,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -3426,6 +3796,12 @@ ek2lc_loincloth = {
 	# Argonian women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_argonian_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3474,6 +3850,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -3488,6 +3865,12 @@ ek2lc_loincloth = {
 	# Argonian men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_argonian_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3536,6 +3919,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -3550,6 +3934,12 @@ ek2lc_loincloth = {
 	# Argonian women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_argonian_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3598,6 +3988,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_argonian_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -3609,9 +4000,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Khajiiti men who are commoners. EK2's commoner rule already leaves out armour.
+	# Khajiiti men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_khajiit_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3660,7 +4057,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				OR = {
 					portrait_commoner_clothing_trigger = {
 						CULTURE_INPUT = ek_anequinan
@@ -3679,9 +4076,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Khajiiti women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Khajiiti women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_khajiit_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3730,7 +4133,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				OR = {
 					portrait_commoner_clothing_trigger = {
 						CULTURE_INPUT = ek_anequinan
@@ -3749,9 +4152,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Khajiiti men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Khajiiti men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_khajiit_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3800,6 +4209,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -3814,9 +4224,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Khajiiti women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Khajiiti women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_khajiit_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3865,6 +4281,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -3879,9 +4296,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Khajiiti men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Khajiiti men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_khajiit_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3930,6 +4353,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -3943,9 +4367,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Khajiiti women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Khajiiti women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_khajiit_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -3994,6 +4424,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4010,6 +4441,12 @@ ek2lc_loincloth = {
 	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_khajiit_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4058,6 +4495,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = no
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4075,6 +4513,12 @@ ek2lc_loincloth = {
 	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_khajiit_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4123,6 +4567,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = yes
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4140,6 +4585,12 @@ ek2lc_loincloth = {
 	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_khajiit_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4188,6 +4639,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = no
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4205,6 +4657,12 @@ ek2lc_loincloth = {
 	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_khajiit_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4253,6 +4711,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = yes
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4270,6 +4729,12 @@ ek2lc_loincloth = {
 	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_khajiit_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4318,6 +4783,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = no
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4335,6 +4801,12 @@ ek2lc_loincloth = {
 	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_khajiit_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4383,6 +4855,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = yes
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4400,6 +4873,12 @@ ek2lc_loincloth = {
 	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_khajiit_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4448,6 +4927,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = no
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4465,6 +4945,12 @@ ek2lc_loincloth = {
 	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_khajiit_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4513,6 +4999,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
 				is_female = yes
+				scope:age >= 4
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
@@ -4527,9 +5014,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Orcish men who are commoners. EK2's commoner rule already leaves out armour.
+	# Orcish men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_orc_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4578,7 +5071,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_orc
 				}
@@ -4592,9 +5085,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Orcish women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Orcish women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_orc_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4643,7 +5142,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_orc
 				}
@@ -4657,9 +5156,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Orcish men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Orcish men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_orc_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4708,6 +5213,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -4719,9 +5225,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Orcish women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Orcish women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_orc_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4770,6 +5282,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -4781,9 +5294,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Orcish men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Orcish men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_orc_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4832,6 +5351,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -4842,9 +5362,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Orcish women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Orcish women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_orc_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4893,6 +5419,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -4906,6 +5433,12 @@ ek2lc_loincloth = {
 	# Orcish men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_orc_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -4954,6 +5487,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -4968,6 +5502,12 @@ ek2lc_loincloth = {
 	# Orcish women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_orc_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5016,6 +5556,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -5030,6 +5571,12 @@ ek2lc_loincloth = {
 	# Orcish men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_orc_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5078,6 +5625,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -5092,6 +5640,12 @@ ek2lc_loincloth = {
 	# Orcish women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_orc_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5140,6 +5694,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -5154,6 +5709,12 @@ ek2lc_loincloth = {
 	# Orcish men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_orc_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5202,6 +5763,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -5216,6 +5778,12 @@ ek2lc_loincloth = {
 	# Orcish women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_orc_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5264,6 +5832,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -5278,6 +5847,12 @@ ek2lc_loincloth = {
 	# Orcish men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_orc_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5326,6 +5901,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -5340,6 +5916,12 @@ ek2lc_loincloth = {
 	# Orcish women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_orc_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5388,6 +5970,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Orcish rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_orc_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -5399,9 +5982,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Goblin men who are commoners. EK2's commoner rule already leaves out armour.
+	# Goblin men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_goblin_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5450,7 +6039,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_goblin
 				}
@@ -5464,9 +6053,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Goblin women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Goblin women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_goblin_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5515,7 +6110,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_goblin
 				}
@@ -5529,9 +6124,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Goblin men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Goblin men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_goblin_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5580,6 +6181,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -5591,9 +6193,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Goblin women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Goblin women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_goblin_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5642,6 +6250,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -5653,9 +6262,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Goblin men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Goblin men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_goblin_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5704,6 +6319,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -5714,9 +6330,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Goblin women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Goblin women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_goblin_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5765,6 +6387,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -5778,6 +6401,12 @@ ek2lc_loincloth = {
 	# Goblin men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_goblin_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5826,6 +6455,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -5840,6 +6470,12 @@ ek2lc_loincloth = {
 	# Goblin women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_goblin_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5888,6 +6524,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -5902,6 +6539,12 @@ ek2lc_loincloth = {
 	# Goblin men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_goblin_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -5950,6 +6593,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -5964,6 +6608,12 @@ ek2lc_loincloth = {
 	# Goblin women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_goblin_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6012,6 +6662,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -6026,6 +6677,12 @@ ek2lc_loincloth = {
 	# Goblin men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_goblin_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6074,6 +6731,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -6088,6 +6746,12 @@ ek2lc_loincloth = {
 	# Goblin women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_goblin_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6136,6 +6800,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -6150,6 +6815,12 @@ ek2lc_loincloth = {
 	# Goblin men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_goblin_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6198,6 +6869,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -6212,6 +6884,12 @@ ek2lc_loincloth = {
 	# Goblin women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_goblin_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6260,6 +6938,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Goblin rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_goblin_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -6271,9 +6950,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Kothringi men who are commoners. EK2's commoner rule already leaves out armour.
+	# Kothringi men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_kothringi_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6322,7 +7007,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -6336,9 +7021,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Kothringi women who are commoners: the loincloth and the chest band; while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	# Kothringi women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
 	ek2lc_kothringi_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6387,7 +7078,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -6402,7 +7093,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -6420,6 +7111,12 @@ ek2lc_loincloth = {
 	# Adult Kothringi women who are commoners, bare-chested, only while "Show nudity" is on.
 	ek2lc_kothringi_hide_f_bare = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6468,12 +7165,13 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
+				is_adult = yes
 				should_show_nudity = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -6483,9 +7181,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Kothringi men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Kothringi men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_kothringi_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6534,6 +7238,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -6545,9 +7250,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Kothringi women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Kothringi women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_kothringi_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6596,6 +7307,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -6607,9 +7319,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Kothringi men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Kothringi men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_kothringi_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6658,6 +7376,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -6668,9 +7387,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Kothringi women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Kothringi women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_kothringi_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6719,6 +7444,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -6732,6 +7458,12 @@ ek2lc_loincloth = {
 	# Kothringi men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_kothringi_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6780,6 +7512,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -6794,6 +7527,12 @@ ek2lc_loincloth = {
 	# Kothringi women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_kothringi_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6842,6 +7581,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -6856,6 +7596,12 @@ ek2lc_loincloth = {
 	# Kothringi men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_kothringi_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6904,6 +7650,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -6918,6 +7665,12 @@ ek2lc_loincloth = {
 	# Kothringi women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_kothringi_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -6966,6 +7719,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -6980,6 +7734,12 @@ ek2lc_loincloth = {
 	# Kothringi men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_kothringi_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7028,6 +7788,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -7042,6 +7803,12 @@ ek2lc_loincloth = {
 	# Kothringi women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_kothringi_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7090,6 +7857,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -7104,6 +7872,12 @@ ek2lc_loincloth = {
 	# Kothringi men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_kothringi_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7152,6 +7926,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -7166,6 +7941,12 @@ ek2lc_loincloth = {
 	# Kothringi women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_kothringi_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7214,6 +7995,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Kothringi rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_nedic_south_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -7225,9 +8007,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Lilmothiit men who are commoners. EK2's commoner rule already leaves out armour.
+	# Lilmothiit men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_lilmothiit_hide_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7276,7 +8064,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -7290,9 +8078,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Lilmothiit women who are commoners: the loincloth and the chest band; while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	# Lilmothiit women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
 	ek2lc_lilmothiit_hide_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7341,7 +8135,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -7356,7 +8150,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -7374,6 +8168,12 @@ ek2lc_loincloth = {
 	# Adult Lilmothiit women who are commoners, bare-chested, only while "Show nudity" is on.
 	ek2lc_lilmothiit_hide_f_bare = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7422,12 +8222,13 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				is_adult = yes
+				scope:age >= 4
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
+				is_adult = yes
 				should_show_nudity = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -7437,9 +8238,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Lilmothiit men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	# Lilmothiit men (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_lilmothiit_war_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7488,6 +8295,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -7499,9 +8307,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Lilmothiit women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Lilmothiit women (14+) in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_lilmothiit_war_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7550,6 +8364,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -7561,9 +8376,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Lilmothiit men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	# Lilmothiit men (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_lilmothiit_armour_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7612,6 +8433,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 14
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -7622,9 +8444,15 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Lilmothiit women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Lilmothiit women (14+) among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_lilmothiit_armour_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7673,6 +8501,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -7686,6 +8515,12 @@ ek2lc_loincloth = {
 	# Lilmothiit men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_lilmothiit_royal_county_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7734,6 +8569,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -7748,6 +8584,12 @@ ek2lc_loincloth = {
 	# Lilmothiit women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_lilmothiit_royal_county_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7796,6 +8638,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -7810,6 +8653,12 @@ ek2lc_loincloth = {
 	# Lilmothiit men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_lilmothiit_royal_duke_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7858,6 +8707,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -7872,6 +8722,12 @@ ek2lc_loincloth = {
 	# Lilmothiit women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_lilmothiit_royal_duke_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7920,6 +8776,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -7934,6 +8791,12 @@ ek2lc_loincloth = {
 	# Lilmothiit men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_lilmothiit_royal_king_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -7982,6 +8845,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -7996,6 +8860,12 @@ ek2lc_loincloth = {
 	# Lilmothiit women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_lilmothiit_royal_king_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -8044,6 +8914,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -8058,6 +8929,12 @@ ek2lc_loincloth = {
 	# Lilmothiit men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_lilmothiit_royal_emperor_m = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -8106,6 +8983,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = no
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -8120,6 +8998,12 @@ ek2lc_loincloth = {
 	# Lilmothiit women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_lilmothiit_royal_emperor_f = {
 		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
 			accessory = {
 				mode = add
 				gene = clothes
@@ -8168,6 +9052,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 2  # against 1 for "no loincloth": two in three Lilmothiit rulers wear it
 				is_female = yes
+				scope:age >= 4
 				portrait_ek_lilmothiit_clothing_trigger = yes
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
