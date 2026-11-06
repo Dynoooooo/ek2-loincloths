@@ -2,11 +2,14 @@
 
 For each texture set used by an .asset in the model folder:
   - groups the soft parts of its diffuse (hide, cloth, cord, fur, paint: the pixels whose
-    properties are the set's plain value) into up to 3 colour groups -> mask channels R, G, B;
-    shiny parts (bone, teeth, metal, gems) stay out of the mask and keep their colours;
-  - writes the diffuse with each group divided by the group's colour (near-neutral), and a
-    16x1 palette holding those colours, so the default look is unchanged and a picked colour
-    replaces the group's colour;
+    properties are the set's plain value) into up to 3 colour groups; the biggest one (the main
+    hide or cloth, usually with its cord) goes in mask channel R. Smaller groups (painted bands,
+    beads) and shiny parts (bone, teeth, metal, gems) stay out of the mask and keep their colours.
+    In CK3 1.20 only channel R took a colour on our pieces in game (G and B stayed white even with
+    a picked colour), so USED_GROUPS is 1; raise it if a later patch fixes that;
+  - writes the diffuse with the masked group divided by its colour (near-neutral), and a
+    16x1 palette holding that colour, so the default look is unchanged and a picked colour
+    (barbershop: the swatch beside Clothes, Legwear or Cloak, "Primary Color 1") replaces it;
   - writes the mask, full size like vanilla's (identical masks are shared).
 Then writes the variation file and patches every .asset (prefixed entity name, pattern shader,
 mask and variation). The patterns are solid (colour channel 1, flat normal, the set's own
@@ -37,6 +40,7 @@ PAT = os.path.join(MOD, colour.PATTERN_DIR)
 TEX = os.path.join(SRC, "textures")
 BOM = "﻿"
 MAX_GROUPS = 3
+USED_GROUPS = 1     # groups that get a mask channel (see above)
 MERGE_DIST = 0.035   # chroma distance under which two groups are one colour
 MIN_SHARE = 0.01     # smaller groups join the nearest one
 PAT_SIZE = 512       # vanilla's pattern texture size (they share texture arrays)
@@ -50,9 +54,10 @@ def read_png(path):
 
 
 def write_dds(arr, path, compression, mips=True):
+    """mips: True = full chain, False = none, or a number of extra levels."""
     h, w = arr.shape[:2]
     data = np.clip(np.round(arr * 255.0), 0, 255).astype(np.uint8).tobytes()
-    nm = int(np.log2(min(h, w))) if mips else 0
+    nm = int(np.log2(min(h, w))) if mips is True else int(mips)
     subprocess.run([MAGICK, "-size", "%dx%d" % (w, h), "-depth", "8", "rgba:-", "-define", "dds:compression=" + compression,
                     "-define", "dds:mipmaps=%d" % nm, path], input=data, check=True)
 
@@ -129,8 +134,9 @@ def main():
             sel = lab == k
             pick = sel & opaque if np.any(sel & opaque) else sel
             refs.append(np.maximum(np.percentile(dif[pick][:, :3], 99.5, axis=0), 0.03))
+        refs = refs[:USED_GROUPS]
         m = np.zeros(dif.shape, np.float32)
-        for k in range(len(cent)):
+        for k in range(len(refs)):
             m[..., k] = lab == k
         m[..., 3] = 1.0  # DXT1 reads alpha as 1 anyway; channel A's pattern is the neutral ek2lc_none
         key = hashlib.sha1(np.round(m * 255).astype(np.uint8).tobytes()).hexdigest()
@@ -153,12 +159,15 @@ def main():
         write_dds(pal, os.path.join(PAT, tset + "_palette.dds"), "none", mips=False)
         a = float(props[soft][:, 3].mean())
         props_of[tset] = (round(float(base_g) * 255), round(a * 255))
-        info.append("%s: %d groups %s, soft %.0f%%" % (tset, len(refs), " ".join("#%02x%02x%02x" % tuple(int(c * 255) for c in r)
+        info.append("%s: %d of %d groups coloured %s, soft %.0f%%" % (tset, len(refs), len(cent), " ".join("#%02x%02x%02x" % tuple(int(c * 255) for c in r)
                                                                                   for r in refs), 100 * soft.mean()))
 
     # solid patterns: colour channel 1 only, flat normal (.ga = 0.5), the set's plain properties with AO 1
+    # Same layout as every vanilla pattern texture (they share texture arrays with the character's other
+    # pieces): DXT5 512x512; colour masks with 2 mip levels, normal and properties maps with the full chain.
     def solid(rgba, path):
-        write_dds(np.broadcast_to(np.array(rgba, np.float32) / 255.0, (PAT_SIZE, PAT_SIZE, 4)).copy(), path, "dxt5")
+        write_dds(np.broadcast_to(np.array(rgba, np.float32) / 255.0, (PAT_SIZE, PAT_SIZE, 4)).copy(), path, "dxt5",
+                  mips=1 if path.endswith("colormask.dds") else True)
     solid((255, 0, 0, 0), os.path.join(PAT, "ek2lc_pattern_colormask.dds"))
     solid((128, 128, 255, 128), os.path.join(PAT, "ek2lc_pattern_normal.dds"))
     out = [BOM + "# EK2 Loincloths: barbershop colours for our pieces (made by source/tools/make_colour.py).\n"
