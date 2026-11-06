@@ -16,6 +16,8 @@ Run once per body:
 """
 import bpy, bmesh, addon_utils, sys, os, math, subprocess, time
 import numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cultures import ROLES, CULTURES, KINDS, TEX_OF
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
 from mathutils.interpolate import poly_3d_calc
@@ -46,7 +48,14 @@ if SEX == "female":
     SHAPE_DEFS += [("pregnant", "female_bs_body_pregnant_1.mesh", "bs_body_pregnant_1"),
                    ("breast_max", "female_bs_body_breast_size_max.mesh", "bs_body_breast_size_max"),
                    ("breast_min", "female_bs_body_breast_size_min.mesh", "bs_body_breast_size_min")]
-SHAPES = [s for s, f, a in SHAPE_DEFS]
+# EK2's beast-race body shapes (read from EK2, never copied): the Khajiit body, and the digitigrade
+# legs of Argonians (all of them) and of Lilmothiit. A full path wins over BODY_DIR in os.path.join.
+EK2 = os.path.normpath(os.path.join(GAME, "../../../workshop/content/1158310/2887120253"))
+EK2_BS = os.path.join(EK2, "gfx/models/portraits/%s_body/blendshapes" % SEX)
+SHAPE_DEFS += [("khajiit", os.path.join(EK2_BS, "%s_khajiit_body.mesh" % SEX), "bs_khajiit_body"),
+               ("argdigi", os.path.join(EK2_BS, "%s_argonian_digitigrade_bs.mesh" % SEX), "argonian_digitigrade_bs"),
+               ("khadigi", os.path.join(EK2_BS, "%s_khajiit_digitigrade_bs.mesh" % SEX), "khajiit_digitigrade_bs")]
+SHAPES =[s for s, f, a in SHAPE_DEFS]
 SHAPE_FILE = {s: f for s, f, a in SHAPE_DEFS}
 SHAPE_ATTR = {s: a for s, f, a in SHAPE_DEFS}
 ALL = ["basis"] + SHAPES
@@ -1268,8 +1277,64 @@ HIDE_STYLES = {  # base loincloth and chest band: plain (commoners), fine (count
     "fine": dict(hide=(0.50, 0.30, 0.18), cord=(0.40, 0.12, 0.07)),
     "royal": dict(hide=(0.21, 0.15, 0.11), cord=(0.36, 0.09, 0.06)),
 }
-C_RED, C_OCHRE, C_BLACK, C_BONE = (np.array(c, np.float32) for c in
-                                   ((0.42, 0.07, 0.05), (0.62, 0.38, 0.12), (0.06, 0.045, 0.035), (0.84, 0.78, 0.64)))
+# Colours: K(r, g, b) is the Reach colour, or the current culture's colour for that role
+# (cultures.py). set_culture({}) is the Reach.
+REMAP, MOTIF = {}, "zigzag"
+
+
+def K(r, g, b):
+    return np.array(REMAP.get((r, g, b), (r, g, b)), np.float32)
+
+
+def set_culture(pal):
+    global REMAP, MOTIF, C_RED, C_OCHRE, C_BLACK, C_BONE
+    REMAP = {ROLES[k]: v for k, v in pal.items() if k in ROLES}
+    MOTIF = pal.get("motif", "zigzag")
+    C_RED, C_OCHRE, C_BLACK, C_BONE = K(0.42, 0.07, 0.05), K(0.62, 0.38, 0.12), K(0.06, 0.045, 0.035), K(0.84, 0.78, 0.64)
+
+
+set_culture({})
+
+
+def band_motif(sub, xx, fy, h, w, wear):
+    """The worn painted band across a plain flap, in the culture's motif."""
+    col = K(0.50, 0.13, 0.08)
+    ok = wear > 0.32
+    if MOTIF == "zigzag":  # the Reach: two zig-zag lines
+        tri = np.abs((xx / (w / 7.0)) % 1.0 - 0.5) * 2.0
+        m = np.zeros(xx.shape, bool)
+        for yc in (0.69, 0.735):
+            m |= np.abs(fy - (yc + (tri - 0.5) * 0.035)) * h < 3.2
+    elif MOTIF == "steps":  # Ashlanders: a stepped meander between two lines
+        P = w / 8.0
+        ph = (xx % P) / P
+        lvl = np.where(ph < 0.5, 0.70, 0.725)
+        m = (np.abs(fy - lvl) * h < 2.6) | ((np.minimum(ph, np.abs(ph - 0.5)) * P < 2.6) & (fy > 0.70) & (fy < 0.725))
+        m |= (np.abs(fy - 0.675) * h < 2.0) | (np.abs(fy - 0.75) * h < 2.0)
+    elif MOTIF == "leaves":  # Bosmer: a vine with leaves turned up and down in turn
+        P = w / 7.0
+        k = np.floor(xx / P)
+        lx = (xx % P) - P / 2
+        ly = (fy - 0.71) * h + np.where(k % 2 == 0, 1, -1) * P * 0.16
+        c, s_ = 0.7071, np.where(k % 2 == 0, 0.7071, -0.7071)
+        a_, b_ = lx * c + ly * s_, -lx * s_ + ly * c
+        m = (a_ / (P * 0.30)) ** 2 + (b_ / (P * 0.12)) ** 2 < 1
+        m |= np.abs(fy - 0.71 - 0.012 * np.sin(xx / P * 2 * np.pi)) * h < 1.6
+    elif MOTIF == "scales":  # Argonians: a band of diamond scales
+        P = w / 10.0
+        dx = np.abs((xx / P) % 1.0 - 0.5)
+        dy = np.abs(((fy - 0.665) * h / (P * 0.75)) % 1.0 - 0.5)
+        m = (np.abs(dx + dy - 0.5) < 0.07) & (fy > 0.665) & (fy < 0.665 + 2 * P * 0.75 / h)
+    else:  # Khajiit ("moons"): crescent moons with a dot between
+        P = w / 6.0
+        lx = (xx % P) - P / 2
+        ly = (fy - 0.71) * h
+        R = P * 0.22
+        m = (lx ** 2 + ly ** 2 < R ** 2) & ((lx - R * 0.45) ** 2 + (ly + R * 0.1) ** 2 > (R * 0.85) ** 2)
+        m |= ((np.abs(xx % P) - 0) ** 2 + ly ** 2 < (R * 0.25) ** 2)
+        m |= ((np.abs((xx % P) - P)) ** 2 + ly ** 2 < (R * 0.25) ** 2)
+    m &= ok
+    sub[m, :3] = sub[m, :3] * 0.3 + col * 0.7
 
 
 def hide_deco(style, sub, xx, yy, fy, h, w, wear):
@@ -1332,7 +1397,7 @@ def make_textures(style="plain"):
         return acc / tot
 
     img = np.ones((H, WD, 4), np.float32)
-    hide = np.array(HIDE_STYLES[style]["hide"], np.float32)
+    hide = K(*HIDE_STYLES[style]["hide"])
     n1, n2, n3, n4 = fbm(H, WD, 4), fbm(H, WD, 24, 3), fbm(H, WD, 6, 4), fbm(H, WD, 10, 3)
     img[..., :3] = hide * (0.78 + 0.34 * n1 + 0.12 * (n2 - 0.5))[..., None]
     img[..., :3] *= (1 - 0.2 * np.clip((n3 - 0.58) * 5, 0, 1))[..., None]  # darker patches
@@ -1356,9 +1421,7 @@ def make_textures(style="plain"):
         wear = fbm(h, w, 14, 3)
         tri = np.abs((xx / (w / 7.0)) % 1.0 - 0.5) * 2.0
         if style == "plain":
-            for yc in (0.69, 0.735):  # worn ochre-red zig-zag band
-                m = (np.abs(fy - (yc + (tri - 0.5) * 0.035)) * h < 3.2) & (wear > 0.32)
-                sub[m, :3] = sub[m, :3] * 0.3 + np.array([0.50, 0.13, 0.08], np.float32) * 0.7
+            band_motif(sub, xx, fy, h, w, wear)
         else:
             hide_deco(style, sub, xx, yy, fy, h, w, wear)
         slit_p = 22  # fringe: slits at the bottom, ragged ends
@@ -1383,7 +1446,7 @@ def make_textures(style="plain"):
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
     fy = yy / (h - 1)
     twist = 0.5 + 0.5 * np.sin(2 * np.pi * (xx / w * 38 + fy * 1.2))
-    sub[..., :3] = np.array(HIDE_STYLES[style]["cord"], np.float32) * (0.55 + 0.5 * twist * (0.6 + 0.4 * np.sin(np.pi * fy) ** 0.6))[..., None]
+    sub[..., :3] = K(*HIDE_STYLES[style]["cord"]) * (0.55 + 0.5 * twist * (0.6 + 0.4 * np.sin(np.pi * fy) ** 0.6))[..., None]
     if style == "royal":  # bone-white wraps round the red cord
         sub[((xx / w * 40) % 1.0) < 0.22, :3] = C_BONE * 0.9
     sub[..., 3] = 1.0
@@ -1415,27 +1478,27 @@ def make_war_textures():
     u = xx / (WD - 1)
     # girdle (v .5-1): smoked hide
     g = v >= 0.5
-    img[g, :3] = np.array([0.27, 0.18, 0.11], np.float32) * (0.75 + 0.5 * n[g])[:, None]
+    img[g, :3] = K(0.27, 0.18, 0.11) * (0.75 + 0.5 * n[g])[:, None]
     gv = (v - 0.52) / 0.46  # 0 inner bottom .. 1 inner top
     for lv in (0.2, 0.8):  # stitching just inside the edges
         m = g & (np.abs(gv - lv) < 0.012) & ((xx % 10) < 5)
-        img[m, :3] = np.array([0.62, 0.52, 0.38], np.float32)
+        img[m, :3] = K(0.62, 0.52, 0.38)
     tri = np.abs((u * 24) % 1.0 - 0.5) * 2.0  # ochre zig-zag across the middle
     m = g & (np.abs(gv - (0.5 + (tri - 0.5) * 0.22)) < 0.035) & (n > 0.3)
-    img[m, :3] = img[m, :3] * 0.25 + np.array([0.55, 0.12, 0.07], np.float32) * 0.75
+    img[m, :3] = img[m, :3] * 0.25 + K(0.55, 0.12, 0.07) * 0.75
     for lv in (0.31, 0.69):  # rows of painted bone beads
         cx = (np.floor(u * 48) + 0.5) / 48
         m = g & (((u - cx) * WD) ** 2 + ((gv - lv) * 0.46 * H) ** 2 < 4.2 ** 2)
-        img[m, :3] = np.array([0.82, 0.77, 0.64], np.float32) * (0.85 + 0.15 * n[m])[:, None]
+        img[m, :3] = K(0.82, 0.77, 0.64) * (0.85 + 0.15 * n[m])[:, None]
     # bone (u < .5, v < .5): ivory, darker towards the tips
     b = (u < 0.5) & (v < 0.5)
-    img[b, :3] = np.array([0.84, 0.79, 0.66], np.float32) * (0.8 + 0.25 * n[b] - 0.25 * (v[b] / 0.5) ** 3)[:, None]
+    img[b, :3] = K(0.84, 0.79, 0.66) * (0.8 + 0.25 * n[b] - 0.25 * (v[b] / 0.5) ** 3)[:, None]
     # claw (u > .5, v < .25): dark horn
     c = (u >= 0.5) & (v < 0.25)
-    img[c, :3] = np.array([0.16, 0.13, 0.10], np.float32) * (0.8 + 0.4 * n[c])[:, None]
+    img[c, :3] = K(0.16, 0.13, 0.10) * (0.8 + 0.4 * n[c])[:, None]
     # sinew cord (u > .5, .25 < v < .5)
     s = (u >= 0.5) & (v >= 0.25) & (v < 0.5)
-    img[s, :3] = np.array([0.55, 0.44, 0.30], np.float32) * (0.7 + 0.3 * np.sin(xx[s] * 0.9 + yy[s] * 0.6))[:, None]
+    img[s, :3] = K(0.55, 0.44, 0.30) * (0.7 + 0.3 * np.sin(xx[s] * 0.9 + yy[s] * 0.6))[:, None]
     normal = np.zeros((H, WD, 4), np.float32)
     normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5
     props = np.zeros((H, WD, 4), np.float32)
@@ -1490,24 +1553,24 @@ def make_armour_textures():
     s = v < 0.5
     su = np.clip((u - S_UV[0]) / (S_UV[2] - S_UV[0]), 0, 1)
     sl = np.clip((S_UV[3] - v) / (S_UV[3] - S_UV[1]), 0, 1)  # 0 at the top of the strip .. 1 at the bottom
-    hide = np.array([0.31, 0.21, 0.13], np.float32)
+    hide = K(0.31, 0.21, 0.13)
     img[s, :3] = hide * (0.7 + 0.5 * n[s])[:, None] * (1.0 - 0.25 * sl[s] ** 4)[:, None]  # worn, darker bottom
     m = s & (np.abs(np.abs(su - 0.5) - 0.42) < 0.012) & ((yy % 9) < 5)  # stitching along both long edges
-    img[m, :3] = np.array([0.6, 0.5, 0.36], np.float32)
+    img[m, :3] = K(0.6, 0.5, 0.36)
     props[s, 1] = 0.22
     for l0, l1 in ((0.30, 0.46), (0.53, 0.69), (0.76, 0.92)):  # bone lames, lashed on
         lame = s & (sl > l0) & (sl < l1) & (np.abs(su - 0.5) < 0.36)
         rim = lame & ((sl - l0 < 0.012) | (l1 - sl < 0.012) | (0.36 - np.abs(su - 0.5) < 0.03))
         shade = 0.82 + 0.25 * n - 0.18 * ((sl - l0) / (l1 - l0))
-        img[lame, :3] = np.array([0.83, 0.78, 0.64], np.float32) * shade[lame][:, None]
+        img[lame, :3] = K(0.83, 0.78, 0.64) * shade[lame][:, None]
         img[rim, :3] *= 0.6
         props[lame, 1] = 0.35
         for hu in (0.2, 0.8):  # lacing holes
             hole = s & (((su - hu) * WD * 0.94) ** 2 + ((sl - (l0 + l1) / 2) * H * 0.46) ** 2 < 2.6 ** 2)
-            img[hole, :3] = np.array([0.12, 0.08, 0.05], np.float32)
+            img[hole, :3] = K(0.12, 0.08, 0.05)
     for hu in (0.3, 0.7):  # bone studs where the strip is sewn to the girdle
         stud = s & (((su - hu) * WD * 0.94) ** 2 + ((sl - 0.05) * H * 0.46) ** 2 < 4.0 ** 2)
-        img[stud, :3] = np.array([0.82, 0.77, 0.64], np.float32) * (0.85 + 0.2 * n[stud])[:, None]
+        img[stud, :3] = K(0.82, 0.77, 0.64) * (0.85 + 0.2 * n[stud])[:, None]
         props[stud, 1] = 0.35
     return {"diffuse": np.clip(img, 0, 1), "normal": t["normal"], "properties": props}
 
@@ -1523,10 +1586,10 @@ def make_royal_textures(tier):
     img = np.ones((H, WD, 4), np.float32)
     props = np.zeros((H, WD, 4), np.float32)
     props[..., 1], props[..., 3] = 0.22, 0.58
-    BRONZE, GARNET = np.array((0.70, 0.50, 0.22), np.float32), np.array((0.45, 0.03, 0.07), np.float32)
+    BRONZE, GARNET = K(0.70, 0.50, 0.22), K(0.45, 0.03, 0.07)
     metal = tier == "emperor"
     trim, accent = (BRONZE, GARNET) if metal else (C_BONE, C_RED)
-    base = np.array((0.46, 0.25, 0.15) if tier == "duke" else (0.17, 0.12, 0.09), np.float32)
+    base = K(0.46, 0.25, 0.15) if tier == "duke" else K(0.17, 0.12, 0.09)
 
     def shiny(m):
         props[m, 1] = 0.5 if metal else 0.35
@@ -1590,13 +1653,13 @@ def make_royal_textures(tier):
     fv = np.clip((v - FEATHER_UV[1]) / (FEATHER_UV[3] - FEATHER_UV[1]), 0, 1)  # 0 quill .. 1 tip
     shaft = np.minimum(np.abs(fu - 0.0), np.minimum(np.abs(fu - 0.5), np.abs(fu - 1.0))) < 0.04
     barbs = 0.75 + 0.25 * np.sin((fv * 60 + np.abs(fu - 0.5) * 30))
-    img[f, :3] = np.array((0.12, 0.12, 0.13), np.float32) * barbs[f][:, None] * (1 + 0.6 * fv[f] ** 3)[:, None]
-    img[f & shaft, :3] = np.array((0.75, 0.72, 0.66), np.float32)
+    img[f, :3] = K(0.12, 0.12, 0.13) * barbs[f][:, None] * (1 + 0.6 * fv[f] ** 3)[:, None]
+    img[f & shaft, :3] = K(0.75, 0.72, 0.66)
     if metal:
         img[f & (fv > 0.8) & ~shaft, :3] = GARNET * 1.3
     # sinew cord and beads
     c = (u >= 0.5) & (v < 0.25) & (u < 0.76)
-    img[c, :3] = np.array((0.55, 0.44, 0.30), np.float32) * (0.7 + 0.3 * np.sin(xx[c] * 0.9 + yy[c] * 0.6))[:, None]
+    img[c, :3] = K(0.55, 0.44, 0.30) * (0.7 + 0.3 * np.sin(xx[c] * 0.9 + yy[c] * 0.6))[:, None]
     b = (u >= 0.76) & (v < 0.25)
     img[b, :3] = trim * (0.8 + 0.3 * n[b])[:, None]
     shiny(b)
@@ -1617,7 +1680,7 @@ def make_mantle_textures():
     img[..., :3], img[..., 3] = 0.05, 1.0
     props = np.zeros((H, WD, 4), np.float32)
     props[..., 1], props[..., 3] = 0.22, 0.58
-    BRONZE, GARNET = np.array((0.70, 0.50, 0.22), np.float32), np.array((0.45, 0.03, 0.07), np.float32)
+    BRONZE, GARNET = K(0.70, 0.50, 0.22), K(0.45, 0.03, 0.07)
     # collar
     m = v >= 0.855
     fv = np.clip((COLLAR_UV[3] - v) / (COLLAR_UV[3] - COLLAR_UV[1]), 0, 1)  # 0 at the neck .. 1 at the edge
@@ -1625,7 +1688,7 @@ def make_mantle_textures():
     s2 = rng.random(WD).astype(np.float32)
     xi = xx.astype(np.int32)
     wav = (xi + (3 * np.sin(yy * 0.07 + xx * 0.013)).astype(np.int32)) % WD
-    fur = np.array((0.80, 0.77, 0.70), np.float32)[None, None, :] * (0.72 + 0.32 * s1[wav])[..., None]
+    fur = K(0.80, 0.77, 0.70)[None, None, :] * (0.72 + 0.32 * s1[wav])[..., None]
     fur *= (0.62 + 0.38 * np.clip(fv * 1.4, 0, 1))[..., None]  # darker at the roots
     fur = np.where((s2[wav] < 0.12)[..., None], fur * 0.55, fur)  # dark guard hairs
     img[m, :3] = fur[m]
@@ -1663,7 +1726,7 @@ def make_mantle_textures():
         au = np.clip((u - box[0]) / (box[2] - box[0]), 0, 1)
         al = np.clip((box[3] - v) / (box[3] - box[1]), 0, 1)  # 0 top .. 1 hem
         cov, row, fx, fy, sh = field(au, al)
-        dark = np.array((0.085, 0.085, 0.095), np.float32)
+        dark = K(0.085, 0.085, 0.095)
         col = dark[None, None, :] * (0.75 + 0.5 * sh)[..., None]
         col = np.where(((row % 5) == 3)[..., None], GARNET[None, None, :] * (0.8 + 0.4 * sh)[..., None], col)
         col = np.where(((row == NFR - 1) & (fy > 0.65))[..., None], GARNET[None, None, :] * 1.2, col)
@@ -1671,7 +1734,7 @@ def make_mantle_textures():
         rim = 0.55 + 0.45 * (1 - np.clip(np.abs(fx), 0, 1) ** 4)
         col = col * (barbs * rim)[..., None]
         shaft = np.abs(fx) < 0.06
-        col = np.where(shaft[..., None], np.array((0.52, 0.50, 0.46), np.float32)[None, None, :] * (1 - 0.5 * fy)[..., None], col)
+        col = np.where(shaft[..., None], K(0.52, 0.50, 0.46)[None, None, :] * (1 - 0.5 * fy)[..., None], col)
         hem = al > (NFR - 1) * p  # below the last row's quills: only feathers, nothing between them
         if is_cape:
             m = reg & cov
@@ -1680,7 +1743,7 @@ def make_mantle_textures():
         else:  # lining: garnet-dyed hide; the hem's feather tips show their dark undersides
             n = rng.random((H, WD)).astype(np.float32)
             m = reg
-            img[m, :3] = np.array((0.30, 0.055, 0.055), np.float32) * (0.8 + 0.3 * n[m])[:, None]
+            img[m, :3] = K(0.30, 0.055, 0.055) * (0.8 + 0.3 * n[m])[:, None]
             edge = np.minimum(au, 1 - au)
             b = reg & (edge > 0.015) & (edge < 0.045)
             img[b, :3] = BRONZE
@@ -1706,6 +1769,30 @@ for _t, _set in ROYAL_SETS.items():
     MATS[_set] = make_material("ek2lc_reach_" + _t, save_set(_set, make_royal_textures(_t)))
 MATS[MSET] = make_material("ek2lc_reach_mantle", save_set(MSET, make_mantle_textures()))
 
+# Culture variants: only the diffuse differs (normal and properties maps are the Reach ones),
+# so only it is made, once (in the male run). PNGs go to an ignored folder; they're rebuilt here.
+REACH_SET = {"hide": SET, "fine": FSET, "royal": RSET, "war": WSET, "armour": ASET, "mantle": MSET, **ROYAL_SETS}
+CULT_PNG = os.path.join(TEXSRC, "cultures")
+if SEX == "male":
+    os.makedirs(CULT_PNG, exist_ok=True)
+    for _c, _cd in CULTURES.items():
+        set_culture(_cd["pal"])
+        for _k, _fn in [("hide", make_textures), ("fine", lambda: make_textures("fine")), ("royal", lambda: make_textures("royal")),
+                        ("war", make_war_textures), ("armour", make_armour_textures), ("mantle", make_mantle_textures),
+                        ("duke", lambda: make_royal_textures("duke")), ("king", lambda: make_royal_textures("king")),
+                        ("emperor", lambda: make_royal_textures("emperor"))]:
+            _arr = _fn()["diffuse"]
+            _png = os.path.join(CULT_PNG, "ek2lc_%s_%s_01_diffuse.png" % (_c, _k))
+            _im = bpy.data.images.new("tmp_" + _c + _k, _arr.shape[1], _arr.shape[0], alpha=True)
+            _im.pixels.foreach_set(np.ascontiguousarray(np.flipud(_arr), dtype=np.float32).ravel())
+            _im.filepath_raw, _im.file_format = _png, "PNG"
+            _im.save()
+            bpy.data.images.remove(_im)
+            subprocess.run([MAGICK, _png, "-define", "dds:compression=dxt5", "-define", "dds:mipmaps=%d" % int(math.log2(_arr.shape[0])),
+                            os.path.join(OUT, "ek2lc_%s_%s_01_diffuse.dds" % (_c, _k))], check=True)
+        print("CULTURE textures", _c)
+    set_culture({})
+
 
 # ------------------------------------------------------------------ make, export and check every piece
 def export(obj, path, as_bs):
@@ -1717,8 +1804,10 @@ def export(obj, path, as_bs):
                                      chk_selected=True, chk_mesh_blendshape=as_bs)
 
 
-def write_asset(name, mesh, tset):
-    """Entity `name` showing `mesh` (and its body-shape meshes) with texture set `tset`."""
+def write_asset(name, mesh, tset, nset=None):
+    """Entity `name` showing `mesh` (and its body-shape meshes) with texture set `tset`
+    (its normal and properties maps from set `nset`, if given)."""
+    nset = nset or tset
     node = mesh + "Shape"
     bs_lines = "\n".join('\tblend_shape = { id = "%s_bs_%s"\ttype = "%s_bs_%s.mesh" }' % (name, s, mesh, s) for s in SHAPES)
     attr_lines = "\n".join('\tattribute = { name = "%s"\tblend_shape = "%s_bs_%s" }' % (SHAPE_ATTR[s], name, s) for s in SHAPES)
@@ -1732,8 +1821,8 @@ def write_asset(name, mesh, tset):
 		name = "{node}"
 		index = 0
 		texture_diffuse = "{tset}_diffuse.dds"
-		texture_normal = "{tset}_normal.dds"
-		texture_specular = "{tset}_properties.dds"
+		texture_normal = "{nset}_normal.dds"
+		texture_specular = "{nset}_properties.dds"
 		shader = "portrait_attachment_alpha_to_coverage"
 		shader_file = "gfx/FX/jomini/portrait.shader"
 	}}
@@ -1831,6 +1920,12 @@ for _ent, _mesh, _set in [("ek2lc_%s_reach_fine_01" % S1, NAME, FSET), ("ek2lc_%
                           ("ek2lc_%s_reach_emperor_01" % S1, KING, ROYAL_SETS["emperor"])] + (
         [("ek2lc_f_reach_band_fine_01", BAND, FSET), ("ek2lc_f_reach_band_royal_01", BAND, RSET)] if SEX == "female" else []):
     write_asset(_ent, _mesh, _set)  # same mesh, other texture
+for _c in CULTURES:  # culture variants: same meshes, the culture's diffuse
+    for _k, (_piece, _rset) in KINDS.items():
+        if _piece == "band" and SEX != "female":
+            continue
+        _mesh = BAND if _piece == "band" else "ek2lc_%s_reach_%s_01" % (S1, _piece)
+        write_asset("ek2lc_%s_%s_%s_01" % (S1, _c, _k), _mesh, "ek2lc_%s_%s_01" % (_c, TEX_OF[_k]), REACH_SET[_rset])
 
 # body shapes as shape keys, so the .blend shows the pieces following them (export is done)
 for obj, data in [(body, COORDS)] + [(o, pc["pos"]) for o, pc in zip(OBJS, PIECES)]:

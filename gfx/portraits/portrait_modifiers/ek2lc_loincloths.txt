@@ -1,4 +1,4 @@
-﻿# EK2 Loincloths: who wears a loincloth.
+﻿# EK2 Loincloths: who wears a loincloth. Written by source/tools/gen_script_files.py.
 # Priority 101 applies this after every EK2 outfit group (EK2's highest is 100), so a
 # loincloth wearer never gets an EK2 outfit, legwear or cloak on top of the loincloth.
 # Every modifier sets all of our genes, so nothing is left over from another choice.
@@ -104,7 +104,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach women who are commoners: the loincloth and always the chest band.
+	# Adult Reach women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_reach_hide_f = {
 		dna_modifiers = {
 			accessory = {
@@ -169,8 +169,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach men in a war role while their realm is at war: the loincloth with the war
-	# girdle and trophies, instead of EK2's armour.
+	# Adult Reach men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
 	ek2lc_reach_war_m = {
 		dna_modifiers = {
 			accessory = {
@@ -232,8 +231,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach women in a war role while their realm is at war: the loincloth with the war
-	# girdle and trophies, and always the chest band, instead of EK2's armour.
+	# Adult Reach women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
 	ek2lc_reach_war_f = {
 		dna_modifiers = {
 			accessory = {
@@ -295,8 +293,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach men among the best fighters (knights, or prowess 12+) while their realm is at
-	# war: the loincloth with the war girdle and the hide-and-bone strip skirt, instead of EK2's armour.
+	# Adult Reach men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
 	ek2lc_reach_armour_m = {
 		dna_modifiers = {
 			accessory = {
@@ -357,8 +354,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Adult Reach women among the best fighters (knights, or prowess 12+) while their realm is at
-	# war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	# Adult Reach women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
 	ek2lc_reach_armour_f = {
 		dna_modifiers = {
 			accessory = {
@@ -419,7 +415,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed hide.
+	# Reach men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_reach_royal_county_m = {
 		dna_modifiers = {
 			accessory = {
@@ -481,7 +477,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed hide.
+	# Reach women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
 	ek2lc_reach_royal_county_f = {
 		dna_modifiers = {
 			accessory = {
@@ -543,7 +539,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, bone beads.
+	# Reach men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_reach_royal_duke_m = {
 		dna_modifiers = {
 			accessory = {
@@ -605,7 +601,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, bone beads.
+	# Reach women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
 	ek2lc_reach_royal_duke_f = {
 		dna_modifiers = {
 			accessory = {
@@ -667,7 +663,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach men, rulers and their spouses (higher of the two top title tiers), king: royal hide, long front and back aprons, hagraven feathers.
+	# Reach men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_reach_royal_king_m = {
 		dna_modifiers = {
 			accessory = {
@@ -729,7 +725,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach women, rulers and their spouses (higher of the two top title tiers), king: royal hide, long front and back aprons, hagraven feathers.
+	# Reach women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
 	ek2lc_reach_royal_king_f = {
 		dna_modifiers = {
 			accessory = {
@@ -791,7 +787,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet, and the fur-and-feather mantle.
+	# Reach men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_reach_royal_emperor_m = {
 		dna_modifiers = {
 			accessory = {
@@ -853,7 +849,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet, and the fur-and-feather mantle.
+	# Reach women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
 	ek2lc_reach_royal_emperor_f = {
 		dna_modifiers = {
 			accessory = {
@@ -905,6 +901,3622 @@ ek2lc_loincloth = {
 				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
 				is_female = yes
 				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Ashlander men who are commoners. EK2's commoner rule already leaves out armour.
+	ek2lc_ashlander_hide_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Ashlander women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	ek2lc_ashlander_hide_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Ashlander men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	ek2lc_ashlander_war_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Ashlander women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	ek2lc_ashlander_war_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Ashlander men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	ek2lc_ashlander_armour_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Ashlander women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	ek2lc_ashlander_armour_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_ashlander_royal_county_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = no
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_ashlander_royal_county_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = yes
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_ashlander_royal_duke_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = no
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_ashlander_royal_duke_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = yes
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_ashlander_royal_king_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = no
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_ashlander_royal_king_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = yes
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_ashlander_royal_emperor_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_ashlander_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = no
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_ashlander_royal_emperor_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_ashlander_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_ashlander_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Ashlander rulers wear it
+				is_female = yes
+				portrait_ek_ashlander_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Bosmer men who are commoners. EK2's commoner rule already leaves out armour.
+	ek2lc_bosmer_hide_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Bosmer women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	ek2lc_bosmer_hide_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Bosmer men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	ek2lc_bosmer_war_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Bosmer women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	ek2lc_bosmer_war_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Bosmer men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	ek2lc_bosmer_armour_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Bosmer women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	ek2lc_bosmer_armour_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_bosmer_royal_county_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = no
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_bosmer_royal_county_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = yes
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_bosmer_royal_duke_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = no
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_bosmer_royal_duke_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = yes
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_bosmer_royal_king_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = no
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_bosmer_royal_king_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = yes
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_bosmer_royal_emperor_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_bosmer_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = no
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_bosmer_royal_emperor_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_bosmer_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_bosmer_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Bosmer rulers wear it
+				is_female = yes
+				portrait_ek_bosmeri_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian men who are commoners. EK2's commoner rule already leaves out armour.
+	ek2lc_argonian_hide_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian women who are commoners: the loincloth and the chest band; while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	ek2lc_argonian_hide_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				should_show_nudity = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				add = 60
+				is_female = yes
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				should_show_nudity = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian women who are commoners, bare-chested, only while "Show nudity" is on.
+	ek2lc_argonian_hide_f_bare = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 30
+				is_female = yes
+				is_adult = yes
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				should_show_nudity = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	ek2lc_argonian_war_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	ek2lc_argonian_war_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	ek2lc_argonian_armour_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Argonian women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	ek2lc_argonian_armour_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_argonian_royal_county_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = no
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_argonian_royal_county_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = yes
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_argonian_royal_duke_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = no
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_argonian_royal_duke_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = yes
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_argonian_royal_king_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = no
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_argonian_royal_king_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = yes
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_argonian_royal_emperor_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_argonian_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = no
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_argonian_royal_emperor_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_argonian_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_argonian_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Argonian rulers wear it
+				is_female = yes
+				portrait_ek_argonian_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Khajiiti men who are commoners. EK2's commoner rule already leaves out armour.
+	ek2lc_khajiit_hide_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				is_adult = yes
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Khajiiti women who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	ek2lc_khajiit_hide_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				is_adult = yes
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Khajiiti men in a war role while their realm is at war: the loincloth with the war girdle and trophies, instead of EK2's armour.
+	ek2lc_khajiit_war_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Khajiiti women in a war role while their realm is at war: the loincloth with the war girdle and trophies, and always the chest band, instead of EK2's armour.
+	ek2lc_khajiit_war_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Khajiiti men among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt.
+	ek2lc_khajiit_armour_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Khajiiti women among the best fighters (knights, or prowess 12+) while their realm is at war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	ek2lc_khajiit_armour_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_armour
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_khajiit_royal_county_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = no
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed material.
+	ek2lc_khajiit_royal_county_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = yes
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_khajiit_royal_duke_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = no
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, beads.
+	ek2lc_khajiit_royal_duke_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_duke
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = yes
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_khajiit_royal_king_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = no
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), king: royal loincloth, long front and back aprons, feathers.
+	ek2lc_khajiit_royal_king_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_king
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = yes
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_khajiit_royal_emperor_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_khajiit_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = no
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in precious trim, and the mantle.
+	ek2lc_khajiit_royal_emperor_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_khajiit_emperor
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_khajiit_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Khajiiti rulers wear it
+				is_female = yes
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_pellitinian_clothing_trigger = yes
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {

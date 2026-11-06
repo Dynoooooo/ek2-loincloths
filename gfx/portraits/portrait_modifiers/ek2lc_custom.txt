@@ -1,4 +1,5 @@
 ﻿# EK2 Loincloths: barbershop entries, one group per gene, the vanilla way (add_accessory_modifiers).
+# Written by source/tools/gen_script_files.py.
 # Priority 102 puts a barbershop choice after our game group (101), so it wins on our genes.
 # Chest pieces only list for women.
 
@@ -22,6 +23,54 @@ ek2lc_custom_loincloth = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_loincloth
 		template = ek2lc_reach_royal
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_ashlander_hide
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_ashlander_fine
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_ashlander_royal
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_bosmer_hide
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_bosmer_fine
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_bosmer_royal
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_argonian_hide
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_argonian_fine
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_argonian_royal
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_khajiit_hide
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_khajiit_fine
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_khajiit_royal
 	}
 }
 
@@ -48,6 +97,66 @@ ek2lc_custom_top = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_top
 		template = ek2lc_reach_band_royal
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_ashlander_band
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_ashlander_band_fine
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_ashlander_band_royal
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_bosmer_band
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_bosmer_band_fine
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_bosmer_band_royal
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_argonian_band
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_argonian_band_fine
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_argonian_band_royal
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_khajiit_band
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_khajiit_band_fine
+		is_valid_custom = { is_female = yes }
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_top
+		template = ek2lc_khajiit_band_royal
 		is_valid_custom = { is_female = yes }
 	}
 }
@@ -81,6 +190,86 @@ ek2lc_custom_girdle = {
 		gene = gene_ek2lc_war
 		template = ek2lc_reach_emperor
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_ashlander_war
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_ashlander_armour
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_ashlander_duke
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_ashlander_king
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_ashlander_emperor
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_bosmer_war
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_bosmer_armour
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_bosmer_duke
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_bosmer_king
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_bosmer_emperor
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_argonian_war
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_argonian_armour
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_argonian_duke
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_argonian_king
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_argonian_emperor
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_khajiit_war
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_khajiit_armour
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_khajiit_duke
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_khajiit_king
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_war
+		template = ek2lc_khajiit_emperor
+	}
 }
 
 ek2lc_custom_mantle = {
@@ -95,5 +284,21 @@ ek2lc_custom_mantle = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_mantle
 		template = ek2lc_reach_mantle
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_mantle
+		template = ek2lc_ashlander_mantle
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_mantle
+		template = ek2lc_bosmer_mantle
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_mantle
+		template = ek2lc_argonian_mantle
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_mantle
+		template = ek2lc_khajiit_mantle
 	}
 }
