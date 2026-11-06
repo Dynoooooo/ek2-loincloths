@@ -624,11 +624,15 @@ for k in range(NW):
         WPART.append("girdle")
 
 
-def add_tube(th0, path, radii, flat, uv_box, part, cap_tip=False):
-    """A closed tube along path (local (c, z, o): sideways cm, height, offset from skin)."""
+def add_tube(th0, path, radii, flat, uv_box, part, cap_tip=False, tgt=None, binder=None):
+    """A closed tube along path (local (c, z, o): sideways cm, height, offset from skin).
+    tgt: (bind, uvs, faces, parts) lists of the piece to build into; the war piece by default.
+    binder: how points find the skin (skin_bind: rays from the body's axis)."""
+    B, U, F, P = tgt or (war_bind, WUVS, WFACES, WPART)
+    sb = binder or (lambda th, z, off: skin_bind(th, z, off))
     R0 = (recon(skin_bind(th0, path[0][1], 0.0), "basis") - Vector((0, center_y(path[0][1]), path[0][1]))).length
     NSEG = 6
-    b0 = len(war_bind)
+    b0 = len(B)
     pts = [Vector(p) for p in path]
     n = len(pts) - (1 if cap_tip else 0)
     for i in range(n):
@@ -638,28 +642,28 @@ def add_tube(th0, path, radii, flat, uv_box, part, cap_tip=False):
         for j in range(NSEG):
             a = 2 * math.pi * j / NSEG
             q = pts[i] + u * (math.cos(a) * radii[i] * flat) + v * (math.sin(a) * radii[i])
-            war_bind.append(skin_bind(th0 + q.x / R0, q.y, q.z))  # local (c, z, o) in x, y, z
-            WUVS.append((uv_box[0] + (uv_box[2] - uv_box[0]) * j / NSEG, uv_box[1] + (uv_box[3] - uv_box[1]) * i / (len(pts) - 1)))
+            B.append(sb(th0 + q.x / R0, q.y, q.z))  # local (c, z, o) in x, y, z
+            U.append((uv_box[0] + (uv_box[2] - uv_box[0]) * j / NSEG, uv_box[1] + (uv_box[3] - uv_box[1]) * i / (len(pts) - 1)))
     for i in range(n - 1):
         for j in range(NSEG):
             j2 = (j + 1) % NSEG
-            WFACES.append([b0 + i * NSEG + j, b0 + i * NSEG + j2, b0 + (i + 1) * NSEG + j2, b0 + (i + 1) * NSEG + j])
-            WPART.append(part)
+            F.append([b0 + i * NSEG + j, b0 + i * NSEG + j2, b0 + (i + 1) * NSEG + j2, b0 + (i + 1) * NSEG + j])
+            P.append(part)
     for j in range(1, NSEG - 1):  # cap at the start (triangles: the exporter needs no n-gons)
-        WFACES.append([b0, b0 + j, b0 + j + 1])
-        WPART.append(part)
+        F.append([b0, b0 + j, b0 + j + 1])
+        P.append(part)
     if cap_tip:  # a point at the end
-        tip = len(war_bind)
-        war_bind.append(skin_bind(th0 + pts[-1].x / R0, pts[-1].y, pts[-1].z))
-        WUVS.append(((uv_box[0] + uv_box[2]) / 2, uv_box[3]))
+        tip = len(B)
+        B.append(sb(th0 + pts[-1].x / R0, pts[-1].y, pts[-1].z))
+        U.append(((uv_box[0] + uv_box[2]) / 2, uv_box[3]))
         for j in range(NSEG):
-            WFACES.append([b0 + (n - 1) * NSEG + j, b0 + (n - 1) * NSEG + (j + 1) % NSEG, tip])
-            WPART.append(part)
+            F.append([b0 + (n - 1) * NSEG + j, b0 + (n - 1) * NSEG + (j + 1) % NSEG, tip])
+            P.append(part)
     else:
         e0 = b0 + (n - 1) * NSEG
         for j in range(1, NSEG - 1):
-            WFACES.append([e0, e0 + j, e0 + j + 1])
-            WPART.append(part)
+            F.append([e0, e0 + j, e0 + j + 1])
+            P.append(part)
 
 
 BONE_UV, CLAW_UV, CORD_UV = (0.03, 0.03, 0.47, 0.47), (0.53, 0.03, 0.97, 0.22), (0.53, 0.28, 0.97, 0.47)
@@ -703,6 +707,7 @@ print("WAR %d vertices, %d trophies" % (len(war_bind), ti))
 # of the front and back flaps. Rows on the girdle follow the skin under them; lower rows move
 # as one stiff piece with the thigh (weights from the thigh, found from the leg's centre).
 _legc = {}
+_BODY_NA = None
 
 
 def ray_origin(z, side):
@@ -716,9 +721,14 @@ def ray_origin(z, side):
     if key not in _legc:
         # the body mesh is sparse round the thighs, so find the leg's centre with rays
         y0 = center_y(CROTCH_Z + 1.0)
-        # from inside outwards (from outside, the hanging arm gets in the way)
-        inner = BVH["basis"].ray_cast(Vector((0, y0, z)), Vector((side, 0, 0)), 60)[0].x if z < CROTCH_Z else 0.0
-        outer = BVH["basis"].ray_cast(Vector((inner + side * 0.5, y0, z)), Vector((side, 0, 0)), 60)[0].x
+        # outer side: from outside, on the body without its arms (they hang beside the hips)
+        global _BODY_NA
+        if _BODY_NA is None:
+            _BODY_NA = BVHTree.FromPolygons(C0, [list(t) for t in TRIS["basis"] if not _ARMV.intersection(t)])
+        outer = _BODY_NA.ray_cast(Vector((side * 60, y0, z)), Vector((-side, 0, 0)), 120)[0].x
+        # inner side: from the middle, unless the middle is still inside the body (then the hit is the outer side)
+        hit = _BODY_NA.ray_cast(Vector((0, y0, z)), Vector((side, 0, 0)), 60)[0]
+        inner = hit.x if hit is not None and abs(hit.x) < abs(outer) - 1.0 else 0.0
         cx = (outer + inner) / 2
         f = BVH["basis"].ray_cast(Vector((cx, y0, z)) + FRONT * 60, -FRONT, 120)[0]
         b = BVH["basis"].ray_cast(Vector((cx, y0, z)) - FRONT * 60, FRONT, 120)[0]
@@ -856,8 +866,195 @@ PIECES.append(dict(name=ARM, set=ASET, pos=APOS, faces=AFACES, part=APART, wrap=
 print("ARMOUR %d vertices, %d strips" % (len(APOS["basis"]), len(STRIPS)))
 
 
+# ------------------------------------------------------------------ royal ladder (both bodies)
+# A ruler's look by the higher of their own and their spouse's top title tier:
+#   county and below: the loincloth (and chest band) in finer, dyed hide; nothing added
+#   duke:    the fine loincloth, and a royal girdle with a short decorated front apron and
+#            strings of bone beads at the hips
+#   king:    the loincloth in royal smoked-black hide with patterned squares, and the girdle with
+#            long front and back aprons (woven-look bands, fringe) and hagraven feathers at the hips
+#   emperor: the king's pieces trimmed with Dwemer bronze and garnets (same mesh, own texture)
+# The fine and royal loincloths and bands are the same meshes with other textures (only new
+# .asset files). The girdle is the war girdle's shape. The aprons hang like the armour strips;
+# below the cord belt they turn into one stiff piece with the hips, as the flaps under them do.
+FSET, RSET = "ek2lc_reach_fine_01", "ek2lc_reach_royal_01"
+ROYAL_SETS = {"duke": "ek2lc_reach_duke_01", "king": "ek2lc_reach_king_01", "emperor": "ek2lc_reach_emperor_01"}
+APRON_UV, FEATHER_UV, RCORD_UV, RBEAD_UV = (0.03, 0.02, 0.47, 0.48), (0.53, 0.26, 0.97, 0.48), (0.53, 0.03, 0.75, 0.22), (0.77, 0.03, 0.97, 0.22)
+
+
+def hang_panel(s, out_fn, th, rows, ncols, flat, top_extra=2.6):
+    """Rows (dz above BELT_Z, clearance, half width) of a panel hanging straight from its top row:
+    each row as far out as anything above it needs. flat: one plank; else curved across, smoothed."""
+    d, t = s_frame(th)
+    z_top = BELT_Z + rows[0][0]
+    res = []
+    for dz, clear, hw in rows:
+        z = BELT_Z + dz
+        xs = [(c / (ncols - 1) - 0.5) * 2 * hw for c in range(ncols)]
+        zs = list(np.arange(z, z_top + top_extra, 0.75))
+        hs = [max(out_fn(s, th, x + dx, zz) for dx in (-0.6, 0.0, 0.6) for zz in zs) + clear for x in xs]
+        if flat:
+            hs = [max(hs)] * ncols
+        else:
+            for _ in range(2):
+                hs = [max(hs[i], (hs[max(i - 1, 0)] + 2 * hs[i] + hs[min(i + 1, ncols - 1)]) / 4) for i in range(ncols)]
+        res.append([S_BASE + t * x + d * h + UP * z for x, h in zip(xs, hs)])
+    return res
+
+
+def apron_rows(bottom, hw):
+    rows = [(4.2, 0.25, hw), (2.1, 0.45, hw), (0.0, 0.65, hw), (-1.9, 0.65, hw)]  # on the girdle, over the cord belt
+    z = -5.0
+    while z > bottom + 1.0:
+        rows.append((z, 0.8, hw))
+        z -= 4.0
+    return rows + [(bottom, 0.8, hw)]
+
+
+def apron_k(z):  # 0 = skin weights, 1 = the flaps' stiff apron weights; as the flap at the same height
+    return 0.0 if z >= BELT_Z - 1.9 else apron_blend((Z_ATTACH - z) / FLAPS[1]["length"])
+
+
+def blend_weights(a, b, k):
+    d = {}
+    for g, w in a.items():
+        d[g] = d.get(g, 0.0) + w * (1 - k)
+    for g, w in b.items():
+        d[g] = d.get(g, 0.0) + w * k
+    row = [(g, w) for g, w in sorted(d.items(), key=lambda kv: -kv[1])[:4] if w > 0.01]
+    tot = sum(w for _, w in row)
+    return [(g, w / tot) for g, w in row]
+
+
+def royal_piece(tier):
+    name = "ek2lc_%s_reach_%s_01" % (S1, tier)
+    bind, uvs = list(war_bind[:NGV]), list(WUVS[:NGV])
+    faces, part = list(GFACES), ["girdle"] * len(GFACES)
+    tgt = (bind, uvs, faces, part)
+    if tier == "duke":
+        panels = [("pf", 0.0, apron_rows(-20.0, 6.5))]
+    else:
+        panels = [("pf", 0.0, apron_rows(-42.0, 7.5)), ("pb", math.pi, apron_rows(-38.0, 7.5))]
+    k = 0
+    for side in (1, -1):
+        for ang in (72, 86, 100):
+            th0 = side * math.radians(ang)
+            if tier == "duke":  # a cord with three bone beads
+                add_tube(th0, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4), (0, BELT_Z - 1.9, 2.4), (0, BELT_Z - 2.6, 1.6),
+                               (0, BELT_Z - 9.0, 1.6)], [0.14] * 5, 1.0, RCORD_UV, "r%02dc" % k, tgt=tgt)
+                for j, zb in enumerate((BELT_Z - 3.2, BELT_Z - 5.4, BELT_Z - 7.6)):
+                    add_tube(th0, [(0, zb, 1.6), (0, zb - 0.6, 1.6), (0, zb - 1.2, 1.6)], [0.4, 0.55, 0.4], 1.0, RBEAD_UV,
+                             "r%02db%d" % (k, j), tgt=tgt)
+            else:  # a cord, a bead, and a hagraven feather hanging flat against the hip
+                bt, bb = BELT_Z - 2.3, BELT_Z - 3.3
+                add_tube(th0, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4), (0, BELT_Z - 1.9, 2.4), (0, bt, 1.6)],
+                         [0.14] * 4, 1.0, RCORD_UV, "r%02dc" % k, tgt=tgt)
+                add_tube(th0, [(0, bt, 1.6), (0, (bt + bb) / 2, 1.6), (0, bb, 1.6)], [0.42, 0.55, 0.42], 1.0, RBEAD_UV,
+                         "r%02db" % k, tgt=tgt)
+                add_tube(th0, [(0, bb, 1.5), (0, bb - 4.0, 1.7), (0, bb - 8.0, 1.9), (0, bb - 12.5, 2.1)],
+                         [0.35, 1.0, 0.85, 0.0], 0.22, FEATHER_UV, "r%02df" % k, cap_tip=True, tgt=tgt,
+                         binder=leg_bind)  # down near the crotch: rays from the leg's centre
+            k += 1
+    pos = {s: [recon(b, s) for b in bind] for s in ALL}
+    vw = [weights_at(b[0], b[1]) for b in bind]
+    orient = [("girdle", lambda c: Vector((c.x, c.y - W_YC, 0)), None)]
+    ctr = {}
+    for f, p in zip(faces, part):
+        if p != "girdle":
+            ctr.setdefault(p, []).extend(pos["basis"][i] for i in f)
+    for p, ps in ctr.items():
+        orient.append((p, (lambda c0: (lambda c: c - c0))(sum(ps, Vector()) / len(ps)), None))
+    for tag, th, rows in panels:
+        NR, NC, d_ = len(rows), 5, s_frame(th)[0]
+        b0 = len(pos["basis"])
+        for s in ALL:
+            grid = hang_panel(s, s_out, th, rows, NC, False)
+            pos[s] += [q for row in grid for q in row] + [q - d_ * 0.3 for row in grid for q in row]
+        cl = [pos["basis"][b0 + r * NC + NC // 2] for r in range(NR)]
+        sl = [0.0]
+        for a_, b_ in zip(cl, cl[1:]):
+            sl.append(sl[-1] + (b_ - a_).length)
+        u0, v0, u1, v1 = APRON_UV
+        for layer in range(2):
+            for r in range(NR):
+                for c in range(NC):
+                    q = pos["basis"][b0 + layer * NR * NC + r * NC + c]
+                    uvs.append((u0 + (u1 - u0) * c / (NC - 1), v1 - (v1 - v0) * sl[r] / sl[-1]))
+                    # skin part sampled as the flap under it does: behind it, at belt height at most
+                    skin = skin_weights_at(q.x, max(q.z, BELT_Z - 1.7), 1 if abs(th) < 1 else -1)
+                    vw.append(blend_weights(skin, APRON, apron_k(q.z)))
+        L = lambda layer, r, c: b0 + layer * NR * NC + r * NC + c
+        for r in range(NR - 1):
+            for c in range(NC - 1):
+                faces.append([L(0, r, c), L(0, r, c + 1), L(0, r + 1, c + 1), L(0, r + 1, c)])
+                part.append(tag + "o")
+                faces.append([L(1, r, c), L(1, r + 1, c), L(1, r + 1, c + 1), L(1, r, c + 1)])
+                part.append(tag + "i")
+            for c in (0, NC - 1):
+                faces.append([L(0, r, c), L(0, r + 1, c), L(1, r + 1, c), L(1, r, c)])
+                part.append(tag + "e")
+        for r in (0, NR - 1):
+            for c in range(NC - 1):
+                faces.append([L(0, r, c), L(1, r, c), L(1, r, c + 1), L(0, r, c + 1)])
+                part.append(tag + "e")
+        orient.append((tag, (lambda dd: (lambda c: dd))(d_), tag + "o"))
+    print("ROYAL %s %d vertices" % (tier, len(pos["basis"])))
+    return dict(name=name, set=ROYAL_SETS[tier], pos=pos, faces=faces, part=part, wrap=set(AWRAP),
+                wrap_u={i: 1.0 for i in range(5)}, uvs=uvs, vw=vw, orient=orient)
+
+
+DUKE, KING = "ek2lc_%s_reach_duke_01" % S1, "ek2lc_%s_reach_king_01" % S1
+PIECES.append(royal_piece("duke"))
+PIECES.append(royal_piece("king"))
+
+
 # ------------------------------------------------------------------ textures (shared by every piece)
-def make_textures():
+HIDE_STYLES = {  # base loincloth and chest band: plain (commoners), fine (county, duke), royal (king, emperor)
+    "plain": dict(hide=(0.52, 0.37, 0.24), cord=(0.33, 0.22, 0.14)),
+    "fine": dict(hide=(0.50, 0.30, 0.18), cord=(0.40, 0.12, 0.07)),
+    "royal": dict(hide=(0.21, 0.15, 0.11), cord=(0.36, 0.09, 0.06)),
+}
+C_RED, C_OCHRE, C_BLACK, C_BONE = (np.array(c, np.float32) for c in
+                                   ((0.42, 0.07, 0.05), (0.62, 0.38, 0.12), (0.06, 0.045, 0.035), (0.84, 0.78, 0.64)))
+
+
+def hide_deco(style, sub, xx, yy, fy, h, w, wear):
+    """Painted and stitched decoration on a flap of the fine or royal hide."""
+    edge = np.minimum(xx, w - 1 - xx)
+    if style == "fine":  # red edge line, bone stitching, black and red zig-zags low down
+        sub[(np.abs(edge - 20) < 2.5) & (fy < 0.84), :3] = C_RED
+        sub[(np.abs(edge - 30) < 2.0) & ((yy % 14) < 7) & (fy > 0.13) & (fy < 0.84), :3] = C_BONE
+        tri = np.abs((xx / (w / 9.0)) % 1.0 - 0.5) * 2.0
+        for yc, col in ((0.64, C_BLACK), (0.70, C_RED), (0.76, C_BLACK)):
+            sub[(np.abs(fy - (yc + (tri - 0.5) * 0.03)) * h < 3.0) & (edge > 34), :3] = col
+        return
+    # royal: a stitched bone-white border, a grid of small patterned squares, a red band low down
+    m = (edge > 10) & (edge < 22) & (fy < 0.85)
+    sub[m, :3] = C_BONE * (0.85 + 0.15 * wear[m])[:, None]
+    sub[(np.abs(edge - 16) < 1.2) & ((yy % 10) < 5) & (fy < 0.85), :3] = C_BLACK
+    x0, x1, y0, y1, nc, nr, gap = 0.2 * w, 0.8 * w, 0.16 * h, 0.60 * h, 4, 5, 4
+    cw, ch = (x1 - x0) / nc, (y1 - y0) / nr
+    inside = (xx >= x0) & (xx < x1) & (yy >= y0) & (yy < y1)
+    ci = np.clip((xx - x0) // cw, 0, nc - 1)
+    ri = np.clip((yy - y0) // ch, 0, nr - 1)
+    lx, ly = (xx - x0) - ci * cw, (yy - y0) - ri * ch
+    cell = inside & (lx > gap) & (ly > gap) & (lx < cw - gap) & (ly < ch - gap)
+    kind = ((ci + 2 * ri) % 4).astype(np.int32)
+    u_, v_ = (lx - gap) / (cw - 2 * gap), (ly - gap) / (ch - 2 * gap)
+    for k, col in enumerate((C_RED, C_OCHRE, C_BLACK, C_BONE)):
+        m = cell & (kind == k)
+        sub[m, :3] = col * (0.85 + 0.2 * wear[m])[:, None]
+    sub[cell & (kind == 0) & (np.maximum(np.abs(u_ - 0.5), np.abs(v_ - 0.5)) < 0.22), :3] = C_BONE
+    sub[cell & (kind == 1) & ((np.abs(u_ - v_) < 0.09) | (np.abs(u_ + v_ - 1) < 0.09)), :3] = C_BLACK
+    sub[cell & (kind == 2) & (np.floor(v_ * 4) >= 3 - np.floor(u_ * 4)), :3] = C_RED
+    sub[cell & (kind == 3) & ((u_ - 0.5) ** 2 + (v_ - 0.5) ** 2 < 0.04), :3] = C_RED
+    m = (np.abs(fy - 0.70) * h < 9) & (edge > 22)
+    sub[m, :3] = C_RED * (0.85 + 0.2 * wear[m])[:, None]
+    tri = np.abs((xx / (w / 9.0)) % 1.0 - 0.5) * 2.0
+    sub[(np.abs(fy - (0.70 + (tri - 0.5) * 0.02)) * h < 2.2) & (edge > 22), :3] = C_BONE
+
+
+def make_textures(style="plain"):
     H = WD = 1024
     rng = np.random.default_rng(11)
 
@@ -881,7 +1078,7 @@ def make_textures():
         return acc / tot
 
     img = np.ones((H, WD, 4), np.float32)
-    hide = np.array([0.52, 0.37, 0.24], np.float32)
+    hide = np.array(HIDE_STYLES[style]["hide"], np.float32)
     n1, n2, n3, n4 = fbm(H, WD, 4), fbm(H, WD, 24, 3), fbm(H, WD, 6, 4), fbm(H, WD, 10, 3)
     img[..., :3] = hide * (0.78 + 0.34 * n1 + 0.12 * (n2 - 0.5))[..., None]
     img[..., :3] *= (1 - 0.2 * np.clip((n3 - 0.58) * 5, 0, 1))[..., None]  # darker patches
@@ -904,9 +1101,12 @@ def make_textures():
             sub[(xx - cx) ** 2 + (yy - hy) ** 2 < 3.5 ** 2, :3] *= 0.35
         wear = fbm(h, w, 14, 3)
         tri = np.abs((xx / (w / 7.0)) % 1.0 - 0.5) * 2.0
-        for yc in (0.69, 0.735):  # worn ochre-red zig-zag band
-            m = (np.abs(fy - (yc + (tri - 0.5) * 0.035)) * h < 3.2) & (wear > 0.32)
-            sub[m, :3] = sub[m, :3] * 0.3 + np.array([0.50, 0.13, 0.08], np.float32) * 0.7
+        if style == "plain":
+            for yc in (0.69, 0.735):  # worn ochre-red zig-zag band
+                m = (np.abs(fy - (yc + (tri - 0.5) * 0.035)) * h < 3.2) & (wear > 0.32)
+                sub[m, :3] = sub[m, :3] * 0.3 + np.array([0.50, 0.13, 0.08], np.float32) * 0.7
+        else:
+            hide_deco(style, sub, xx, yy, fy, h, w, wear)
         slit_p = 22  # fringe: slits at the bottom, ragged ends
         sid = (xx // slit_p).astype(np.int32)
         rnd = np.random.default_rng(5).random(int(sid.max()) + 2).astype(np.float32)
@@ -929,7 +1129,9 @@ def make_textures():
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
     fy = yy / (h - 1)
     twist = 0.5 + 0.5 * np.sin(2 * np.pi * (xx / w * 38 + fy * 1.2))
-    sub[..., :3] = np.array([0.33, 0.22, 0.14], np.float32) * (0.55 + 0.5 * twist * (0.6 + 0.4 * np.sin(np.pi * fy) ** 0.6))[..., None]
+    sub[..., :3] = np.array(HIDE_STYLES[style]["cord"], np.float32) * (0.55 + 0.5 * twist * (0.6 + 0.4 * np.sin(np.pi * fy) ** 0.6))[..., None]
+    if style == "royal":  # bone-white wraps round the red cord
+        sub[((xx / w * 40) % 1.0) < 0.22, :3] = C_BONE * 0.9
     sub[..., 3] = 1.0
     normal = np.zeros((H, WD, 4), np.float32)
     normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5  # flat, in CK3's packed layout
@@ -1056,9 +1258,106 @@ def make_armour_textures():
     return {"diffuse": np.clip(img, 0, 1), "normal": t["normal"], "properties": props}
 
 
+def make_royal_textures(tier):
+    """Royal add-ons: girdle (top half, as the war girdle), apron, hagraven feather, sinew cord, beads."""
+    H = WD = 512
+    rng = np.random.default_rng({"duke": 41, "king": 43, "emperor": 43}[tier])
+    n = rng.random((H // 8 + 2, WD // 8 + 2)).astype(np.float32)
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    n = n[(yy // 8).astype(int), (xx // 8).astype(int)] * 0.5 + rng.random((H, WD)).astype(np.float32) * 0.15
+    v, u = 1 - yy / (H - 1), xx / (WD - 1)
+    img = np.ones((H, WD, 4), np.float32)
+    props = np.zeros((H, WD, 4), np.float32)
+    props[..., 1], props[..., 3] = 0.22, 0.58
+    BRONZE, GARNET = np.array((0.70, 0.50, 0.22), np.float32), np.array((0.45, 0.03, 0.07), np.float32)
+    metal = tier == "emperor"
+    trim, accent = (BRONZE, GARNET) if metal else (C_BONE, C_RED)
+    base = np.array((0.46, 0.25, 0.15) if tier == "duke" else (0.17, 0.12, 0.09), np.float32)
+
+    def shiny(m):
+        props[m, 1] = 0.5 if metal else 0.35
+
+    # girdle
+    g = v >= 0.5
+    img[g, :3] = base * (0.75 + 0.5 * n[g])[:, None]
+    gv = (v - 0.52) / 0.46
+    for lv in (0.16, 0.84):  # trim lines along both edges
+        m = g & (np.abs(gv - lv) < 0.035)
+        img[m, :3] = trim * (0.85 + 0.2 * n[m])[:, None]
+        shiny(m)
+    if tier == "duke":
+        tri = np.abs((u * 24) % 1.0 - 0.5) * 2.0
+        img[g & (np.abs(gv - (0.5 + (tri - 0.5) * 0.3)) < 0.04), :3] = C_BLACK
+    else:  # a row of patterned squares round the middle
+        cell = np.floor(u * 40)
+        lu, lv_ = (u * 40) % 1.0, (gv - 0.28) / 0.44
+        sq = g & (lv_ > 0) & (lv_ < 1) & (lu > 0.1) & (lu < 0.9)
+        k = (cell % 3).astype(np.int32)
+        for i, col in enumerate((accent, trim, C_OCHRE)):
+            m = sq & (k == i)
+            img[m, :3] = col * (0.85 + 0.2 * n[m])[:, None]
+            if i < 2:
+                shiny(m)
+        img[sq & (k == 0) & (np.abs(lu - 0.5) < 0.15) & (np.abs(lv_ - 0.5) < 0.15), :3] = C_BLACK
+    for lv in (0.06, 0.94):  # bead rows on the edges
+        cx = (np.floor(u * 48) + 0.5) / 48
+        m = g & (((u - cx) * WD) ** 2 + ((gv - lv) * 0.46 * H) ** 2 < 3.6 ** 2)
+        img[m, :3] = trim * (0.85 + 0.15 * n[m])[:, None]
+        shiny(m)
+    # apron
+    a = (u < 0.5) & (v < 0.5)
+    au = np.clip((u - APRON_UV[0]) / (APRON_UV[2] - APRON_UV[0]), 0, 1)
+    al = np.clip((APRON_UV[3] - v) / (APRON_UV[3] - APRON_UV[1]), 0, 1)  # 0 top .. 1 bottom
+    img[a, :3] = base * (0.75 + 0.45 * n[a])[:, None]
+    edge = np.minimum(au, 1 - au)
+    m = a & (edge < 0.07) & (edge > 0.03)
+    img[m, :3] = trim
+    shiny(m)
+    if tier == "duke":  # stacked bone chevrons
+        chev = (al * 9 + np.abs(au - 0.5) * 3) % 1.0
+        m = a & (chev < 0.18) & (al > 0.2) & (al < 0.8) & (edge > 0.12)
+        img[m, :3] = C_BONE
+    else:  # woven-look bands of small squares, steps and lines
+        for b0 in (0.22, 0.44, 0.66):
+            band = a & (al > b0) & (al < b0 + 0.12) & (edge > 0.1)
+            img[band, :3] = accent * (0.85 + 0.2 * n[band])[:, None]
+            shiny(band)
+            lu = (au * 10) % 1.0
+            lb = (al - b0) / 0.12
+            m = band & (np.abs(lu - 0.5) < 0.22) & (np.abs(lb - 0.5) < 0.25)
+            img[m, :3] = trim
+            shiny(m)
+            img[a & (np.abs(al - b0 - 0.135) < 0.008) & (edge > 0.1), :3] = trim * 0.9
+    fr = (xx % 9) < 3  # fringe: slits over the bottom 12 %
+    img[a & ((al > 0.88) & fr | (al > 0.985)), 3] = 0.0
+    # hagraven feather: dark vane, pale shaft; red tip for the emperor
+    f = (u >= 0.5) & (v >= 0.25) & (v < 0.5)
+    fu = (u - FEATHER_UV[0]) / (FEATHER_UV[2] - FEATHER_UV[0])
+    fv = np.clip((v - FEATHER_UV[1]) / (FEATHER_UV[3] - FEATHER_UV[1]), 0, 1)  # 0 quill .. 1 tip
+    shaft = np.minimum(np.abs(fu - 0.0), np.minimum(np.abs(fu - 0.5), np.abs(fu - 1.0))) < 0.04
+    barbs = 0.75 + 0.25 * np.sin((fv * 60 + np.abs(fu - 0.5) * 30))
+    img[f, :3] = np.array((0.12, 0.12, 0.13), np.float32) * barbs[f][:, None] * (1 + 0.6 * fv[f] ** 3)[:, None]
+    img[f & shaft, :3] = np.array((0.75, 0.72, 0.66), np.float32)
+    if metal:
+        img[f & (fv > 0.8) & ~shaft, :3] = GARNET * 1.3
+    # sinew cord and beads
+    c = (u >= 0.5) & (v < 0.25) & (u < 0.76)
+    img[c, :3] = np.array((0.55, 0.44, 0.30), np.float32) * (0.7 + 0.3 * np.sin(xx[c] * 0.9 + yy[c] * 0.6))[:, None]
+    b = (u >= 0.76) & (v < 0.25)
+    img[b, :3] = trim * (0.8 + 0.3 * n[b])[:, None]
+    shiny(b)
+    normal = np.zeros((H, WD, 4), np.float32)
+    normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
 MATS = {SET: make_material("ek2lc_reach_hide", save_set(SET, make_textures())),
         WSET: make_material("ek2lc_reach_war", save_set(WSET, make_war_textures())),
-        ASET: make_material("ek2lc_reach_armour", save_set(ASET, make_armour_textures()))}
+        ASET: make_material("ek2lc_reach_armour", save_set(ASET, make_armour_textures())),
+        FSET: make_material("ek2lc_reach_fine", save_set(FSET, make_textures("fine"))),
+        RSET: make_material("ek2lc_reach_royal", save_set(RSET, make_textures("royal")))}
+for _t, _set in ROYAL_SETS.items():
+    MATS[_set] = make_material("ek2lc_reach_" + _t, save_set(_set, make_royal_textures(_t)))
 
 
 # ------------------------------------------------------------------ make, export and check every piece
@@ -1069,6 +1368,36 @@ def export(obj, path, as_bs):
     bpy.context.view_layer.objects.active = obj
     bpy.ops.io_pdx_mesh.export_mesh(filepath=path, chk_mesh=True, chk_skel=not as_bs, chk_locs=False,
                                      chk_selected=True, chk_mesh_blendshape=as_bs)
+
+
+def write_asset(name, mesh, tset):
+    """Entity `name` showing `mesh` (and its body-shape meshes) with texture set `tset`."""
+    node = mesh + "Shape"
+    bs_lines = "\n".join('\tblend_shape = { id = "%s_bs_%s"\ttype = "%s_bs_%s.mesh" }' % (name, s, mesh, s) for s in SHAPES)
+    attr_lines = "\n".join('\tattribute = { name = "%s"\tblend_shape = "%s_bs_%s" }' % (SHAPE_ATTR[s], name, s) for s in SHAPES)
+    with open(os.path.join(OUT, name + ".asset"), "w") as f:
+        f.write(f"""pdxmesh = {{
+	name = "{name}_mesh"
+	file = "{mesh}.mesh"
+{bs_lines}
+
+	meshsettings = {{
+		name = "{node}"
+		index = 0
+		texture_diffuse = "{tset}_diffuse.dds"
+		texture_normal = "{tset}_normal.dds"
+		texture_specular = "{tset}_properties.dds"
+		shader = "portrait_attachment_alpha_to_coverage"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}}
+}}
+
+entity = {{
+	name = "{name}_entity"
+	pdxmesh = "{name}_mesh"
+{attr_lines}
+}}
+""")
 
 
 def finish_piece(pc):
@@ -1138,31 +1467,7 @@ def finish_piece(pc):
         me.name = node
         drop([o])
     print("EXPORT %s vertex counts (base, shape): %s" % (name, counts))
-    bs_lines = "\n".join('\tblend_shape = { id = "%s_bs_%s"\ttype = "%s_bs_%s.mesh" }' % (name, s, name, s) for s in SHAPES)
-    attr_lines = "\n".join('\tattribute = { name = "%s"\tblend_shape = "%s_bs_%s" }' % (SHAPE_ATTR[s], name, s) for s in SHAPES)
-    with open(os.path.join(OUT, name + ".asset"), "w") as f:
-        f.write(f"""pdxmesh = {{
-	name = "{name}_mesh"
-	file = "{name}.mesh"
-{bs_lines}
-
-	meshsettings = {{
-		name = "{node}"
-		index = 0
-		texture_diffuse = "{tset}_diffuse.dds"
-		texture_normal = "{tset}_normal.dds"
-		texture_specular = "{tset}_properties.dds"
-		shader = "portrait_attachment_alpha_to_coverage"
-		shader_file = "gfx/FX/jomini/portrait.shader"
-	}}
-}}
-
-entity = {{
-	name = "{name}_entity"
-	pdxmesh = "{name}_mesh"
-{attr_lines}
-}}
-""")
+    write_asset(name, name, tset)
     for s in ALL:  # poke-through check: points inside the body, per body shape
         inside, worst = 0, 1e9
         for p in pc["pos"][s]:
@@ -1175,6 +1480,10 @@ entity = {{
 
 
 OBJS = [finish_piece(pc) for pc in PIECES]
+for _ent, _mesh, _set in [("ek2lc_%s_reach_fine_01" % S1, NAME, FSET), ("ek2lc_%s_reach_royal_01" % S1, NAME, RSET),
+                          ("ek2lc_%s_reach_emperor_01" % S1, KING, ROYAL_SETS["emperor"])] + (
+        [("ek2lc_f_reach_band_fine_01", BAND, FSET), ("ek2lc_f_reach_band_royal_01", BAND, RSET)] if SEX == "female" else []):
+    write_asset(_ent, _mesh, _set)  # same mesh, other texture
 
 # body shapes as shape keys, so the .blend shows the pieces following them (export is done)
 for obj, data in [(body, COORDS)] + [(o, pc["pos"]) for o, pc in zip(OBJS, PIECES)]:
@@ -1217,8 +1526,8 @@ def preview():
     scene.collection.objects.link(co)
     scene.camera = co
     target = Vector((0, center_y(HIP_Z), 90 if SEX == "female" else 79))
-    for o in OBJS:  # the armour has its own girdle: show it, not the war piece, in the preview
-        o.hide_render = o.name == WAR
+    for o in OBJS:  # the armour has its own girdle: show it (not the war or royal pieces) in the preview
+        o.hide_render = o.name not in (NAME, BAND, ARM)
     extra = "pregnant" if SEX == "female" else "fat"
     keys = [o.data.shape_keys.key_blocks[extra] for o in [body] + OBJS]
     shots = []
@@ -1234,5 +1543,31 @@ def preview():
     subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview_%s.png" % S1)], check=True)
 
 
+
+def preview_royal():
+    """Duke, king and emperor (front), emperor (back): the royal pieces on the fine or royal loincloth."""
+    objs = {o.name: o for o in OBJS}
+    co = scene.camera
+    target = Vector((0, center_y(HIP_Z), 90 if SEX == "female" else 79))
+    for kb in [o.data.shape_keys.key_blocks[k] for o in [body] + OBJS for k in ("fat", "pregnant") if k in o.data.shape_keys.key_blocks]:
+        kb.value = 0
+    shots = []
+    for tag, ang, base_set, piece, pset in (("duke", 0, FSET, DUKE, ROYAL_SETS["duke"]), ("king", 0, RSET, KING, ROYAL_SETS["king"]),
+                                             ("emperor", 0, RSET, KING, ROYAL_SETS["emperor"]), ("emperor_back", 180, RSET, KING, ROYAL_SETS["emperor"])):
+        for o in OBJS:
+            o.hide_render = o.name not in (NAME, BAND, piece)
+            if o.name in (NAME, BAND):
+                o.data.materials[0] = MATS[base_set]
+        objs[piece].data.materials[0] = MATS[pset]
+        a = math.radians(ang)
+        co.location = target + (FRONT * math.cos(a) + RIGHT * math.sin(a)) * 300
+        co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
+        scene.render.filepath = os.path.join(PREV, "r_%s_%s.png" % (S1, tag))
+        bpy.ops.render.render(write_still=True)
+        shots.append(scene.render.filepath)
+    subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview_royal_%s.png" % S1)], check=True)
+
+
 preview()
+preview_royal()
 print("DONE %s in %.1fs" % (SEX, time.time() - T0))

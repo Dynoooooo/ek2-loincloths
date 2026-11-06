@@ -82,6 +82,7 @@ ek2lc_loincloth = {
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
+				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -140,6 +141,7 @@ ek2lc_loincloth = {
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
+				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -367,6 +369,454 @@ ek2lc_loincloth = {
 				is_female = yes
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach men, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed hide.
+	ek2lc_reach_royal_county_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = no
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach women, rulers and their spouses (higher of the two top title tiers), county and below: the loincloth (and chest band) in finer dyed hide.
+	ek2lc_reach_royal_county_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach men, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, bone beads.
+	ek2lc_reach_royal_duke_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_duke
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = no
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach women, rulers and their spouses (higher of the two top title tiers), duke: the fine loincloth, the royal girdle, a short front apron, bone beads.
+	ek2lc_reach_royal_duke_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band_fine
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_duke
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach men, rulers and their spouses (higher of the two top title tiers), king: royal hide, long front and back aprons, hagraven feathers.
+	ek2lc_reach_royal_king_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_king
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = no
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach women, rulers and their spouses (higher of the two top title tiers), king: royal hide, long front and back aprons, hagraven feathers.
+	ek2lc_reach_royal_king_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_king
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach men, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet.
+	ek2lc_reach_royal_emperor_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_emperor
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = no
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach women, rulers and their spouses (higher of the two top title tiers), emperor: the king's pieces in Dwemer bronze and garnet.
+	ek2lc_reach_royal_emperor_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band_royal
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_emperor
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2  # against 1 for "no loincloth": two in three Reach rulers wear it
+				is_female = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = no
+				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes

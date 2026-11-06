@@ -1,7 +1,8 @@
 ﻿# EK2 Loincloths genes. Template 0 of each gene is "none".
-#   gene_ek2lc_loincloth: the loincloth itself
+#   gene_ek2lc_loincloth: the loincloth itself (plain hide; fine and royal hides for rulers)
 #   gene_ek2lc_top: chest pieces, kept separate so a culture can drop them for some women
-#   gene_ek2lc_war: war add-ons worn over the loincloth (war girdle, or girdle with the armoured strip skirt)
+#   gene_ek2lc_war: war add-ons worn over the loincloth (war girdle, or girdle with the armoured strip skirt;
+#     for rulers the royal girdle with aprons and ornaments by title tier)
 special_genes = {
 	accessory_genes = {
 		gene_ek2lc_loincloth = {
@@ -19,6 +20,20 @@ special_genes = {
 				boy = { 1 = empty }
 				girl = { 1 = empty }
 			}
+			ek2lc_reach_fine = {
+				index = 2
+				male = { 1 = ek2lc_m_reach_fine_01 }
+				female = { 1 = ek2lc_f_reach_fine_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_royal = {
+				index = 3
+				male = { 1 = ek2lc_m_reach_royal_01 }
+				female = { 1 = ek2lc_f_reach_royal_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
 		}
 		gene_ek2lc_top = {
 			ek2lc_no_top = {
@@ -32,6 +47,20 @@ special_genes = {
 				index = 1
 				male = { 1 = empty }
 				female = { 1 = ek2lc_f_reach_band_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_band_fine = {
+				index = 2
+				male = { 1 = empty }
+				female = { 1 = ek2lc_f_reach_band_fine_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_band_royal = {
+				index = 3
+				male = { 1 = empty }
+				female = { 1 = ek2lc_f_reach_band_royal_01 }
 				boy = { 1 = empty }
 				girl = { 1 = empty }
 			}
@@ -55,6 +84,27 @@ special_genes = {
 				index = 2
 				male = { 1 = ek2lc_m_reach_armour_01 }
 				female = { 1 = ek2lc_f_reach_armour_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_duke = {
+				index = 3
+				male = { 1 = ek2lc_m_reach_duke_01 }
+				female = { 1 = ek2lc_f_reach_duke_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_king = {
+				index = 4
+				male = { 1 = ek2lc_m_reach_king_01 }
+				female = { 1 = ek2lc_f_reach_king_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_emperor = {
+				index = 5
+				male = { 1 = ek2lc_m_reach_emperor_01 }
+				female = { 1 = ek2lc_f_reach_emperor_01 }
 				boy = { 1 = empty }
 				girl = { 1 = empty }
 			}

@@ -25,3 +25,24 @@ ek2lc_armour_role_trigger = {
 		prowess >= 12
 	}
 }
+
+# Rulers and their spouses (adults): their royal look follows the higher of their two top title tiers.
+ek2lc_royal_trigger = {
+	exists = this
+	is_adult = yes
+	OR = {
+		highest_held_title_tier >= tier_barony
+		primary_spouse ?= { highest_held_title_tier >= tier_barony }
+	}
+}
+
+# A ruler or spouse whose higher top title tier is from tier_$LOW$ to tier_$HIGH$.
+ek2lc_royal_tier_trigger = {
+	ek2lc_royal_trigger = yes
+	OR = {
+		highest_held_title_tier >= tier_$LOW$
+		primary_spouse ?= { highest_held_title_tier >= tier_$LOW$ }
+	}
+	highest_held_title_tier <= tier_$HIGH$
+	NOT = { primary_spouse ?= { highest_held_title_tier > tier_$HIGH$ } }
+}
