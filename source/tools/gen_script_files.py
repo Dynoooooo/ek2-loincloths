@@ -3,15 +3,20 @@ genes, accessories, portrait modifiers (who wears what), barbershop entries and 
 
     python3 source/tools/gen_script_files.py
 
-Template indices are fixed by their order here: the Reach's first (as before), then each culture
-in cultures.py order. Only ever add cultures at the end, or saved characters change pieces.
+Template indices are fixed by their order here (gene_rows()): the Reach's first (as before), then each
+culture in cultures.py order, then the lich's burial regalia, then the grave wraps; a culture added
+later goes after those. Only ever add at the end, or saved characters change pieces.
+
+EK2's undead (scripted triggers in common/scripted_triggers/ek2lc_triggers.txt; neither while a ritual
+conceals them): a lich gets every modifier's lich twin (same rule, lich textures) instead of the
+modifier; other undead get their culture's rotted grave wrap, whatever their rank.
 """
 import os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.normpath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(MOD, "source"))
-from cultures import CULTURES  # noqa: E402
+from cultures import CULTURES, LICH  # noqa: E402
 from colour import entity_name  # noqa: E402
 
 REACH = dict(inputs=["ek_nedic_reach"], adj="Reach", mat="Hide", lames="Hide-and-Bone", metal="Bronze and Garnet",
@@ -27,11 +32,19 @@ GENES = {
     "gene_ek2lc_war": ("ek2lc_no_war", ["war", "armour", "duke", "king", "emperor"]),
     "gene_ek2lc_mantle": ("ek2lc_no_mantle", ["mantle"]),
 }
-WOMEN_ONLY = {"band", "band_fine", "band_royal"}
+WOMEN_ONLY = {"band", "band_fine", "band_royal", "grave_band"}
+# EK2's undead. Liches: every kind in lich textures (template culture "lich"). Other undead: the
+# culture's plain loincloth and chest band, rotted (kinds "grave", "grave_band").
+GRAVE = {"gene_ek2lc_loincloth": "grave", "gene_ek2lc_top": "grave_band"}
+EARLY = ("reach", "ashlander", "bosmer", "argonian", "khajiit", "orc", "goblin", "kothringi", "lilmothiit")  # before the undead
+assert tuple(ALL)[:len(EARLY)] == EARLY
+LICH_TAG = "ek2lc_lich"    # set by the lich's loincloths: the extras draw their lich version
+GRAVE_TAG = "ek2lc_grave"  # set by the grave wraps: the extras draw nothing
 # Culture-independent extras: gene -> (none template, [(kind, barbershop name, game rule)], barbershop
 # group name, its "none" name, tags that hide it). Their accessories draw only while one of our
 # loincloths is worn (LOINCLOTH_TAG) and none of their hiding tags is set, so the game rule needs no
-# culture or look: anyone 14+ qualifies, and EK2 clothes simply hide nothing.
+# culture or look: anyone 14+ qualifies, and EK2 clothes simply hide nothing. Over a grave wrap
+# (GRAVE_TAG) they draw nothing; over a lich's loincloth (LICH_TAG), their lich version.
 LOINCLOTH_TAG = "ek2lc_loincloth"
 GIRDLE_TAG = "ek2lc_girdle"  # set by every piece of gene_ek2lc_war (war, armoured and royal girdles)
 MANTLE_TAG = "ek2lc_mantle"  # set by the emperor's mantle
@@ -62,6 +75,17 @@ def acc(s, c, kind):
     return "ek2lc_%s_%s_%s_01" % (s, c, kind)
 
 
+def gene_rows(gene):
+    """[(template, culture, kind)] after "none", in index order."""
+    kinds, g = GENES[gene][1], GRAVE.get(gene)
+    rows = [(tmpl(c, k), c, k) for c in EARLY for k in kinds] + [(tmpl("lich", k), "lich", k) for k in kinds]
+    rows += [(tmpl(c, g), c, g) for c in EARLY if g]
+    for c in ALL:
+        if c not in EARLY:
+            rows += [(tmpl(c, k), c, k) for k in kinds] + ([(tmpl(c, g), c, g)] if g else [])
+    return rows
+
+
 def write(rel, text):
     p = os.path.join(MOD, rel)
     os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -82,7 +106,7 @@ special_genes = {
 	accessory_genes = {"""]
     for gene, (none, kinds) in GENES.items():
         out.append("\t\t%s = {" % gene)
-        rows = [(none, None, None)] + [(tmpl(c, k), c, k) for c in ALL for k in kinds]
+        rows = [(none, None, None)] + gene_rows(gene)
         for i, (t, c, k) in enumerate(rows):
             m = "empty" if c is None or k in WOMEN_ONLY else acc("m", c, k)
             f = "empty" if c is None else acc("f", c, k)
@@ -126,10 +150,19 @@ def accessories():
                 for s in ("m", "f"):
                     if not (s == "m" and k in WOMEN_ONLY):
                         order.append((c, s, k))
+    for gene in GENES:  # the undead's, after the cultures'
+        for _, c, k in gene_rows(gene):
+            for s in ("m", "f"):
+                if (c == "lich" or k in GRAVE.values()) and not (s == "m" and k in WOMEN_ONLY):
+                    order.append((c, s, k))
     for c, s, k in order:
         a = acc(s, c, k)
         tag = LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else GIRDLE_TAG if k in GENES["gene_ek2lc_war"][1] \
             else MANTLE_TAG if k in GENES["gene_ek2lc_mantle"][1] else None
+        if k == "grave":
+            tag = LOINCLOTH_TAG + "," + GRAVE_TAG
+        elif c == "lich" and tag == LOINCLOTH_TAG:
+            tag += "," + LICH_TAG
         tags = '\tset_tags = "%s"\n' % tag if tag else ""
         out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}" % (a, tags, entity_name(a)))
     for gene, (none, kinds, _, _, hide) in EXTRA.items():
@@ -137,9 +170,10 @@ def accessories():
             for s in ("m", "f"):
                 a = xacc(s, k)
                 out.append("%s = {\n%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
+                           "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}"
-                           % (a, "".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide),
-                              LOINCLOTH_TAG, entity_name(a)))
+                           % (a, "".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide + [GRAVE_TAG]),
+                              LICH_TAG, entity_name(xacc(s, "lich_" + k)), LOINCLOTH_TAG, entity_name(a)))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
 
@@ -212,8 +246,9 @@ def culture_cond(cd, commoner):
     return "\t\t\t\tOR = {\n" + "\n".join("\t\t\t\t\t" + o.replace("\n", "\n\t") for o in one) + "\n\t\t\t\t}"
 
 
-def modifier(name, comment, pieces, mods):
-    """pieces: (loincloth, top, war, mantle) kinds or None; mods: list of (add, [condition lines])."""
+def modifier(name, comment, pieces, mods, last=()):
+    """pieces: (loincloth, top, war, mantle) kinds or None; mods: list of (add, [condition lines]);
+    last: weight-modifier bodies applied after the adds."""
     pairs = [("clothes", "no_clothes"), ("legwear", "no_legwear"), ("cloaks", "no_cloak")]
     for gene, k in zip(GENES, pieces):
         pairs.append((gene, GENES[gene][0] if k is None else k))
@@ -224,8 +259,22 @@ def modifier(name, comment, pieces, mods):
         w.extend(conds)
         w.append(NUDE)
         w.append("\t\t\t}")
+    for body in last:
+        w.append("\t\t\tmodifier = {\n%s\n\t\t\t}" % body)
     w.append("\t\t}")
     return "\t# %s\n\t%s = {\n%s\n%s\n\t}\n" % (comment, name, dna(pairs, unshrink=True), "\n".join(w))
+
+
+UNDEAD_OFF = "\t\t\t\tfactor = 0  # EK2's undead: the lich twin below, or the grave wrap\n\t\t\t\tek2lc_undead_look_trigger = yes"
+
+
+def with_lich(c, name, comment, pieces, mods):
+    """The modifier, for everyone but EK2's undead, and its lich twin: the same rule and weights for
+    liches, every piece in the lich's burial textures."""
+    lich = tuple(None if t is None else tmpl("lich", t[len(tmpl(c, "")):]) for t in pieces)
+    return [modifier(name, comment, pieces, mods, [UNDEAD_OFF]),
+            modifier(name.replace("ek2lc_", "ek2lc_lich_", 1), "Lich twin of %s: the same, for liches (lich's burial regalia)." % name,
+                     lich, [(add, conds + ["\t\t\t\tek2lc_lich_look_trigger = yes"]) for add, conds in mods])]
 
 
 TIERS = [("county", "barony", "county", "fine", "fine", None, "county and below: the loincloth (and chest band) in finer dyed material"),
@@ -262,42 +311,55 @@ ek2lc_loincloth = {
             if look != "hide":
                 pass
             elif s == "f" and cd.get("bare_f"):
-                out.append(modifier("ek2lc_%s_hide_f" % c, "%s women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: "
+                out.extend(with_lich(c, "ek2lc_%s_hide_f" % c, "%s women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: "
                                     "while \"Show nudity\" is on, one in three goes bare-chested (next modifier)." % adj,
                                     (T("hide"), T("band"), None, None),
                                     [(100, com + ["\t\t\t\tshould_show_nudity = no"]), (60, com + ["\t\t\t\tshould_show_nudity = yes"])]))  # girls: 60 here, 0 for bare
-                out.append(modifier("ek2lc_%s_hide_f_bare" % c, "Adult %s women who are commoners, bare-chested, only while \"Show nudity\" is on." % adj,
+                out.extend(with_lich(c, "ek2lc_%s_hide_f_bare" % c, "Adult %s women who are commoners, bare-chested, only while \"Show nudity\" is on." % adj,
                                     (T("hide"), None, None, None), [(30, com + ["\t\t\t\tis_adult = yes", "\t\t\t\tshould_show_nudity = yes"])]))
             else:
-                out.append(modifier("ek2lc_%s_hide_%s" % (c, s), "%s %s and children (4+) who are commoners%s. EK2's commoner rule already leaves out armour."
+                out.extend(with_lich(c, "ek2lc_%s_hide_%s" % (c, s), "%s %s and children (4+) who are commoners%s. EK2's commoner rule already leaves out armour."
                                     % (adj, people, ": the loincloth and always the chest band" if s == "f" else ""),
                                     (T("hide"), top("band"), None, None), [(100, com)]))
             cul = culture_cond(cd, False)
             if look == "hide":
-                out.append(modifier("ek2lc_%s_camp_%s" % (c, s), "%s %s (14+) who follow an army without fighting (ek2lc_camp_follower_trigger): the plain "
+                out.extend(with_lich(c, "ek2lc_%s_camp_%s" % (c, s), "%s %s (14+) who follow an army without fighting (ek2lc_camp_follower_trigger): the plain "
                                     "loincloth%s, under the camp follower's wrap. EK2 dresses an adventurer's camp as low nobility, "
                                     "so the commoner rule alone would miss them." % (adj, people, " and the chest band" if s == "f" else ""),
                                     (T("hide"), top("band"), None, None),
                                     [(100, base + [TEENS, cul, "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_camp_follower_trigger = yes"])]))
             if look == "war":
-                out.append(modifier("ek2lc_%s_war_%s" % (c, s), "%s %s (14+) in a war role while their realm is at war: the loincloth with the "
+                out.extend(with_lich(c, "ek2lc_%s_war_%s" % (c, s), "%s %s (14+) in a war role while their realm is at war: the loincloth with the "
                                 "war girdle and trophies%s, instead of EK2's armour." % (adj, people, ", and always the chest band" if s == "f" else ""),
                                 (T("hide"), top("band"), T("war"), None),
                                 [(100, base + [TEENS, cul, "\t\t\t\tek2lc_war_role_trigger = yes", "\t\t\t\tek2lc_armour_role_trigger = no"])]))
             if look == "armour":
-                out.append(modifier("ek2lc_%s_armour_%s" % (c, s), "%s %s (14+) among the best fighters (knights, or prowess 12+) while their realm "
+                out.extend(with_lich(c, "ek2lc_%s_armour_%s" % (c, s), "%s %s (14+) among the best fighters (knights, or prowess 12+) while their realm "
                                 "is at war: the loincloth with the war girdle and the strip skirt%s." % (adj, people, ", and always the chest band" if s == "f" else ""),
                                 (T("hide"), top("band"), T("armour"), None),
                                 [(100, base + [TEENS, cul, "\t\t\t\tek2lc_armour_role_trigger = yes"])]))
         for tier, lo, hi, lk, bk, wk, desc in TIERS:
             for s, sex, fem, people in SEXES:
                 top = T("band" if bk == "hide" else "band_" + bk) if s == "f" else None
-                out.append(modifier("ek2lc_%s_royal_%s_%s" % (c, tier, s),
+                out.extend(with_lich(c, "ek2lc_%s_royal_%s_%s" % (c, tier, s),
                                     "%s %s, rulers and their spouses (higher of the two top title tiers), %s." % (adj, people, desc),
                                     (T(lk), top, T(wk) if wk else None, T("mantle") if tier == "emperor" else None),
                                     [('2  # against 1 for "no loincloth": two in three %s rulers wear it' % adj,
                                       ["\t\t\t\tis_female = %s" % fem, KIDS, cul, "\t\t\t\tek2lc_war_role_trigger = no",
                                        "\t\t\t\tek2lc_royal_tier_trigger = { LOW = %s HIGH = %s }" % (lo, hi)])]))
+        cul = culture_cond(cd, False)
+        for s, sex, fem, people in SEXES:
+            grave = ["\t\t\t\tis_female = %s" % fem, KIDS, cul, "\t\t\t\tek2lc_grave_look_trigger = yes"]
+            out.append(modifier("ek2lc_%s_grave_%s" % (c, s), "%s %s and children (4+) among EK2's undead (not liches), whatever their rank: "
+                                "the rotted plain loincloth%s, nothing else of ours. 1000 wins over \"no loincloth\"."
+                                % (adj, people, " and the rotted chest band" if s == "f" else ""),
+                                (T("grave"), T("grave_band") if s == "f" else None, None, None), [(1000, grave)]))
+            if s == "f" and cd.get("bare_f"):
+                out.append(modifier("ek2lc_%s_grave_f_bare" % c, "Adult %s undead women who are commoners, bare-chested, only while "
+                                    "\"Show nudity\" is on: one in three, as for the living (ek2lc_%s_hide_f_bare)." % (adj, c),
+                                    (T("grave"), None, None, None),
+                                    [(500, grave + [culture_cond(cd, True), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no",
+                                                    "\t\t\t\tis_adult = yes", "\t\t\t\tshould_show_nudity = yes"])]))
     out.append("}\n")
     for gene, (none, kinds, *_) in EXTRA.items():
         g = gene.replace("gene_", "")
@@ -347,6 +409,22 @@ def piece_name(cd, k):
             "emperor": "%s Imperial Girdle in %s" % (a, cd["metal"]), "mantle": "%s Imperial %s Mantle" % (a, cd["mantle"])}[k]
 
 
+LICH_PIECES = {"hide": "Loincloth", "fine": "Fine Loincloth", "royal": "Royal Loincloth", "band": "Chest Band",
+               "band_fine": "Fine Chest Band", "band_royal": "Royal Chest Band", "war": "War Girdle with Trophies",
+               "armour": "Strip Skirt", "duke": "Ducal Girdle with Apron", "king": "Royal Girdle with Long Aprons",
+               "emperor": "Imperial Girdle", "mantle": "Imperial Mantle"}
+
+
+def row_name(c, k):
+    if c == "lich":
+        return "%s %s" % (LICH["adj"], LICH_PIECES[k])
+    if k == "grave":
+        return "%s Grave Wrap" % ALL[c]["adj"]
+    if k == "grave_band":
+        return "%s Grave-Wrap Chest Band" % ALL[c]["adj"]
+    return piece_name(ALL[c], k)
+
+
 def barbershop():
     out = [BOM + "# EK2 Loincloths: barbershop entries, one group per gene, the vanilla way (add_accessory_modifiers).",
            "# Written by source/tools/gen_script_files.py.",
@@ -354,24 +432,24 @@ def barbershop():
            "# Chest pieces only list for women.", ""]
     loc = [BOM + "l_english:"]
     for grp, pos, gene, title, none in CUSTOM:
-        none_t, kinds = GENES[gene]
+        none_t = GENES[gene][0]
+        rows = gene_rows(gene)
         out += ["%s = {" % grp, "\tusage = customization", "\tinterface_position = %d" % pos, "\tpriority = 102", ""]
         valid = "\t\tis_valid_custom = { is_female = yes }" if gene == "gene_ek2lc_top" else None
-        for t in [none_t] + [tmpl(c, k) for c in ALL for k in kinds]:
+        for t in [none_t] + [t for t, _, _ in rows]:
             out += ["\tadd_accessory_modifiers = {", "\t\tgene = %s" % gene, "\t\ttemplate = %s" % t] + ([valid] if valid else []) + ["\t}"]
         out += ["}", ""]
         loc.append(' PORTRAIT_MODIFIER_%s: "%s"' % (grp, title))
         loc.append(' PORTRAIT_MODIFIER_%s_none: "%s"' % (grp, none))
         for s in ("male", "female", "boy", "girl"):
             loc.append(' PORTRAIT_MODIFIER_%s_%s_empty: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, s, grp))
-        for c, cd in ALL.items():
-            for k in kinds:
-                m, f = acc("m", c, k), acc("f", c, k)
-                if k in WOMEN_ONLY:
-                    loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, f, piece_name(cd, k)))
-                else:
-                    loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, m, piece_name(cd, k)))
-                    loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, f, grp, m))
+        for _, c, k in rows:
+            m, f = acc("m", c, k), acc("f", c, k)
+            if k in WOMEN_ONLY:
+                loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, f, row_name(c, k)))
+            else:
+                loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, m, row_name(c, k)))
+                loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, f, grp, m))
     for pos, (gene, (none, kinds, title, none_title, _)) in enumerate(EXTRA.items(), start=13):
         grp = "ek2lc_custom_" + gene.replace("gene_ek2lc_", "")
         out += ["%s = {" % grp, "\tusage = customization", "\tinterface_position = %d" % pos, "\tpriority = 102", ""]

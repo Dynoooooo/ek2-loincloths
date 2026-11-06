@@ -62,3 +62,27 @@ ek2lc_camp_follower_trigger = {
 		any_spouse = { is_in_army = yes }
 	}
 }
+
+# EK2's undead, unless a ritual conceals them (then EK2 shows them as living, and so do we).
+# Liches (lich_character) wear their rank look in the lich's burial textures.
+ek2lc_lich_look_trigger = {
+	exists = this
+	has_trait = lich_character
+	NOT = { has_character_modifier = modifier_ritual_conceal }
+}
+
+# Other undead (undead_character, set by EK2 and by Undead Expanded's thralls) wear the rotted grave wrap.
+ek2lc_grave_look_trigger = {
+	exists = this
+	has_trait = undead_character
+	NOT = { has_trait = lich_character }
+	NOT = { has_character_modifier = modifier_ritual_conceal }
+}
+
+# Either: the living looks are switched off for them.
+ek2lc_undead_look_trigger = {
+	OR = {
+		ek2lc_lich_look_trigger = yes
+		ek2lc_grave_look_trigger = yes
+	}
+}
