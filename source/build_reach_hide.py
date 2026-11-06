@@ -54,11 +54,14 @@ if SEX == "female":
 SHAPE_DEFS += [("infant", "%s_bs_body_infant%s.mesh" % (SEX, "_1" if SEX == "female" else ""), "bs_body_infant_1")]
 # EK2's beast-race body shapes (read from EK2, never copied): the Khajiit body, and the digitigrade
 # legs of Argonians (all of them) and of Lilmothiit. A full path wins over BODY_DIR in os.path.join.
+# Also EK2's draugr body (its undead, driven by var:ek_undead_decay). EK2's draugr gene also drives
+# bs_gaunt_body and bs_old, but those are head shapes only, and bs_body_gaunt_1 is "gaunt" above.
 EK2 = os.path.normpath(os.path.join(GAME, "../../../workshop/content/1158310/2887120253"))
 EK2_BS = os.path.join(EK2, "gfx/models/portraits/%s_body/blendshapes" % SEX)
 SHAPE_DEFS += [("khajiit", os.path.join(EK2_BS, "%s_khajiit_body.mesh" % SEX), "bs_khajiit_body"),
                ("argdigi", os.path.join(EK2_BS, "%s_argonian_digitigrade_bs.mesh" % SEX), "argonian_digitigrade_bs"),
-               ("khadigi", os.path.join(EK2_BS, "%s_khajiit_digitigrade_bs.mesh" % SEX), "khajiit_digitigrade_bs")]
+               ("khadigi", os.path.join(EK2_BS, "%s_khajiit_digitigrade_bs.mesh" % SEX), "khajiit_digitigrade_bs"),
+               ("draugr", os.path.join(EK2_BS, "%s_draugr_body.mesh" % SEX), "bs_draugr_body")]
 SHAPES =[s for s, f, a in SHAPE_DEFS]
 SHAPE_FILE = {s: f for s, f, a in SHAPE_DEFS}
 SHAPE_ATTR = {s: a for s, f, a in SHAPE_DEFS}
