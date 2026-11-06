@@ -1,7 +1,7 @@
 ﻿# EK2 Loincloths genes. Template 0 of each gene is "none".
 #   gene_ek2lc_loincloth: the loincloth itself
 #   gene_ek2lc_top: chest pieces, kept separate so a culture can drop them for some women
-#   gene_ek2lc_war: war add-ons worn over the loincloth
+#   gene_ek2lc_war: war add-ons worn over the loincloth (war girdle, or girdle with the armoured strip skirt)
 special_genes = {
 	accessory_genes = {
 		gene_ek2lc_loincloth = {
@@ -48,6 +48,13 @@ special_genes = {
 				index = 1
 				male = { 1 = ek2lc_m_reach_war_01 }
 				female = { 1 = ek2lc_f_reach_war_01 }
+				boy = { 1 = empty }
+				girl = { 1 = empty }
+			}
+			ek2lc_reach_armour = {
+				index = 2
+				male = { 1 = ek2lc_m_reach_armour_01 }
+				female = { 1 = ek2lc_f_reach_armour_01 }
 				boy = { 1 = empty }
 				girl = { 1 = empty }
 			}

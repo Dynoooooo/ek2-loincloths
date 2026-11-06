@@ -16,3 +16,12 @@ ek2lc_war_role_trigger = {
 		liege ?= { is_at_war = yes }
 	}
 }
+
+# The best fighters in a war role get the armoured look instead: knights, or prowess 12 and up.
+ek2lc_armour_role_trigger = {
+	ek2lc_war_role_trigger = yes
+	OR = {
+		is_knight = yes
+		prowess >= 12
+	}
+}

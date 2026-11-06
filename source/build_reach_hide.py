@@ -695,6 +695,167 @@ PIECES.append(dict(name=WAR, set=WSET, pos=WPOS, faces=WFACES, part=WPART, wrap=
 print("WAR %d vertices, %d trophies" % (len(war_bind), ti))
 
 
+# ------------------------------------------------------------------ armoured skirt (both bodies)
+# The war girdle again (same geometry and texture), and instead of the trophies a skirt of
+# hide strips faced with bone lames over each hip (like pteruges). Each strip is a flat plank
+# sewn onto the girdle's lower half; over the cord belt and down the thigh it hangs straight,
+# as far out as anything above it needs (as the flaps do). The strips stay at the sides, clear
+# of the front and back flaps. Rows on the girdle follow the skin under them; lower rows move
+# as one stiff piece with the thigh (weights from the thigh, found from the leg's centre).
+_legc = {}
+
+
+def ray_origin(z, side):
+    """Body axis at the belt, the leg's own centre from 10 cm below it (so the strips stay on the
+    outer thigh, out of the groin crease), blended in between."""
+    t = min(1.0, max(0.0, (BELT_Z - 2.0 - z) / 8.0))
+    axis = Vector((0, center_y(max(z, CROTCH_Z + 1.0)), z))  # no body at x = 0 below the crotch
+    if t == 0:
+        return axis
+    key = (round(z, 1), side)
+    if key not in _legc:
+        # the body mesh is sparse round the thighs, so find the leg's centre with rays
+        y0 = center_y(CROTCH_Z + 1.0)
+        # from inside outwards (from outside, the hanging arm gets in the way)
+        inner = BVH["basis"].ray_cast(Vector((0, y0, z)), Vector((side, 0, 0)), 60)[0].x if z < CROTCH_Z else 0.0
+        outer = BVH["basis"].ray_cast(Vector((inner + side * 0.5, y0, z)), Vector((side, 0, 0)), 60)[0].x
+        cx = (outer + inner) / 2
+        f = BVH["basis"].ray_cast(Vector((cx, y0, z)) + FRONT * 60, -FRONT, 120)[0]
+        b = BVH["basis"].ray_cast(Vector((cx, y0, z)) - FRONT * 60, FRONT, 120)[0]
+        _legc[key] = Vector((cx, (f.y + b.y) / 2, z))
+    return axis.lerp(_legc[key], t)
+
+
+def leg_bind(th, z, off):
+    side = 1 if th > 0 else -1
+    d = FRONT * math.cos(th) + RIGHT * math.sin(th)
+    loc, nor, fi, dist = BVH["basis"].ray_cast(ray_origin(z, side), d, 100)
+    return bind(loc, fi, off)
+
+
+ARM = "ek2lc_%s_reach_armour_01" % S1
+ASET = "ek2lc_reach_armour_01"
+NGV = NW * len(G_ROWS)
+arm_bind, AUVS = list(war_bind[:NGV]), list(WUVS[:NGV])
+AFACES = [f for f, p in zip(WFACES, WPART) if p == "girdle"]
+APART = ["girdle"] * len(AFACES)
+AWRAP = {i for i in WWRAP if i < len(AFACES)}
+STRIP_ANG = [62, 76, 90, 104, 118]  # strip centres, degrees from the front, on each side
+S_STEP = math.radians(14)
+S_ROWS = [(4.2, 0.25), (2.1, 0.45), (0.0, 0.65), (-1.9, 0.65), (-5.0, 0.8), (-9.0, 0.8), (-13.0, 0.8), (-17.0, 0.8),
+          (-20.5, 0.8)]  # (height above BELT_Z, clearance): on the girdle, over the cord belt, then hanging free
+S_COLS, S_THICK = 3, 0.3
+S_UV = (0.03, 0.02, 0.97, 0.48)
+S_BASE = Vector((0, center_y(BELT_Z), 0))
+GFACES = list(AFACES)
+
+
+def s_frame(th):
+    d = FRONT * math.cos(th) + RIGHT * math.sin(th)  # outwards
+    t = RIGHT * math.cos(th) - FRONT * math.sin(th)  # across the strip
+    return d, t
+
+
+# what the strips hang clear of, per body shape: body (not the arms, which hang beside the hips
+# in the rest pose), loincloth, girdle
+_ARMB = {i for i, n in enumerate(VG) if any(k in n for k in ("clavicle", "shoulder", "elbow", "forearm", "wrist", "_fi_",
+                                                              "prop", "sleeve", "deltoid"))}
+_ARMV = {i for i, ws in enumerate(BW) if sum(w for g, w in ws.items() if g in _ARMB) > 0.5}
+A_OBST = {}
+for s in ALL:
+    nb_, nl_ = len(COORDS[s]), len(POS[s])
+    girdle = [recon(b, s) for b in war_bind[:NGV]]
+    A_OBST[s] = BVHTree.FromPolygons(list(COORDS[s]) + POS[s] + girdle,
+                                     [list(t) for t in TRIS[s] if not _ARMV.intersection(t)] +
+                                     [[i + nb_ for i in f] for f in FACES] +
+                                     [[i + nb_ + nl_ for i in f] for f in GFACES])
+
+
+def s_out(s, th, x, z):
+    d, t = s_frame(th)
+    hit = A_OBST[s].ray_cast(S_BASE + t * x + UP * z + d * 200, -d, 400)[0]
+    return (hit - S_BASE).dot(d) if hit is not None else -1e9
+
+
+STRIPS = []  # (th, half width)
+for side in (1, -1):
+    for ang in STRIP_ANG:
+        th = side * math.radians(ang)
+        STRIPS.append((th, 0.44 * S_STEP * (s_out("basis", th, 0, BELT_Z) + 0.35)))
+
+
+def strip_positions(s):
+    """Flat strips hanging straight down: each row as far out as anything above it needs."""
+    out = []
+    z_top = BELT_Z + S_ROWS[0][0]
+    for th, hw in STRIPS:
+        d, t = s_frame(th)
+        xs = [(c / (S_COLS - 1) - 0.5) * 2 * hw for c in range(S_COLS)]
+        rows = []
+        for dz, clear in S_ROWS:
+            z = BELT_Z + dz
+            zs = list(np.arange(z, z_top + 2.6, 0.75))  # a little above the top too: a fat belly overhangs the girdle
+            h = max(s_out(s, th, x + dx, zz) for x in xs for dx in (-0.6, 0.0, 0.6) for zz in zs) + clear
+            rows.append([S_BASE + t * x + d * h + UP * z for x in xs])
+        if rows:
+            out += [p for row in rows for p in row]
+            out += [p - d * S_THICK for row in rows for p in row]
+    return out
+
+
+SPOS = {s: strip_positions(s) for s in ALL}
+NR = len(S_ROWS)
+_ctr = [SPOS["basis"][r * S_COLS + 1] for r in range(NR)]
+_slen = [0.0]
+for a_, b_ in zip(_ctr, _ctr[1:]):
+    _slen.append(_slen[-1] + (b_ - a_).length)
+AVW = [weights_at(b[0], b[1]) for b in arm_bind]
+for k, (th, hw) in enumerate(STRIPS):
+    b0 = NGV + k * 2 * NR * S_COLS
+    side = 1 if th > 0 else -1
+    # rows on the girdle move with the skin under it; lower rows as one stiff piece with the thigh
+    lb = leg_bind(th, BELT_Z - 10.0, 0.0)
+    stiff = dict(weights_at(lb[0], lb[1]))
+    for layer in range(2):
+        for r in range(NR):
+            for c in range(S_COLS):
+                uc = c / (S_COLS - 1) if side == 1 else 1 - c / (S_COLS - 1)
+                AUVS.append((S_UV[0] + (S_UV[2] - S_UV[0]) * uc, S_UV[3] - (S_UV[3] - S_UV[1]) * _slen[r] / _slen[-1]))
+                k_ = (0.0, 0.0, 0.0, 0.25, 0.6)[r] if r < 5 else 1.0  # over the cord belt: with the hip, as the belt
+                skin = dict(nearest_weights(SPOS["basis"][(b0 - NGV) + layer * NR * S_COLS + r * S_COLS + c]))
+                dd = {}
+                for g, w in skin.items():
+                    dd[g] = dd.get(g, 0.0) + w * (1 - k_)
+                for g, w in stiff.items():
+                    dd[g] = dd.get(g, 0.0) + w * k_
+                row = [(g, w) for g, w in sorted(dd.items(), key=lambda kv: -kv[1])[:4] if w > 0.01]
+                tot = sum(w for _, w in row)
+                AVW.append([(g, w / tot) for g, w in row])
+    L = lambda layer, r, c: b0 + layer * NR * S_COLS + r * S_COLS + c
+    tag = "s%02d" % k
+    for r in range(NR - 1):
+        for c in range(S_COLS - 1):
+            AFACES.append([L(0, r, c), L(0, r, c + 1), L(0, r + 1, c + 1), L(0, r + 1, c)])
+            APART.append(tag + "o")
+            AFACES.append([L(1, r, c), L(1, r + 1, c), L(1, r + 1, c + 1), L(1, r, c + 1)])
+            APART.append(tag + "i")
+        for c in (0, S_COLS - 1):  # the long edges
+            AFACES.append([L(0, r, c), L(0, r + 1, c), L(1, r + 1, c), L(1, r, c)])
+            APART.append(tag + "e")
+    for r in (0, NR - 1):  # top and bottom edges
+        for c in range(S_COLS - 1):
+            AFACES.append([L(0, r, c), L(1, r, c), L(1, r, c + 1), L(0, r, c + 1)])
+            APART.append(tag + "e")
+
+APOS = {s: [recon(b, s) for b in arm_bind] + SPOS[s] for s in ALL}
+A_ORIENT = [("girdle", lambda c: Vector((c.x, c.y - W_YC, 0)), None)]
+for k in range(len(STRIPS)):
+    A_ORIENT.append(("s%02d" % k, lambda c: Vector((c.x, c.y - W_YC, 0)), "s%02do" % k))
+PIECES.append(dict(name=ARM, set=ASET, pos=APOS, faces=AFACES, part=APART, wrap=AWRAP, wrap_u={i: 1.0 for i in range(5)},
+                   uvs=AUVS, vw=AVW, orient=A_ORIENT))
+print("ARMOUR %d vertices, %d strips" % (len(APOS["basis"]), len(STRIPS)))
+
+
 # ------------------------------------------------------------------ textures (shared by every piece)
 def make_textures():
     H = WD = 1024
@@ -859,8 +1020,45 @@ def make_material(name, images):
     return m
 
 
+def make_armour_textures():
+    """The war set's girdle half unchanged; the other half is a hide strip with three bone lames."""
+    t = make_war_textures()
+    img, props = t["diffuse"], t["properties"]
+    H, WD = img.shape[:2]
+    rng = np.random.default_rng(31)
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v = 1 - yy / (H - 1)
+    u = xx / (WD - 1)
+    n = rng.random((H // 8 + 2, WD // 8 + 2)).astype(np.float32)
+    n = n[(yy // 8).astype(int), (xx // 8).astype(int)] * 0.5 + rng.random((H, WD)).astype(np.float32) * 0.15
+    s = v < 0.5
+    su = np.clip((u - S_UV[0]) / (S_UV[2] - S_UV[0]), 0, 1)
+    sl = np.clip((S_UV[3] - v) / (S_UV[3] - S_UV[1]), 0, 1)  # 0 at the top of the strip .. 1 at the bottom
+    hide = np.array([0.31, 0.21, 0.13], np.float32)
+    img[s, :3] = hide * (0.7 + 0.5 * n[s])[:, None] * (1.0 - 0.25 * sl[s] ** 4)[:, None]  # worn, darker bottom
+    m = s & (np.abs(np.abs(su - 0.5) - 0.42) < 0.012) & ((yy % 9) < 5)  # stitching along both long edges
+    img[m, :3] = np.array([0.6, 0.5, 0.36], np.float32)
+    props[s, 1] = 0.22
+    for l0, l1 in ((0.30, 0.46), (0.53, 0.69), (0.76, 0.92)):  # bone lames, lashed on
+        lame = s & (sl > l0) & (sl < l1) & (np.abs(su - 0.5) < 0.36)
+        rim = lame & ((sl - l0 < 0.012) | (l1 - sl < 0.012) | (0.36 - np.abs(su - 0.5) < 0.03))
+        shade = 0.82 + 0.25 * n - 0.18 * ((sl - l0) / (l1 - l0))
+        img[lame, :3] = np.array([0.83, 0.78, 0.64], np.float32) * shade[lame][:, None]
+        img[rim, :3] *= 0.6
+        props[lame, 1] = 0.35
+        for hu in (0.2, 0.8):  # lacing holes
+            hole = s & (((su - hu) * WD * 0.94) ** 2 + ((sl - (l0 + l1) / 2) * H * 0.46) ** 2 < 2.6 ** 2)
+            img[hole, :3] = np.array([0.12, 0.08, 0.05], np.float32)
+    for hu in (0.3, 0.7):  # bone studs where the strip is sewn to the girdle
+        stud = s & (((su - hu) * WD * 0.94) ** 2 + ((sl - 0.05) * H * 0.46) ** 2 < 4.0 ** 2)
+        img[stud, :3] = np.array([0.82, 0.77, 0.64], np.float32) * (0.85 + 0.2 * n[stud])[:, None]
+        props[stud, 1] = 0.35
+    return {"diffuse": np.clip(img, 0, 1), "normal": t["normal"], "properties": props}
+
+
 MATS = {SET: make_material("ek2lc_reach_hide", save_set(SET, make_textures())),
-        WSET: make_material("ek2lc_reach_war", save_set(WSET, make_war_textures()))}
+        WSET: make_material("ek2lc_reach_war", save_set(WSET, make_war_textures())),
+        ASET: make_material("ek2lc_reach_armour", save_set(ASET, make_armour_textures()))}
 
 
 # ------------------------------------------------------------------ make, export and check every piece
@@ -1019,6 +1217,8 @@ def preview():
     scene.collection.objects.link(co)
     scene.camera = co
     target = Vector((0, center_y(HIP_Z), 90 if SEX == "female" else 79))
+    for o in OBJS:  # the armour has its own girdle: show it, not the war piece, in the preview
+        o.hide_render = o.name == WAR
     extra = "pregnant" if SEX == "female" else "fat"
     keys = [o.data.shape_keys.key_blocks[extra] for o in [body] + OBJS]
     shots = []

@@ -197,6 +197,7 @@ ek2lc_loincloth = {
 				is_female = no
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -253,6 +254,7 @@ ek2lc_loincloth = {
 				is_female = yes
 				portrait_ek_nedic_reach_clothing_trigger = yes
 				ek2lc_war_role_trigger = yes
+				ek2lc_armour_role_trigger = no
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -260,4 +262,117 @@ ek2lc_loincloth = {
 			}
 		}
 	}
+
+	# Adult Reach men among the best fighters (knights, or prowess 12+) while their realm is at
+	# war: the loincloth with the war girdle and the hide-and-bone strip skirt, instead of EK2's armour.
+	ek2lc_reach_armour_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_armour
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Reach women among the best fighters (knights, or prowess 12+) while their realm is at
+	# war: the loincloth with the war girdle and the strip skirt, and always the chest band.
+	ek2lc_reach_armour_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_armour
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_armour_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
 }
