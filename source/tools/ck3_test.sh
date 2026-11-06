@@ -51,9 +51,9 @@ wait)
   echo "timed out"; exit 1
   ;;
 stop)
-  pkill -x ck3 || true
+  for pid in $(pgrep -x ck3); do kill "$pid" 2>/dev/null || true; done
   for i in $(seq 1 15); do pgrep -x ck3 >/dev/null || break; sleep 1; done
-  pkill -9 -x ck3 2>/dev/null || true   # it can hang on dialogs; it must be gone before restoring
+  for pid in $(pgrep -x ck3); do kill -9 "$pid" 2>/dev/null || true; done   # dialogs can hang shutdown
   for i in $(seq 1 10); do pgrep -x ck3 >/dev/null || break; sleep 1; done
   pgrep -x ck3 >/dev/null && { echo "CK3 won't quit. Backup kept at $B"; exit 1; }
   [ -e "$B" ] || { echo "No backup to restore."; exit 0; }

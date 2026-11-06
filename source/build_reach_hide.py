@@ -253,7 +253,21 @@ SURF_QUADS += [[NB * 5 + a * SC + c, NB * 5 + a * SC + c + 1, NB * 5 + (a + 1) *
 
 
 def surface_parts(s):
-    return [recon(b, s) for b in belt_bind] + [recon(b, s) for b in strip_bind]
+    strip = [recon(b, s) for b in strip_bind]
+    if s == "khadigi":
+        # The Lilmothiit groin folds past a few barycentrically reconstructed strip points.
+        for i, p in enumerate(strip):
+            loc, nor, fi, d = BVH[s].find_nearest(p)
+            if (p - loc).dot(nor) < 0:
+                q = loc + nor * 0.15
+                loc, nor, fi, d = BVH[s].find_nearest(q)
+                if (q - loc).dot(nor) < 0:
+                    # A folded crease's normal can point into its opposite wall; clear it from below.
+                    hit = BVH[s].ray_cast(p - UP * 5, UP, 10)[0]
+                    assert hit is not None, "Cannot clear the Lilmothiit groin fold"
+                    q = hit - UP * 0.15
+                strip[i] = q
+    return [recon(b, s) for b in belt_bind] + strip
 
 
 # what the flaps must hang clear of: the body and the strip, per body shape. Not the belt:
@@ -1912,6 +1926,8 @@ def finish_piece(pc):
             worst = min(worst, sd)
             inside += sd < 0
         print("CLEARANCE %s %-10s inside=%d min=%.2f" % (name, s, inside, worst))
+        if name == NAME and s == "khadigi":
+            assert inside == 0, "Lilmothiit loincloth still penetrates the body"
     return obj
 
 
