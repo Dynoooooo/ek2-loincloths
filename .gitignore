@@ -2,3 +2,4 @@
 .DS_Store
 *_check.blend
 source/textures/cultures/
+__pycache__/
