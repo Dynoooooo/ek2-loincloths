@@ -1969,13 +1969,72 @@ TROPHY_TIERS = {1: [(53, "tooth", 3.0, 1, 0.0, 0)],
                 2: [(53, "tooth", 3.2, 1, 0.0, 0), (133, "claw", 3.2, 1, 0.0, 0)],
                 3: [(53, "tooth", 3.2, 1, 0.0, 2), (133, "claw", 3.2, 1, 0.0, 0)]}  # back: the women's strips leave no room over the belt
 TROPHY_GAP = 0.3
-_OBVH = [BVHTree.FromPolygons(o["pos"][s], [list(f) for f in o["faces"]]) for o in PIECES
-         if "band" not in o["name"] and "mantle" not in o["name"] for s in ALL]
-_OBVH_S = [(o["name"], s) for o in PIECES if "band" not in o["name"] and "mantle" not in o["name"] for s in ALL]
+# EK2's draugr body (its undead; EK2's Reach briarhearts get it at 0.5) is so thin at the hips that the
+# flaps, which keep their width in cm, reach into the trophies' gaps, and pushing the trophies out
+# barely helps there. So in their draugr blend shape only, the trophies get a place of their own:
+# turned round the body and pushed out, the least that clears every piece and the body by TROPHY_GAP
+# on the draugr shape at 1.0 and 0.5 (REFIT_PURE, a must) and on each mix of it with another body
+# shape at 1.0 (the rest of REFIT_MIXES) by as much as any place can (_MIXGAPS). The pieces themselves
+# are only fitted shape by shape: on some mixes the flaps and armoured strips close in on the front
+# trophies with belt beads so far that no place clears them by TROPHY_GAP. Every other shape keeps
+# the trophies where they were.
+REFIT = "draugr"
+OWN = [s for s in ALL if s != REFIT]
+REFIT_MIXES = [{REFIT: w} for w in (1.0, 0.5)] + [{REFIT: w, x: 1.0} for w in (1.0, 0.5) for x in SHAPES if x != REFIT]
+REFIT_PURE = [i for i, ws in enumerate(REFIT_MIXES) if len(ws) == 1]
 
 
-def trophy_item(side, ang, kind, length, beads, out, belt_beads=0):
-    """One trophy (cord, bone beads, tooth or claw) as (bind, uvs, faces, parts); faces index this item only."""
+def mix(pos, ws):
+    """Positions (n x 3 array) on a mix of body shapes, as the game blends them: the basis plus each
+    shape's weighted offset from it."""
+    b = np.array([tuple(p) for p in pos["basis"]])
+    res = b.copy()
+    for s, w in ws.items():
+        res += w * (np.array([tuple(p) for p in pos[s]]) - b)
+    return res
+
+
+def mix_bvhs(obst):
+    """obst: [(name, positions per shape, faces)] -> per REFIT mix, [(name, BVH)]."""
+    return [[(n, BVHTree.FromPolygons(mix(pos, ws).tolist(), faces)) for n, pos, faces in obst] for ws in REFIT_MIXES]
+
+
+def refit_gap(pos, vi, bvhs, stop=None, only=None):
+    """Closest of points vi of a piece (positions per shape) to the obstacles over the REFIT mixes (or
+    those indexed by only), as (gap, obstacle, mix); returns at the first gap under stop."""
+    best = (1e9, None, None)
+    for k, (ws, row) in enumerate(zip(REFIT_MIXES, bvhs)):
+        if only is not None and k not in only:
+            continue
+        pts = mix(pos, ws)[vi]
+        for n, bvh in row:
+            d = min(bvh.find_nearest(Vector(p))[3] for p in pts)
+            if d < best[0]:
+                best = (d, n, ws)
+                if stop is not None and d < stop:
+                    return best
+    return best
+
+
+_TOBST = [o for o in PIECES if "band" not in o["name"] and "mantle" not in o["name"]]
+_OBVH = [BVHTree.FromPolygons(o["pos"][s], [list(f) for f in o["faces"]]) for o in _TOBST for s in OWN]
+_OBVH_S = [(o["name"], s) for o in _TOBST for s in OWN]
+_TMIX = mix_bvhs([(o["name"], o["pos"], [list(f) for f in o["faces"]]) for o in _TOBST] +
+                 [("body", COORDS, [list(t) for t in TRIS["basis"]])])
+_R0 = (recon(skin_bind(math.radians(53), BELT_Z - 3.0, 0.0), "basis") - Vector((0, center_y(BELT_Z - 3.0), BELT_Z - 3.0))).length
+# (cost in cm, turn in degrees (+: towards the back), push out in cm), least first
+_RCANDS = sorted((math.hypot(_R0 * math.radians(da), do), da, float(do)) for da in np.arange(-20.0, 20.01, 0.5) for do in np.arange(0.0, 4.01, 0.125))
+_MIXGAPS = (TROPHY_GAP, 0.2, 0.1, 0.05, 0.02, 0.0)  # the gap wanted on the mixes, most first (0: the pure shapes only)
+_MIXPUSH = 3.0  # the most push out for a gap on the mixes (further, the trophy hangs off the belt)
+# the mixes with shapes anyone may have (age, weight, health, prowess, breasts), then the rest
+_COMMON = {"fat", "gaunt", "muscular", "old", "breast_max", "breast_min"}
+_MIXGROUPS = [[k for k, ws in enumerate(REFIT_MIXES) if len(ws) > 1 and bool(set(ws) & _COMMON) == c] for c in (True, False)]
+_SHRINK = ((1.0, 1.0), (1.0, 0.6), (1.0, 0.3), (0.8, 0.6), (0.8, 0.3), (0.8, 0.1))  # (tooth length, belt bead size)
+
+
+def trophy_item(side, ang, kind, length, beads, out, belt_beads=0, ubead=1.0):
+    """One trophy (cord, bone beads, tooth or claw) as (bind, uvs, faces, parts); faces index this item only.
+    ubead scales the beads over the belt (the same vertices at any scale)."""
     tb, tu, tf, tp = [], [], [], []
     tgt = (tb, tu, tf, tp)
     th0 = side * math.radians(ang)
@@ -1984,7 +2043,7 @@ def trophy_item(side, ang, kind, length, beads, out, belt_beads=0):
              [0.14] * 4, 1.0, CORD_UV, "c", tgt=tgt)
     for j in range(belt_beads):  # over the cord belt (it spans BELT_Z +-1.7, outer surface ~1.4 cm out)
         z0 = BELT_Z + 1.3 - 1.4 * j
-        add_tube(th0, [(0, z0, 2.4 + out), (0, z0 - 0.5, 2.4 + out), (0, z0 - 1.0, 2.4 + out)], [0.45, 0.6, 0.45], 1.0,
+        add_tube(th0, [(0, z0, 2.4 + out), (0, z0 - 0.5, 2.4 + out), (0, z0 - 1.0, 2.4 + out)], [r * ubead for r in (0.45, 0.6, 0.45)], 1.0,
                  BONE_UV, "u%d" % j, tgt=tgt)
     for j in range(beads):
         z0 = bt - 1.2 * j
@@ -2001,7 +2060,7 @@ def trophy_item(side, ang, kind, length, beads, out, belt_beads=0):
 
 
 def trophy_gap(item):
-    """Closest bead/tooth/claw point to any other piece on any body shape (cords pass over the belt on purpose)."""
+    """Closest bead/tooth/claw point to any other piece on any body shape but REFIT (cords pass over the belt on purpose)."""
     tb, tu, tf, tp = item
     vi = sorted({i for f, prt in zip(tf, tp) if prt != "c" for i in f})
     return min((bvh.find_nearest(recon(tb[i], ns[1]))[3], ns) for bvh, ns in zip(_OBVH, _OBVH_S) for i in vi)
@@ -2009,10 +2068,10 @@ def trophy_gap(item):
 
 TROPHY = {}
 for _tier, _items in TROPHY_TIERS.items():
-    tb, tu, tf, tp = [], [], [], []
-    k = 0
-    for side in (1, -1):
-        for ang, kind, length, beads, out, belt_beads in _items:
+    _fit = {}  # (side, item index) -> (item, out, gap, positions per shape)
+    for _j, (ang, kind, length, beads, out0, belt_beads) in enumerate(_items):
+        for side in (1, -1):
+            out = out0
             for _try in range(8):
                 item = trophy_item(side, ang, kind, length, beads, out, belt_beads)
                 gap, near = trophy_gap(item)
@@ -2021,14 +2080,56 @@ for _tier, _items in TROPHY_TIERS.items():
                 out += TROPHY_GAP - gap + 0.05
             assert gap >= TROPHY_GAP, "tier %d trophy at %d deg can't clear: gap %.2f to %s on %s (out %.2f)" % (
                 _tier, ang, gap, near[0], near[1], out)
+            _fit[side, _j] = (item, out, gap, {s: [recon(b, s) for b in item[0]] for s in OWN})
+        # the draugr blend shape, each side on its own (the pieces round it aren't mirror images)
+        for sd in (1, -1):
+            _vi = sorted({i for f, prt in zip(_fit[sd, _j][0][2], _fit[sd, _j][0][3]) if prt != "c" for i in f})
+            # the least move that clears the pure shapes by TROPHY_GAP, then the mixes with the shapes anyone
+            # may have by as much as any place within _MIXPUSH can (_MIXGAPS, most first), then the rest
+            # likewise; smaller beads over the belt, then a shorter tooth, only where they buy more
+            def _search(want):
+                maxdo = _MIXPUSH if any(g > 0 for idx, g in want) else 1e9
+                for lf, ub in _SHRINK if belt_beads else ((1.0, 1.0),):
+                    for cost, da, do in _RCANDS:
+                        if do > maxdo:
+                            continue
+                        _rp = [recon(b, REFIT) for b in trophy_item(sd, ang + da, kind, length * lf, beads, _fit[sd, _j][1] + do, belt_beads, ub)[0]]
+                        _rpos = dict(_fit[sd, _j][3], **{REFIT: _rp})
+                        if (refit_gap(_rpos, _vi, _TMIX, TROPHY_GAP, REFIT_PURE)[0] >= TROPHY_GAP
+                                and all(g == 0 or refit_gap(_rpos, _vi, _TMIX, g, idx)[0] >= g for idx, g in want)):
+                            return (da, do, lf, ub, _rp, _rpos)
+                return None
+            _want, _pick = [], None
+            for idx in _MIXGROUPS:
+                for g in _MIXGAPS:
+                    _p = _search(_want + [(idx, g)])
+                    if _p is not None:
+                        _want.append((idx, g))
+                        _pick = _p
+                        break
+            assert _pick is not None, "tier %d trophy at %+d deg can't clear on %s" % (_tier, sd * ang, REFIT)
+            da, do, lf, ub, _rp, _rpos = _pick
+            _fit[sd, _j][3][REFIT] = _rp
+            _gp, _ga = refit_gap(_rpos, _vi, _TMIX, None, REFIT_PURE), refit_gap(_rpos, _vi, _TMIX)
+            _gc, _gr = (refit_gap(_rpos, _vi, _TMIX, None, idx)[0] for idx in _MIXGROUPS)
+            print("TROPHY tier %d at %+4d deg on %s: turn %+.1f deg, out %+.2f, length x%.1f, belt beads x%.1f, gap %.2f alone (to %s on %s), "
+                  "%.2f on mixes with fat/gaunt/muscular/old/breasts, %.2f on the rest (to %s on %s)" % (
+                      _tier, sd * ang, REFIT, da, do, lf, ub, _gp[0], _gp[1], _gp[2], _gc, _gr, _ga[1], _ga[2]))
+    tb, tu, tf, tp = [], [], [], []
+    _pos = {s: [] for s in ALL}
+    k = 0
+    for side in (1, -1):
+        for _j, (ang, kind, length, beads, out0, belt_beads) in enumerate(_items):
+            item, out, gap, ipos = _fit[side, _j]
             b0 = len(tb)
             tb += item[0]
             tu += item[1]
             tf += [[i + b0 for i in f] for f in item[2]]
             tp += ["%s%02d" % (prt, k) for prt in item[3]]
+            for s in ALL:
+                _pos[s] += ipos[s]
             print("TROPHY tier %d at %+4d deg: %s, out %.2f, gap %.2f" % (_tier, side * ang, kind, out, gap))
             k += 1
-    _pos = {s: [recon(b, s) for b in tb] for s in ALL}
     _ctr = {}
     for f, p in zip(tf, tp):
         _ctr.setdefault(p, []).extend(_pos["basis"][i] for i in f)
@@ -2144,26 +2245,57 @@ _kz = BELT_Z + 4.5  # the knot, over the sash's middle at the left hip
 add_tube(math.pi / 2, [(0, _kz + 2.0, 1.4), (0, _kz + 1.0, 2.1), (0, _kz, 2.4), (0, _kz - 1.0, 2.1), (0, _kz - 2.0, 1.4)],
          [0.5, 1.4, 1.65, 1.4, 0.5], 0.7, KNOT_UV, "knot", tgt=_ct)
 # the bundle: a cord from the sash over the cord belt, then a flat cloth bag pushed clear of the body and loincloth
+# (on the draugr, pushed further in its own blend shape if it must be, as the trophies)
 _PB = [BVHTree.FromPolygons(COORDS[s] + POS[s], [list(t) for t in TRIS[s]] + [[i + len(COORDS[s]) for i in f] for f in FACES])
-       for s in ALL]
+       for s in OWN]
 _pz, _pout = BELT_Z - 2.4, 1.85
+
+
+def bundle(out):
+    pt, ct = ([], [], [], []), ([], [], [], [])
+    add_tube(-math.pi / 2, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4), (0, BELT_Z - 1.9, 2.4), (0, _pz + 0.3, out)],
+             [0.2] * 4, 1.0, KNOT_UV, "cord", tgt=ct)
+    add_tube(-math.pi / 2, [(0, _pz, out), (0, _pz - 1.0, out), (0, _pz - 3.0, out), (0, _pz - 5.5, out), (0, _pz - 6.8, out)],
+             [0.55, 1.8, 2.6, 2.3, 0], 0.55, POUCH_UV, "pouch", cap_tip=True, tgt=pt)
+    return ct, pt
+
+
 for _try in range(8):
-    _pt = ([], [], [], [])
-    add_tube(-math.pi / 2, [(0, _pz, _pout), (0, _pz - 1.0, _pout), (0, _pz - 3.0, _pout), (0, _pz - 5.5, _pout), (0, _pz - 6.8, _pout)],
-             [0.55, 1.8, 2.6, 2.3, 0], 0.55, POUCH_UV, "pouch", cap_tip=True, tgt=_pt)
-    _pgap = min(bvh.find_nearest(recon(b, s))[3] for bvh, s in zip(_PB, ALL) for b in _pt[0])
+    _bct, _pt = bundle(_pout)
+    _pgap = min(bvh.find_nearest(recon(b, s))[3] for bvh, s in zip(_PB, OWN) for b in _pt[0])
     if _pgap >= 0.3:
         break
     _pout += 0.3 - _pgap + 0.05
 assert _pgap >= 0.3, "bundle can't clear the body: gap %.2f" % _pgap
-add_tube(-math.pi / 2, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4), (0, BELT_Z - 1.9, 2.4), (0, _pz + 0.3, _pout)],
-         [0.2] * 4, 1.0, KNOT_UV, "cord", tgt=_ct)
-_o = len(cb)
-cb += _pt[0]
-cuv += _pt[1]
-cf += [[i + _o for i in f] for f in _pt[2]]
-cp += _pt[3]
-print("WRAP bundle out %.2f, gap %.2f" % (_pout, _pgap))
+_PMIX = mix_bvhs([("body and loincloth", {s: COORDS[s] + POS[s] for s in ALL},
+                   [list(t) for t in TRIS["basis"]] + [[i + len(C0) for i in f] for f in FACES])])
+_bown = {s: [recon(b, s) for b in _bct[0] + _pt[0]] for s in OWN}
+_nbc = len(_bct[0])
+_bpick = None  # as the trophies: the pure shapes must clear, every mix if some push can
+for _pdo in np.arange(0.0, 3.01, 0.1):
+    _bct2, _pt2 = bundle(_pout + _pdo)
+    _brefit = [recon(b, REFIT) for b in _bct2[0] + _pt2[0]]
+    _bpos = dict(_bown, **{REFIT: _brefit})
+    _bvi = list(range(_nbc, len(_brefit)))
+    if refit_gap(_bpos, _bvi, _PMIX, 0.3, REFIT_PURE)[0] < 0.3:
+        continue
+    if _bpick is None:
+        _bpick = (_pdo, _brefit, _bpos)
+    if refit_gap(_bpos, _bvi, _PMIX, 0.3)[0] >= 0.3:
+        _bpick = (_pdo, _brefit, _bpos)
+        break
+assert _bpick is not None, "bundle can't clear the body on %s" % REFIT
+_pdo, _brefit, _bpos = _bpick
+_pg, _pgp = refit_gap(_bpos, _bvi, _PMIX), refit_gap(_bpos, _bvi, _PMIX, None, REFIT_PURE)
+_BUNDLE0 = len(cb)  # its cord and bag, in that order; the draugr shape's positions are _brefit
+for _t in (_bct, _pt):
+    _o = len(cb)
+    cb += _t[0]
+    cuv += _t[1]
+    cf += [[i + _o for i in f] for f in _t[2]]
+    cp += _t[3]
+print("WRAP bundle out %.2f, gap %.2f; on %s out %+.2f, gap %.2f alone, %.2f on mixes (%s)" % (
+    _pout, _pgap, REFIT, _pdo, _pgp[0], _pg[0], _pg[2]))
 NGC = len(cb)  # skin-bound vertices; the tails follow
 # tails: flat cloth hanging straight from under the knot, as far out as anything above them needs
 TAILS = [(84, 1.7, [4.0, 2.1, 0.0, -1.9, -5.0, -9.0, -12.5]), (97, 1.5, [4.0, 2.1, 0.0, -1.9, -5.0, -8.5, -10.0])]
@@ -2191,6 +2323,7 @@ def tail_positions(s):
 
 TPOS = {s: tail_positions(s) for s in ALL}
 CPOS = {s: [recon(b, s) for b in cb] + TPOS[s] for s in ALL}
+CPOS[REFIT][_BUNDLE0:_BUNDLE0 + len(_brefit)] = _brefit
 cvw = [weights_at(b[0], b[1]) for b in cb]
 NTR = len(T_CLEAR)
 for k, (ang, hw, zs_) in enumerate(TAILS):
@@ -2354,6 +2487,32 @@ for _t, _tn in TROPHY.items():
             _d = min(_bvh.find_nearest(_tpc["pos"][s][i])[3] for i in _tvi)
             _worst = min(_worst, (_d, s))
         print("TROPHYGAP %s vs %-26s min=%.2f (%s)" % (_tn, _o["name"], _worst[0], _worst[1]))
+# EK2's undead (draugr 1.0; its Reach briarhearts 0.5) with each other body shape: points of each piece inside
+# the body, and the trophies' closest approach to every other piece, on each mix the game makes
+_BMIX = [BVHTree.FromPolygons(mix(COORDS, ws).tolist(), [list(t) for t in TRIS["basis"]]) for ws in REFIT_MIXES]
+for _pc in PIECES:
+    _ins = []
+    for ws, _bvh in zip(REFIT_MIXES, _BMIX):
+        _n, _m = 0, 1e9
+        for p in mix(_pc["pos"], ws):
+            loc, nor, fi, d = _bvh.find_nearest(Vector(p))
+            sd = (Vector(p) - loc).dot(nor)
+            _n += sd < 0
+            _m = min(_m, sd)
+        _ins.append((_n, _m, "+".join("%s %.1f" % kv for kv in ws.items())))
+    _w = max(_ins, key=lambda t: (t[0], -t[1]))
+    print("DRAUGRMIX %-28s inside max=%d min=%.2f (%s); mixes with points inside: %d of %d" % (
+        _pc["name"], _w[0], _w[1], _w[2], sum(1 for t in _ins if t[0]), len(_ins)))
+for _t, _tn in TROPHY.items():
+    _tpc = next(pc for pc in PIECES if pc["name"] == _tn)
+    _tvi = sorted({i for f, prt in zip(_tpc["faces"], _tpc["part"]) if not prt.startswith("c") for i in f})
+    _tmb = mix_bvhs([(o["name"], o["pos"], [list(f) for f in o["faces"]]) for o in PIECES
+                     if o["name"] not in TROPHY.values() and "band" not in o["name"]])
+    _g = refit_gap(_tpc["pos"], _tvi, _tmb)
+    _gp = refit_gap(_tpc["pos"], _tvi, _tmb, None, REFIT_PURE)
+    _bad = [ws for k, ws in enumerate(REFIT_MIXES) if refit_gap(_tpc["pos"], _tvi, _tmb, None, [k])[0] < TROPHY_GAP]
+    print("TROPHYMIX %s alone min=%.2f (to %s on %s); all mixes min=%.2f to %s on %s; under %.1f: %s" % (
+        _tn, _gp[0], _gp[1], _gp[2], _g[0], _g[1], _g[2], TROPHY_GAP, ", ".join("+".join("%s %.1f" % kv for kv in ws.items()) for ws in _bad) or "none"))
 for _ent, _mesh, _set in [("ek2lc_%s_reach_fine_01" % S1, NAME, FSET), ("ek2lc_%s_reach_royal_01" % S1, NAME, RSET),
                           ("ek2lc_%s_reach_emperor_01" % S1, KING, ROYAL_SETS["emperor"])] + (
         [("ek2lc_f_reach_band_fine_01", BAND, FSET), ("ek2lc_f_reach_band_royal_01", BAND, RSET)] if SEX == "female" else []):
@@ -2505,10 +2664,43 @@ def preview_extras():
     subprocess.run([MAGICK] + shots + ["+append", "-resize", "1000x", os.path.join(PREV, "preview_extras_%s.png" % S1)], check=True)
 
 
+def preview_draugr():
+    """EK2's undead: the most trophies over the plain loincloth on the draugr body alone and with gaunt,
+    fat and old, then over the war girdle and over the armoured skirt (draugr alone); front,
+    three-quarter from the left, back three-quarter."""
+    co = scene.camera
+    co.data.ortho_scale = 80 if SEX == "female" else 66
+    target = Vector((0, center_y(HIP_Z), 90 if SEX == "female" else 79))
+    rows = []
+    for tag, extra, look in (("draugr", None, NAME), ("gaunt", "gaunt", NAME), ("fat", "fat", NAME), ("old", "old", NAME),
+                             ("war", None, WAR), ("armour", None, ARM)):
+        for o in [body] + OBJS:
+            for kb in o.data.shape_keys.key_blocks[1:]:
+                kb.value = 1.0 if kb.name in (REFIT, extra) else 0.0
+        for o in OBJS:
+            o.hide_render = o.name not in (NAME, BAND, look, TROPHY[3])
+            if o.name in (NAME, BAND):
+                o.data.materials[0] = MATS[SET]
+        shots = []
+        for ang in (0, 60, 125):
+            a = math.radians(ang)
+            co.location = target + (FRONT * math.cos(a) + RIGHT * math.sin(a)) * 300
+            co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
+            scene.render.filepath = os.path.join(PREV, "d_%s_%s_%d.png" % (S1, tag, ang))
+            bpy.ops.render.render(write_still=True)
+            shots.append(scene.render.filepath)
+        rows += ["("] + shots + ["+append", ")"]
+    for o in [body] + OBJS:
+        for kb in o.data.shape_keys.key_blocks[1:]:
+            kb.value = 0.0
+    subprocess.run([MAGICK] + rows + ["-append", "-resize", "900x", os.path.join(PREV, "preview_draugr_%s.png" % S1)], check=True)
+
+
 preview()
 preview_royal()
 preview_mantle()
 preview_extras()
+preview_draugr()
 # Barbershop recolouring: masks, neutral diffuse, palettes, variations (rewrites the diffuse DDS from the PNGs)
 subprocess.run([sys.executable, "-I", os.path.join(SRC, "tools", "make_colour.py")], check=True)
 print("DONE %s in %.1fs" % (SEX, time.time() - T0))

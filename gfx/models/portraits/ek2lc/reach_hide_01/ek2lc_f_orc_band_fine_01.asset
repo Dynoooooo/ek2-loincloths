@@ -13,6 +13,7 @@ pdxmesh = {
 	blend_shape = { id = "ek2lc_f_orc_band_fine_01_bs_khajiit"	type = "ek2lc_f_reach_band_01_bs_khajiit.mesh" }
 	blend_shape = { id = "ek2lc_f_orc_band_fine_01_bs_argdigi"	type = "ek2lc_f_reach_band_01_bs_argdigi.mesh" }
 	blend_shape = { id = "ek2lc_f_orc_band_fine_01_bs_khadigi"	type = "ek2lc_f_reach_band_01_bs_khadigi.mesh" }
+	blend_shape = { id = "ek2lc_f_orc_band_fine_01_bs_draugr"	type = "ek2lc_f_reach_band_01_bs_draugr.mesh" }
 
 	meshsettings = {
 		name = "ek2lc_f_reach_band_01Shape"
@@ -40,6 +41,7 @@ entity = {
 	attribute = { name = "bs_khajiit_body"	blend_shape = "ek2lc_f_orc_band_fine_01_bs_khajiit" }
 	attribute = { name = "argonian_digitigrade_bs"	blend_shape = "ek2lc_f_orc_band_fine_01_bs_argdigi" }
 	attribute = { name = "khajiit_digitigrade_bs"	blend_shape = "ek2lc_f_orc_band_fine_01_bs_khadigi" }
+	attribute = { name = "bs_draugr_body"	blend_shape = "ek2lc_f_orc_band_fine_01_bs_draugr" }
 	game_data = {
 		portrait_entity_user_data = {
 			portrait_accessory = {
