@@ -17,13 +17,13 @@ pdxmesh = {
 		texture_diffuse = "ek2lc_khajiit_hide_01_diffuse.dds"
 		texture_normal = "ek2lc_reach_hide_01_normal.dds"
 		texture_specular = "ek2lc_reach_hide_01_properties.dds"
-		shader = "portrait_attachment_alpha_to_coverage"
+		shader = "portrait_attachment_pattern_alpha_to_coverage"
 		shader_file = "gfx/FX/jomini/portrait.shader"
 	}
 }
 
 entity = {
-	name = "ek2lc_m_khajiit_hide_01_entity"
+	name = "m_clothes_ek2lc_m_khajiit_hide_01_entity"
 	pdxmesh = "ek2lc_m_khajiit_hide_01_mesh"
 	attribute = { name = "bs_body_fat_1"	blend_shape = "ek2lc_m_khajiit_hide_01_bs_fat" }
 	attribute = { name = "bs_body_gaunt_1"	blend_shape = "ek2lc_m_khajiit_hide_01_bs_gaunt" }
@@ -34,4 +34,12 @@ entity = {
 	attribute = { name = "bs_khajiit_body"	blend_shape = "ek2lc_m_khajiit_hide_01_bs_khajiit" }
 	attribute = { name = "argonian_digitigrade_bs"	blend_shape = "ek2lc_m_khajiit_hide_01_bs_argdigi" }
 	attribute = { name = "khajiit_digitigrade_bs"	blend_shape = "ek2lc_m_khajiit_hide_01_bs_khadigi" }
+	game_data = {
+		portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/portraits/ek2lc/reach_hide_01/ek2lc_khajiit_hide_01_masks.dds"
+				variation = "ek2lc_khajiit_hide_01"
+			}
+		}
+	}
 }

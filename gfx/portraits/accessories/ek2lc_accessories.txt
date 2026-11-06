@@ -1,774 +1,774 @@
 ﻿# EK2 Loincloths accessories
 ek2lc_m_reach_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_reach_hide_01_entity }
 }
 ek2lc_f_reach_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_reach_hide_01_entity }
 }
 ek2lc_f_reach_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_reach_band_01_entity }
 }
 ek2lc_m_reach_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_reach_war_01_entity }
 }
 ek2lc_f_reach_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_reach_war_01_entity }
 }
 ek2lc_m_reach_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_reach_armour_01_entity }
 }
 ek2lc_f_reach_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_reach_armour_01_entity }
 }
 ek2lc_m_reach_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_reach_fine_01_entity }
 }
 ek2lc_f_reach_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_reach_fine_01_entity }
 }
 ek2lc_m_reach_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_reach_royal_01_entity }
 }
 ek2lc_f_reach_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_reach_royal_01_entity }
 }
 ek2lc_m_reach_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_reach_duke_01_entity }
 }
 ek2lc_f_reach_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_reach_duke_01_entity }
 }
 ek2lc_m_reach_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_reach_king_01_entity }
 }
 ek2lc_f_reach_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_reach_king_01_entity }
 }
 ek2lc_m_reach_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_reach_emperor_01_entity }
 }
 ek2lc_f_reach_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_reach_emperor_01_entity }
 }
 ek2lc_f_reach_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_reach_band_fine_01_entity }
 }
 ek2lc_f_reach_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_reach_band_royal_01_entity }
 }
 ek2lc_m_reach_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_reach_mantle_01_entity }
 }
 ek2lc_f_reach_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_reach_mantle_01_entity }
 }
 ek2lc_m_ashlander_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_ashlander_hide_01_entity }
 }
 ek2lc_f_ashlander_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_ashlander_hide_01_entity }
 }
 ek2lc_m_ashlander_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_ashlander_fine_01_entity }
 }
 ek2lc_f_ashlander_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_ashlander_fine_01_entity }
 }
 ek2lc_m_ashlander_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_ashlander_royal_01_entity }
 }
 ek2lc_f_ashlander_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_ashlander_royal_01_entity }
 }
 ek2lc_f_ashlander_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_ashlander_band_01_entity }
 }
 ek2lc_f_ashlander_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_ashlander_band_fine_01_entity }
 }
 ek2lc_f_ashlander_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_ashlander_band_royal_01_entity }
 }
 ek2lc_m_ashlander_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_ashlander_war_01_entity }
 }
 ek2lc_f_ashlander_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_ashlander_war_01_entity }
 }
 ek2lc_m_ashlander_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_ashlander_armour_01_entity }
 }
 ek2lc_f_ashlander_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_ashlander_armour_01_entity }
 }
 ek2lc_m_ashlander_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_ashlander_duke_01_entity }
 }
 ek2lc_f_ashlander_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_ashlander_duke_01_entity }
 }
 ek2lc_m_ashlander_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_ashlander_king_01_entity }
 }
 ek2lc_f_ashlander_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_ashlander_king_01_entity }
 }
 ek2lc_m_ashlander_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_ashlander_emperor_01_entity }
 }
 ek2lc_f_ashlander_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_ashlander_emperor_01_entity }
 }
 ek2lc_m_ashlander_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_ashlander_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_ashlander_mantle_01_entity }
 }
 ek2lc_f_ashlander_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_ashlander_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_ashlander_mantle_01_entity }
 }
 ek2lc_m_bosmer_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_bosmer_hide_01_entity }
 }
 ek2lc_f_bosmer_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_bosmer_hide_01_entity }
 }
 ek2lc_m_bosmer_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_bosmer_fine_01_entity }
 }
 ek2lc_f_bosmer_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_bosmer_fine_01_entity }
 }
 ek2lc_m_bosmer_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_bosmer_royal_01_entity }
 }
 ek2lc_f_bosmer_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_bosmer_royal_01_entity }
 }
 ek2lc_f_bosmer_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_bosmer_band_01_entity }
 }
 ek2lc_f_bosmer_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_bosmer_band_fine_01_entity }
 }
 ek2lc_f_bosmer_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_bosmer_band_royal_01_entity }
 }
 ek2lc_m_bosmer_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_bosmer_war_01_entity }
 }
 ek2lc_f_bosmer_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_bosmer_war_01_entity }
 }
 ek2lc_m_bosmer_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_bosmer_armour_01_entity }
 }
 ek2lc_f_bosmer_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_bosmer_armour_01_entity }
 }
 ek2lc_m_bosmer_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_bosmer_duke_01_entity }
 }
 ek2lc_f_bosmer_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_bosmer_duke_01_entity }
 }
 ek2lc_m_bosmer_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_bosmer_king_01_entity }
 }
 ek2lc_f_bosmer_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_bosmer_king_01_entity }
 }
 ek2lc_m_bosmer_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_bosmer_emperor_01_entity }
 }
 ek2lc_f_bosmer_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_bosmer_emperor_01_entity }
 }
 ek2lc_m_bosmer_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_bosmer_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_bosmer_mantle_01_entity }
 }
 ek2lc_f_bosmer_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_bosmer_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_bosmer_mantle_01_entity }
 }
 ek2lc_m_argonian_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_argonian_hide_01_entity }
 }
 ek2lc_f_argonian_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_argonian_hide_01_entity }
 }
 ek2lc_m_argonian_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_argonian_fine_01_entity }
 }
 ek2lc_f_argonian_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_argonian_fine_01_entity }
 }
 ek2lc_m_argonian_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_argonian_royal_01_entity }
 }
 ek2lc_f_argonian_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_argonian_royal_01_entity }
 }
 ek2lc_f_argonian_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_argonian_band_01_entity }
 }
 ek2lc_f_argonian_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_argonian_band_fine_01_entity }
 }
 ek2lc_f_argonian_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_argonian_band_royal_01_entity }
 }
 ek2lc_m_argonian_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_argonian_war_01_entity }
 }
 ek2lc_f_argonian_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_argonian_war_01_entity }
 }
 ek2lc_m_argonian_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_argonian_armour_01_entity }
 }
 ek2lc_f_argonian_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_argonian_armour_01_entity }
 }
 ek2lc_m_argonian_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_argonian_duke_01_entity }
 }
 ek2lc_f_argonian_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_argonian_duke_01_entity }
 }
 ek2lc_m_argonian_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_argonian_king_01_entity }
 }
 ek2lc_f_argonian_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_argonian_king_01_entity }
 }
 ek2lc_m_argonian_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_argonian_emperor_01_entity }
 }
 ek2lc_f_argonian_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_argonian_emperor_01_entity }
 }
 ek2lc_m_argonian_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_argonian_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_argonian_mantle_01_entity }
 }
 ek2lc_f_argonian_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_argonian_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_argonian_mantle_01_entity }
 }
 ek2lc_m_khajiit_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_khajiit_hide_01_entity }
 }
 ek2lc_f_khajiit_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_khajiit_hide_01_entity }
 }
 ek2lc_m_khajiit_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_khajiit_fine_01_entity }
 }
 ek2lc_f_khajiit_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_khajiit_fine_01_entity }
 }
 ek2lc_m_khajiit_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_khajiit_royal_01_entity }
 }
 ek2lc_f_khajiit_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_khajiit_royal_01_entity }
 }
 ek2lc_f_khajiit_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_khajiit_band_01_entity }
 }
 ek2lc_f_khajiit_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_khajiit_band_fine_01_entity }
 }
 ek2lc_f_khajiit_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_khajiit_band_royal_01_entity }
 }
 ek2lc_m_khajiit_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_khajiit_war_01_entity }
 }
 ek2lc_f_khajiit_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_khajiit_war_01_entity }
 }
 ek2lc_m_khajiit_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_khajiit_armour_01_entity }
 }
 ek2lc_f_khajiit_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_khajiit_armour_01_entity }
 }
 ek2lc_m_khajiit_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_khajiit_duke_01_entity }
 }
 ek2lc_f_khajiit_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_khajiit_duke_01_entity }
 }
 ek2lc_m_khajiit_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_khajiit_king_01_entity }
 }
 ek2lc_f_khajiit_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_khajiit_king_01_entity }
 }
 ek2lc_m_khajiit_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_khajiit_emperor_01_entity }
 }
 ek2lc_f_khajiit_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_khajiit_emperor_01_entity }
 }
 ek2lc_m_khajiit_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_khajiit_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_khajiit_mantle_01_entity }
 }
 ek2lc_f_khajiit_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_khajiit_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_khajiit_mantle_01_entity }
 }
 ek2lc_m_orc_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_orc_hide_01_entity }
 }
 ek2lc_f_orc_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_orc_hide_01_entity }
 }
 ek2lc_m_orc_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_orc_fine_01_entity }
 }
 ek2lc_f_orc_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_orc_fine_01_entity }
 }
 ek2lc_m_orc_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_orc_royal_01_entity }
 }
 ek2lc_f_orc_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_orc_royal_01_entity }
 }
 ek2lc_f_orc_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_orc_band_01_entity }
 }
 ek2lc_f_orc_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_orc_band_fine_01_entity }
 }
 ek2lc_f_orc_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_orc_band_royal_01_entity }
 }
 ek2lc_m_orc_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_orc_war_01_entity }
 }
 ek2lc_f_orc_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_orc_war_01_entity }
 }
 ek2lc_m_orc_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_orc_armour_01_entity }
 }
 ek2lc_f_orc_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_orc_armour_01_entity }
 }
 ek2lc_m_orc_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_orc_duke_01_entity }
 }
 ek2lc_f_orc_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_orc_duke_01_entity }
 }
 ek2lc_m_orc_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_orc_king_01_entity }
 }
 ek2lc_f_orc_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_orc_king_01_entity }
 }
 ek2lc_m_orc_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_orc_emperor_01_entity }
 }
 ek2lc_f_orc_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_orc_emperor_01_entity }
 }
 ek2lc_m_orc_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_orc_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_orc_mantle_01_entity }
 }
 ek2lc_f_orc_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_orc_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_orc_mantle_01_entity }
 }
 ek2lc_m_goblin_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_goblin_hide_01_entity }
 }
 ek2lc_f_goblin_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_goblin_hide_01_entity }
 }
 ek2lc_m_goblin_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_goblin_fine_01_entity }
 }
 ek2lc_f_goblin_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_goblin_fine_01_entity }
 }
 ek2lc_m_goblin_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_goblin_royal_01_entity }
 }
 ek2lc_f_goblin_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_goblin_royal_01_entity }
 }
 ek2lc_f_goblin_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_goblin_band_01_entity }
 }
 ek2lc_f_goblin_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_goblin_band_fine_01_entity }
 }
 ek2lc_f_goblin_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_goblin_band_royal_01_entity }
 }
 ek2lc_m_goblin_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_goblin_war_01_entity }
 }
 ek2lc_f_goblin_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_goblin_war_01_entity }
 }
 ek2lc_m_goblin_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_goblin_armour_01_entity }
 }
 ek2lc_f_goblin_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_goblin_armour_01_entity }
 }
 ek2lc_m_goblin_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_goblin_duke_01_entity }
 }
 ek2lc_f_goblin_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_goblin_duke_01_entity }
 }
 ek2lc_m_goblin_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_goblin_king_01_entity }
 }
 ek2lc_f_goblin_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_goblin_king_01_entity }
 }
 ek2lc_m_goblin_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_goblin_emperor_01_entity }
 }
 ek2lc_f_goblin_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_goblin_emperor_01_entity }
 }
 ek2lc_m_goblin_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_goblin_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_goblin_mantle_01_entity }
 }
 ek2lc_f_goblin_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_goblin_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_goblin_mantle_01_entity }
 }
 ek2lc_m_kothringi_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_kothringi_hide_01_entity }
 }
 ek2lc_f_kothringi_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_kothringi_hide_01_entity }
 }
 ek2lc_m_kothringi_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_kothringi_fine_01_entity }
 }
 ek2lc_f_kothringi_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_kothringi_fine_01_entity }
 }
 ek2lc_m_kothringi_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_kothringi_royal_01_entity }
 }
 ek2lc_f_kothringi_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_kothringi_royal_01_entity }
 }
 ek2lc_f_kothringi_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_kothringi_band_01_entity }
 }
 ek2lc_f_kothringi_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_kothringi_band_fine_01_entity }
 }
 ek2lc_f_kothringi_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_kothringi_band_royal_01_entity }
 }
 ek2lc_m_kothringi_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_kothringi_war_01_entity }
 }
 ek2lc_f_kothringi_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_kothringi_war_01_entity }
 }
 ek2lc_m_kothringi_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_kothringi_armour_01_entity }
 }
 ek2lc_f_kothringi_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_kothringi_armour_01_entity }
 }
 ek2lc_m_kothringi_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_kothringi_duke_01_entity }
 }
 ek2lc_f_kothringi_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_kothringi_duke_01_entity }
 }
 ek2lc_m_kothringi_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_kothringi_king_01_entity }
 }
 ek2lc_f_kothringi_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_kothringi_king_01_entity }
 }
 ek2lc_m_kothringi_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_kothringi_emperor_01_entity }
 }
 ek2lc_f_kothringi_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_kothringi_emperor_01_entity }
 }
 ek2lc_m_kothringi_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_kothringi_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_kothringi_mantle_01_entity }
 }
 ek2lc_f_kothringi_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_kothringi_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_kothringi_mantle_01_entity }
 }
 ek2lc_m_lilmothiit_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_lilmothiit_hide_01_entity }
 }
 ek2lc_f_lilmothiit_hide_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_hide_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_lilmothiit_hide_01_entity }
 }
 ek2lc_m_lilmothiit_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_lilmothiit_fine_01_entity }
 }
 ek2lc_f_lilmothiit_fine_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_lilmothiit_fine_01_entity }
 }
 ek2lc_m_lilmothiit_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_clothes_ek2lc_m_lilmothiit_royal_01_entity }
 }
 ek2lc_f_lilmothiit_royal_01 = {
 	set_tags = "ek2lc_loincloth"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_lilmothiit_royal_01_entity }
 }
 ek2lc_f_lilmothiit_band_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_band_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_lilmothiit_band_01_entity }
 }
 ek2lc_f_lilmothiit_band_fine_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_band_fine_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_lilmothiit_band_fine_01_entity }
 }
 ek2lc_f_lilmothiit_band_royal_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_band_royal_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_clothes_ek2lc_f_lilmothiit_band_royal_01_entity }
 }
 ek2lc_m_lilmothiit_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_lilmothiit_war_01_entity }
 }
 ek2lc_f_lilmothiit_war_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_war_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_lilmothiit_war_01_entity }
 }
 ek2lc_m_lilmothiit_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_lilmothiit_armour_01_entity }
 }
 ek2lc_f_lilmothiit_armour_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_armour_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_lilmothiit_armour_01_entity }
 }
 ek2lc_m_lilmothiit_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_lilmothiit_duke_01_entity }
 }
 ek2lc_f_lilmothiit_duke_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_duke_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_lilmothiit_duke_01_entity }
 }
 ek2lc_m_lilmothiit_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_lilmothiit_king_01_entity }
 }
 ek2lc_f_lilmothiit_king_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_king_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_lilmothiit_king_01_entity }
 }
 ek2lc_m_lilmothiit_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_lilmothiit_emperor_01_entity }
 }
 ek2lc_f_lilmothiit_emperor_01 = {
 	set_tags = "ek2lc_girdle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_emperor_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_lilmothiit_emperor_01_entity }
 }
 ek2lc_m_lilmothiit_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_lilmothiit_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_lilmothiit_mantle_01_entity }
 }
 ek2lc_f_lilmothiit_mantle_01 = {
 	set_tags = "ek2lc_mantle"
-	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_mantle_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_lilmothiit_mantle_01_entity }
 }
 ek2lc_m_trophy_1_01 = {
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_trophy_1_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_trophy_1_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_f_trophy_1_01 = {
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_trophy_1_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_trophy_1_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_m_trophy_2_01 = {
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_trophy_2_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_trophy_2_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_f_trophy_2_01 = {
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_trophy_2_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_trophy_2_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_m_trophy_3_01 = {
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_trophy_3_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_trophy_3_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_f_trophy_3_01 = {
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_trophy_3_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_trophy_3_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_m_arena_guard_01 = {
 	entity = { required_tags = "ek2lc_mantle"		shared_pose_entity = torso }
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_arena_guard_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = m_cloak_ek2lc_m_arena_guard_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_f_arena_guard_01 = {
 	entity = { required_tags = "ek2lc_mantle"		shared_pose_entity = torso }
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_arena_guard_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = f_cloak_ek2lc_f_arena_guard_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_m_camp_wrap_01 = {
 	entity = { required_tags = "ek2lc_girdle"		shared_pose_entity = torso }
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_camp_wrap_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = m_legwear_ek2lc_m_camp_wrap_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_f_camp_wrap_01 = {
 	entity = { required_tags = "ek2lc_girdle"		shared_pose_entity = torso }
-	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_camp_wrap_01_entity }
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = f_legwear_ek2lc_f_camp_wrap_01_entity }
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }

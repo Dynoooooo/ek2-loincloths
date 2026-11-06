@@ -18,6 +18,7 @@ import bpy, bmesh, addon_utils, sys, os, math, subprocess, time
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from cultures import ROLES, CULTURES, KINDS, TEX_OF
+import colour
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
 from mathutils.interpolate import poly_3d_calc
@@ -1831,8 +1832,7 @@ def write_asset(name, mesh, tset, nset=None):
     node = mesh + "Shape"
     bs_lines = "\n".join('\tblend_shape = { id = "%s_bs_%s"\ttype = "%s_bs_%s.mesh" }' % (name, s, mesh, s) for s in SHAPES)
     attr_lines = "\n".join('\tattribute = { name = "%s"\tblend_shape = "%s_bs_%s" }' % (SHAPE_ATTR[s], name, s) for s in SHAPES)
-    with open(os.path.join(OUT, name + ".asset"), "w") as f:
-        f.write(f"""pdxmesh = {{
+    text = f"""pdxmesh = {{
 	name = "{name}_mesh"
 	file = "{mesh}.mesh"
 {bs_lines}
@@ -1853,7 +1853,9 @@ entity = {{
 	pdxmesh = "{name}_mesh"
 {attr_lines}
 }}
-""")
+"""
+    with open(os.path.join(OUT, name + ".asset"), "w") as f:
+        f.write(colour.patch_asset(text, name, tset, tset))  # recolouring; tools/make_colour.py shares masks
 
 
 def finish_piece(pc):
@@ -2465,4 +2467,6 @@ preview()
 preview_royal()
 preview_mantle()
 preview_extras()
+# Barbershop recolouring: masks, neutral diffuse, palettes, variations (rewrites the diffuse DDS from the PNGs)
+subprocess.run([sys.executable, "-I", os.path.join(SRC, "tools", "make_colour.py")], check=True)
 print("DONE %s in %.1fs" % (SEX, time.time() - T0))

@@ -12,6 +12,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.normpath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(MOD, "source"))
 from cultures import CULTURES  # noqa: E402
+from colour import entity_name  # noqa: E402
 
 REACH = dict(inputs=["ek_nedic_reach"], adj="Reach", mat="Hide", lames="Hide-and-Bone", metal="Bronze and Garnet",
              mantle="Fur-and-Feather")
@@ -130,15 +131,15 @@ def accessories():
         tag = LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else GIRDLE_TAG if k in GENES["gene_ek2lc_war"][1] \
             else MANTLE_TAG if k in GENES["gene_ek2lc_mantle"][1] else None
         tags = '\tset_tags = "%s"\n' % tag if tag else ""
-        out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, tags, a))
+        out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}" % (a, tags, entity_name(a)))
     for gene, (none, kinds, _, _, hide) in EXTRA.items():
         for k, _, _ in kinds:
             for s in ("m", "f"):
                 a = xacc(s, k)
-                out.append("%s = {\n%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n"
+                out.append("%s = {\n%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}"
                            % (a, "".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide),
-                              LOINCLOTH_TAG, a))
+                              LOINCLOTH_TAG, entity_name(a)))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
 
