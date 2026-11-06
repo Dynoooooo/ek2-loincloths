@@ -725,6 +725,7 @@ PIECES.append(dict(name=WAR, set=WSET, pos=WPOS, faces=WFACES, part=WPART, wrap=
 print("WAR %d vertices, %d trophies" % (len(war_bind), ti))
 
 
+
 # ------------------------------------------------------------------ armoured skirt (both bodies)
 # The war girdle again (same geometry and texture), and instead of the trophies a skirt of
 # hide strips faced with bone lames over each hip (like pteruges). Each strip is a flat plank
@@ -890,6 +891,8 @@ for k in range(len(STRIPS)):
 PIECES.append(dict(name=ARM, set=ASET, pos=APOS, faces=AFACES, part=APART, wrap=AWRAP, wrap_u={i: 1.0 for i in range(5)},
                    uvs=AUVS, vw=AVW, orient=A_ORIENT))
 print("ARMOUR %d vertices, %d strips" % (len(APOS["basis"]), len(STRIPS)))
+
+
 
 
 # ------------------------------------------------------------------ royal ladder (both bodies)
@@ -1934,7 +1937,110 @@ def finish_piece(pc):
     return obj
 
 
+# ------------------------------------------------------------------ trophy belt (extra, both bodies)
+# Trophies on sinew cords tied over the cord belt; the better the fighter, the more of them
+# (tiers 1-3 by prowess, chosen in the game scripts). They hang in the gaps between the
+# front/back flaps and the hips (the hips belong to the war trophies, the armoured strips and
+# the royal ornaments), so they go with every look. Drawn only while one of our loincloths is
+# worn (its tag; gen_script_files.py). Bone, claw and sinew from the war texture.
+# (angle from the front, kind, length, bone beads under the belt, extra offset from the skin,
+# beads on the cord where it crosses the belt).
+# Room below the belt: 46-56 degrees (front flap edge to the armoured strips) and 125-136 (strips
+# to the back flap; 133 clears the women's strips too), one trophy each per side; the hips belong to the war trophies, the
+# armoured strips and the royal ornaments. So the belt grows 2 -> 4 trophies, then beads on the
+# cords over the belt (longer trophies would reach the flaps and strips). Built last: each trophy is pushed out until it clears every other piece by
+# TROPHY_GAP on every body shape.
+TROPHY_TIERS = {1: [(53, "tooth", 3.0, 1, 0.0, 0)],
+                2: [(53, "tooth", 3.2, 1, 0.0, 0), (133, "claw", 3.2, 1, 0.0, 0)],
+                3: [(53, "tooth", 3.2, 1, 0.0, 2), (133, "claw", 3.2, 1, 0.0, 0)]}  # back: the women's strips leave no room over the belt
+TROPHY_GAP = 0.3
+_OBVH = [BVHTree.FromPolygons(o["pos"][s], [list(f) for f in o["faces"]]) for o in PIECES
+         if "band" not in o["name"] and "mantle" not in o["name"] for s in ALL]
+_OBVH_S = [(o["name"], s) for o in PIECES if "band" not in o["name"] and "mantle" not in o["name"] for s in ALL]
+
+
+def trophy_item(side, ang, kind, length, beads, out, belt_beads=0):
+    """One trophy (cord, bone beads, tooth or claw) as (bind, uvs, faces, parts); faces index this item only."""
+    tb, tu, tf, tp = [], [], [], []
+    tgt = (tb, tu, tf, tp)
+    th0 = side * math.radians(ang)
+    bt = BELT_Z - 2.3
+    add_tube(th0, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4 + out), (0, BELT_Z - 1.9, 2.4 + out), (0, bt, 1.6 + out)],
+             [0.14] * 4, 1.0, CORD_UV, "c", tgt=tgt)
+    for j in range(belt_beads):  # over the cord belt (it spans BELT_Z +-1.7, outer surface ~1.4 cm out)
+        z0 = BELT_Z + 1.3 - 1.4 * j
+        add_tube(th0, [(0, z0, 2.4 + out), (0, z0 - 0.5, 2.4 + out), (0, z0 - 1.0, 2.4 + out)], [0.45, 0.6, 0.45], 1.0,
+                 BONE_UV, "u%d" % j, tgt=tgt)
+    for j in range(beads):
+        z0 = bt - 1.2 * j
+        add_tube(th0, [(0, z0, 1.6 + out), (0, z0 - 0.5, 1.6 + out), (0, z0 - 1.0, 1.6 + out)], [0.42, 0.55, 0.42], 1.0,
+                 BONE_UV, "b%d" % j, tgt=tgt)
+    bb = bt - 1.2 * beads + 0.2
+    if kind == "tooth":
+        path = [(0, bb, 1.4 + out), (0, bb - length * 0.35, 1.35 + out), (0, bb - length * 0.7, 1.2 + out), (0, bb - length, 1.0 + out)]
+        add_tube(th0, path, [0.45, 0.42, 0.26, 0], 0.6, BONE_UV, "t", cap_tip=True, tgt=tgt)
+    else:  # claw: curls outwards at the tip
+        path = [(0, bb, 1.4 + out), (0, bb - length * 0.4, 1.55 + out), (0, bb - length * 0.75, 1.95 + out), (0, bb - length, 2.6 + out)]
+        add_tube(th0, path, [0.4, 0.34, 0.2, 0], 0.55, CLAW_UV, "t", cap_tip=True, tgt=tgt)
+    return tgt
+
+
+def trophy_gap(item):
+    """Closest bead/tooth/claw point to any other piece on any body shape (cords pass over the belt on purpose)."""
+    tb, tu, tf, tp = item
+    vi = sorted({i for f, prt in zip(tf, tp) if prt != "c" for i in f})
+    return min((bvh.find_nearest(recon(tb[i], ns[1]))[3], ns) for bvh, ns in zip(_OBVH, _OBVH_S) for i in vi)
+
+
+TROPHY = {}
+for _tier, _items in TROPHY_TIERS.items():
+    tb, tu, tf, tp = [], [], [], []
+    k = 0
+    for side in (1, -1):
+        for ang, kind, length, beads, out, belt_beads in _items:
+            for _try in range(8):
+                item = trophy_item(side, ang, kind, length, beads, out, belt_beads)
+                gap, near = trophy_gap(item)
+                if gap >= TROPHY_GAP:
+                    break
+                out += TROPHY_GAP - gap + 0.05
+            assert gap >= TROPHY_GAP, "tier %d trophy at %d deg can't clear: gap %.2f to %s on %s (out %.2f)" % (
+                _tier, ang, gap, near[0], near[1], out)
+            b0 = len(tb)
+            tb += item[0]
+            tu += item[1]
+            tf += [[i + b0 for i in f] for f in item[2]]
+            tp += ["%s%02d" % (prt, k) for prt in item[3]]
+            print("TROPHY tier %d at %+4d deg: %s, out %.2f, gap %.2f" % (_tier, side * ang, kind, out, gap))
+            k += 1
+    _pos = {s: [recon(b, s) for b in tb] for s in ALL}
+    _ctr = {}
+    for f, p in zip(tf, tp):
+        _ctr.setdefault(p, []).extend(_pos["basis"][i] for i in f)
+    _orient = [(p, (lambda c0: (lambda c: c - c0))(sum(ps, Vector()) / len(ps)), None) for p, ps in _ctr.items()]
+    TROPHY[_tier] = "ek2lc_%s_trophy_%d_01" % (S1, _tier)
+    PIECES.append(dict(name=TROPHY[_tier], set=WSET, pos=_pos, faces=tf, part=tp, wrap=set(), wrap_u={}, uvs=tu,
+                       vw=[weights_at(b[0], b[1]) for b in tb], orient=_orient))
+    print("TROPHY tier %d: %d vertices, %d trophies" % (_tier, len(tb), k))
+
+
 OBJS = [finish_piece(pc) for pc in PIECES]
+
+# the trophies must not cut through the pieces they're worn with: closest trophy point to each
+# other piece's surface, per body shape (beads are 0.55 cm thick, so under ~0.2 means touching)
+for _t, _tn in TROPHY.items():
+    _tpc = next(pc for pc in PIECES if pc["name"] == _tn)
+    # beads, teeth and claws (the cords are meant to pass over the cord belt and under a girdle)
+    _tvi = sorted({i for f, prt in zip(_tpc["faces"], _tpc["part"]) if not prt.startswith("c") for i in f})
+    for _o in PIECES:
+        if _o["name"] in TROPHY.values() or "band" in _o["name"]:
+            continue
+        _worst = (1e9, None)
+        for s in ALL:
+            _bvh = BVHTree.FromPolygons(_o["pos"][s], [list(f) for f in _o["faces"]])
+            _d = min(_bvh.find_nearest(_tpc["pos"][s][i])[3] for i in _tvi)
+            _worst = min(_worst, (_d, s))
+        print("TROPHYGAP %s vs %-26s min=%.2f (%s)" % (_tn, _o["name"], _worst[0], _worst[1]))
 for _ent, _mesh, _set in [("ek2lc_%s_reach_fine_01" % S1, NAME, FSET), ("ek2lc_%s_reach_royal_01" % S1, NAME, RSET),
                           ("ek2lc_%s_reach_emperor_01" % S1, KING, ROYAL_SETS["emperor"])] + (
         [("ek2lc_f_reach_band_fine_01", BAND, FSET), ("ek2lc_f_reach_band_royal_01", BAND, RSET)] if SEX == "female" else []):

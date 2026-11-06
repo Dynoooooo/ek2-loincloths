@@ -620,3 +620,27 @@ ek2lc_m_lilmothiit_mantle_01 = {
 ek2lc_f_lilmothiit_mantle_01 = {
 	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_lilmothiit_mantle_01_entity }
 }
+ek2lc_m_trophy_1_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_trophy_1_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso }
+}
+ek2lc_f_trophy_1_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_trophy_1_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso }
+}
+ek2lc_m_trophy_2_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_trophy_2_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso }
+}
+ek2lc_f_trophy_2_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_trophy_2_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso }
+}
+ek2lc_m_trophy_3_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_m_trophy_3_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso }
+}
+ek2lc_f_trophy_3_01 = {
+	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso		entity = ek2lc_f_trophy_3_01_entity }
+	entity = { required_tags = ""		shared_pose_entity = torso }
+}

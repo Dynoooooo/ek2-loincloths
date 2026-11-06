@@ -506,3 +506,26 @@ ek2lc_custom_mantle = {
 		template = ek2lc_lilmothiit_mantle
 	}
 }
+
+ek2lc_custom_trophy = {
+	usage = customization
+	interface_position = 13
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_trophy
+		template = ek2lc_no_trophy
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_trophy
+		template = ek2lc_trophy_1
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_trophy
+		template = ek2lc_trophy_2
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_trophy
+		template = ek2lc_trophy_3
+	}
+}

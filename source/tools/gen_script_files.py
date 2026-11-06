@@ -27,6 +27,17 @@ GENES = {
     "gene_ek2lc_mantle": ("ek2lc_no_mantle", ["mantle"]),
 }
 WOMEN_ONLY = {"band", "band_fine", "band_royal"}
+# Culture-independent extras: gene -> (none template, [(kind, barbershop name, game rule)]). Their
+# accessories draw only while one of our loincloths is worn (LOINCLOTH_TAG), so the game rule needs
+# no culture or look: anyone 14+ qualifies, and EK2 clothes simply hide nothing.
+EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
+    ("trophy_1", "Trophy Belt: Two Trophies", "prowess >= 8\n\t\t\t\tprowess < 12"),
+    ("trophy_2", "Trophy Belt: Four Trophies", "prowess >= 12\n\t\t\t\tprowess < 16"),
+    ("trophy_3", "Trophy Belt: Four Trophies and Beads", "prowess >= 16")])}
+
+
+def xacc(s, k):  # an extra's accessory: ek2lc_m_trophy_1_01
+    return "ek2lc_%s_%s_01" % (s, k)
 
 
 def tmpl(c, kind):  # gene template; the Reach's plain loincloth was named "hide", so is everyone's
@@ -69,6 +80,18 @@ special_genes = {
 				girl = { 1 = %s }
 			}""" % (t, i, m, f, m, f))  # children: the same pieces (every piece has the infant shape)
         out.append("\t\t}")
+    for gene, (none, kinds) in EXTRA.items():
+        out.append("\t\t%s = {" % gene)
+        for i, k in enumerate([None] + [k for k, _, _ in kinds]):
+            m, f = ("empty", "empty") if k is None else (xacc("m", k), xacc("f", k))
+            out.append("""			%s = {
+				index = %d
+				male = { 1 = %s }
+				female = { 1 = %s }
+				boy = { 1 = %s }
+				girl = { 1 = %s }
+			}""" % (none if k is None else "ek2lc_" + k, i, m, f, m, f))
+        out.append("\t\t}")
     out.append("\t}\n}\n")
     write("common/genes/ek2lc_genes.txt", "\n".join(out))
 
@@ -93,6 +116,12 @@ def accessories():
         a = acc(s, c, k)
         tags = '\tset_tags = "%s"\n' % LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else ""
         out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, tags, a))
+    for gene, (none, kinds) in EXTRA.items():
+        for k, _, _ in kinds:
+            for s in ("m", "f"):
+                a = xacc(s, k)
+                out.append("%s = {\n\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n"
+                           "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}" % (a, LOINCLOTH_TAG, a))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
 
@@ -248,6 +277,35 @@ ek2lc_loincloth = {
                                       ["\t\t\t\tis_female = %s" % fem, KIDS, cul, "\t\t\t\tek2lc_war_role_trigger = no",
                                        "\t\t\t\tek2lc_royal_tier_trigger = { LOW = %s HIGH = %s }" % (lo, hi)])]))
     out.append("}\n")
+    for gene, (none, kinds) in EXTRA.items():
+        g = gene.replace("gene_", "")
+        out.append("""# %s: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+%s = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	%s_none = {
+%s
+		weight = {
+			base = 1
+		}
+	}
+""" % (gene, g, g, dna([(gene, none)])))
+        for k, _, rule in kinds:
+            out.append("""	%s = {
+%s
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				scope:age >= 14
+				%s
+			}
+		}
+	}
+""" % ("ek2lc_" + k, dna([(gene, "ek2lc_" + k)]), rule))
+        out.append("}\n")
     write("gfx/portraits/portrait_modifiers/ek2lc_loincloths.txt", "\n".join(out))
 
 
@@ -292,6 +350,19 @@ def barbershop():
                 else:
                     loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, m, piece_name(cd, k)))
                     loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, f, grp, m))
+    for pos, (gene, (none, kinds)) in enumerate(EXTRA.items(), start=13):
+        grp = "ek2lc_custom_" + gene.replace("gene_ek2lc_", "")
+        out += ["%s = {" % grp, "\tusage = customization", "\tinterface_position = %d" % pos, "\tpriority = 102", ""]
+        for tm in [none] + ["ek2lc_" + k for k, _, _ in kinds]:
+            out += ["\tadd_accessory_modifiers = {", "\t\tgene = %s" % gene, "\t\ttemplate = %s" % tm, "\t}"]
+        out += ["}", ""]
+        loc.append(' PORTRAIT_MODIFIER_%s: "Trophy Belt"' % grp)
+        loc.append(' PORTRAIT_MODIFIER_%s_none: "No Trophy Belt"' % grp)
+        for s in ("male", "female", "boy", "girl"):
+            loc.append(' PORTRAIT_MODIFIER_%s_%s_empty: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, s, grp))
+        for k, name, _ in kinds:
+            loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, xacc("m", k), name))
+            loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, xacc("f", k), grp, xacc("m", k)))
     write("gfx/portraits/portrait_modifiers/ek2lc_custom.txt", "\n".join(out))
     write("localization/english/ek2lc_l_english.yml", "\n".join(loc) + "\n")
 
