@@ -1,5 +1,5 @@
 ﻿# EK2 Loincloths: barbershop colours for our pieces (made by source/tools/make_colour.py).
-# Each texture set's mask channels R/G/B are its colour groups; the palette holds their default colours.
+# Each texture set's mask channel R holds its hide, cloth and paint; the palette holds the hide colour.
 # Patterns are solid, so they need no second UV set.
 
 pattern_textures = {

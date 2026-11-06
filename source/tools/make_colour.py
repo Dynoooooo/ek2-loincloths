@@ -1,16 +1,24 @@
 """Make every EK2 Loincloths piece recolourable in the barbershop (see source/colour.py).
 
 For each texture set used by an .asset in the model folder:
-  - groups the soft parts of its diffuse (hide, cloth, cord, fur, paint: the pixels whose
-    properties are the set's plain value) into up to 3 colour groups; the biggest one (the main
-    hide or cloth, usually with its cord) goes in mask channel R. Smaller groups (painted bands,
-    beads) and shiny parts (bone, teeth, metal, gems) stay out of the mask and keep their colours.
+  - finds the main hide or cloth colour: the biggest colour group of the soft pixels (hide, cloth,
+    cord, fur, paint, stitching: the pixels whose properties are the set's plain value);
+  - puts ALL soft pixels in mask channel R, stored divided by that colour. Paint and stitching
+    then have no mask edge along them (texture filtering at such an edge made thin painted lines
+    dull mauve-grey in game) and become a darker or redder shade of a picked colour. Pixels
+    brighter than the hide (bone-white motifs, beads) get a partial mask value, so nothing is
+    stored above 1.0. Shiny parts (bone, teeth, metal, gems) stay unmasked and keep their colours.
     In CK3 1.20 only channel R took a colour on our pieces in game (G and B stayed white even with
-    a picked colour), so USED_GROUPS is 1; raise it if a later patch fixes that;
-  - writes the diffuse with the masked group divided by its colour (near-neutral), and a
-    16x1 palette holding that colour, so the default look is unchanged and a picked colour
-    (barbershop: the swatch beside Clothes, Legwear or Cloak, "Primary Color 1") replaces it;
-  - writes the mask, full size like vanilla's (identical masks are shared).
+    a picked colour), so USED_GROUPS is 1 (channels G and B are empty);
+  - writes the diffuse divided per mip level by exactly what the shader multiplies by: the mask
+    level as the game reads it (decoded from the written DXT1), lerping from white to the hide
+    colour in linear light. A 16x1 palette holds that colour, so the default look is unchanged and
+    a picked colour (barbershop: the swatch beside Clothes, Legwear or Cloak, "Primary Color 1")
+    replaces it;
+  - writes the mask at half size with its own mip levels (identical masks are shared, unused ones
+    deleted);
+  - prints the default look's error per mip level (decoded diffuse x mask x palette against the
+    original) and source/tools/check_colour.py checks painted lines in detail.
 Then writes the variation file and patches every .asset (prefixed entity name, pattern shader,
 mask and variation). The patterns are solid (colour channel 1, flat normal, the set's own
 properties), so they need no second UV set.
@@ -23,6 +31,7 @@ import glob
 import hashlib
 import os
 import re
+import struct
 import subprocess
 import sys
 
@@ -44,6 +53,91 @@ USED_GROUPS = 1     # groups that get a mask channel (see above)
 MERGE_DIST = 0.035   # chroma distance under which two groups are one colour
 MIN_SHARE = 0.01     # smaller groups join the nearest one
 PAT_SIZE = 512       # vanilla's pattern texture size (they share texture arrays)
+NOISE = 6 / 255.0    # hide pixels up to this much brighter than the hide colour raise it instead of
+                     # getting a partial mask (keeps masks of plain sets identical, so shared)
+MASK_STEPS = 31      # partial mask values are multiples of 1/31: exact in DXT1's 5-bit red
+
+
+def lin(s):
+    return np.where(s <= 0.04045, s / 12.92, ((np.maximum(s, 0.04045) + 0.055) / 1.055) ** 2.4)
+
+
+def srgb(x):
+    x = np.clip(x, 0, 1)
+    return np.where(x <= 0.0031308, x * 12.92, 1.055 * np.maximum(x, 0.0031308) ** (1 / 2.4) - 0.055)
+
+
+def _bc1(blk, dxt1):
+    """RGBA of BC1 colour blocks (bh, bw, 8 bytes) -> (bh*4, bw*4, 4)."""
+    b = blk.astype(np.uint32)
+    c0, c1 = b[..., 0] | b[..., 1] << 8, b[..., 2] | b[..., 3] << 8
+    idx = b[..., 4] | b[..., 5] << 8 | b[..., 6] << 16 | b[..., 7] << 24
+
+    def rgb(c):
+        return np.stack([(c >> 11 & 31) / 31.0, (c >> 5 & 63) / 63.0, (c & 31) / 31.0], -1).astype(np.float32)
+    p0, p1 = rgb(c0), rgb(c1)
+    four = (c0 > c1) if dxt1 else np.ones(c0.shape, bool)
+    pal = np.ones(blk.shape[:2] + (4, 4), np.float32)
+    pal[..., 0, :3], pal[..., 1, :3] = p0, p1
+    pal[..., 2, :3] = np.where(four[..., None], (2 * p0 + p1) / 3, (p0 + p1) / 2)
+    pal[..., 3, :3] = np.where(four[..., None], (p0 + 2 * p1) / 3, 0)
+    pal[..., 3, 3] = np.where(four, 1.0, 0.0)
+    sel = (idx[..., None] >> (2 * np.arange(16, dtype=np.uint32))) & 3
+    px = np.take_along_axis(pal, sel[..., None].astype(np.int64), axis=2)
+    bh, bw = blk.shape[:2]
+    return px.reshape(bh, bw, 4, 4, 4).transpose(0, 2, 1, 3, 4).reshape(bh * 4, bw * 4, 4)
+
+
+def _bc3_alpha(blk):
+    b = blk.astype(np.uint64)
+    a0, a1 = b[..., 0].astype(np.float32), b[..., 1].astype(np.float32)
+    bits = sum(b[..., 2 + k] << np.uint64(8 * k) for k in range(6))
+    sel = ((bits[..., None] >> (3 * np.arange(16, dtype=np.uint64))) & np.uint64(7)).astype(np.int64)
+    pal = np.zeros(blk.shape[:2] + (8,), np.float32)
+    pal[..., 0], pal[..., 1] = a0, a1
+    big = a0 > a1
+    for i in range(2, 8):
+        pal[..., i] = np.where(big, ((8 - i) * a0 + (i - 1) * a1) / 7, ((6 - i) * a0 + (i - 1) * a1) / 5 if i < 6 else 255.0 * (i == 7))
+    px = np.take_along_axis(pal, sel, axis=2) / 255.0
+    bh, bw = blk.shape[:2]
+    return px.reshape(bh, bw, 4, 4).transpose(0, 2, 1, 3).reshape(bh * 4, bw * 4)
+
+
+def read_dds(path):
+    """Every mip level of a DXT1/DXT5 .dds as the GPU decodes it (ImageMagick reads level 0 only)."""
+    b = open(path, "rb").read()
+    h, w = struct.unpack_from("<II", b, 12)
+    nmip, fourcc, off, out = max(1, struct.unpack_from("<I", b, 28)[0]), b[84:88], 128, []
+    for i in range(nmip):
+        lw, lh = max(1, w >> i), max(1, h >> i)
+        bw, bh = (lw + 3) // 4, (lh + 3) // 4
+        if fourcc == b"DXT1":
+            blk = np.frombuffer(b, np.uint8, bw * bh * 8, off).reshape(bh, bw, 8)
+            img = _bc1(blk, True)
+        elif fourcc == b"DXT5":
+            blk = np.frombuffer(b, np.uint8, bw * bh * 16, off).reshape(bh, bw, 16)
+            img = _bc1(blk[..., 8:], False)
+            img[..., 3] = _bc3_alpha(blk[..., :8])
+        else:
+            raise ValueError("%s: %r" % (path, fourcc))
+        out.append(img[:lh, :lw])
+        off += blk.size
+    return out
+
+
+def compose(d, m, ref):
+    """What the shader shows by default: diffuse x lerp(1, palette colour, mask R), in linear light."""
+    return lin(d[..., :3]) * (1 - m[..., :1] * (1 - lin(ref)))
+
+
+def upsample(a):
+    """A level magnified 2x as the GPU samples it at the finer level's texel centres (bilinear, clamped)."""
+    p = np.pad(a, ((1, 1), (1, 1), (0, 0)), mode="edge")
+    rows = np.empty((2 * a.shape[0],) + p.shape[1:], np.float32)
+    rows[0::2], rows[1::2] = 0.75 * p[1:-1] + 0.25 * p[:-2], 0.75 * p[1:-1] + 0.25 * p[2:]
+    out = np.empty((rows.shape[0], 2 * a.shape[1], a.shape[2]), np.float32)
+    out[:, 0::2], out[:, 1::2] = 0.75 * rows[:, 1:-1] + 0.25 * rows[:, :-2], 0.75 * rows[:, 1:-1] + 0.25 * rows[:, 2:]
+    return out
 
 
 def read_png(path):
@@ -139,7 +233,8 @@ def main():
     sets = {}
     for name, (tset, nset) in assets().items():
         sets.setdefault(tset, nset)
-    masks, mask_of, props_of, info = {}, {}, {}, []
+    masks, mask_of, props_of, info, worst = {}, {}, {}, [], np.zeros(4)
+    decoded = {}
     for tset, nset in sorted(sets.items()):
         dpath = next(p for p in (os.path.join(TEX, tset + "_diffuse.png"), os.path.join(TEX, "cultures", tset + "_diffuse.png"))
                      if os.path.exists(p))
@@ -150,48 +245,60 @@ def main():
         px = dif[soft][:, :3]
         cent = groups(features(px), rng)
         lab_soft = np.argmin(((features(px)[:, None] - cent[None]) ** 2).sum(-1), 1)
-        lab = np.full(soft.shape, -1, np.int32)
-        lab[soft] = lab_soft
+        main_grp = np.zeros(soft.shape, bool)
+        main_grp[soft] = lab_soft == 0
         opaque = dif[..., 3] > 0.5
-        refs = []
-        for k in range(len(cent)):
-            sel = lab == k
-            pick = sel & opaque if np.any(sel & opaque) else sel
-            refs.append(np.maximum(np.percentile(dif[pick][:, :3], 99.5, axis=0), 0.03))
-        refs = refs[:USED_GROUPS]
-        m = np.zeros(dif.shape, np.float32)
-        for k in range(len(refs)):
-            m[..., k] = lab == k
+        pick = main_grp & opaque if np.any(main_grp & opaque) else main_grp
+        ref = np.percentile(dif[pick][:, :3], 99.5, axis=0)
+        near = soft & np.all(dif[..., :3] <= ref + NOISE, -1)
+        ref = np.maximum(ref, dif[near][:, :3].max(0))
+        ref = np.clip(np.ceil(np.maximum(ref, 0.03) * 255 - 1e-3) / 255, 0, 1)  # as the palette stores it
+        room = 1 - lin(ref)
+        need = np.where(room > 1e-6, (1 - lin(dif[..., :3])) / np.maximum(room, 1e-6), np.inf).min(-1)
+        mval = np.where(soft, np.floor(np.clip(need, 0, 1) * MASK_STEPS + 1e-4) / MASK_STEPS, 0.0).astype(np.float32)
+        # The mask is half size (the diffuse's mip 1 and below match its levels exactly). Each texel is
+        # the lowest value of its 2x2 block and the 8 blocks around it: a lower mask never makes the
+        # diffuse clip, also where the game magnifies the mask for the diffuse's full-size level.
+        h, w = mval.shape
+        pad = np.pad(mval.reshape(h // 2, 2, w // 2, 2).min((1, 3)), 1, mode="edge")
+        m = np.zeros((h // 2, w // 2, 4), np.float32)
+        m[..., 0] = np.min([pad[y:y + h // 2, x:x + w // 2] for y in range(3) for x in range(3)], 0)
         m[..., 3] = 1.0  # DXT1 reads alpha as 1 anyway; channel A's pattern is the neutral ek2lc_none
         key = hashlib.sha1(np.round(m * 255).astype(np.uint8).tobytes()).hexdigest()
         if key not in masks:
             masks[key] = tset
-            write_dds_levels(pyramid(m), os.path.join(OUT, tset + "_masks.dds"), "dxt1")
+            mp = os.path.join(OUT, tset + "_masks.dds")
+            write_dds_levels(pyramid(m), mp, "dxt1")
+            dec = read_dds(mp)
+            decoded[key] = [upsample(dec[0])] + dec
         mask_of[tset] = masks[key]
-        # Divide by exactly what the shader multiplies by: the mask as the game reads it (compressed,
-        # for the full-size level), lerping from white to each group's colour in channel order.
-        # Done for every mip level separately (the original's mip / that mip's colour), because in
-        # portraits the game samples small mips: there, dividing the full size and averaging after
-        # left thin unmasked lines (painted zigzags) pale.
-        mlev = pyramid(m)
-        mlev[0] = read_png(os.path.join(OUT, masks[key] + "_masks.dds") + "[0]")
+        # Divide each mip level of the original by exactly what the shader multiplies it by there:
+        # that level of the mask as the game reads it (decoded DXT1), lerping from white to the
+        # palette colour. In portraits the game samples small mips, where thin lines are part-texels.
         levels = []
-        for dl, ml in zip(pyramid(dif), mlev):
-            col = np.ones(dl.shape[:2] + (3,), np.float32)
-            for k, ref in enumerate(refs):
-                col += (ref - col) * ml[..., k:k + 1]
+        for dl, ml in zip(pyramid(dif), decoded[key]):
             nl = dl.copy()
-            nl[..., :3] = np.clip(dl[..., :3] / np.maximum(col, 1e-3), 0, 1)
+            nl[..., :3] = srgb(lin(dl[..., :3]) / (1 - ml[..., :1] * room))
             levels.append(nl)
-        write_dds_levels(levels, os.path.join(OUT, tset + "_diffuse.dds"), "dxt5")
+        dds = os.path.join(OUT, tset + "_diffuse.dds")
+        write_dds_levels(levels, dds, "dxt5")
+        err = []
+        for dl, rd, ml in list(zip(pyramid(dif), read_dds(dds), decoded[key]))[:4]:
+            op = dl[..., 3] > 0.5
+            err.append(100 * float(np.abs(srgb(compose(rd, ml, ref)) - dl[..., :3])[op].mean()))
+        worst = np.maximum(worst, err)
         pal = np.ones((1, 16, 4), np.float32)
-        for k, ref in enumerate(refs):
-            pal[0, k * 4, :3] = ref
+        pal[0, 0, :3] = ref
         write_dds(pal, os.path.join(PAT, tset + "_palette.dds"), "none", mips=False)
         a = float(props[soft][:, 3].mean())
         props_of[tset] = (round(float(base_g) * 255), round(a * 255))
-        info.append("%s: %d of %d groups coloured %s, soft %.0f%%" % (tset, len(refs), len(cent), " ".join("#%02x%02x%02x" % tuple(int(c * 255) for c in r)
-                                                                                  for r in refs), 100 * soft.mean()))
+        part = soft & (mval < 1)
+        info.append("%s: hide #%02x%02x%02x, soft %.0f%%, partial mask %.2f%% (min %.2f), error mip 0-3 %s%%"
+                    % ((tset,) + tuple(int(round(c * 255)) for c in ref) + (100 * soft.mean(), 100 * part.mean(),
+                       float(mval[part].min()) if part.any() else 1.0, " ".join("%.2f" % e for e in err))))
+    for p in glob.glob(os.path.join(OUT, "*_masks.dds")):
+        if os.path.basename(p)[:-len("_masks.dds")] not in masks.values():
+            os.remove(p)
 
     # solid patterns: colour channel 1 only, flat normal (.ga = 0.5), the set's plain properties with AO 1
     # Same layout as every vanilla pattern texture (they share texture arrays with the character's other
@@ -202,7 +309,7 @@ def main():
     solid((255, 0, 0, 0), os.path.join(PAT, "ek2lc_pattern_colormask.dds"))
     solid((128, 128, 255, 128), os.path.join(PAT, "ek2lc_pattern_normal.dds"))
     out = [BOM + "# EK2 Loincloths: barbershop colours for our pieces (made by source/tools/make_colour.py).\n"
-           "# Each texture set's mask channels R/G/B are its colour groups; the palette holds their default colours.\n"
+           "# Each texture set's mask channel R holds its hide, cloth and paint; the palette holds the hide colour.\n"
            "# Patterns are solid, so they need no second UV set."]
     for g, a in sorted(set(props_of.values())):
         pt = "ek2lc_solid_g%d_a%d" % (g, a)
@@ -238,7 +345,8 @@ def main():
             open(p, "w").write(t2)
             n += 1
     print("\n".join(info))
-    print("%d texture sets, %d masks, %d assets patched" % (len(sets), len(masks), n))
+    print("%d texture sets, %d masks, %d assets patched; worst default-look error mip 0-3: %s%%"
+          % (len(sets), len(masks), n, " ".join("%.2f" % e for e in worst)))
 
 
 if __name__ == "__main__":
