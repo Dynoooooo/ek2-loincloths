@@ -1,0 +1,18 @@
+﻿# EK2 Loincloths: who wears what. Only reads existing triggers; changes no gameplay.
+
+# Adults in a war role while their realm is at war: knights, commanders, anyone in an army.
+ek2lc_war_role_trigger = {
+	exists = this
+	is_adult = yes
+	is_incapable = no
+	is_imprisoned = no
+	OR = {
+		is_commanding_army = yes
+		is_in_army = yes
+		is_knight = yes
+	}
+	OR = {
+		is_at_war = yes
+		liege ?= { is_at_war = yes }
+	}
+}

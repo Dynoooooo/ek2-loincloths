@@ -1,7 +1,7 @@
 ﻿# EK2 Loincloths: who wears a loincloth.
 # Priority 101 applies this after every EK2 outfit group (EK2's highest is 100), so a
 # loincloth wearer never gets an EK2 outfit, legwear or cloak on top of the loincloth.
-# Every modifier sets both of our genes, so nothing is left over from another choice.
+# Every modifier sets all of our genes, so nothing is left over from another choice.
 ek2lc_loincloth = {
 	usage = game
 	selection_behavior = weighted_random
@@ -19,6 +19,12 @@ ek2lc_loincloth = {
 				mode = add
 				gene = gene_ek2lc_top
 				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
 				range = { 0 1 }
 			}
 		}
@@ -60,6 +66,12 @@ ek2lc_loincloth = {
 				template = ek2lc_no_top
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -70,6 +82,7 @@ ek2lc_loincloth = {
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
+				ek2lc_war_role_trigger = no
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -111,6 +124,12 @@ ek2lc_loincloth = {
 				template = ek2lc_reach_band
 				range = { 0 1 }
 			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
 		}
 		weight = {
 			base = 0
@@ -121,6 +140,119 @@ ek2lc_loincloth = {
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Reach men in a war role while their realm is at war: the loincloth with the war
+	# girdle and trophies, instead of EK2's armour.
+	ek2lc_reach_war_m = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_war
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Adult Reach women in a war role while their realm is at war: the loincloth with the war
+	# girdle and trophies, and always the chest band, instead of EK2's armour.
+	ek2lc_reach_war_f = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_hide
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_reach_war
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				ek2lc_war_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes

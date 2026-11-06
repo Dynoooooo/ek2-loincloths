@@ -8,3 +8,9 @@ ek2lc_f_reach_hide_01 = {
 ek2lc_f_reach_band_01 = {
 	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_band_01_entity }
 }
+ek2lc_m_reach_war_01 = {
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_m_reach_war_01_entity }
+}
+ek2lc_f_reach_war_01 = {
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = ek2lc_f_reach_war_01_entity }
+}

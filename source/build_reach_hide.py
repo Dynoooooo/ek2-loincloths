@@ -7,7 +7,8 @@ source/textures, DDS in the mod), a .blend and a small preview.
 
 Pieces: a rawhide cord belt, a strip passing between the legs (a pouch over the fig leaf),
 fringed hide flaps tucked under the belt in front and behind, and for women a chest band
-that bridges the cleavage like real cloth.
+that bridges the cleavage like real cloth. A separate war piece (own texture set) adds a wide
+hide girdle above the cord belt and teeth/claws on sinew cords at the hips.
 
 Run once per body:
   /Applications/Blender.app/Contents/MacOS/Blender --background \
@@ -564,6 +565,109 @@ if SEX == "female":
                        uvs=BUVS, vw=BVW, orient=[("band", lambda c: Vector((c.x, c.y - BAND_YC, 0)), None)]))
 
 
+# ------------------------------------------------------------------ war girdle and trophies (both bodies)
+# A wide, thick hide girdle at the waist just above the cord belt, and at each hip five
+# trophies on sinew cords (bone bead + tooth or claw). The trophies hang at the sides only,
+# clear of the flaps; their cords pass over the cord belt.
+WAR = "ek2lc_%s_reach_war_01" % S1
+WSET = "ek2lc_reach_war_01"
+NW = 48
+G_ROWS = [(2.1, 0.3), (2.1, 0.9), (4.5, 1.15), (7.0, 0.9), (7.0, 0.3)]  # (height above BELT_Z, offset from skin)
+
+
+def skin_bind(th, z, off):
+    """Bind a point to the skin at height z, angle th from the front (+ towards +x)."""
+    d = FRONT * math.cos(th) + RIGHT * math.sin(th)
+    loc, nor, fi, dist = BVH["basis"].ray_cast(Vector((0, center_y(z), z)), d, 100)
+    return bind(loc, fi, off)
+
+
+war_bind, WUVS, WFACES, WPART, WWRAP = [], [], [], [], set()
+for k in range(NW):
+    th = math.pi - 2 * math.pi * k / NW  # k = 0 at the back, like the cord belt
+    for r, (dz, off) in enumerate(G_ROWS):
+        war_bind.append(skin_bind(th, BELT_Z + dz, off))
+        WUVS.append((k / NW, 0.52 + 0.46 * r / (len(G_ROWS) - 1)))
+for k in range(NW):
+    k2 = (k + 1) % NW
+    for r in range(len(G_ROWS) - 1):
+        if k2 == 0:
+            WWRAP.add(len(WFACES))
+        WFACES.append([k * 5 + r, k2 * 5 + r, k2 * 5 + r + 1, k * 5 + r + 1])
+        WPART.append("girdle")
+
+
+def add_tube(th0, path, radii, flat, uv_box, part, cap_tip=False):
+    """A closed tube along path (local (c, z, o): sideways cm, height, offset from skin)."""
+    R0 = (recon(skin_bind(th0, path[0][1], 0.0), "basis") - Vector((0, center_y(path[0][1]), path[0][1]))).length
+    NSEG = 6
+    b0 = len(war_bind)
+    pts = [Vector(p) for p in path]
+    n = len(pts) - (1 if cap_tip else 0)
+    for i in range(n):
+        t = (pts[min(i + 1, len(pts) - 1)] - pts[max(i - 1, 0)]).normalized()
+        u = t.cross(Vector((1, 0, 0))).normalized()  # towards the offset axis
+        v = t.cross(u)
+        for j in range(NSEG):
+            a = 2 * math.pi * j / NSEG
+            q = pts[i] + u * (math.cos(a) * radii[i] * flat) + v * (math.sin(a) * radii[i])
+            war_bind.append(skin_bind(th0 + q.x / R0, q.y, q.z))  # local (c, z, o) in x, y, z
+            WUVS.append((uv_box[0] + (uv_box[2] - uv_box[0]) * j / NSEG, uv_box[1] + (uv_box[3] - uv_box[1]) * i / (len(pts) - 1)))
+    for i in range(n - 1):
+        for j in range(NSEG):
+            j2 = (j + 1) % NSEG
+            WFACES.append([b0 + i * NSEG + j, b0 + i * NSEG + j2, b0 + (i + 1) * NSEG + j2, b0 + (i + 1) * NSEG + j])
+            WPART.append(part)
+    for j in range(1, NSEG - 1):  # cap at the start (triangles: the exporter needs no n-gons)
+        WFACES.append([b0, b0 + j, b0 + j + 1])
+        WPART.append(part)
+    if cap_tip:  # a point at the end
+        tip = len(war_bind)
+        war_bind.append(skin_bind(th0 + pts[-1].x / R0, pts[-1].y, pts[-1].z))
+        WUVS.append(((uv_box[0] + uv_box[2]) / 2, uv_box[3]))
+        for j in range(NSEG):
+            WFACES.append([b0 + (n - 1) * NSEG + j, b0 + (n - 1) * NSEG + (j + 1) % NSEG, tip])
+            WPART.append(part)
+    else:
+        e0 = b0 + (n - 1) * NSEG
+        for j in range(1, NSEG - 1):
+            WFACES.append([e0, e0 + j, e0 + j + 1])
+            WPART.append(part)
+
+
+BONE_UV, CLAW_UV, CORD_UV = (0.03, 0.03, 0.47, 0.47), (0.53, 0.03, 0.97, 0.22), (0.53, 0.28, 0.97, 0.47)
+TROPHIES = [(62, "tooth", 3.4), (76, "claw", 3.6), (90, "tooth", 4.4), (104, "claw", 3.6), (118, "tooth", 3.4)]
+ti = 0
+for side in (1, -1):
+    for ang, kind, length in TROPHIES:
+        th0 = side * math.radians(ang)
+        bt, bb = BELT_Z - 2.3, BELT_Z - 3.3  # bone bead
+        add_tube(th0, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4), (0, BELT_Z - 1.9, 2.4), (0, bt, 1.6)],
+                 [0.14] * 4, 1.0, CORD_UV, "t%02dc" % ti)
+        add_tube(th0, [(0, bt, 1.6), (0, (bt + bb) / 2, 1.6), (0, bb, 1.6)], [0.42, 0.55, 0.42], 1.0, BONE_UV, "t%02db" % ti)
+        if kind == "tooth":
+            path = [(0, bb, 1.4), (0, bb - length * 0.35, 1.35), (0, bb - length * 0.7, 1.2), (0, bb - length, 1.0)]
+            add_tube(th0, path, [0.45, 0.42, 0.26, 0], 0.6, BONE_UV, "t%02dt" % ti, cap_tip=True)
+        else:  # claw: curls outwards at the tip
+            path = [(0, bb, 1.4), (0, bb - length * 0.4, 1.55), (0, bb - length * 0.75, 1.95), (0, bb - length, 2.6)]
+            add_tube(th0, path, [0.4, 0.34, 0.2, 0], 0.55, CLAW_UV, "t%02dt" % ti, cap_tip=True)
+        ti += 1
+
+WPOS = {s: [recon(b, s) for b in war_bind] for s in ALL}
+WVW = [weights_at(b[0], b[1]) for b in war_bind]
+W_YC = center_y(BELT_Z + 4.5)
+_wctr = {}
+for f, p in zip(WFACES, WPART):
+    _wctr.setdefault(p, []).extend(WPOS["basis"][i] for i in f)
+W_ORIENT = [("girdle", lambda c: Vector((c.x, c.y - W_YC, 0)), None)]
+for p, ps in _wctr.items():
+    if p != "girdle":
+        W_ORIENT.append((p, (lambda ctr: (lambda c: c - ctr))(sum(ps, Vector()) / len(ps)), None))
+PIECES.append(dict(name=WAR, set=WSET, pos=WPOS, faces=WFACES, part=WPART, wrap=WWRAP, wrap_u={i: 1.0 for i in range(5)},
+                   uvs=WUVS, vw=WVW, orient=W_ORIENT))
+print("WAR %d vertices, %d trophies" % (len(war_bind), ti))
+
+
 # ------------------------------------------------------------------ textures (shared by every piece)
 def make_textures():
     H = WD = 1024
@@ -646,30 +750,90 @@ def make_textures():
     return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
 
 
-IMAGES = {}
-for kind, arr in make_textures().items():
-    png = os.path.join(TEXSRC, "%s_%s.png" % (SET, kind))
-    im = bpy.data.images.new("%s_%s" % (SET, kind), arr.shape[1], arr.shape[0], alpha=True)
-    im.pixels.foreach_set(np.ascontiguousarray(np.flipud(arr), dtype=np.float32).ravel())
-    im.filepath_raw = png
-    im.file_format = "PNG"
-    im.save()
-    IMAGES[kind] = im
-    subprocess.run([MAGICK, png, "-define", "dds:compression=dxt5", "-define", "dds:mipmaps=10",
-                    os.path.join(OUT, "%s_%s.dds" % (SET, kind))], check=True)
+def make_war_textures():
+    """Smoked hide girdle with ochre war marks and painted bone beads; bone, claw, sinew."""
+    H = WD = 512
+    rng = np.random.default_rng(23)
 
-mat = bpy.data.materials.new("ek2lc_reach_hide")
-mat["shader"] = "portrait_attachment_alpha_to_coverage"
-try:
-    mat.use_nodes = True
-except Exception:
-    pass
-nt = mat.node_tree
-bsdf = next(n for n in nt.nodes if n.type == "BSDF_PRINCIPLED")
-tex = nt.nodes.new("ShaderNodeTexImage")
-tex.image = IMAGES["diffuse"]
-nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
-nt.nodes.active = tex
+    def noise(k):
+        g = rng.random((k + 2, k + 2)).astype(np.float32)
+        ys = np.linspace(0, k, H, endpoint=False)
+        y0 = ys.astype(np.int32)
+        f = (ys - y0) * (ys - y0) * (3 - 2 * (ys - y0))
+        a, b, c, d = g[np.ix_(y0, y0)], g[np.ix_(y0, y0 + 1)], g[np.ix_(y0 + 1, y0)], g[np.ix_(y0 + 1, y0 + 1)]
+        fx, fy = f[None, :], f[:, None]
+        return (a * (1 - fx) + b * fx) * (1 - fy) + (c * (1 - fx) + d * fx) * fy
+
+    n = (noise(6) + 0.5 * noise(24) + 0.25 * noise(64)) / 1.75
+    img = np.ones((H, WD, 4), np.float32)
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v = 1 - yy / (H - 1)
+    u = xx / (WD - 1)
+    # girdle (v .5-1): smoked hide
+    g = v >= 0.5
+    img[g, :3] = np.array([0.27, 0.18, 0.11], np.float32) * (0.75 + 0.5 * n[g])[:, None]
+    gv = (v - 0.52) / 0.46  # 0 inner bottom .. 1 inner top
+    for lv in (0.2, 0.8):  # stitching just inside the edges
+        m = g & (np.abs(gv - lv) < 0.012) & ((xx % 10) < 5)
+        img[m, :3] = np.array([0.62, 0.52, 0.38], np.float32)
+    tri = np.abs((u * 24) % 1.0 - 0.5) * 2.0  # ochre zig-zag across the middle
+    m = g & (np.abs(gv - (0.5 + (tri - 0.5) * 0.22)) < 0.035) & (n > 0.3)
+    img[m, :3] = img[m, :3] * 0.25 + np.array([0.55, 0.12, 0.07], np.float32) * 0.75
+    for lv in (0.31, 0.69):  # rows of painted bone beads
+        cx = (np.floor(u * 48) + 0.5) / 48
+        m = g & (((u - cx) * WD) ** 2 + ((gv - lv) * 0.46 * H) ** 2 < 4.2 ** 2)
+        img[m, :3] = np.array([0.82, 0.77, 0.64], np.float32) * (0.85 + 0.15 * n[m])[:, None]
+    # bone (u < .5, v < .5): ivory, darker towards the tips
+    b = (u < 0.5) & (v < 0.5)
+    img[b, :3] = np.array([0.84, 0.79, 0.66], np.float32) * (0.8 + 0.25 * n[b] - 0.25 * (v[b] / 0.5) ** 3)[:, None]
+    # claw (u > .5, v < .25): dark horn
+    c = (u >= 0.5) & (v < 0.25)
+    img[c, :3] = np.array([0.16, 0.13, 0.10], np.float32) * (0.8 + 0.4 * n[c])[:, None]
+    # sinew cord (u > .5, .25 < v < .5)
+    s = (u >= 0.5) & (v >= 0.25) & (v < 0.5)
+    img[s, :3] = np.array([0.55, 0.44, 0.30], np.float32) * (0.7 + 0.3 * np.sin(xx[s] * 0.9 + yy[s] * 0.6))[:, None]
+    normal = np.zeros((H, WD, 4), np.float32)
+    normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5
+    props = np.zeros((H, WD, 4), np.float32)
+    props[..., 1], props[..., 3] = 0.22, 0.58
+    props[(v < 0.5), 1] = 0.35  # bone and horn a little shinier
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
+def save_set(set_name, arrays):
+    images = {}
+    for kind, arr in arrays.items():
+        png = os.path.join(TEXSRC, "%s_%s.png" % (set_name, kind))
+        im = bpy.data.images.new("%s_%s" % (set_name, kind), arr.shape[1], arr.shape[0], alpha=True)
+        im.pixels.foreach_set(np.ascontiguousarray(np.flipud(arr), dtype=np.float32).ravel())
+        im.filepath_raw = png
+        im.file_format = "PNG"
+        im.save()
+        images[kind] = im
+        mips = int(math.log2(arr.shape[0]))  # 10 for 1024, as before
+        subprocess.run([MAGICK, png, "-define", "dds:compression=dxt5", "-define", "dds:mipmaps=%d" % mips,
+                        os.path.join(OUT, "%s_%s.dds" % (set_name, kind))], check=True)
+    return images
+
+
+def make_material(name, images):
+    m = bpy.data.materials.new(name)
+    m["shader"] = "portrait_attachment_alpha_to_coverage"
+    try:
+        m.use_nodes = True
+    except Exception:
+        pass
+    nt = m.node_tree
+    bsdf = next(n for n in nt.nodes if n.type == "BSDF_PRINCIPLED")
+    tex = nt.nodes.new("ShaderNodeTexImage")
+    tex.image = images["diffuse"]
+    nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+    nt.nodes.active = tex
+    return m
+
+
+MATS = {SET: make_material("ek2lc_reach_hide", save_set(SET, make_textures())),
+        WSET: make_material("ek2lc_reach_war", save_set(WSET, make_war_textures()))}
 
 
 # ------------------------------------------------------------------ make, export and check every piece
@@ -684,6 +848,8 @@ def export(obj, path, as_bs):
 
 def finish_piece(pc):
     name, node = pc["name"], pc["name"] + "Shape"  # mesh node name in the .mesh = meshsettings name
+    tset = pc.get("set", SET)
+    mat = MATS[tset]
     me = bpy.data.meshes.new(node)
     me.from_pydata([WI @ p for p in pc["pos"]["basis"]], [], pc["faces"])
     me.update()
@@ -758,9 +924,9 @@ def finish_piece(pc):
 	meshsettings = {{
 		name = "{node}"
 		index = 0
-		texture_diffuse = "{SET}_diffuse.dds"
-		texture_normal = "{SET}_normal.dds"
-		texture_specular = "{SET}_properties.dds"
+		texture_diffuse = "{tset}_diffuse.dds"
+		texture_normal = "{tset}_normal.dds"
+		texture_specular = "{tset}_properties.dds"
 		shader = "portrait_attachment_alpha_to_coverage"
 		shader_file = "gfx/FX/jomini/portrait.shader"
 	}}
