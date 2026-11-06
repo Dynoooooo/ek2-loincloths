@@ -207,9 +207,9 @@ for a_i in range(NS):
     out = (mid - P0).normalized()
     t = abs(math.degrees(al)) / 90.0
     w = W_CROTCH + ((W_FRONT if al > 0 else W_BACK) - W_CROTCH) * t ** 1.2
-    if al >= 0:  # at least as wide as the fig leaf at this height, plus 1 cm
+    if al >= 0:  # at least as wide as the fig leaf at this height, plus 0.5 cm (more peeks out beside the front flap)
         fw = [abs(p.x) for p in FIG if abs(p.z - mid.z) < 1.5]
-        w = max(w, max(fw) + 1.0) if fw else w
+        w = max(w, max(fw) + 0.5) if fw else w
     for c in STRIP_COLS:
         loc, nor, fi, dist = BVH["basis"].find_nearest(mid + RIGHT * (c * w) + out * 0.5)
         strip_bind.append(bind(loc, fi, STRIP_OFF))
@@ -406,9 +406,17 @@ def skin_weights_at(x, z, side):
 # across the width, so a pose with one leg forward can't twist or split the flap. Below the
 # belt the skin is sampled at belt height, so no thigh leaks in from one side. The right half
 # mirrors the left, so both sides match exactly.
+APRON = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3, GI["bn_r_hip"]: 0.3}
+
+
+def apron_blend(t):
+    u = min(1.0, max(0.0, (t - 0.15) / 0.3))
+    return u * u * (3 - 2 * u)  # 0 = skin weights, 1 = apron weights
+
+
 def flap_weights(side):
     sp = FLAPS[side]
-    apron = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3, GI["bn_r_hip"]: 0.3}
+    apron = APRON
     mid = (FC - 1) // 2
     b0 = NB * 5 + NS * SC + (0 if side == 1 else 2 * FR * FC)
     outer = POS["basis"][b0:b0 + FR * FC]
@@ -417,8 +425,7 @@ def flap_weights(side):
         t = j / (FR - 1)
         z = Z_ATTACH - t * sp["length"]
         w = sp["w_top"] + (sp["w_bot"] - sp["w_top"]) * t
-        u = min(1.0, max(0.0, (t - 0.15) / 0.3))
-        s = u * u * (3 - 2 * u)  # 0 = skin weights, 1 = apron weights
+        s = apron_blend(t)
         for i in range(mid + 1):
             if j <= 1:  # under the belt: move with the skin right behind, as the belt does
                 skin = dict(nearest_weights(outer[j * FC + i]))
@@ -444,6 +451,26 @@ def flap_weights(side):
 
 
 VW = [weights_at(b[0], b[1]) for b in belt_bind + strip_bind]
+
+# The front of the strip hides behind the stiff front flap, but its sides sit on the groin
+# crease and followed the thigh, so in the idles they slid up to 2.3 cm out beside the flap's
+# edge (a dark bump on men). Its sides now blend into the flap's apron weights as the flap does
+# at the same height, fading out towards the crotch, where the strip must follow the skin.
+for a in range(NS // 2):
+    fade = min(1.0, (NS // 2 - a) / 4.0)
+    for ci, c in enumerate(STRIP_COLS):
+        t = (Z_ATTACH - POS["basis"][NB * 5 + a * SC + ci].z) / FLAPS[1]["length"]
+        k = abs(c) * fade * min(1.0, 2.5 * apron_blend(t))  # faster than the flap: its sides sample the skin at belt height
+        if k <= 0:
+            continue
+        d = {}
+        for g, w in VW[NB * 5 + a * SC + ci]:
+            d[g] = d.get(g, 0.0) + w * (1 - k)
+        for g, w in APRON.items():
+            d[g] = d.get(g, 0.0) + w * k
+        row = [(g, w) for g, w in sorted(d.items(), key=lambda kv: -kv[1])[:4] if w > 0.01]
+        tot = sum(w for _, w in row)
+        VW[NB * 5 + a * SC + ci] = [(g, w / tot) for g, w in row]
 VW += flap_weights(+1) + flap_weights(-1)
 
 PIECES = [dict(name=NAME, pos=POS, faces=FACES, part=PART, wrap=WRAP, wrap_u={i: 1.0 for i in range(5)}, uvs=UVS, vw=VW,
