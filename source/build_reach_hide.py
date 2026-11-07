@@ -3190,6 +3190,223 @@ for _xn in (GUARD, WRAP):
         print("XGAP %s vs %-26s min=%.2f (%s, %s)%s" % (_xn, _o["name"], *_worst, "  low: " + ", ".join(_low) if _low else ""))
 
 
+# ------------------------------------------------------------------ weights solved over the game's own poses
+# (2026-11-07) The weights above keep every piece right in the idles, but kneeling (the throne room's petitioners
+# and messengers), sitting on a throne (cross-legged on the steppe and Indian thrones, which EK2 gives the Reach,
+# orc, goblin, Bosmer, Argonian and Khajiit courts; on a chair elsewhere) and bowing pushed the thighs and the hip
+# creases through flaps, aprons, belts, strips and capes. weight_solver.py re-solves the weights of everything that
+# hangs below the hips over frames of the game's own animations (see its docstring): outside the body by a margin
+# (the leggings hug the skin, so outside them too), keeping its shape, keeping the standing look, never pointing up.
+# The game's poses aren't mirrored (the one-knee kneel always raises the right knee, cross-legged sitting the left
+# one), so the two halves may differ.
+import weight_solver as wsol
+SOLVE_ANIMS = (["idle_1", "idle_2", "idle_3", "AI_callous_1", "emotion_angry", "emotion_grief", "emotion_happy",
+                "emotion_sadness", "emotion_scheme"] + (["emotion_angry_start", "shocked_idle"] if SEX == "male" else []) +
+               ["throneRoom_" + a for a in ("kneel1_1", "kneel2_1", "messenger1_1", "ruler1_1", "ruler2_1", "ruler3_1",
+                                             "bow1_1", "bow2_1", "bow3_1", "cheer1_1", "applaud1_1", "conversation1_1",
+                                             "conversation2_1", "chancellor_1", "oneHandedPassive1_1", "twoHandedPassive1_1")] +
+               (["throneRoom_curtsey1_1"] if SEX == "female" else []))
+_SB = list(VG)  # every group name: the body's, then the skirt and cloak bones added above
+_SBI = {n: i for i, n in enumerate(_SB)}
+_t = time.time()
+POSES = wsol.sample_poses(rig, scene, GAME, SEX, SOLVE_ANIMS, _SB, log=print)
+print("SOLVE %d poses (%d standing, which keep their look) in %.0fs" % (len(POSES), sum(k == "ref" for _, k, _ in POSES),
+                                                                       time.time() - _t))
+assert len(POSES) >= 3 * len(SOLVE_ANIMS) - 6, "too few poses imported for the weight solver (%d)" % len(POSES)
+_BWM = wsol.skin_matrix(BW, len(_SB))
+_BUSED = np.nonzero(_BWM.any(axis=0))[0]
+_BH = np.c_[np.array([c[:] for c in C0]), np.ones(len(C0))]
+_HANDK = ("elbow", "forearm", "wrist", "_fi_", "finger", "thumb", "hand", "prop", "sleeve")
+_HANDB = [i for i, n in enumerate(VG) if any(k in n for k in _HANDK)]
+_HANDV = {i for i, ws in enumerate(BW) if sum(w for g, w in ws.items() if g in _HANDB) > 0.5}
+_NOHAND_T = [list(t) for t in TRIS["basis"] if not _HANDV.intersection(t)]  # body without forearms and hands
+
+
+def _posed(W, mats, H):
+    """LBS: positions of homogeneous points H (V x 4) with dense weights W (V x B) under mats (B x 4 x 4)."""
+    used = np.nonzero(W.any(axis=0))[0]
+    Y = np.einsum("bij,vj->vbi", mats[used, :3, :], H)
+    return np.einsum("vb,vbi->vi", W[:, used], Y)
+
+
+_BODY_POSED = [_posed(_BWM, m, _BH) for _, _, m in POSES]
+SOLVED = {}  # piece name -> dense weights (V x len(_SB)), the obstacles for pieces worn over it
+_CH_ANG = {c: a for a, c in _SK_ANGS}
+_BASE = [GI["body_root"], GI["bn_sp_lumbar"], GI["bn_l_hip"], GI["bn_r_hip"]]
+
+
+def _hang_allowed(p, window=math.radians(75)):
+    """Bones a hanging point may follow: the pelvis, the lower spine, both thighs, and the first three bones of the
+    skirt chains within 75 degrees of it round the body."""
+    th = ang_of(p) % (2 * math.pi)
+    out = set(_BASE)
+    for c, a in _CH_ANG.items():
+        if abs((th - a + math.pi) % (2 * math.pi) - math.pi) <= window:
+            out |= {GI["bn_%s_skirt%d" % (c, i)] for i in (1, 2, 3)}
+    return out
+
+
+_CLOAKB = [GI[n] for n in VG if "_cloak" in n]
+_SPINE = [GI[n] for n in ("body_root", "bn_sp_lumbar", "bn_sp_thoracic", "bn_l_hip", "bn_r_hip") if n in GI]
+
+
+def _cape_allowed(p):
+    return set(_CLOAKB) | set(_SPINE)
+
+
+def solve_piece(pc, free, cap, allowed_fn=_hang_allowed, stick=None, extra=(), tie_d=1.0, ties=None, iters=250,
+                inits=("orig", "half"), pose_w=3.0):
+    """Solve the weights of pc's free vertices (see the section comment). cap: the margin wanted (per vertex, at
+    most 0.8 of its clearance at rest); stick: per-vertex most distance off the obstacles (strips that must stay on);
+    extra: names of solved pieces it is worn over (obstacles too)."""
+    t0 = time.time()
+    n = len(pc["pos"]["basis"])
+    rest = np.array([p[:] for p in pc["pos"]["basis"]])
+    H = np.c_[rest, np.ones(n)]
+    faces = pc["faces"]
+    E = wsol.mesh_edges(faces)
+    comp = wsol.islands(n, E)
+    edges = E + (wsol.tie_pairs(rest, comp, tie_d) if ties is None else list(ties)) + wsol.bend_pairs(rest, faces)
+    pc.setdefault("vw0", list(pc["vw"]))  # the weights before solving (kept for re-solving in the app)
+    W0full = wsol.skin_matrix(pc["vw0"], len(_SB))
+    free = np.asarray(free, bool)
+    cand = set()
+    for v in np.nonzero(free)[0]:
+        cand |= allowed_fn(Vector(rest[v]))
+    bones = sorted(set(np.nonzero(W0full.any(axis=0))[0]) | cand)
+    bl = {b: k for k, b in enumerate(bones)}
+    W0 = W0full[:, bones]
+    allowed = np.zeros_like(W0, bool)
+    for v in np.nonzero(free)[0]:
+        for b in allowed_fn(Vector(rest[v])):
+            allowed[v, bl[b]] = True
+    # obstacles: the body (without forearms and hands) and the solved pieces it is worn over, at rest and per pose
+    ex = [(SOLVED[e], next(q for q in PIECES if q["name"] == e)) for e in extra]
+    ex_h = [np.c_[np.array([p[:] for p in q["pos"]["basis"]]), np.ones(len(q["pos"]["basis"]))] for _, q in ex]
+
+    def obstacle(body_pts, ex_pts):
+        co, tr = [Vector(c) for c in body_pts], list(_NOHAND_T)
+        for (_, q), pts in zip(ex, ex_pts):
+            o_ = len(co)
+            co += [Vector(c) for c in pts]
+            tr += [[i + o_ for i in f] for f in q["faces"]]
+        return BVHTree.FromPolygons(co, tr)
+    rest_obst = obstacle(C0, [h[:, :3] for h in ex_h])
+    rc = np.array([((Vector(p) - rest_obst.find_nearest(Vector(p))[0]).dot(rest_obst.find_nearest(Vector(p))[1])) for p in rest])
+    margin = np.minimum(np.broadcast_to(cap, (n,)), 0.8 * np.maximum(rc, 0.0))
+    poses = []
+    for k, (nm, kind, mats) in enumerate(POSES):
+        exp = [_posed(Wd, mats, h) for (Wd, _), h in zip(ex, ex_h)]
+        m_ = mats[bones]
+        poses.append(dict(name=nm, mats=m_, obst=obstacle(_BODY_POSED[k], exp),
+                          ref=_posed(W0, m_, H) if kind == "ref" else None,
+                          w=1.0 if kind == "ref" else pose_w))  # kneeling, sitting, bowing: clearance counts more
+    down = []
+    for a, b in E:
+        if free[a] and free[b]:
+            d = rest[a] - rest[b]
+            if abs(d[2]) > 0.8 * np.linalg.norm(d):
+                down.append((a, b) if d[2] > 0 else (b, a))
+    lam = dict(pen=20.0, ref=1.0, len=2.0, smooth=30.0, stick=5.0, down=20.0, grav=0.5)
+    best = None
+    for init in inits:
+        prob = wsol.Problem(rest, edges, W0, free, allowed, poses, margin, None, None,
+                            None if stick is None else np.where(np.isfinite(stick), rc + stick, 1e9), down)
+        prob.down_slack = 0.0
+        prob.grav = np.where(free & (rest[:, 2] < BELT_Z - 2.0), 1.0, 0.0)
+        if init == "half":  # start from half pelvis, half the thigh on that side (found the better drapes)
+            Wh = prob.W.copy()
+            for v in np.nonzero(free & (rest[:, 2] < BELT_Z - 4.0))[0]:
+                row = np.zeros(len(bones))
+                wl = min(1.0, max(0.0, 0.5 + rest[v][0] / 20.0)) if _LSIDE > 0 else min(1.0, max(0.0, 0.5 - rest[v][0] / 20.0))
+                row[bl[GI["body_root"]]] = 0.5
+                row[bl[GI["bn_l_hip"]]] = 0.5 * wl
+                row[bl[GI["bn_r_hip"]]] = 0.5 * (1 - wl)
+                k_ = min(1.0, (BELT_Z - 4.0 - rest[v][2]) / 6.0)
+                Wh[v] = (1 - k_) * Wh[v] + k_ * row
+            prob.W = Wh
+        en = prob.run(lam, iters=iters, max_dw=0.03, decay=0.99)
+        tot = sum(en.values())
+        free_names = {p["name"] for p in poses if p["ref"] is None}
+        worst = max([r[0] for r in prob.penetration() if r[2] in free_names] or [0.0])
+        # the start that leaves the least inside the body when kneeling or sitting wins (the lower energy if close)
+        if best is None or worst < best[0] - 0.3 or (abs(worst - best[0]) <= 0.3 and tot < best[1]):
+            best = (worst, tot, init, prob, en)
+    worst, tot, init, prob, en = best
+    prob.prune(4, 0.015)
+    prob.run(lam, iters=40, max_dw=0.01, decay=0.98)  # settle on the pruned bones
+    pen = prob.penetration()
+    st = prob.stretch()
+    dev = [float(np.linalg.norm(prob.positions(p) - p["ref"], axis=1)[free].max()) for p in poses if p["ref"] is not None]
+    print("SOLVE %-28s %4d free, start %s, %.0fs; worst left inside: %s; most stretch %.1f cm (%s); standing looks moved "
+          "max %.1f cm, median %.1f" % (pc["name"], free.sum(), init, time.time() - t0,
+                                        "; ".join("%.2f cm x%d %s" % r for r in pen[:3]) or "none", st[0][0], st[0][1],
+                                        max(dev) if dev else 0.0, float(np.median(dev)) if dev else 0.0))
+    Wf = np.zeros((n, len(_SB)))
+    Wf[:, bones] = prob.W
+    Wf[~free] = W0full[~free]
+    SOLVED[pc["name"]] = Wf
+    pc["vw"] = [[(int(b), float(Wf[v, b])) for b in np.nonzero(Wf[v] > 1e-4)[0]] for v in range(n)]
+
+
+_PC = {pc["name"]: pc for pc in PIECES}
+# the loincloth: everything (belt and strip may lift over a raised thigh's crease); the flaps' tucked rows tie to the belt
+_nl = len(POS["basis"])
+_kind = ["belt"] * (NB * 5) + ["strip"] * (NS * SC) + ["flap"] * (_nl - NB * 5 - NS * SC)
+_cap = np.array([{"belt": 0.6, "strip": 0.6, "flap": 1.3}[k] for k in _kind])
+_stick = np.array([1.2 if k == "strip" else np.inf for k in _kind])
+_lp = np.array([p[:] for p in POS["basis"]])
+_belt_i = np.arange(NB * 5)
+
+
+def _to_belt(idx):  # each of these vertices tied to the nearest belt vertex
+    out = []
+    for i in idx:
+        d = ((_lp[_belt_i] - _lp[i]) ** 2).sum(1)
+        out.append((int(i), int(_belt_i[np.argmin(d)])))
+    return out
+
+
+_tucked = [i for i in range(NB * 5, _nl) if _lp[i][2] > BELT_Z - 2.6]  # flap rows and strip ends under the belt
+solve_piece(_PC[NAME], np.ones(_nl, bool), _cap, stick=_stick, ties=_to_belt(_tucked))
+# the royal aprons hang in front of the flaps: below the cord belt they take the solved weights of the flap
+# behind them (its bottom row's further down), so apron and flap move as one (the solver can't treat the
+# loincloth as an obstacle: its strip and belt are open sheets, and signed distances to them are unreliable)
+_FL0 = NB * 5 + NS * SC  # the front flap's outer layer starts here; the back flap's at _FL0 + 2 * FR * FC
+_SW = SOLVED[NAME]
+
+
+def _apron_weights(pc):
+    pos = pc["pos"]["basis"]
+    hang = np.zeros(len(pos), bool)
+    for f, pt in zip(pc["faces"], pc["part"]):
+        if pt[:2] in ("pf", "pb"):
+            for i in f:
+                hang[i] = pos[i].z < BELT_Z - 1.9
+    for i in np.nonzero(hang)[0]:
+        q = pos[i]
+        side = +1 if q.dot(FRONT) > 0 else -1
+        b0 = _FL0 if side == +1 else _FL0 + 2 * FR * FC
+        zc = max(q.z, POS["basis"][b0 + (FR - 1) * FC].z)  # below the flap: its bottom row
+        k = min(range(b0, b0 + FR * FC), key=lambda j: (POS["basis"][j].x - q.x) ** 2 + (POS["basis"][j].z - zc) ** 2)
+        pc["vw"][i] = [(int(b), float(_SW[k, b])) for b in np.nonzero(_SW[k] > 1e-4)[0]]
+    return hang
+
+
+# pieces worn over it: the girdles and everything hanging from them (the body as the obstacle)
+for _nm in (WAR, ARM, DUKE, KING, WRAP) + tuple(TROPHY.values()):
+    _pc = _PC[_nm]
+    _hang = _apron_weights(_pc) if _nm in (DUKE, KING) else np.zeros(len(_pc["pos"]["basis"]), bool)
+    _fr = np.array([p.z < BELT_Z + 8.0 for p in _pc["pos"]["basis"]]) & ~_hang
+    solve_piece(_pc, _fr, 1.0)
+# (the children's skirt, tunic and charms keep their weights: children stand in the throne room; they don't kneel
+# as petitioners and a child ruler has their own throne pose)
+# the mantle (and the fur cloak, the same mesh): the cape below the yoke, with the cloak bones and the spine
+_pc = _PC[MANTLE]
+_fr = np.array([any(g in _CLOAKB for g, w in ws) for ws in _pc["vw"]])
+solve_piece(_pc, _fr, 1.3, allowed_fn=_cape_allowed)
+print("SOLVE done in %.0fs" % (time.time() - _t))
+
 OBJS = [finish_piece(pc) for pc in PIECES]
 
 # the trophies must not cut through the pieces they're worn with: closest trophy point to each

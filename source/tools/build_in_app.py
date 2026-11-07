@@ -20,15 +20,16 @@ GAME = os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/
 def _run(sexes):
     for sex in sexes:
         log = os.path.join(MOD, "source/build_logs/build_%s.log" % sex)
-        for m in ("cultures", "colour", "undead"):  # the build's own modules: re-read them every run
+        for m in ("cultures", "colour", "undead", "weight_solver"):  # the build's own modules: re-read them every run
             sys.modules.pop(m, None)
         saved = sys.stdout, sys.stderr, sys.argv
         ok = True
         with open(log, "w", buffering=1) as f:
             sys.stdout = sys.stderr = f
             sys.argv = ["blender", "--", GAME, MOD, sex]
-            try:
-                runpy.run_path(os.path.join(MOD, "source/build_reach_hide.py"), run_name="__main__")
+            try:  # the build's globals are kept for looking into afterwards (bpy.app.driver_namespace)
+                bpy.app.driver_namespace["ek2lc_build_" + sex] = runpy.run_path(
+                    os.path.join(MOD, "source/build_reach_hide.py"), run_name="__main__")
             except BaseException:
                 traceback.print_exc()
                 ok = False

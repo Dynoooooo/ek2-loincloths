@@ -15,6 +15,24 @@ from mathutils.bvhtree import BVHTree
 ARM_KEYS = ("elbow", "forearm", "wrist", "_fi_", "finger", "thumb", "hand", "prop", "sleeve")  # forearms and hands; the shoulders count as torso
 
 
+def _rest(rig):
+    """Every bone to its rest pose. Many women's animations (kneels, emotions, bows, cheers) key only some skirt
+    bones and no cloak bones; in the game the others stay at rest, but in Blender they would keep whatever the
+    previous action left (found 2026-11-07), so reset them before switching actions."""
+    for pb in rig.pose.bones:
+        pb.location, pb.rotation_quaternion, pb.scale = (0, 0, 0), (1, 0, 0, 0), (1, 1, 1)
+
+
+def _game_pose(rig):
+    """After a clip is evaluated: every bone but the roots back to its own length, as the game plays clips (see
+    weight_solver.game_pose: the women's kneel, emotion, bow and cheer clips were made on a rig with lower skirt
+    bones)."""
+    for pb in rig.pose.bones:
+        if pb.name not in ("ground_joint", "body_root"):
+            pb.location = (0, 0, 0)
+    bpy.context.view_layer.update()
+
+
 def _ev(o, dg):
     oe = o.evaluated_get(dg)
     me = oe.to_mesh()
@@ -54,11 +72,14 @@ def scan(sex, pieces=None, pairs=(), actions=None, step=5, depth_min=0.15, quiet
                 pb.location, pb.rotation_quaternion, pb.scale = (0, 0, 0), (1, 0, 0, 0), (1, 1, 1)
             frames, an = [1], "REST"
         else:
+            _rest(rig)  # bones the animation doesn't key stay at rest, as in the game
             rig.animation_data.action = a
             frames, an = range(int(a.frame_range[0]), int(a.frame_range[1]) + 1, step), a.name[2:]
         row = {}
         for f in frames:
             sc.frame_set(f)
+            if a is not None:
+                _game_pose(rig)
             dg = bpy.context.evaluated_depsgraph_get()
             bco, _ = _ev(body, dg)
             bt, ba = BVHTree.FromPolygons(bco, noarm), BVHTree.FromPolygons(bco, arm)
@@ -98,8 +119,12 @@ def pose(sex, action, frame):
     s1 = sex[0]
     sc = bpy.data.scenes[sex.capitalize()]
     bpy.context.window.scene = sc
-    bpy.data.objects["RIG_" + s1].animation_data.action = bpy.data.actions["%s_%s" % (s1.upper(), action)] if action else None
+    rig = bpy.data.objects["RIG_" + s1]
+    _rest(rig)
+    rig.animation_data.action = bpy.data.actions["%s_%s" % (s1.upper(), action)] if action else None
     sc.frame_set(frame)
+    if action:
+        _game_pose(rig)
 
 
 def show(sex, *pieces):
@@ -107,3 +132,62 @@ def show(sex, *pieces):
     s1 = sex[0].upper()
     for lc in bpy.context.view_layer.layer_collection.children:
         lc.exclude = not any(lc.name == "%s_%s" % (s1, p) for p in pieces)
+
+
+HAND_KEYS = ("wrist", "_fi_", "finger", "thumb", "hand")  # the hands (the forearms are reported apart)
+
+
+def hands(sex, pieces, actions=None, step=10, near=3.0):
+    """How far the hands and forearms sink into each piece over the animations (2026-11-07):
+    per piece, the deepest hand point under the piece's surface (within `near` cm of it, on its inner side) and
+    how many poses have hand and piece surfaces crossing. Prints the worst pose of each; returns the table."""
+    s1 = sex[0]
+    sc = bpy.data.scenes[sex.capitalize()]
+    bpy.context.window.scene = sc
+    for lc in bpy.context.view_layer.layer_collection.children:
+        lc.exclude = False
+    rig, body = bpy.data.objects["RIG_" + s1], bpy.data.objects["BODY_" + s1]
+    gi_h = {g.index for g in body.vertex_groups if any(k in g.name for k in HAND_KEYS)}
+    gi_f = {g.index for g in body.vertex_groups if "forearm" in g.name}
+    hv = [v.index for v in body.data.vertices if sum(g.weight for g in v.groups if g.group in gi_h) > 0.5]
+    fv = [v.index for v in body.data.vertices if sum(g.weight for g in v.groups if g.group in gi_f) > 0.5]
+    polys = [tuple(p.vertices) for p in body.data.polygons]
+    hset, fset = set(hv), set(fv)
+    hpoly = [p for p in polys if hset.intersection(p)]
+    acts = sorted([a for a in bpy.data.actions if a.name.startswith(s1.upper() + "_") and "RIG" not in a.name
+                   and (actions is None or a.name[2:] in actions)], key=lambda a: a.name)
+    table = {}
+    for a in acts:
+        _rest(rig)
+        rig.animation_data.action = a
+        for f in range(int(a.frame_range[0]), int(a.frame_range[1]) + 1, step):
+            sc.frame_set(f)
+            _game_pose(rig)
+            dg = bpy.context.evaluated_depsgraph_get()
+            bco, _ = _ev(body, dg)
+            hbvh = BVHTree.FromPolygons(bco, hpoly)
+            for pc in pieces:
+                co, tris = _ev(bpy.data.objects["ek2lc_%s_%s_01" % (s1, pc)], dg)
+                pb = BVHTree.FromPolygons(co, tris)
+                for part, vs in (("hand", hv), ("forearm", fv)):
+                    worst, wp = 0.0, None
+                    for i in vs:
+                        loc, nor, idx, d = pb.find_nearest(bco[i], near)
+                        if loc is None:
+                            continue
+                        sd = (bco[i] - loc).dot(nor)
+                        if sd < 0 and -sd > worst:
+                            worst, wp = -sd, bco[i]
+                    k = (pc, part)
+                    row = table.setdefault(k, dict(depth=0.0, at=None, crossing=0, poses=0))
+                    row["poses"] += 1
+                    if worst > row["depth"]:
+                        row["depth"], row["at"] = worst, "%s:%d %s" % (a.name[2:], f, tuple(round(x) for x in wp))
+                if hbvh.overlap(pb):
+                    table[(pc, "hand")]["crossing"] += 1
+    rig.animation_data.action = None
+    _rest(rig)
+    for (pc, part), r in sorted(table.items()):
+        print("  %-14s %-8s deepest %.2f cm (%s); hand crossing the surface in %d of %d frames"
+              % (pc, part, r["depth"], r["at"], r["crossing"], r["poses"]))
+    return table

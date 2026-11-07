@@ -7,12 +7,14 @@ of the mod (the game's .mesh files, Reach textures from source/textures) in its 
 portrait animations the game plays most (idle, events, throne room) as actions on the rig.
 Then inspect_scan.py measures clipping over those animations, and `look` shows it.
 """
-import bpy, os
+import bpy, os, sys
 
 MOD = os.path.expanduser("~/Documents/Paradox Interactive/Crusader Kings III/mod/ek2_loincloths")
 GAME = os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game")
 OUT = MOD + "/gfx/models/portraits/ek2lc/reach_hide_01"
 TEX = MOD + "/source/textures"
+sys.path.insert(0, MOD + "/source")
+import weight_solver as wsol  # noqa: E402
 PIECES = {  # piece -> texture set (Reach colours)
     "reach_hide": "ek2lc_reach_hide_01", "reach_band": "ek2lc_reach_hide_01", "leggings": "ek2lc_leggings_01",
     "reach_war": "ek2lc_reach_war_01", "reach_armour": "ek2lc_reach_armour_01", "reach_duke": "ek2lc_reach_duke_01",
@@ -20,8 +22,12 @@ PIECES = {  # piece -> texture set (Reach colours)
     "trophy_3": "ek2lc_reach_war_01", "reach_skirt": "ek2lc_reach_hide_01", "reach_tunic": "ek2lc_reach_hide_01",
     "kid_charm": "ek2lc_charm_01", "camp_wrap": "ek2lc_camp_01", "arena_guard": "ek2lc_reach_armour_01",
 }
-ANIMS = ["idle_1", "idle_2", "idle_3", "emotion_angry", "emotion_angry_start", "AI_callous_1", "emotion_grief",
-         "emotion_happy", "emotion_sadness", "emotion_scheme", "shocked_idle", "throneRoom_ruler1_1", "throneRoom_kneel1_1"]
+# the poses the build's weight solver uses (source/build_reach_hide.py, SOLVE_ANIMS); missing files are skipped
+ANIMS = ["idle_1", "idle_2", "idle_3", "AI_callous_1", "emotion_angry", "emotion_angry_start", "emotion_grief", "emotion_happy",
+         "emotion_sadness", "emotion_scheme", "shocked_idle"] + \
+    ["throneRoom_" + a for a in ("kneel1_1", "kneel2_1", "messenger1_1", "ruler1_1", "ruler2_1", "ruler3_1", "bow1_1", "bow2_1",
+                                  "bow3_1", "cheer1_1", "applaud1_1", "conversation1_1", "conversation2_1", "chancellor_1",
+                                  "oneHandedPassive1_1", "twoHandedPassive1_1", "curtsey1_1")]
 
 
 def _import(path):
@@ -116,14 +122,11 @@ def build_scene(sex):
             path = "%s/gfx/models/portraits/%s_body/%s_body_%s.anim" % (GAME, sex, sex, a)
             if not os.path.exists(path):
                 continue
-            rig.animation_data.action = None
-            bpy.context.view_layer.objects.active = rig
-            try:
-                bpy.ops.io_pdx_mesh.import_anim(filepath=path, int_start=1)
+            try:  # (handles the women's emotion clips that don't key ground_joint)
+                act, _ = wsol.import_anim(rig, path)
             except RuntimeError as e:
                 print("anim not imported:", a, str(e).splitlines()[0][:120])
                 continue
-            act = rig.animation_data.action
             act.name = "%s_%s" % (s1.upper(), a)
             act.use_fake_user = True
         rig.animation_data.action = None
