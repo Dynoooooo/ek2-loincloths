@@ -478,6 +478,12 @@ def barbershop():
             loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, xacc("f", k), grp, xacc("m", k)))
     write("gfx/portraits/portrait_modifiers/ek2lc_custom.txt", "\n".join(out))
     write("localization/english/ek2lc_l_english.yml", "\n".join(loc) + "\n")
+    # The vanilla Clothes row names EK2's "No Clothes" entry for loincloth wearers (our rules set no_clothes).
+    # CK3 can't relabel it per character, so the user chose "No Outfit" for everyone (2026-11-06).
+    # Single keys from localization/replace/ override EK2's and vanilla's without copying their files.
+    write("localization/replace/english/ek2lc_replace_l_english.yml", "\n".join(
+        [BOM + "l_english:"] + [' PORTRAIT_MODIFIER_custom_clothes_%s: "No Outfit"' % k for k in
+         ("no_clothes", "male_clothes_secular_western_nudity_01", "female_clothes_secular_western_nudity_01")]) + "\n")
 
 
 if __name__ == "__main__":
