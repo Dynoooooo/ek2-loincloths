@@ -45,7 +45,7 @@ entity = {
 	game_data = {
 		portrait_entity_user_data = {
 			portrait_accessory = {
-				pattern_mask = "gfx/models/portraits/ek2lc/reach_hide_01/ek2lc_orc_war_01_masks.dds"
+				pattern_mask = "gfx/models/portraits/ek2lc/reach_hide_01/ek2lc_goblin_war_01_masks.dds"
 				variation = "ek2lc_orc_war_01"
 			}
 		}

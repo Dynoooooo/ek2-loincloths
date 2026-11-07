@@ -1,0 +1,18 @@
+﻿# EK2 Loincloths: written by source/tools/gen_script_files.py.
+# A character of one of the loincloth cultures (EK2's clothing-gfx inputs in cultures.py).
+ek2lc_culture_trigger = {
+	OR = {
+		portrait_ek_nedic_reach_clothing_trigger = yes
+		portrait_ek_ashlander_clothing_trigger = yes
+		portrait_ek_bosmeri_clothing_trigger = yes
+		portrait_ek_argonian_clothing_trigger = yes
+		OR = {
+						portrait_ek_anequinan_clothing_trigger = yes
+						portrait_ek_pellitinian_clothing_trigger = yes
+					}
+		portrait_ek_orc_clothing_trigger = yes
+		portrait_ek_goblin_clothing_trigger = yes
+		portrait_ek_nedic_south_clothing_trigger = yes
+		portrait_ek_lilmothiit_clothing_trigger = yes
+	}
+}

@@ -1288,32 +1288,22 @@ ek2lc_f_lich_kid_charm_01 = {
 	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_loincloth_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_top_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_war_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_mantle_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_trophy_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_arena_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_camp_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_leggings_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_robe_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }
 ek2lc_no_charm_01 = {
-	entity = { required_tags = ""		shared_pose_entity = torso }
 }

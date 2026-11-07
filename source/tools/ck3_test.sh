@@ -3,6 +3,7 @@
 # runs CK3 in a window, and puts everything back afterwards.
 #   ck3_test.sh start [mod ...]   back up, switch to windowed 2560x1600, load only EK2 + this mod (+ the named mods
 #                       after it, e.g. ugc_2220326926 = Better Barbershop), start as Aldrydd of Druadach
+#                       (PLAY=<title> to start as someone else, e.g. PLAY=k_falkreath for Yashnag; NOMOD=1 for EK2 alone)
 #   ck3_test.sh wait    wait until the map is running (up to 5 minutes)
 #   ck3_test.sh stop    quit CK3 and restore the backups
 set -e
@@ -32,12 +33,14 @@ PY
 import json, sys
 p = sys.argv[1]
 d = json.load(open(p))
-d["enabled_mods"] = ["mod/ugc_2887120253.mod", "mod/ek2_loincloths.mod"] + ["mod/%s.mod" % m for m in sys.argv[2:]]
+import os
+d["enabled_mods"] = ["mod/ugc_2887120253.mod"] + ([] if os.environ.get("NOMOD") else ["mod/ek2_loincloths.mod"]) + \
+    ["mod/%s.mod" % m for m in sys.argv[2:]]
 json.dump(d, open(p, "w"), indent=2)
 PY
   date +%s > "$B/launched_at"
   cd "$BIN"
-  nohup ./ck3.app/Contents/MacOS/ck3 -gdpr-compliant -debug_mode -skip -bookmark=bm_interregnum -play=d_druadach >/dev/null 2>&1 &
+  nohup ./ck3.app/Contents/MacOS/ck3 -gdpr-compliant -debug_mode -skip -bookmark=bm_interregnum -play=${PLAY:-d_druadach} >/dev/null 2>&1 &
   echo "launched, pid $!"
   ;;
 wait)

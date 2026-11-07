@@ -1,6 +1,7 @@
 // ck3ctl: send keys to CK3 only (works while CK3 is in the background) and find its window.
 //   ck3ctl winid <pid>          print CK3's main window id, for `screencapture -l`
 //   ck3ctl key <pid> <code>     press one key by macOS virtual key code (50 = `, 36 = Return)
+//   ck3ctl skey <pid> <code>    the same with Shift held (18 = 1: Shift+1 picks an event's first option)
 //   ck3ctl type <pid> <text>    type text (US layout)
 // Build: swiftc -O -o ck3ctl ck3ctl.swift
 import Foundation
@@ -45,6 +46,8 @@ case "winid":
     print(best.id)
 case "key":
     press(CGKeyCode(Int(a[3]) ?? 0))
+case "skey":
+    press(CGKeyCode(Int(a[3]) ?? 0), shift: true)
 case "type":
     for ch in a[3] {
         if let (k, sh) = keys[ch] { press(k, shift: sh, text: String(ch)) } else { print("skipped \(ch)") }

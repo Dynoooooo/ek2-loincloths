@@ -77,7 +77,8 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
                                           ("lich_fur_robe", "Lich's Burial Fur Cloak", None)],
                         "Fur Cloak", "No Fur Cloak", [MANTLE_TAG], ROBE_TAG),
     # children 4-13: charm cords at the hips (quill-wrapped, cowrie shells, a tooth, fringe); a ruler's girdle hides them
-    "gene_ek2lc_charm": ("ek2lc_no_charm", [("kid_charm", "Quill, Shell and Tooth Charms", "scope:age >= 4\n\t\t\t\tscope:age <= 13"),
+    "gene_ek2lc_charm": ("ek2lc_no_charm", [("kid_charm", "Quill, Shell and Tooth Charms",
+                                             "scope:age >= 4\n\t\t\t\tscope:age <= 13\n\t\t\t\tek2lc_royal_trigger = no"),
                                             ("lich_kid_charm", "Lich's Burial Charms", None)],
                          "Charms", "No Charms", [GIRDLE_TAG], ""),
 }
@@ -212,8 +213,12 @@ def accessories():
                            "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}"
                            % ("".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide + [GRAVE_TAG]),
                               LICH_TAG, lich, LOINCLOTH_TAG, entity_name(a)))
+    # The "no X" pieces have no entity at all. Until 2026-11-07 each had an unconditional entity without a mesh
+    # (shared_pose_entity = torso), and every character carries ten of them: on an event's first frame the game
+    # then drew a portrait once in a placeholder look and pose before the real one (King Falk in Yashnag's
+    # start event; filmed frame by frame, gone with entity-less pieces).
     for none in [n for n, _ in GENES.values()] + [x[0] for x in EXTRA.values()]:
-        out.append("%s = {\n\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}" % none_acc(none))
+        out.append("%s = {\n}" % none_acc(none))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
 
@@ -286,10 +291,16 @@ def culture_cond(cd, commoner):
     return "\t\t\t\tOR = {\n" + "\n".join("\t\t\t\t\t" + o.replace("\n", "\n\t") for o in one) + "\n\t\t\t\t}"
 
 
+# The user (2026-11-07): "Totally disallow anything other than loincloths for the cultures, positions, and people who
+# are supposed to be wearing it." So a wearer also gets no EK2 hat, helmet, crown, veil or cloak hood.
+NO_EK2_EXTRAS = [("headgear", "no_headgear"), ("secondary_headgears", "no_headgear"), ("additive_headgear", "no_additive"),
+                 ("clothes_hoods", "no_clothes_hood")]
+
+
 def modifier(name, comment, pieces, mods, last=()):
     """pieces: (loincloth, top, war, mantle) kinds or None; mods: list of (add, [condition lines]);
     last: weight-modifier bodies applied after the adds."""
-    pairs = [("clothes", "no_clothes"), ("legwear", "no_legwear"), ("cloaks", "no_cloak")]
+    pairs = [("clothes", "no_clothes"), ("legwear", "no_legwear"), ("cloaks", "no_cloak")] + NO_EK2_EXTRAS
     for gene, k in zip(GENES, pieces):
         pairs.append((gene, GENES[gene][0] if k is None else k))
     w = ["\t\tweight = {", "\t\t\tbase = 0"]
@@ -323,6 +334,9 @@ TIERS = [("county", "barony", "county", "fine", "fine", None, "county and below:
          ("emperor", "empire", "hegemony", "royal", "royal", "emperor", "emperor: the king's pieces in precious trim, and the mantle")]
 
 
+ALL_CULTURE_CONDS = [culture_cond(cd, False) for cd in ALL.values()]
+
+
 def modifiers():
     out = [BOM + """# EK2 Loincloths: who wears a loincloth. Written by source/tools/gen_script_files.py.
 # Priority 101 applies this after every EK2 outfit group (EK2's highest is 100), so a
@@ -337,6 +351,14 @@ ek2lc_loincloth = {
 """ + dna([(g, n) for g, (n, _) in GENES.items()]) + """
 		weight = {
 			base = 1
+			modifier = {
+				factor = 0  # the loincloth cultures' people aged 4 and up always get one of the looks below (2026-11-07)
+				scope:age >= 4
+				OR = {
+""" + "\n".join("\t\t\t\t\t" + c.strip().replace("\n", "\n\t") for c in ALL_CULTURE_CONDS) + """
+				}
+""" + NUDE + """
+			}
 		}
 	}
 """]
@@ -348,6 +370,7 @@ ek2lc_loincloth = {
             top = (lambda k: T(k)) if s == "f" else (lambda k: None)
             base = ["\t\t\t\tis_female = %s" % fem]
             rest = [culture_cond(cd, True), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no"]
+            kid_rest = [culture_cond(cd, False), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no"]
             # the loincloth from 7 (boys) or 14 (women); younger children the tunic, girls 7-13 the wrap skirt (below)
             com = base + ["\t\t\t\tscope:age >= %d" % (14 if s == "f" else 7)] + rest
             if look != "hide":
@@ -370,12 +393,20 @@ ek2lc_loincloth = {
                 out.extend(with_lich(c, "ek2lc_%s_tunic_%s" % (c, s), "%s %s aged 4-6 who are commoners: a sleeveless hide tunic "
                                     "over a wrap skirt, instead of the loincloth." % (adj, "girls" if s == "f" else "boys"),
                                     (T("tunic"), None, None, None),
-                                    [(100, base + ["\t\t\t\tscope:age >= 4", "\t\t\t\tscope:age <= 6"] + rest)]))
+                                    [(100, base + ["\t\t\t\tscope:age >= 4", "\t\t\t\tscope:age <= 6"] + kid_rest)]))
                 if s == "f":
                     out.extend(with_lich(c, "ek2lc_%s_skirt_f" % c, "%s girls aged 7-13 who are commoners: the hide wrap skirt "
                                         "and always the chest band, instead of the loincloth." % adj,
                                         (T("skirt"), T("band"), None, None),
-                                        [(100, base + ["\t\t\t\tscope:age >= 7", "\t\t\t\tscope:age <= 13"] + rest)]))
+                                        [(100, base + ["\t\t\t\tscope:age >= 7", "\t\t\t\tscope:age <= 13"] + kid_rest)]))
+                noncom = ["\t\t\t\tNOT = {\n" + "\n".join("\t" + l for l in culture_cond(cd, True).split("\n")) + "\n\t\t\t\t}",
+                          "\t\t\t\tek2lc_camp_follower_trigger = no"]
+                out.extend(with_lich(c, "ek2lc_%s_noble_%s" % (c, s), "%s %s (%s) who are neither commoners nor rulers: nobles, "
+                                    "and knights and court officers when not at war (2026-11-07: until then EK2 dressed them): the "
+                                    "loincloth in the finer dyed hide%s." % (adj, people, "14+" if s == "f" else "and boys 7+",
+                                                                             " and the fine chest band" if s == "f" else ""),
+                                    (T("fine"), top("band_fine"), None, None),
+                                    [(100, base + ["\t\t\t\tscope:age >= %d" % (14 if s == "f" else 7)] + kid_rest + noncom)]))
                 out.extend(with_lich(c, "ek2lc_%s_camp_%s" % (c, s), "%s %s (14+) who follow an army without fighting (ek2lc_camp_follower_trigger): the plain "
                                     "loincloth%s, under the camp follower's wrap. EK2 dresses an adventurer's camp as low nobility, "
                                     "so the commoner rule alone would miss them." % (adj, people, " and the chest band" if s == "f" else ""),
@@ -397,7 +428,7 @@ ek2lc_loincloth = {
                 out.extend(with_lich(c, "ek2lc_%s_royal_%s_%s" % (c, tier, s),
                                     "%s %s, rulers and their spouses (higher of the two top title tiers), %s." % (adj, people, desc),
                                     (T(lk), top, T(wk) if wk else None, T("mantle") if tier == "emperor" else None),
-                                    [('2  # against 1 for "no loincloth": two in three %s rulers wear it' % adj,
+                                    [('100  # always (2026-11-07; was two in three)',
                                       ["\t\t\t\tis_female = %s" % fem, KIDS, cul, "\t\t\t\tek2lc_war_role_trigger = no",
                                        "\t\t\t\tek2lc_royal_tier_trigger = { LOW = %s HIGH = %s }" % (lo, hi)])]))
         cul = culture_cond(cd, False)
@@ -436,11 +467,14 @@ ek2lc_loincloth = {
 			base = 0
 			modifier = {
 				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				%s
+%s
 			}
 		}
 	}
-""" % ("ek2lc_" + k, dna([(gene, "ek2lc_" + k)]), rule))
+""" % ("ek2lc_" + k, dna([(gene, "ek2lc_" + k)]), rule, NUDE))
         out.append("}\n")
     write("gfx/portraits/portrait_modifiers/ek2lc_loincloths.txt", "\n".join(out))
 
@@ -476,6 +510,14 @@ def row_name(c, k):
     if k == "grave_band":
         return "%s Grave-Wrap Chest Band" % ALL[c]["adj"]
     return piece_name(ALL[c], k)
+
+
+def triggers():
+    """common/scripted_triggers/ek2lc_culture_triggers.txt: the loincloth cultures (as the modifiers check them)."""
+    write("common/scripted_triggers/ek2lc_culture_triggers.txt", BOM + "# EK2 Loincloths: written by source/tools/gen_script_files.py.\n"
+          "# A character of one of the loincloth cultures (EK2's clothing-gfx inputs in cultures.py).\n"
+          "ek2lc_culture_trigger = {\n\tOR = {\n" + "\n".join("\t\t" + c.strip().replace("\n", "\n\t") for c in ALL_CULTURE_CONDS) +
+          "\n\t}\n}\n")
 
 
 def barbershop():
@@ -533,4 +575,5 @@ if __name__ == "__main__":
     accessories()
     figleaf()
     modifiers()
+    triggers()
     barbershop()
