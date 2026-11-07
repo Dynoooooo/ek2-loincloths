@@ -23,9 +23,9 @@ SHADER_NEW = "portrait_attachment_pattern_alpha_to_coverage"
 
 def block(name):
     """Vanilla colour block of an accessory/asset name such as ek2lc_f_reach_war_01."""
-    if re.search(r"_(mantle|arena_guard)_01$", name):
+    if re.search(r"_(mantle|arena_guard|fur_robe)_01$", name):
         return "cloak"
-    if re.search(r"_(war|armour|duke|king|emperor|camp_wrap|trophy_\d)_01$", name):
+    if re.search(r"_(war|armour|duke|king|emperor|camp_wrap|trophy_\d|leggings|kid_charm)_01$", name):
         return "legwear"
     return "clothes"
 

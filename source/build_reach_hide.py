@@ -2447,6 +2447,409 @@ if SEX == "male":
 PIECES.append(dict(name=WRAP, set=CSET, pos=CPOS, faces=cf, part=cp, wrap=cwrap, wrap_u={i: 1.0 for i in range(5)}, uvs=cuv,
                    vw=cvw, orient=C_ORIENT))
 print("WRAP %d vertices, %d faces" % (len(CPOS["basis"]), len(cf)))
+# ------------------------------------------------------------------ wrap skirt, tunic, cold-weather layers, charms
+# The user's picks of 2026-11-06, from the history of tribal children's dress:
+#  - a hide wrap skirt (girls 7-13, in place of the loincloth, with the chest band): four panels round the hips,
+#    tucked under the cord belt and hanging as the flaps do to just above the knee. Each panel uses a flap's
+#    area of the hide texture, so every culture's colours, painted band and fringed hem come with it;
+#  - a sleeveless tunic (children 4-6, in place of the loincloth): the torso's skin lifted off it (plain hide from
+#    the flaps' upper area), over the same skirt and belt;
+#  - hide leggings for the cold: each leg's skin from above the ankle to the thigh, lifted off it;
+#  - a fur cloak for the winter: the emperor's mantle mesh with a fur texture of its own (no new mesh);
+#  - children's charm cords: at each hip a sinew cord over the belt, a quill-wrapped length, shells (right) or
+#    a tooth (left), and a fringe tassel.
+# Shells keep the body's own triangles and winding (no orient entry), so they need no normal fixing.
+_KNEE = rig.matrix_world @ rig.data.bones["bn_l_knee"].head_local
+_ANKLE = rig.matrix_world @ rig.data.bones["bn_l_ankle"].head_local
+_LSIDE = 1 if (rig.matrix_world @ rig.data.bones["bn_l_hip"].head_local).x > 0 else -1  # bn_l_* is on this side of x
+KNEE_V = _nearest_vert(Vector((_KNEE.x, 0, _KNEE.z)) + FRONT * 25)  # the front of the knee, on every shape
+_NOARM_T = [list(t) for t in TRIS["basis"] if not _ARMV.intersection(t)]
+_NOARM = {s: BVHTree.FromPolygons(COORDS[s], _NOARM_T) for s in ALL}  # the arms hang beside the hips
+SK_PANELS, SK_NC, SK_NR, SK_THICK = 4, 9, 15, 0.35
+# column angles from the front, towards +x: panel 0 front, 1 the +x side, 2 back, 3 the -x side
+SK_ANG = [math.radians(-45 + 90 * p + 90 * i / (SK_NC - 1)) for p in range(SK_PANELS) for i in range(SK_NC)]
+SK_UV = [(0.022, 0.478), (0.022, 0.478), (0.522, 0.978), (0.522, 0.978)]  # the flaps' areas, inset: their edges bled light seams
+SK_KNEE_GAP = 4.0  # the hem, above the front of the knee
+
+
+def _dirv(th):
+    return FRONT * math.cos(th) + RIGHT * math.sin(th)
+
+
+def skirt_ring(s):
+    """Outer and inner points [row][column] of the skirt on shape s."""
+    dz = (recon(REF[+1], s) - recon(REF[+1], "basis")).z
+    za = Z_ATTACH + dz
+    zh = COORDS[s][KNEE_V].z + SK_KNEE_GAP
+    yc = center_y(BELT_Z + dz, s)
+    bvh = _NOARM[s]
+    zs = [za - (za - zh) * j / (SK_NR - 1) for j in range(SK_NR)]
+    dth = math.radians(90 / (SK_NC - 1)) / 2
+    prof = []  # [column][row] distance from the axis
+    for th in SK_ANG:
+        run, col, z_prev = -1e9, [], za + 0.5
+        for z in zs:
+            for zz in list(np.arange(z_prev, z, -0.75)) + [z]:  # hang straight from anything above
+                for a in (th - dth, th, th + dth):
+                    D = _dirv(a)
+                    o = Vector((0, yc, zz))
+                    hit = bvh.ray_cast(o + D * 200, -D, 400)[0]
+                    if hit is not None:
+                        run = max(run, (hit - o).dot(D))
+            col.append(run)
+            z_prev = z
+        prof.append(col)
+    n = len(SK_ANG)
+    outer, inner = [], []
+    for j, z in enumerate(zs):
+        t = j / (SK_NR - 1)
+        fs = [prof[i][j] + 0.45 + 1.15 * t for i in range(n)]
+        if t > 0.2:  # smooth round the ring, never inwards
+            for _ in range(2):
+                fs = [max(fs[i], (fs[i - 1] + 2 * fs[i] + fs[(i + 1) % n]) / 4) for i in range(n)]
+        outer.append([Vector((0, yc, z)) + _dirv(th) * f for th, f in zip(SK_ANG, fs)])
+        inner.append([Vector((0, yc, z)) + _dirv(th) * (f - SK_THICK) for th, f in zip(SK_ANG, fs)])
+    return outer, inner
+
+
+_SK_RING = {s: skirt_ring(s) for s in ALL}
+
+
+def skirt_piece(name, torso=False):
+    """The cord belt (as the loincloth's) and the four-panel skirt; with torso, also the tunic's body."""
+    pos = {s: [recon(b, s) for b in belt_bind] for s in ALL}
+    uvs = [(k / NB, 0.88 + 0.11 * r / 4) for k in range(NB) for r in range(5)]
+    faces, part, wrap = [], [], set()
+    for k in range(NB):
+        k2 = (k + 1) % NB
+        for r in range(4):
+            if k2 == 0:
+                wrap.add(len(faces))
+            faces.append([k * 5 + r, k2 * 5 + r, k2 * 5 + r + 1, k * 5 + r + 1])
+            part.append("belt")
+    vw = [weights_at(b[0], b[1]) for b in belt_bind]
+    b0, n = len(uvs), len(SK_ANG)
+    for layer in (0, 1):
+        for j in range(SK_NR):
+            for i in range(n):
+                u0, u1 = SK_UV[i // SK_NC]
+                uvs.append((u0 + (u1 - u0) * (i % SK_NC) / (SK_NC - 1), 0.74 - 0.73 * j / (SK_NR - 1)))
+    for s in ALL:
+        outer, inner = _SK_RING[s]
+        pos[s] += [p for row in outer for p in row] + [p for row in inner for p in row]
+    O = lambda j, i: b0 + j * n + i  # noqa: E731
+    I = lambda j, i: b0 + SK_NR * n + j * n + i  # noqa: E731
+    yc = center_y(BELT_Z)
+    P0_ = pos["basis"]
+
+    def wound(f, want):  # the face turned to face `want` (open panels: recalc_face_normals can't tell)
+        a, b, c = P0_[f[0]], P0_[f[1]], P0_[f[2]]
+        return f if (b - a).cross(c - a).dot(want) > 0 else f[::-1]
+
+    def outw(f):
+        c = sum((P0_[i] for i in f), Vector()) / len(f)
+        return Vector((c.x, c.y - yc, 0))
+
+    for p_ in range(SK_PANELS):  # open at their sides: a rim there smoothed light lines into the joins
+        for i in range(p_ * SK_NC, p_ * SK_NC + SK_NC - 1):
+            for j in range(SK_NR - 1):
+                f = [O(j, i), O(j, i + 1), O(j + 1, i + 1), O(j + 1, i)]
+                faces.append(wound(f, outw(f)))
+                part.append("skirto")
+                f = [I(j, i), I(j + 1, i), I(j + 1, i + 1), I(j, i + 1)]
+                faces.append(wound(f, -outw(f)))
+                part.append("skirti")
+            for j, want in ((0, UP), (SK_NR - 1, -UP)):
+                faces.append(wound([O(j, i), I(j, i), I(j, i + 1), O(j, i + 1)], want))
+                part.append("skirtr")
+    # weights: under the belt with the skin, lower down a stiff apron leaning to the near hip (as the flaps)
+    for layer in (0, 1):
+        for j in range(SK_NR):
+            for i, th in enumerate(SK_ANG):
+                p = pos["basis"][O(j, i)]
+                if j <= 1:
+                    vw.append(nearest_weights(p))
+                    continue
+                kk = math.sin(th) * _LSIDE
+                apron = {GI["body_root"]: 0.4, GI["bn_l_hip"]: 0.3 + 0.2 * kk, GI["bn_r_hip"]: 0.3 - 0.2 * kk}
+                sb = skin_bind(th, max(p.z, BELT_Z - 1.7), 0.0)
+                vw.append(blend_weights(dict(weights_at(sb[0], sb[1])), apron,
+                                        apron_blend((Z_ATTACH - p.z) / FLAPS[1]["length"])))
+    orient = [("belt", lambda c: Vector((c.x, c.y - YC[0.0], 0)), None)]
+    if torso:
+        # the torso's skin from under the belt to the base of the neck, without the arms; front triangles on
+        # the front flap's plain upper area, back ones on the back flap's
+        z0, z1 = BELT_Z - 1.8, TOP_Z - 2.0
+        tv = {i for i, c in enumerate(C0) if z0 <= c.z <= z1 and i not in _ARMV}
+        xw = max(abs(C0[i].x) for i in tv)
+        key = {}
+        for t in TRIS["basis"]:
+            if not all(i in tv for i in t):
+                continue
+            cc = sum((C0[i] for i in t), Vector()) / 3
+            reg = 0 if (cc.y - center_y(min(max(cc.z, CROTCH_Z + 2), TOP_Z - 3))) * FRONT.y > 0 else 1
+            f = []
+            for i in t:
+                if (i, reg) not in key:
+                    key[i, reg] = len(uvs)
+                    u0, u1 = SK_UV[0 if reg == 0 else 2]
+                    fy = 0.12 + 0.5 * (z1 - C0[i].z) / (z1 - z0)
+                    uvs.append((u0 + (u1 - u0) * (0.5 + 0.5 * C0[i].x / xw), 0.74 - 0.73 * fy))
+                    vw.append(weights_at([i], [1.0]))
+                    for s in ALL:
+                        pos[s].append(COORDS[s][i] + NRM[s][i] * 0.3)
+                f.append(key[i, reg])
+            faces.append(f)
+            part.append("torso")
+    print("%s %d vertices, %d faces; skirt hem z %.1f (knee %.1f)" % (name, len(uvs), len(faces), _SK_RING["basis"][0][-1][0].z,
+                                                                      C0[KNEE_V].z))
+    return dict(name=name, set=SET, pos=pos, faces=faces, part=part, wrap=wrap, wrap_u={i: 1.0 for i in range(5)}, uvs=uvs,
+                vw=vw, orient=orient)
+
+
+SKIRT, TUNIC = "ek2lc_%s_reach_skirt_01" % S1, "ek2lc_%s_reach_tunic_01" % S1
+PIECES.append(skirt_piece(SKIRT))
+PIECES.append(skirt_piece(TUNIC, torso=True))
+
+# leggings: each leg's skin lifted 0.3 cm, from 2 cm above the ankle bone to the thigh (higher outside, lower
+# inside, below the loincloth's strip). Own UVs: per leg, u round the leg from the inner side (the seam; its
+# triangles get copies of the vertices past it), v up the leg.
+LEGG, LEGSET = "ek2lc_%s_leggings_01" % S1, "ek2lc_leggings_01"
+L_Z0, L_TOP = _ANKLE.z + 2.0, CROTCH_Z + 8.0
+_LBIN = {}
+for i, c in enumerate(C0):
+    if i not in _ARMV and c.z <= CROTCH_Z and abs(c.x) > 0.3:
+        _LBIN.setdefault((1 if c.x > 0 else -1, int(round(c.z))), []).append(c)
+
+
+def leg_axis(z, side):
+    zb = int(round(min(z, CROTCH_Z - 3.0)))
+    for r in range(1, 8):  # the legs are low-poly: widen the window until it holds a ring of vertices
+        ps = [c for dz in range(-r, r + 1) for c in _LBIN.get((side, zb + dz), [])]
+        if len(ps) >= 6:
+            break
+    return Vector((sum(c.x for c in ps) / len(ps), sum(c.y for c in ps) / len(ps), 0))
+
+
+def leg_theta(c, side):
+    d = c - leg_axis(c.z, side)
+    return math.atan2(d.dot(FRONT), d.x * -side) % (2 * math.pi)  # 0 inside, pi/2 front, pi outside
+
+
+_LV = {}
+for i, c in enumerate(C0):
+    if i in _ARMV or abs(c.x) < 0.3 or c.z < L_Z0 or c.z > L_TOP:
+        continue
+    side = 1 if c.x > 0 else -1
+    th = leg_theta(c, side)
+    if c.z <= CROTCH_Z - 3.0 + 11.0 * (1 - math.cos(th)) / 2:
+        _LV[i] = (side, th)
+lpos, luv, lf, lvw, lkey = {s: [] for s in ALL}, [], [], [], {}
+for t in TRIS["basis"]:
+    if not all(i in _LV for i in t) or len({_LV[i][0] for i in t}) > 1:
+        continue
+    ths = [_LV[i][1] for i in t]
+    seam = max(ths) - min(ths) > math.pi
+    f = []
+    for i, th in zip(t, ths):
+        wrapd = seam and th < math.pi
+        if (i, wrapd) not in lkey:
+            lkey[i, wrapd] = len(luv)
+            u0 = 0.01 if _LV[i][0] == _LSIDE else 0.51
+            luv.append((u0 + 0.48 * (th + (2 * math.pi if wrapd else 0)) / (2 * math.pi),
+                        0.01 + 0.89 * (C0[i].z - L_Z0) / (L_TOP - L_Z0)))
+            lvw.append(weights_at([i], [1.0]))
+            for s in ALL:
+                lpos[s].append(COORDS[s][i] + NRM[s][i] * 0.3)
+        f.append(lkey[i, wrapd])
+    lf.append(f)
+LEG_KNEE_V = 0.01 + 0.89 * (_KNEE.z - L_Z0) / (L_TOP - L_Z0)
+PIECES.append(dict(name=LEGG, set=LEGSET, pos=lpos, faces=lf, part=["leg"] * len(lf), wrap=set(), wrap_u={}, uvs=luv, vw=lvw,
+                   orient=[]))
+print("LEGGINGS %d vertices, %d faces, z %.1f..%.1f" % (len(luv), len(lf), L_Z0, L_TOP))
+
+# children's charm cords at each hip (55 degrees from the front, where the adults' trophy belt hangs: children
+# never wear it), 1.6 times an adult trophy's size so they read on a child, pushed out until they clear the
+# loincloth, skirt, tunic and leggings on every shape
+CHARM, CHSET = "ek2lc_%s_kid_charm_01" % S1, "ek2lc_charm_01"
+CH_CORD, CH_QUILL, CH_SHELL, CH_TOOTH, CH_FRINGE = ((0.03, 0.53, 0.47, 0.97), (0.53, 0.53, 0.97, 0.97), (0.03, 0.03, 0.47, 0.47),
+                                                    (0.53, 0.03, 0.97, 0.22), (0.53, 0.28, 0.97, 0.47))
+
+
+CH_S = 1.6
+
+
+def charm_item(side, out):
+    tgt = ([], [], [], [])
+    th0 = side * math.radians(55)
+    o = 1.7 + out
+    z1 = BELT_Z - 2.6
+    S_ = CH_S
+    add_tube(th0, [(0, BELT_Z + 3.0, 0.6), (0, BELT_Z + 1.9, 2.4 + out), (0, BELT_Z - 1.9, 2.4 + out), (0, z1, o)],
+             [0.12] * 4, 1.0, CH_CORD, "c", tgt=tgt, binder=leg_bind)
+    zq = z1 - 3.0 * S_
+    add_tube(th0, [(0, z1, o), (0, z1 - 1.0 * S_, o), (0, z1 - 2.0 * S_, o), (0, zq, o)], [r * S_ for r in (0.28, 0.3, 0.3, 0.28)],
+             1.0, CH_QUILL, "q", tgt=tgt, binder=leg_bind)
+    z = zq - 0.1
+    if side > 0:  # two cowrie shells, then the tassel below them
+        for k in range(2):
+            add_tube(th0, [(0, z, o), (0, z - 0.7 * S_, o + 0.05), (0, z - 1.4 * S_, o)], [r * S_ for r in (0.3, 0.55, 0.3)], 0.5,
+                     CH_SHELL, "s%d" % k, tgt=tgt, binder=leg_bind)
+            z -= 1.45 * S_
+        fringe = [(c * S_, z) for c in (-0.3, 0.0, 0.3)]
+    else:  # a tooth, the tassel either side of it
+        L = 2.6 * S_
+        add_tube(th0, [(0, z, o - 0.1), (0, z - L * 0.35, o - 0.15), (0, z - L * 0.7, o - 0.3), (0, z - L, o - 0.5)],
+                 [r * S_ for r in (0.38, 0.35, 0.22, 0)], 0.6, CH_TOOTH, "t", cap_tip=True, tgt=tgt, binder=leg_bind)
+        fringe = [(c * S_, zq - 0.1) for c in (-0.6, 0.6)]
+    for k, (c, zt) in enumerate(fringe):
+        add_tube(th0, [(c, zt, o), (c * 1.2, zt - 1.5 * S_, o), (c * 1.4, zt - 3.0 * S_, o)], [0.1, 0.1, 0], 1.0, CH_FRINGE,
+                 "f%d" % k, cap_tip=True, tgt=tgt, binder=leg_bind)
+    return tgt
+
+
+_CHOBST = [(pc["name"], s, BVHTree.FromPolygons(pc["pos"][s], [list(f) for f in pc["faces"]]))
+           for pc in PIECES if pc["name"] in (NAME, SKIRT, TUNIC, LEGG) for s in OWN]
+cb_, cuv_, cf_, cp_ = [], [], [], []
+for side in (1, -1):
+    out = 0.0
+    for _try in range(10):
+        item = charm_item(side, out)
+        vi = sorted({i for f, prt in zip(item[2], item[3]) if prt != "c" for i in f})
+        gap, near = min((bvh.find_nearest(recon(item[0][i], s))[3], (nm, s)) for nm, s, bvh in _CHOBST for i in vi)
+        if gap >= 0.3:
+            break
+        out += 0.3 - gap + 0.05
+    print("CHARM side %+d: out %.2f, gap %.2f (to %s on %s)" % (side, out, gap, near[0], near[1]))
+    _o = len(cb_)
+    cb_ += item[0]
+    cuv_ += item[1]
+    cf_ += [[i + _o for i in f] for f in item[2]]
+    cp_ += ["%s%+d" % (p, side) for p in item[3]]
+_chpos = {s: [recon(b, s) for b in cb_] for s in ALL}
+_chc = {}
+for f, p in zip(cf_, cp_):
+    _chc.setdefault(p, []).extend(_chpos["basis"][i] for i in f)
+PIECES.append(dict(name=CHARM, set=CHSET, pos=_chpos, faces=cf_, part=cp_, wrap=set(), wrap_u={}, uvs=cuv_,
+                   vw=[weights_at(b[0], b[1]) for b in cb_],
+                   orient=[(p, (lambda c0: (lambda c: c - c0))(sum(ps, Vector()) / len(ps)), None) for p, ps in _chc.items()]))
+
+
+def _flat_maps(H, WD, rough=0.58, spec=0.22):
+    normal = np.zeros((H, WD, 4), np.float32)
+    normal[..., 0] = normal[..., 1] = normal[..., 3] = 0.5
+    props = np.zeros((H, WD, 4), np.float32)
+    props[..., 1], props[..., 3] = spec, rough
+    return normal, props
+
+
+def _fbm(H, WD, k, seed, octaves=4):
+    return undead.fbm(H, WD, k, seed, octaves)
+
+
+def make_leggings_textures():
+    """Smoked hide leggings: lacing down the outer seam, a band of dyed quillwork under the knee, darker hems."""
+    H = WD = 1024
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v, u = 1 - yy / (H - 1), xx / (WD - 1)
+    n1, n2 = _fbm(H, WD, 6, 61), _fbm(H, WD, 30, 62, 3)
+    img = np.ones((H, WD, 4), np.float32)
+    img[..., :3] = K(0.40, 0.29, 0.19) * (0.8 + 0.3 * n1 + 0.1 * (n2 - 0.5))[..., None]
+    lu = np.where(u < 0.5, (u - 0.01) / 0.48, (u - 0.51) / 0.48)  # 0..1 round the leg from the inner side
+    lv = np.clip((v - 0.01) / 0.89, 0, 1)  # 0 at the ankle .. 1 at the top
+    seam = np.abs(lu - 0.5) * 0.48 * WD  # pixels from the outer seam
+    img[seam < 2.0, :3] *= 0.45
+    lace = (seam < 9) & ((((lv * 0.89 * H) % 26) < 4) | (np.abs((lv * 0.89 * H) % 26 - 13 - (seam - 4.5) * 1.2) < 2.2))
+    img[lace, :3] = K(0.62, 0.52, 0.38)
+    kv = (LEG_KNEE_V - 0.01) / 0.89 - 0.07  # just under the knee
+    band = np.abs(lv - kv) * 0.89 * H < 16
+    stripe = ((lv - kv) * 0.89 * H + 16) // 6 % 3
+    for k_, col in enumerate((K(0.55, 0.12, 0.07), K(0.80, 0.62, 0.20), K(0.88, 0.84, 0.74))):
+        img[band & (stripe == k_), :3] = col * (0.85 + 0.25 * n2[band & (stripe == k_)])[:, None]
+    img[band & (((lu * 0.48 * WD) % 10) < 1.2), :3] *= 0.6  # the quills' wraps
+    img[(lv < 0.012) | (lv > 0.985), :3] *= 0.6  # rolled hems
+    img[v > 0.905, :3] = K(0.40, 0.29, 0.19) * 0.7
+    normal, props = _flat_maps(H, WD)
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
+def make_robe_textures():
+    """Fur cloak on the mantle's mesh: a dark brown bear-fur collar and cape (long hair running down, a tufted
+    hem cut out of both sides), lined with smoked hide."""
+    H = WD = 1024
+    rng = np.random.default_rng(71)
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v, u = 1 - yy / (H - 1), xx / (WD - 1)
+    img = np.zeros((H, WD, 4), np.float32)
+    img[..., :3], img[..., 3] = 0.05, 1.0
+    normal, props = _flat_maps(H, WD, 0.7, 0.12)
+    FUR = K(0.30, 0.22, 0.15)
+    xi = xx.astype(np.int32)
+    s1 = np.convolve(rng.random(WD + 8), np.ones(3) / 3, "same")[4:WD + 4].astype(np.float32)
+    s2 = rng.random(WD).astype(np.float32)
+    wav = (xi + (3 * np.sin(yy * 0.05 + xx * 0.017)).astype(np.int32)) % WD
+    clump = 0.85 + 0.15 * np.sin(xx * 0.09 + 2 * np.sin(yy * 0.02))
+    fur = FUR[None, None, :] * ((0.7 + 0.4 * s1[wav]) * clump)[..., None]
+    fur = np.where((s2[wav] < 0.14)[..., None], fur * 0.55, fur)  # dark guard hairs
+    fur = np.where((s2[wav] > 0.93)[..., None], fur * 1.45, fur)  # pale tips
+    m = v >= 0.855  # collar: darker at the roots, tufted edge
+    fv = np.clip((COLLAR_UV[3] - v) / (COLLAR_UV[3] - COLLAR_UV[1]), 0, 1)
+    img[m, :3] = (fur * (0.62 + 0.38 * np.clip(fv * 1.4, 0, 1))[..., None])[m]
+    tp = 13
+    tid = xi // tp
+    trnd = rng.random(int(tid.max()) + 2).astype(np.float32)
+    tri = np.abs(((xx + trnd[tid] * 5) % tp) / tp - 0.5) * 2
+    img[m & (fv > 0.80 + 0.17 * (1 - tri) * (0.6 + 0.4 * trnd[tid])), 3] = 0.0
+    img[m & (fv > 0.985), 3] = 0.0
+    tp2 = 17
+    tid2 = xi // tp2
+    trnd2 = rng.random(int(tid2.max()) + 2).astype(np.float32)
+    tri2 = np.abs(((xx + trnd2[tid2] * 7) % tp2) / tp2 - 0.5) * 2
+    for box, is_cape in ((CAPE_UV, True), (LINING_UV, False)):
+        reg = (u >= box[0]) & (u <= box[2]) & (v >= box[1]) & (v <= box[3])
+        al = np.clip((box[3] - v) / (box[3] - box[1]), 0, 1)  # 0 top .. 1 hem
+        if is_cape:
+            img[reg, :3] = (fur * (0.8 + 0.2 * np.clip(1.2 - al, 0, 1))[..., None])[reg]
+        else:
+            n = _fbm(H, WD, 8, 72)
+            img[reg, :3] = K(0.33, 0.24, 0.16) * (0.8 + 0.3 * n[reg])[:, None]
+        img[reg & (al > 0.93 + 0.06 * (1 - tri2) * (0.5 + 0.5 * trnd2[tid2])), 3] = 0.0  # tufted hem
+    img[v < 0.025, 3] = 0.0
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
+def make_charm_textures():
+    """Children's charms: sinew cord, quills dyed red, yellow and white, cowrie shell, tooth, hide fringe."""
+    H = WD = 512
+    yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
+    v, u = 1 - yy / (H - 1), xx / (WD - 1)
+    n = _fbm(H, WD, 12, 81, 3)
+    img = np.ones((H, WD, 4), np.float32)
+    img[..., :3] = K(0.55, 0.44, 0.30) * (0.8 + 0.3 * n)[..., None]  # sinew and fringe hide
+    q = (u >= 0.5) & (v >= 0.5)  # quills: bands along the cord
+    bands = ((v * H) // 9).astype(np.int32) % 4
+    for k_, col in enumerate((K(0.62, 0.10, 0.06), K(0.86, 0.66, 0.18), K(0.90, 0.87, 0.78), K(0.10, 0.08, 0.07))):
+        img[q & (bands == k_), :3] = col * (0.85 + 0.25 * n[q & (bands == k_)])[:, None]
+    img[q & ((xx % 6) < 1), :3] *= 0.7
+    sh = (u < 0.5) & (v < 0.5)  # cowrie: cream, a darker slit down the middle
+    img[sh, :3] = K(0.90, 0.85, 0.72) * (0.9 + 0.15 * n[sh])[:, None]
+    img[sh & (np.abs(u - 0.25) < 0.012), :3] = K(0.35, 0.26, 0.18)
+    th_ = (u >= 0.5) & (v < 0.25)  # tooth
+    img[th_, :3] = K(0.86, 0.81, 0.68) * (0.88 + 0.15 * n[th_])[:, None]
+    normal, props = _flat_maps(H, WD, 0.55, 0.2)
+    props[sh | th_, 1] = 0.45  # shell and tooth a little shiny (left unmasked by make_colour.py)
+    props[sh | th_, 3] = 0.35
+    return {"diffuse": np.clip(img, 0, 1), "normal": normal, "properties": props}
+
+
+MATS[LEGSET] = make_material("ek2lc_leggings", save_set(LEGSET, make_leggings_textures()))
+MATS[CHSET] = make_material("ek2lc_charm", save_set(CHSET, make_charm_textures()))
+ROBESET = "ek2lc_robe_01"
+MATS[ROBESET] = make_material("ek2lc_robe", save_set(ROBESET, make_robe_textures()))
+if SEX == "male":  # their lich versions: no colour roles, so greyed and darkened (as the camp wrap)
+    for _i, (_k, _fn) in enumerate((("leggings", make_leggings_textures), ("robe", make_robe_textures), ("charm", make_charm_textures))):
+        save_diffuse("ek2lc_lich_%s_01" % _k, undead.lich_finish(undead.blacken(_fn()["diffuse"]), np.zeros((1, 1), bool), 131 + _i))
+
 STRICT = {GUARD}
   # finish_piece: no point of these inside the body on any shape
 
@@ -2532,6 +2935,10 @@ for _t, _tn in TROPHY.items():
     write_asset("ek2lc_%s_lich_trophy_%d_01" % (S1, _t), _tn, "ek2lc_lich_war_01", WSET)
 write_asset("ek2lc_%s_lich_arena_guard_01" % S1, GUARD, "ek2lc_lich_armour_01", ASET)
 write_asset("ek2lc_%s_lich_camp_wrap_01" % S1, WRAP, "ek2lc_lich_camp_01", CSET)
+write_asset("ek2lc_%s_fur_robe_01" % S1, MANTLE, ROBESET)  # the fur cloak: the mantle's mesh, its own texture
+write_asset("ek2lc_%s_lich_fur_robe_01" % S1, MANTLE, "ek2lc_lich_robe_01", ROBESET)
+write_asset("ek2lc_%s_lich_leggings_01" % S1, LEGG, "ek2lc_lich_leggings_01", LEGSET)
+write_asset("ek2lc_%s_lich_kid_charm_01" % S1, CHARM, "ek2lc_lich_charm_01", CHSET)
 for _c in ["reach"] + list(CULTURES):  # the other undead: the culture's plain loincloth (and band), rotted
     write_asset("ek2lc_%s_%s_grave_01" % (S1, _c), NAME, "ek2lc_%s_grave_01" % _c, SET)
     if SEX == "female":
@@ -2696,7 +3103,44 @@ def preview_draugr():
     subprocess.run([MAGICK] + rows + ["-append", "-resize", "900x", os.path.join(PREV, "preview_draugr_%s.png" % S1)], check=True)
 
 
+def preview_layers():
+    """The new pieces. Top row (adult): leggings with the plain loincloth and the fur cloak, front, side, back.
+    Middle row (child): the tunic with the charms. Bottom row (child): the wrap skirt with the charms (and, on
+    girls, the chest band). Front, side (the +x side), back."""
+    co = scene.camera
+    mant = next(o for o in OBJS if o.name == MANTLE)
+    rows = []
+    for tag, child, show in (("adult", False, (NAME, BAND, LEGG, MANTLE)), ("tunic", True, (TUNIC, CHARM, LEGG)),
+                             ("skirt", True, (SKIRT, BAND, CHARM))):
+        for o in [body] + OBJS:
+            for kb in o.data.shape_keys.key_blocks[1:]:
+                kb.value = 1.0 if (child and kb.name == "infant") else 0.0
+        for o in OBJS:
+            o.hide_render = o.name not in show
+            if o.name in (NAME, BAND):
+                o.data.materials[0] = MATS[SET]
+        mant.data.materials[0] = MATS[ROBESET]
+        zt = max(p.z for p in COORDS["infant" if child else "basis"])
+        co.data.ortho_scale = zt + 6
+        target = Vector((0, center_y(HIP_Z), zt / 2))
+        shots = []
+        for ang in (0, 90, 180):
+            a = math.radians(ang)
+            co.location = target + (FRONT * math.cos(a) + RIGHT * math.sin(a)) * 300
+            co.rotation_euler = (target - co.location).to_track_quat("-Z", "Y").to_euler()
+            scene.render.filepath = os.path.join(PREV, "n_%s_%s_%d.png" % (S1, tag, ang))
+            bpy.ops.render.render(write_still=True)
+            shots.append(scene.render.filepath)
+        rows += ["("] + shots + ["+append", ")"]
+    for o in [body] + OBJS:
+        for kb in o.data.shape_keys.key_blocks[1:]:
+            kb.value = 0.0
+    mant.data.materials[0] = MATS[MSET]
+    subprocess.run([MAGICK] + rows + ["-append", "-resize", "900x", os.path.join(PREV, "preview_layers_%s.png" % S1)], check=True)
+
+
 preview()
+preview_layers()
 preview_royal()
 preview_mantle()
 preview_extras()

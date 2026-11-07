@@ -50,21 +50,39 @@ GRAVE_TAG = "ek2lc_grave"  # set by the grave wraps: the extras draw nothing
 LOINCLOTH_TAG = "ek2lc_loincloth"
 GIRDLE_TAG = "ek2lc_girdle"  # set by every piece of gene_ek2lc_war (war, armoured and royal girdles)
 MANTLE_TAG = "ek2lc_mantle"  # set by the emperor's mantle
+ROBE_TAG = "ek2lc_robe"  # set by the fur cloak (the mantle's mesh)
+TUNIC_TAG = "ek2lc_tunic"  # set by the children's tunic: the chest band draws nothing under it
+A14 = "scope:age >= 14\n\t\t\t\t"
+# gene -> (none template, [(kind, barbershop name, game rule incl. age)], row name, its "none" name, hiding tags, own tag)
 EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
-    ("trophy_1", "Trophy Belt: Two Trophies", "prowess >= 8\n\t\t\t\tprowess < 12"),
-    ("trophy_2", "Trophy Belt: Four Trophies", "prowess >= 12\n\t\t\t\tprowess < 16"),
-    ("trophy_3", "Trophy Belt: Four Trophies and Beads", "prowess >= 16")], "Trophy Belt", "No Trophy Belt", []),
+    ("trophy_1", "Trophy Belt: Two Trophies", A14 + "prowess >= 8\n\t\t\t\tprowess < 12"),
+    ("trophy_2", "Trophy Belt: Four Trophies", A14 + "prowess >= 12\n\t\t\t\tprowess < 16"),
+    ("trophy_3", "Trophy Belt: Four Trophies and Beads", A14 + "prowess >= 16")], "Trophy Belt", "No Trophy Belt", [], ""),
     # tournament fighters who have fought on foot (melee, wrestling, duels): one guard on the left shoulder
     "gene_ek2lc_arena": ("ek2lc_no_arena", [
         ("arena_guard", "Hide-and-Bone Shoulder Guard",
-         "has_trait = tourney_participant\n\t\t\t\thas_trait_xp = { trait = tourney_participant track = foot value > 0 }"),
+         A14 + "has_trait = tourney_participant\n\t\t\t\thas_trait_xp = { trait = tourney_participant track = foot value > 0 }"),
         ("lich_arena_guard", "Lich's Burial Shoulder Guard", None)],
-        "Shoulder Guard", "No Shoulder Guard", [MANTLE_TAG]),  # the mantle's collar covers that shoulder
+        "Shoulder Guard", "No Shoulder Guard", [MANTLE_TAG, ROBE_TAG], ""),  # the mantle's (and the cloak's) collar covers that shoulder
     # non-fighters who travel with an army (ek2lc_camp_follower_trigger); the sash sits where a girdle does
-    "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", "ek2lc_camp_follower_trigger = yes"),
+    "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", A14 + "ek2lc_camp_follower_trigger = yes"),
                                           ("lich_camp_wrap", "Lich's Burial Camp Wrap", None)],
-                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG]),
+                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG], ""),
+    # cold-weather layers (2026-11-06), kids from 4 too: hide leggings where it's cold, a fur cloak (the mantle's
+    # mesh) in winter; the emperor's mantle wins over the cloak
+    "gene_ek2lc_leggings": ("ek2lc_no_leggings", [("leggings", "Hide Leggings", "scope:age >= 4\n\t\t\t\tek2lc_cold_trigger = yes"),
+                                                  ("lich_leggings", "Lich's Burial Leggings", None)],
+                            "Leggings", "No Leggings", [], ""),
+    "gene_ek2lc_robe": ("ek2lc_no_robe", [("fur_robe", "Fur Cloak", "scope:age >= 4\n\t\t\t\tek2lc_winter_trigger = yes"),
+                                          ("lich_fur_robe", "Lich's Burial Fur Cloak", None)],
+                        "Fur Cloak", "No Fur Cloak", [MANTLE_TAG], ROBE_TAG),
+    # children 4-13: charm cords at the hips (quill-wrapped, cowrie shells, a tooth, fringe); a ruler's girdle hides them
+    "gene_ek2lc_charm": ("ek2lc_no_charm", [("kid_charm", "Quill, Shell and Tooth Charms", "scope:age >= 4\n\t\t\t\tscope:age <= 13"),
+                                            ("lich_kid_charm", "Lich's Burial Charms", None)],
+                         "Charms", "No Charms", [GIRDLE_TAG], ""),
 }
+# kinds added to a gene later: their templates go after every existing one, so saved characters keep theirs
+LATE = {"gene_ek2lc_loincloth": ["skirt", "tunic"]}  # girls' wrap skirt (7-13), children's tunic (4-6)
 
 
 def xacc(s, k):  # an extra's accessory: ek2lc_m_trophy_1_01
@@ -91,6 +109,8 @@ def gene_rows(gene):
     for c in ALL:
         if c not in EARLY:
             rows += [(tmpl(c, k), c, k) for k in kinds] + ([(tmpl(c, g), c, g)] if g else [])
+    for k in LATE.get(gene, []):
+        rows += [(tmpl(c, k), c, k) for c in ALL] + [(tmpl("lich", k), "lich", k)]
     return rows
 
 
@@ -161,27 +181,36 @@ def accessories():
     for gene in GENES:  # the undead's, after the cultures'
         for _, c, k in gene_rows(gene):
             for s in ("m", "f"):
-                if (c == "lich" or k in GRAVE.values()) and not (s == "m" and k in WOMEN_ONLY):
+                if (c == "lich" or k in GRAVE.values()) and not (s == "m" and k in WOMEN_ONLY) and k not in LATE.get(gene, []):
                     order.append((c, s, k))
+    for gene, kinds in LATE.items():  # later kinds, every culture and the lich's
+        for k in kinds:
+            order += [(c, s, k) for c in list(ALL) + ["lich"] for s in ("m", "f")]
+    loinc = GENES["gene_ek2lc_loincloth"][1] + LATE["gene_ek2lc_loincloth"]
     for c, s, k in order:
         a = acc(s, c, k)
-        tag = LOINCLOTH_TAG if k in GENES["gene_ek2lc_loincloth"][1] else GIRDLE_TAG if k in GENES["gene_ek2lc_war"][1] \
-            else MANTLE_TAG if k in GENES["gene_ek2lc_mantle"][1] else None
+        tag = [LOINCLOTH_TAG] if k in loinc else [GIRDLE_TAG] if k in GENES["gene_ek2lc_war"][1] \
+            else [MANTLE_TAG] if k in GENES["gene_ek2lc_mantle"][1] else []
         if k == "grave":
-            tag = LOINCLOTH_TAG + "," + GRAVE_TAG
-        elif c == "lich" and tag == LOINCLOTH_TAG:
-            tag += "," + LICH_TAG
-        tags = '\tset_tags = "%s"\n' % tag if tag else ""
-        out.append("%s = {\n%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}" % (a, tags, entity_name(a)))
-    for gene, (none, kinds, _, _, hide) in EXTRA.items():
+            tag = [LOINCLOTH_TAG, GRAVE_TAG]
+        elif c == "lich" and LOINCLOTH_TAG in tag:
+            tag.append(LICH_TAG)
+        if k == "tunic":
+            tag.append(TUNIC_TAG)
+        tags = '\tset_tags = "%s"\n' % ",".join(tag) if tag else ""
+        under = '\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % TUNIC_TAG if k in WOMEN_ONLY else ""
+        out.append("%s = {\n%s%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}"
+                   % (a, tags, under, entity_name(a)))
+    for gene, (none, kinds, _, _, hide, own) in EXTRA.items():
         for k, _, _ in kinds:
             for s in ("m", "f"):
                 a = xacc(s, k)
                 lich = entity_name(a if k.startswith("lich_") else xacc(s, "lich_" + k))
-                out.append("%s = {\n%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
+                out.append("%s = {\n" % a + ('\tset_tags = "%s"\n' % own if own else "") +
+                           "%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}"
-                           % (a, "".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide + [GRAVE_TAG]),
+                           % ("".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide + [GRAVE_TAG]),
                               LICH_TAG, lich, LOINCLOTH_TAG, entity_name(a)))
     for none in [n for n, _ in GENES.values()] + [x[0] for x in EXTRA.values()]:
         out.append("%s = {\n\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}" % none_acc(none))
@@ -318,22 +347,35 @@ ek2lc_loincloth = {
           for s, sex, fem, people in SEXES:
             top = (lambda k: T(k)) if s == "f" else (lambda k: None)
             base = ["\t\t\t\tis_female = %s" % fem]
-            com = base + [KIDS, culture_cond(cd, True), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no"]
+            rest = [culture_cond(cd, True), "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no"]
+            # the loincloth from 7 (boys) or 14 (women); younger children the tunic, girls 7-13 the wrap skirt (below)
+            com = base + ["\t\t\t\tscope:age >= %d" % (14 if s == "f" else 7)] + rest
             if look != "hide":
                 pass
             elif s == "f" and cd.get("bare_f"):
-                out.extend(with_lich(c, "ek2lc_%s_hide_f" % c, "%s women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: "
+                out.extend(with_lich(c, "ek2lc_%s_hide_f" % c, "%s women (14+) who are commoners: the loincloth and the chest band; adult women only: "
                                     "while \"Show nudity\" is on, one in three goes bare-chested (next modifier)." % adj,
                                     (T("hide"), T("band"), None, None),
-                                    [(100, com + ["\t\t\t\tshould_show_nudity = no"]), (60, com + ["\t\t\t\tshould_show_nudity = yes"])]))  # girls: 60 here, 0 for bare
+                                    [(100, com + ["\t\t\t\tshould_show_nudity = no"]), (60, com + ["\t\t\t\tshould_show_nudity = yes"])]))  # teens under 16: 60 here, 0 for bare
                 out.extend(with_lich(c, "ek2lc_%s_hide_f_bare" % c, "Adult %s women who are commoners, bare-chested, only while \"Show nudity\" is on." % adj,
                                     (T("hide"), None, None, None), [(30, com + ["\t\t\t\tis_adult = yes", "\t\t\t\tshould_show_nudity = yes"])]))
             else:
-                out.extend(with_lich(c, "ek2lc_%s_hide_%s" % (c, s), "%s %s and children (4+) who are commoners%s. EK2's commoner rule already leaves out armour."
-                                    % (adj, people, ": the loincloth and always the chest band" if s == "f" else ""),
+                out.extend(with_lich(c, "ek2lc_%s_hide_%s" % (c, s), "%s %s (%s) who are commoners%s. EK2's commoner rule already leaves out armour."
+                                    % (adj, people, "14+" if s == "f" else "and boys 7+", ": the loincloth and always the chest band" if s == "f" else ""),
                                     (T("hide"), top("band"), None, None), [(100, com)]))
             cul = culture_cond(cd, False)
             if look == "hide":
+                # children's dress (2026-11-06, from the history of tribal children's clothing): a hide tunic at 4-6,
+                # and for girls 7-13 a wrap skirt, always with the chest band
+                out.extend(with_lich(c, "ek2lc_%s_tunic_%s" % (c, s), "%s %s aged 4-6 who are commoners: a sleeveless hide tunic "
+                                    "over a wrap skirt, instead of the loincloth." % (adj, "girls" if s == "f" else "boys"),
+                                    (T("tunic"), None, None, None),
+                                    [(100, base + ["\t\t\t\tscope:age >= 4", "\t\t\t\tscope:age <= 6"] + rest)]))
+                if s == "f":
+                    out.extend(with_lich(c, "ek2lc_%s_skirt_f" % c, "%s girls aged 7-13 who are commoners: the hide wrap skirt "
+                                        "and always the chest band, instead of the loincloth." % adj,
+                                        (T("skirt"), T("band"), None, None),
+                                        [(100, base + ["\t\t\t\tscope:age >= 7", "\t\t\t\tscope:age <= 13"] + rest)]))
                 out.extend(with_lich(c, "ek2lc_%s_camp_%s" % (c, s), "%s %s (14+) who follow an army without fighting (ek2lc_camp_follower_trigger): the plain "
                                     "loincloth%s, under the camp follower's wrap. EK2 dresses an adventurer's camp as low nobility, "
                                     "so the commoner rule alone would miss them." % (adj, people, " and the chest band" if s == "f" else ""),
@@ -394,7 +436,6 @@ ek2lc_loincloth = {
 			base = 0
 			modifier = {
 				add = 1000
-				scope:age >= 14
 				%s
 			}
 		}
@@ -417,13 +458,14 @@ def piece_name(cd, k):
             "band": "%s %s Chest Band" % (a, m), "band_fine": "%s Fine Chest Band" % a, "band_royal": "%s Royal Chest Band" % a,
             "war": "%s War Girdle with Trophies" % a, "armour": "%s %s Strip Skirt" % (a, cd["lames"]),
             "duke": "%s Ducal Girdle with Apron" % a, "king": "%s Royal Girdle with Long Aprons" % a,
-            "emperor": "%s Imperial Girdle in %s" % (a, cd["metal"]), "mantle": "%s Imperial %s Mantle" % (a, cd["mantle"])}[k]
+            "emperor": "%s Imperial Girdle in %s" % (a, cd["metal"]), "mantle": "%s Imperial %s Mantle" % (a, cd["mantle"]),
+            "skirt": "%s %s Wrap Skirt" % (a, m), "tunic": "%s %s Tunic" % (a, m)}[k]
 
 
 LICH_PIECES = {"hide": "Loincloth", "fine": "Fine Loincloth", "royal": "Royal Loincloth", "band": "Chest Band",
                "band_fine": "Fine Chest Band", "band_royal": "Royal Chest Band", "war": "War Girdle with Trophies",
                "armour": "Strip Skirt", "duke": "Ducal Girdle with Apron", "king": "Royal Girdle with Long Aprons",
-               "emperor": "Imperial Girdle", "mantle": "Imperial Mantle"}
+               "emperor": "Imperial Girdle", "mantle": "Imperial Mantle", "skirt": "Wrap Skirt", "tunic": "Tunic"}
 
 
 def row_name(c, k):
@@ -462,7 +504,7 @@ def barbershop():
             else:
                 loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, m, row_name(c, k)))
                 loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, f, grp, m))
-    for pos, (gene, (none, kinds, title, none_title, _)) in enumerate(EXTRA.items(), start=13):
+    for pos, (gene, (none, kinds, title, none_title, *_)) in enumerate(EXTRA.items(), start=13):
         grp = "ek2lc_custom_" + gene.replace("gene_ek2lc_", "")
         out += ["%s = {" % grp, "\tusage = customization", "\tinterface_position = %d" % pos, "\tpriority = 102", ""]
         for tm in [none] + ["ek2lc_" + k for k, _, _ in kinds]:

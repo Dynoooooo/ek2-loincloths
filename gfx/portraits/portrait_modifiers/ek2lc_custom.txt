@@ -168,6 +168,86 @@ ek2lc_custom_loincloth = {
 		gene = gene_ek2lc_loincloth
 		template = ek2lc_lilmothiit_grave
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_reach_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_ashlander_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_bosmer_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_argonian_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_khajiit_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_orc_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_goblin_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_kothringi_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_lilmothiit_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_lich_skirt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_reach_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_ashlander_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_bosmer_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_argonian_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_khajiit_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_orc_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_goblin_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_kothringi_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_lilmothiit_tunic
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_loincloth
+		template = ek2lc_lich_tunic
+	}
 }
 
 ek2lc_custom_top = {
@@ -697,5 +777,62 @@ ek2lc_custom_camp = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_camp
 		template = ek2lc_lich_camp_wrap
+	}
+}
+
+ek2lc_custom_leggings = {
+	usage = customization
+	interface_position = 16
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_leggings
+		template = ek2lc_no_leggings
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_leggings
+		template = ek2lc_leggings
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_leggings
+		template = ek2lc_lich_leggings
+	}
+}
+
+ek2lc_custom_robe = {
+	usage = customization
+	interface_position = 17
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_robe
+		template = ek2lc_no_robe
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_robe
+		template = ek2lc_fur_robe
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_robe
+		template = ek2lc_lich_fur_robe
+	}
+}
+
+ek2lc_custom_charm = {
+	usage = customization
+	interface_position = 18
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_charm
+		template = ek2lc_no_charm
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_charm
+		template = ek2lc_kid_charm
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_charm
+		template = ek2lc_lich_kid_charm
 	}
 }

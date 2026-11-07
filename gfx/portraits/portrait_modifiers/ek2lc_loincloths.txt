@@ -39,7 +39,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Reach men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_reach_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -96,7 +96,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
@@ -171,7 +171,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_reach_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_reach_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_reach_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
@@ -329,7 +478,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Reach women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Reach women (14+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_reach_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -386,7 +535,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
@@ -461,7 +610,305 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_reach_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_reach_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_reach_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Reach girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_reach_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_reach_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_reach_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_reach
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_reach_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_reach_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_reach
 				}
@@ -2467,7 +2914,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Ashlander men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Ashlander men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_ashlander_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -2524,7 +2971,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_ashlander
 				}
@@ -2599,7 +3046,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_ashlander_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_ashlander_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_ashlander_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_ashlander
 				}
@@ -2757,7 +3353,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Ashlander women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Ashlander women (14+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_ashlander_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -2814,7 +3410,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_ashlander
 				}
@@ -2889,7 +3485,305 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_ashlander_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_ashlander_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_ashlander_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Ashlander girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_ashlander_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_ashlander_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_ashlander_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_ashlander
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_ashlander_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_ashlander_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_ashlander
 				}
@@ -4895,7 +5789,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Bosmer men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Bosmer men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_bosmer_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -4952,7 +5846,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_bosmeri
 				}
@@ -5027,7 +5921,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_bosmer_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_bosmer_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_bosmer_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_bosmeri
 				}
@@ -5185,7 +6228,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Bosmer women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Bosmer women (14+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_bosmer_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -5242,7 +6285,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_bosmeri
 				}
@@ -5317,7 +6360,305 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_bosmer_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_bosmer_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_bosmer_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Bosmer girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_bosmer_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_bosmer_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_bosmer_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_bosmeri
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_bosmer_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_bosmer_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_bosmeri
 				}
@@ -7323,7 +8664,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Argonian men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Argonian men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_argonian_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -7380,7 +8721,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7455,7 +8796,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_argonian_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_argonian_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_argonian_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7613,7 +9103,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Argonian women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	# Argonian women (14+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
 	ek2lc_argonian_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -7670,7 +9160,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7685,7 +9175,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7761,7 +9251,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7777,7 +9267,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7850,7 +9340,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7927,7 +9417,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
 				}
@@ -7935,6 +9425,304 @@ ek2lc_loincloth = {
 				ek2lc_war_role_trigger = no
 				is_adult = yes
 				should_show_nudity = yes
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_argonian_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_argonian_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_argonian_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Argonian girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_argonian_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_argonian_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_argonian_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_argonian_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_argonian_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_argonian
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -10010,7 +11798,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Khajiiti men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Khajiiti men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_khajiit_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -10067,7 +11855,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				OR = {
 					portrait_commoner_clothing_trigger = {
 						CULTURE_INPUT = ek_anequinan
@@ -10147,7 +11935,166 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_khajiit_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_khajiit_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_khajiit_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				OR = {
 					portrait_commoner_clothing_trigger = {
 						CULTURE_INPUT = ek_anequinan
@@ -10316,7 +12263,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Khajiiti women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Khajiiti women (14+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_khajiit_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -10373,7 +12320,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				OR = {
 					portrait_commoner_clothing_trigger = {
 						CULTURE_INPUT = ek_anequinan
@@ -10453,7 +12400,325 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_khajiit_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				scope:age >= 4
+				scope:age <= 6
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_khajiit_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_khajiit_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Khajiiti girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_khajiit_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_khajiit_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_khajiit_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				OR = {
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_anequinan
+					}
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_pellitinian
+					}
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_khajiit_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_khajiit_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
 				OR = {
 					portrait_commoner_clothing_trigger = {
 						CULTURE_INPUT = ek_anequinan
@@ -12548,7 +14813,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Orcish men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Orcish men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_orc_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -12605,7 +14870,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_orc
 				}
@@ -12680,7 +14945,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_orc
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Orcish boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_orc_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_orc_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_orc
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_orc_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_orc_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_orc
 				}
@@ -12838,7 +15252,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Orcish women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Orcish women (14+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_orc_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -12895,7 +15309,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_orc
 				}
@@ -12970,7 +15384,305 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_orc
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Orcish girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_orc_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_orc_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_orc
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_orc_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_orc_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_orc
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Orcish girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_orc_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_orc_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_orc_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_orc
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_orc_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_orc_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_orc
 				}
@@ -14976,7 +17688,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Goblin men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Goblin men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_goblin_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -15033,7 +17745,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_goblin
 				}
@@ -15108,7 +17820,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_goblin
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Goblin boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_goblin_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_goblin_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_goblin
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_goblin_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_goblin_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_goblin
 				}
@@ -15266,7 +18127,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Goblin women and children (4+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
+	# Goblin women (14+) who are commoners: the loincloth and always the chest band. EK2's commoner rule already leaves out armour.
 	ek2lc_goblin_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -15323,7 +18184,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_goblin
 				}
@@ -15398,7 +18259,305 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
+				scope:age >= 14
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_goblin
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Goblin girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_goblin_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_goblin_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_goblin
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_goblin_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_goblin_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_goblin
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Goblin girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_goblin_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_goblin_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_goblin_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_goblin
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_goblin_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_goblin_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_goblin
 				}
@@ -17404,7 +20563,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Kothringi men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Kothringi men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_kothringi_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -17461,7 +20620,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -17536,7 +20695,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_south
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Kothringi boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_kothringi_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_kothringi_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_south
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_kothringi_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_kothringi_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -17694,7 +21002,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Kothringi women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	# Kothringi women (14+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
 	ek2lc_kothringi_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -17751,7 +21059,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -17766,7 +21074,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -17842,7 +21150,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -17858,7 +21166,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -17931,7 +21239,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -18008,7 +21316,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
 				}
@@ -18016,6 +21324,304 @@ ek2lc_loincloth = {
 				ek2lc_war_role_trigger = no
 				is_adult = yes
 				should_show_nudity = yes
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Kothringi girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_kothringi_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_kothringi_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_south
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_kothringi_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_kothringi_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_south
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Kothringi girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_kothringi_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_kothringi_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_kothringi_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_south
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_kothringi_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_kothringi_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_nedic_south
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -20091,7 +23697,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Lilmothiit men and children (4+) who are commoners. EK2's commoner rule already leaves out armour.
+	# Lilmothiit men (and boys 7+) who are commoners. EK2's commoner rule already leaves out armour.
 	ek2lc_lilmothiit_hide_m = {
 		dna_modifiers = {
 			morph = {
@@ -20148,7 +23754,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
-				scope:age >= 4
+				scope:age >= 7
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20223,7 +23829,156 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = no
+				scope:age >= 7
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_lilmothiit
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Lilmothiit boys aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_lilmothiit_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lilmothiit_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
 				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_lilmothiit
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_lilmothiit_tunic_m: the same, for liches (lich's burial regalia).
+	ek2lc_lich_lilmothiit_tunic_m = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = no
+				scope:age >= 4
+				scope:age <= 6
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20381,7 +24136,7 @@ ek2lc_loincloth = {
 		}
 	}
 
-	# Lilmothiit women and girls (4+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
+	# Lilmothiit women (14+) who are commoners: the loincloth and the chest band; adult women only: while "Show nudity" is on, one in three goes bare-chested (next modifier).
 	ek2lc_lilmothiit_hide_f = {
 		dna_modifiers = {
 			morph = {
@@ -20438,7 +24193,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20453,7 +24208,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20529,7 +24284,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 100
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20545,7 +24300,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 60
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20618,7 +24373,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20695,7 +24450,7 @@ ek2lc_loincloth = {
 			modifier = {
 				add = 30
 				is_female = yes
-				scope:age >= 4
+				scope:age >= 14
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
 				}
@@ -20703,6 +24458,304 @@ ek2lc_loincloth = {
 				ek2lc_war_role_trigger = no
 				is_adult = yes
 				should_show_nudity = yes
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Lilmothiit girls aged 4-6 who are commoners: a sleeveless hide tunic over a wrap skirt, instead of the loincloth.
+	ek2lc_lilmothiit_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lilmothiit_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_lilmothiit
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_lilmothiit_tunic_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_lilmothiit_tunic_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_tunic
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_no_top
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 4
+				scope:age <= 6
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_lilmothiit
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				ek2lc_lich_look_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Lilmothiit girls aged 7-13 who are commoners: the hide wrap skirt and always the chest band, instead of the loincloth.
+	ek2lc_lilmothiit_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lilmothiit_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lilmothiit_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_lilmothiit
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0  # EK2's undead: the lich twin below, or the grave wrap
+				ek2lc_undead_look_trigger = yes
+			}
+		}
+	}
+
+	# Lich twin of ek2lc_lilmothiit_skirt_f: the same, for liches (lich's burial regalia).
+	ek2lc_lich_lilmothiit_skirt_f = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_loincloth
+				template = ek2lc_lich_skirt
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_top
+				template = ek2lc_lich_band
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_war
+				template = ek2lc_no_war
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_mantle
+				template = ek2lc_no_mantle
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				is_female = yes
+				scope:age >= 7
+				scope:age <= 13
+				portrait_commoner_clothing_trigger = {
+					CULTURE_INPUT = ek_lilmothiit
+				}
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -22938,6 +26991,129 @@ ek2lc_camp = {
 				add = 1000
 				scope:age >= 14
 				ek2lc_camp_follower_trigger = yes
+			}
+		}
+	}
+
+}
+
+# gene_ek2lc_leggings: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_leggings = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_leggings_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_leggings
+				template = ek2lc_no_leggings
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_leggings = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_leggings
+				template = ek2lc_leggings
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				scope:age >= 4
+				ek2lc_cold_trigger = yes
+			}
+		}
+	}
+
+}
+
+# gene_ek2lc_robe: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_robe = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_robe_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_robe
+				template = ek2lc_no_robe
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_fur_robe = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_robe
+				template = ek2lc_fur_robe
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				scope:age >= 4
+				ek2lc_winter_trigger = yes
+			}
+		}
+	}
+
+}
+
+# gene_ek2lc_charm: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_charm = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_charm_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_charm
+				template = ek2lc_no_charm
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_kid_charm = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_charm
+				template = ek2lc_kid_charm
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				scope:age >= 4
+				scope:age <= 13
 			}
 		}
 	}

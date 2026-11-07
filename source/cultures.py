@@ -119,10 +119,12 @@ KINDS = {
     "war": ("war", "war"), "armour": ("armour", "armour"),
     "duke": ("duke", "duke"), "king": ("king", "king"), "emperor": ("king", "emperor"),
     "mantle": ("mantle", "mantle"),
+    "skirt": ("skirt", "hide"), "tunic": ("tunic", "hide"),  # girls' wrap skirt, children's tunic: the plain hide's areas
 }
 # texture set each kind's diffuse comes from (the band shares the loincloth's sets)
 TEX_OF = {"hide": "hide", "fine": "fine", "royal": "royal", "band": "hide", "band_fine": "fine", "band_royal": "royal",
-          "war": "war", "armour": "armour", "duke": "duke", "king": "king", "emperor": "emperor", "mantle": "mantle"}
+          "war": "war", "armour": "armour", "duke": "duke", "king": "king", "emperor": "emperor", "mantle": "mantle",
+          "skirt": "hide", "tunic": "hide"}
 
 # EK2's liches (trait lich_character) wear their rank's pieces in these burial colours, whatever their
 # culture: one texture set per piece type (ek2lc_lich_<kind>_01), then undead.lich_finish() over it.

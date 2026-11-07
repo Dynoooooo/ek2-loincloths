@@ -86,3 +86,37 @@ ek2lc_undead_look_trigger = {
 		ek2lc_grave_look_trigger = yes
 	}
 }
+
+# Cold places, for the hide leggings: Skyrim and the Reach always; anywhere in winter or on cold ground
+# (as EK2 dresses its Nords for the cold: has_winter_trigger, tundra, taiga, mountains).
+ek2lc_cold_trigger = {
+	exists = location
+	location = {
+		OR = {
+			geographical_region = mundus_tamriel_skyrim
+			geographical_region = mundus_tamriel_reach
+			has_winter_trigger = yes
+			terrain = tundra
+			terrain = taiga
+			terrain = mountains
+		}
+	}
+}
+
+# Winter, for the fur cloak over them: winter in Skyrim and the Reach, a harsh winter anywhere, or tundra.
+ek2lc_winter_trigger = {
+	exists = location
+	location = {
+		OR = {
+			AND = {
+				has_winter_trigger = yes
+				OR = {
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_reach
+				}
+			}
+			has_province_modifier = winter_harsh_modifier
+			terrain = tundra
+		}
+	}
+}
