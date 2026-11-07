@@ -45,6 +45,8 @@ GRAVE_TAG = "ek2lc_grave"  # set by the grave wraps: the extras draw nothing
 # loincloths is worn (LOINCLOTH_TAG) and none of their hiding tags is set, so the game rule needs no
 # culture or look: anyone 14+ qualifies, and EK2 clothes simply hide nothing. Over a grave wrap
 # (GRAVE_TAG) they draw nothing; over a lich's loincloth (LICH_TAG), their lich version.
+# A kind whose game rule is None is a barbershop-only choice (no game modifier). "lich_<kind>" draws the
+# lich version always: a third choice, because the barbershop hides a row with one choice besides the worn one.
 LOINCLOTH_TAG = "ek2lc_loincloth"
 GIRDLE_TAG = "ek2lc_girdle"  # set by every piece of gene_ek2lc_war (war, armoured and royal girdles)
 MANTLE_TAG = "ek2lc_mantle"  # set by the emperor's mantle
@@ -55,10 +57,12 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     # tournament fighters who have fought on foot (melee, wrestling, duels): one guard on the left shoulder
     "gene_ek2lc_arena": ("ek2lc_no_arena", [
         ("arena_guard", "Hide-and-Bone Shoulder Guard",
-         "has_trait = tourney_participant\n\t\t\t\thas_trait_xp = { trait = tourney_participant track = foot value > 0 }")],
+         "has_trait = tourney_participant\n\t\t\t\thas_trait_xp = { trait = tourney_participant track = foot value > 0 }"),
+        ("lich_arena_guard", "Lich's Burial Shoulder Guard", None)],
         "Shoulder Guard", "No Shoulder Guard", [MANTLE_TAG]),  # the mantle's collar covers that shoulder
     # non-fighters who travel with an army (ek2lc_camp_follower_trigger); the sash sits where a girdle does
-    "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", "ek2lc_camp_follower_trigger = yes")],
+    "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", "ek2lc_camp_follower_trigger = yes"),
+                                          ("lich_camp_wrap", "Lich's Burial Camp Wrap", None)],
                         "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG]),
 }
 
@@ -73,6 +77,10 @@ def tmpl(c, kind):  # gene template; the Reach's plain loincloth was named "hide
 
 def acc(s, c, kind):
     return "ek2lc_%s_%s_%s_01" % (s, c, kind)
+
+
+def none_acc(none):  # "no X": a piece that draws nothing, so the barbershop row reads "No X (Default)", not "None"
+    return none + "_01"
 
 
 def gene_rows(gene):
@@ -108,8 +116,8 @@ special_genes = {
         out.append("\t\t%s = {" % gene)
         rows = [(none, None, None)] + gene_rows(gene)
         for i, (t, c, k) in enumerate(rows):
-            m = "empty" if c is None or k in WOMEN_ONLY else acc("m", c, k)
-            f = "empty" if c is None else acc("f", c, k)
+            m = none_acc(none) if c is None else "empty" if k in WOMEN_ONLY else acc("m", c, k)
+            f = none_acc(none) if c is None else acc("f", c, k)
             out.append("""			%s = {
 				index = %d
 				male = { 1 = %s }
@@ -121,7 +129,7 @@ special_genes = {
     for gene, (none, kinds, *_) in EXTRA.items():
         out.append("\t\t%s = {" % gene)
         for i, k in enumerate([None] + [k for k, _, _ in kinds]):
-            m, f = ("empty", "empty") if k is None else (xacc("m", k), xacc("f", k))
+            m, f = (none_acc(none), none_acc(none)) if k is None else (xacc("m", k), xacc("f", k))
             out.append("""			%s = {
 				index = %d
 				male = { 1 = %s }
@@ -169,11 +177,14 @@ def accessories():
         for k, _, _ in kinds:
             for s in ("m", "f"):
                 a = xacc(s, k)
+                lich = entity_name(a if k.startswith("lich_") else xacc(s, "lich_" + k))
                 out.append("%s = {\n%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}"
                            % (a, "".join('\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % h for h in hide + [GRAVE_TAG]),
-                              LICH_TAG, entity_name(xacc(s, "lich_" + k)), LOINCLOTH_TAG, entity_name(a)))
+                              LICH_TAG, lich, LOINCLOTH_TAG, entity_name(a)))
+    for none in [n for n, _ in GENES.values()] + [x[0] for x in EXTRA.values()]:
+        out.append("%s = {\n\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso }\n}" % none_acc(none))
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
 
@@ -376,7 +387,7 @@ ek2lc_loincloth = {
 		}
 	}
 """ % (gene, g, g, dna([(gene, none)])))
-        for k, _, rule in kinds:
+        for k, _, rule in [x for x in kinds if x[2] is not None]:
             out.append("""	%s = {
 %s
 		weight = {
@@ -443,6 +454,7 @@ def barbershop():
         loc.append(' PORTRAIT_MODIFIER_%s_none: "%s"' % (grp, none))
         for s in ("male", "female", "boy", "girl"):
             loc.append(' PORTRAIT_MODIFIER_%s_%s_empty: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, s, grp))
+        loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, none_acc(none_t), grp))
         for _, c, k in rows:
             m, f = acc("m", c, k), acc("f", c, k)
             if k in WOMEN_ONLY:
@@ -460,6 +472,7 @@ def barbershop():
         loc.append(' PORTRAIT_MODIFIER_%s_none: "%s"' % (grp, none_title))
         for s in ("male", "female", "boy", "girl"):
             loc.append(' PORTRAIT_MODIFIER_%s_%s_empty: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, s, grp))
+        loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, none_acc(none), grp))
         for k, name, _ in kinds:
             loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, xacc("m", k), name))
             loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, xacc("f", k), grp, xacc("m", k)))

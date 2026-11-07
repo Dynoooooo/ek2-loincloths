@@ -675,6 +675,10 @@ ek2lc_custom_arena = {
 		gene = gene_ek2lc_arena
 		template = ek2lc_arena_guard
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_arena
+		template = ek2lc_lich_arena_guard
+	}
 }
 
 ek2lc_custom_camp = {
@@ -689,5 +693,9 @@ ek2lc_custom_camp = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_camp
 		template = ek2lc_camp_wrap
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_camp
+		template = ek2lc_lich_camp_wrap
 	}
 }
