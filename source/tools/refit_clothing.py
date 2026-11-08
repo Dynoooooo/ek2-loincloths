@@ -8,6 +8,7 @@ import os
 import sys
 import numpy as np
 import bpy
+import bmesh
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 from mathutils.kdtree import KDTree
@@ -86,7 +87,7 @@ def resume(sex):
                 ORIGINAL[name]['Basis']=data[key].astype(float)
             elif shape!='bones':
                 label='Basis' if shape=='basis' else shape
-                if label!='Basis':ORIGINAL[name][label]-=data[key]
+                if label!='Basis' and label in ORIGINAL[name]:ORIGINAL[name][label]-=data[key]
 
 
 def fit_weights(name, iterations=180, cap=0.8, hands=False, layers=()):
@@ -513,6 +514,15 @@ def save_corrections():
             data[name + '|weights'] = weights(obj).astype(np.float32)
             data[name + '|bones'] = np.array(BONES)
             data[name + '|original'] = original['Basis'].astype(np.float32)
+        if len(obj.data.vertices)!=len(original['Basis']):
+            assert all(len(p.vertices)==3 for p in obj.data.polygons),'Fitted topology must be triangulated'
+            data[name+'|mesh_faces']=np.array([p.vertices[:] for p in obj.data.polygons],np.int32)
+            data[name+'|mesh_uv']=np.array([[obj.data.uv_layers[0].data[i].uv[:] for i in p.loop_indices]
+                                           for p in obj.data.polygons],np.float32)
+            for key in obj.data.shape_keys.key_blocks:
+                data[name+'|full_'+key.name.lower()]=coords(obj,key.name).astype(np.float32)
+            data[name+'|original']=original['Basis'].astype(np.float32)
+            continue
         for shape, before in original.items():
             d = coords(obj, shape) - before
             if np.max(np.abs(d)) > 1e-5:
@@ -554,6 +564,14 @@ def export_changed(only=None):
             continue
         for key in obj.data.shape_keys.key_blocks:
             key.value = 0
+        # Choose the diagonals once on the basis. Letting the exporter choose
+        # again for each morph can change vertex ordering at a bent quad.
+        bm = bmesh.new()
+        bm.from_mesh(obj.data)
+        bmesh.ops.triangulate(bm, faces=list(bm.faces))
+        bm.to_mesh(obj.data)
+        bm.free()
+        obj.data.update()
         emit(obj, out + '/' + name + '.mesh')
         node = obj.data.name
         obj.data.name = node + '_base'

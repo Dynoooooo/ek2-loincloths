@@ -18,8 +18,19 @@ def apply(pieces, sex, source, bone_names):
             assert before.shape == data[key].shape and np.max(np.abs(before-data[key])) < 0.002, (
                 'Geometry changed since Blender fitting: ' + name + '; refit before exporting')
         for key in data.files:
+            if not key.endswith('|mesh_faces'):
+                continue
+            name=key.split('|')[0];pc=pcs[name]
+            pc['faces']=data[key].tolist()
+            pc['loop_uvs']=data[name+'|mesh_uv'].tolist()
+            pc['uvs']=[(0,0)]*len(data[name+'|full_basis'])
+            pc['wrap']=set();pc['wrap_u']={};pc['orient']=[]
+            pc['part']=['fitted']*len(pc['faces'])
+            pc['pos']={k.split('|full_')[1]:[Vector(p) for p in data[k]]
+                       for k in data.files if k.startswith(name+'|full_')}
+        for key in data.files:
             name, shape = key.split('|')
-            if shape in ('original', 'bones'):
+            if shape in ('original', 'bones','mesh_faces','mesh_uv') or shape.startswith('full_'):
                 continue
             pc = pcs[name]
             if shape == 'weights':

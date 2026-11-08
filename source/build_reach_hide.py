@@ -2181,12 +2181,14 @@ def finish_piece(pc):
             bmesh.ops.reverse_faces(bm, faces=fs)
     uvl = bm.loops.layers.uv.new("map1")
     for f in bm.faces:
-        for l in f.loops:
-            u, v = pc["uvs"][l.vert.index]
+        for corner, l in enumerate(f.loops):
+            u, v = pc["loop_uvs"][f.index][corner] if "loop_uvs" in pc else pc["uvs"][l.vert.index]
             if f.index in pc["wrap"] and l.vert.index in pc["wrap_u"]:
                 u = pc["wrap_u"][l.vert.index]
             l[uvl].uv = (u, v)
         f.smooth = True
+    # All morphs must use the basis mesh's diagonals and vertex order.
+    bmesh.ops.triangulate(bm, faces=list(bm.faces))
     bm.to_mesh(me)
     bm.free()
     me.update()
@@ -3488,7 +3490,7 @@ for obj, data in [(body, COORDS)] + [(o, pc["pos"]) for o, pc in zip(OBJS, PIECE
         for i, c in enumerate(data[s]):
             kb.data[i].co = WI @ c
         kb.value = 0.0  # new keys start at 1.0 in this Blender; all on at once is a body the game never makes
-_version = 'v02' if os.path.exists(os.path.join(SRC, 'fitting_' + SEX + '.npz')) else 'v01'
+_version = 'v03' if os.path.exists(os.path.join(SRC, 'fitting_' + SEX + '.npz')) else 'v01'
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_%s_%s.blend" % (S1, _version)))
 
 
