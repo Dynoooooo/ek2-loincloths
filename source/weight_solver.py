@@ -106,6 +106,18 @@ class Problem:
                 gX[v] += lam.get("stick", 0.0) * 2 * e * np.array(nor)
             elif sd > m + 4.0 and (self.stick is None or sd < self.stick[v] - 4.0):
                 p["skip"][v] = 6  # far from both limits: look again in a few iterations
+        # Optional surface samples for direct fitting in Blender. Vertex-only contact
+        # misses a thigh or knee passing through the middle of a broad cloth quad.
+        for ids in getattr(self, 'surface_faces', ()):
+            x = Vector(X[ids].mean(axis=0))
+            loc, nor, fi, d = obst.find_nearest(x, 8.0)
+            if loc is None:
+                continue
+            e = float(self.margin[ids].mean()) - (x - loc).dot(nor)
+            if e > 0:
+                E['pen'] += lam['pen'] * wpose * e * e
+                g = -lam['pen'] * wpose * 2 * e * np.array(nor) / len(ids)
+                gX[ids] += g
 
     def energy_grad(self, lam, full=False):
         W = self.W

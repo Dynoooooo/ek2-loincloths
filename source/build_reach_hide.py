@@ -3407,6 +3407,8 @@ _fr = np.array([any(g in _CLOAKB for g, w in ws) for ws in _pc["vw"]])
 solve_piece(_pc, _fr, 1.3, allowed_fn=_cape_allowed)
 print("SOLVE done in %.0fs" % (time.time() - _t))
 
+import fitting
+fitting.apply(PIECES, SEX, SRC, VG)
 OBJS = [finish_piece(pc) for pc in PIECES]
 
 # the trophies must not cut through the pieces they're worn with: closest trophy point to each
@@ -3486,7 +3488,8 @@ for obj, data in [(body, COORDS)] + [(o, pc["pos"]) for o, pc in zip(OBJS, PIECE
         for i, c in enumerate(data[s]):
             kb.data[i].co = WI @ c
         kb.value = 0.0  # new keys start at 1.0 in this Blender; all on at once is a body the game never makes
-bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_%s_v01.blend" % S1))
+_version = 'v02' if os.path.exists(os.path.join(SRC, 'fitting_' + SEX + '.npz')) else 'v01'
+bpy.ops.wm.save_as_mainfile(filepath=os.path.join(SRC, "reach_hide_%s_%s.blend" % (S1, _version)))
 
 
 # ------------------------------------------------------------------ preview render (Blender, not the game)

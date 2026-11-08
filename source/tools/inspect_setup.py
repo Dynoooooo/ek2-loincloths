@@ -104,9 +104,16 @@ def build_scene(sex):
             path = "%s/ek2lc_%s_%s_01.mesh" % (OUT, s1, p)
             if not os.path.exists(path):
                 continue
-            for o in _import(path):
+            imported = _import(path)
+            for o in imported:
                 if o.type != 'MESH':
                     continue
+                # The exporter can include unused sleeve bones added by animation
+                # imports. It then creates a new rig instead of reusing the body's.
+                # All pieces must follow the one inspected body rig by bone name.
+                for modifier in o.modifiers:
+                    if modifier.type == 'ARMATURE':
+                        modifier.object = rig
                 o.name = "ek2lc_%s_%s_01" % (s1, p)
                 _texture(o, tset)
                 cn = "%s_%s" % (s1.upper(), p)
@@ -116,6 +123,9 @@ def build_scene(sex):
                 for uc in list(o.users_collection):
                     uc.objects.unlink(o)
                 c.objects.link(o)
+            for o in imported:
+                if o.type == 'ARMATURE' and o is not rig:
+                    bpy.data.objects.remove(o, do_unlink=True)
         _add_bones(rig, ["bn_l_sleeve", "bn_r_sleeve"])
         rig.animation_data_create()
         for a in ANIMS:

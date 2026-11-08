@@ -20,7 +20,7 @@ GAME = os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/
 def _run(sexes):
     for sex in sexes:
         log = os.path.join(MOD, "source/build_logs/build_%s.log" % sex)
-        for m in ("cultures", "colour", "undead", "weight_solver"):  # the build's own modules: re-read them every run
+        for m in ("cultures", "colour", "undead", "weight_solver", "fitting"):  # re-read build modules every run
             sys.modules.pop(m, None)
         saved = sys.stdout, sys.stderr, sys.argv
         ok = True
