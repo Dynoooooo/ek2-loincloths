@@ -26,6 +26,10 @@ def _mat(name, rgb, rough=0.5):
 
 
 def render(log):
+    if os.path.exists(os.path.join(SRC, "maker_1_src.png")):
+        # 2026-11-09: the user made better icons (source/textures/icons/maker_*_src.png); they are in the game files now
+        log.write("hand-made icons in use (maker_*_src.png): nothing rendered or overwritten\n")
+        return
     sc = bpy.context.scene
     o = sc.objects["ek2lc_m_wedding_wrap_01"]
     for m in o.modifiers:
