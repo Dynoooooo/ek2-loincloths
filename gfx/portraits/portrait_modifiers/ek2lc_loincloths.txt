@@ -41153,6 +41153,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_ragged_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41178,6 +41179,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_mourning_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41203,6 +41205,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_wedding_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41228,6 +41231,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_festival_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41253,6 +41257,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_werewolf_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41278,6 +41283,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_sailor_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41303,6 +41309,7 @@ ek2lc_wrap = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				ek2lc_lich_look_trigger = no  # liches keep their burial loincloth
 				ek2lc_wrap_elder_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -41455,6 +41462,1332 @@ ek2lc_tabard = {
 				OR = {
 					government_has_flag = government_is_holy_order
 					liege ?= { government_has_flag = government_is_holy_order }
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+}
+
+# The new loincloth peoples (2026-11-09). Written by source/tools/gen_script_files.py.
+ek2lc_peoples = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_peoples_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_no_people
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+			modifier = {
+				add = 499  # game rule "often": two in three wear their people's loincloth (the looks weigh 1000)
+				has_game_rule = ek2lc_frequency_often
+			}
+			modifier = {
+				add = 1999  # "sometimes": one in three
+				has_game_rule = ek2lc_frequency_sometimes
+			}
+		}
+	}
+
+	# Giant people, everyday look
+	ek2lc_peoples_giant_everyday = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_giant_everyday
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_giant_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				OR = {
+					has_game_rule = ek2lc_nobles_on
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_giant
+					}
+				}
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_giant_gathering_modifier
+						liege ?= { has_character_modifier = ek2lc_giant_gathering_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Giant people, ruler look
+	ek2lc_peoples_giant_ruler = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_giant_ruler
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_giant_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 4
+				ek2lc_royal_trigger = yes
+				ek2lc_war_role_trigger = no
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_giant_gathering_modifier
+						liege ?= { has_character_modifier = ek2lc_giant_gathering_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Giant people, warrior look
+	ek2lc_peoples_giant_warrior = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_giant_warrior
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_giant_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				ek2lc_war_role_trigger = yes
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_giant_gathering_modifier
+						liege ?= { has_character_modifier = ek2lc_giant_gathering_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Giant people, festive look
+	ek2lc_peoples_giant_festive = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_giant_festive
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_giant_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				OR = {
+					has_character_modifier = ek2lc_giant_gathering_modifier
+					liege ?= { has_character_modifier = ek2lc_giant_gathering_modifier }
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Keptu people, everyday look
+	ek2lc_peoples_keptu_everyday = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_keptu_everyday
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_keptu_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				OR = {
+					has_game_rule = ek2lc_nobles_on
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_nedic_keptu
+					}
+				}
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_keptu_hunt_modifier
+						liege ?= { has_character_modifier = ek2lc_keptu_hunt_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Keptu people, ruler look
+	ek2lc_peoples_keptu_ruler = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_keptu_ruler
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_keptu_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 4
+				ek2lc_royal_trigger = yes
+				ek2lc_war_role_trigger = no
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_keptu_hunt_modifier
+						liege ?= { has_character_modifier = ek2lc_keptu_hunt_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Keptu people, warrior look
+	ek2lc_peoples_keptu_warrior = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_keptu_warrior
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_keptu_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				ek2lc_war_role_trigger = yes
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_keptu_hunt_modifier
+						liege ?= { has_character_modifier = ek2lc_keptu_hunt_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Keptu people, festive look
+	ek2lc_peoples_keptu_festive = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_keptu_festive
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_keptu_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				OR = {
+					has_character_modifier = ek2lc_keptu_hunt_modifier
+					liege ?= { has_character_modifier = ek2lc_keptu_hunt_modifier }
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Nedic people, everyday look
+	ek2lc_peoples_nede_everyday = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_nede_everyday
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_old_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				OR = {
+					has_game_rule = ek2lc_nobles_on
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_nedic_old
+					}
+				}
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_nede_watch_modifier
+						liege ?= { has_character_modifier = ek2lc_nede_watch_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Nedic people, ruler look
+	ek2lc_peoples_nede_ruler = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_nede_ruler
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_old_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 4
+				ek2lc_royal_trigger = yes
+				ek2lc_war_role_trigger = no
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_nede_watch_modifier
+						liege ?= { has_character_modifier = ek2lc_nede_watch_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Nedic people, warrior look
+	ek2lc_peoples_nede_warrior = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_nede_warrior
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_old_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				ek2lc_war_role_trigger = yes
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_nede_watch_modifier
+						liege ?= { has_character_modifier = ek2lc_nede_watch_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Nedic people, festive look
+	ek2lc_peoples_nede_festive = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_nede_festive
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_nedic_old_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				OR = {
+					has_character_modifier = ek2lc_nede_watch_modifier
+					liege ?= { has_character_modifier = ek2lc_nede_watch_modifier }
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Yokudan people, everyday look
+	ek2lc_peoples_yokudan_everyday = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_yokudan_everyday
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_yokudan_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				ek2lc_royal_trigger = no
+				ek2lc_war_role_trigger = no
+				OR = {
+					has_game_rule = ek2lc_nobles_on
+					portrait_commoner_clothing_trigger = {
+						CULTURE_INPUT = ek_yokudan
+					}
+				}
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_yokudan_sun_modifier
+						liege ?= { has_character_modifier = ek2lc_yokudan_sun_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Yokudan people, ruler look
+	ek2lc_peoples_yokudan_ruler = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_yokudan_ruler
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_yokudan_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 4
+				ek2lc_royal_trigger = yes
+				ek2lc_war_role_trigger = no
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_yokudan_sun_modifier
+						liege ?= { has_character_modifier = ek2lc_yokudan_sun_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Yokudan people, warrior look
+	ek2lc_peoples_yokudan_warrior = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_yokudan_warrior
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_yokudan_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				ek2lc_war_role_trigger = yes
+				NOT = {
+				OR = {
+						has_character_modifier = ek2lc_yokudan_sun_modifier
+						liege ?= { has_character_modifier = ek2lc_yokudan_sun_modifier }
+					}
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	# Yokudan people, festive look
+	ek2lc_peoples_yokudan_festive = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_shrink_body
+				template = shrink_all
+				value = 0
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = secondary_headgears
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = additive_headgear
+				template = no_additive
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = clothes_hoods
+				template = no_clothes_hood
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_people
+				template = ek2lc_people_yokudan_festive
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				portrait_ek_yokudan_clothing_trigger = yes
+				ek2lc_undead_look_trigger = no
+				scope:age >= 7
+				OR = {
+					has_character_modifier = ek2lc_yokudan_sun_modifier
+					liege ?= { has_character_modifier = ek2lc_yokudan_sun_modifier }
 				}
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes

@@ -1,0 +1,49 @@
+pdxmesh = {
+	name = "ek2lc_m_lich_cowrie_2_01_mesh"
+	file = "ek2lc_m_lich_cowrie_2_01.mesh"
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_fat"	type = "ek2lc_m_lich_cowrie_2_01_bs_fat.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_gaunt"	type = "ek2lc_m_lich_cowrie_2_01_bs_gaunt.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_muscular"	type = "ek2lc_m_lich_cowrie_2_01_bs_muscular.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_old"	type = "ek2lc_m_lich_cowrie_2_01_bs_old.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_dwarf"	type = "ek2lc_m_lich_cowrie_2_01_bs_dwarf.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_infant"	type = "ek2lc_m_lich_cowrie_2_01_bs_infant.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_khajiit"	type = "ek2lc_m_lich_cowrie_2_01_bs_khajiit.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_argdigi"	type = "ek2lc_m_lich_cowrie_2_01_bs_argdigi.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_khadigi"	type = "ek2lc_m_lich_cowrie_2_01_bs_khadigi.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_draugr"	type = "ek2lc_m_lich_cowrie_2_01_bs_draugr.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_2_01_bs_giantish"	type = "ek2lc_m_lich_cowrie_2_01_bs_giantish.mesh" }
+
+	meshsettings = {
+		name = "ek2lc_m_lich_cowrie_2_01Shape"
+		index = 0
+		texture_diffuse = "ek2lc_lich_cowrie_2_01_diffuse.dds"
+		texture_normal = "ek2lc_lich_cowrie_2_01_normal.dds"
+		texture_specular = "ek2lc_lich_cowrie_2_01_properties.dds"
+		shader = "portrait_attachment_pattern_alpha_to_coverage"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+	name = "m_legwear_ek2lc_m_lich_cowrie_2_01_entity"
+	pdxmesh = "ek2lc_m_lich_cowrie_2_01_mesh"
+	attribute = { name = "bs_body_fat_1"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_fat" }
+	attribute = { name = "bs_body_gaunt_1"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_gaunt" }
+	attribute = { name = "bs_body_muscular_1"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_muscular" }
+	attribute = { name = "bs_body_old_1"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_old" }
+	attribute = { name = "bs_body_dwarf_1"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_dwarf" }
+	attribute = { name = "bs_body_infant_1"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_infant" }
+	attribute = { name = "bs_khajiit_body"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_khajiit" }
+	attribute = { name = "argonian_digitigrade_bs"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_argdigi" }
+	attribute = { name = "khajiit_digitigrade_bs"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_khadigi" }
+	attribute = { name = "bs_draugr_body"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_draugr" }
+	attribute = { name = "giantish_body_bs"	blend_shape = "ek2lc_m_lich_cowrie_2_01_bs_giantish" }
+	game_data = {
+		portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/portraits/ek2lc/reach_hide_01/ek2lc_lich_cowrie_1_01_masks.dds"
+				variation = "ek2lc_lich_cowrie_2_01"
+			}
+		}
+	}
+}

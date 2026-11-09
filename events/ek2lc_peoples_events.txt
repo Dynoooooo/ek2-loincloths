@@ -1,0 +1,400 @@
+﻿namespace = ek2lc_giant
+namespace = ek2lc_keptu
+namespace = ek2lc_nede
+namespace = ek2lc_yokudan
+
+ek2lc_giant.0001 = {
+	type = character_event
+	title = ek2lc_giant.0001.t
+	desc = ek2lc_giant.0001.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	option = {
+		name = ek2lc_giant.0001.a
+		add_gold = 40
+		add_prestige = minor_prestige_gain
+		trigger_event = { id = ek2lc_giant.0002 days = 15 }
+	}
+	option = {
+		name = ek2lc_giant.0001.b
+		add_gold = 70
+		stress_impact = { compassionate = minor_stress_impact_gain }
+		trigger_event = { id = ek2lc_giant.0002 days = 15 }
+	}
+	option = {
+		name = ek2lc_giant.0001.c
+		add_prestige = medium_prestige_gain
+		trigger_event = { id = ek2lc_giant.0002 days = 15 }
+	}
+
+}
+
+ek2lc_giant.0002 = {
+	type = character_event
+	title = ek2lc_giant.0002.t
+	desc = ek2lc_giant.0002.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	option = {
+		name = ek2lc_giant.0002.a
+		add_character_modifier = { modifier = ek2lc_giant_spiral_herd_modifier years = 5 }
+		trigger_event = { id = ek2lc_giant.0003 days = 20 }
+	}
+	option = {
+		name = ek2lc_giant.0002.b
+		add_character_modifier = { modifier = ek2lc_giant_spiral_club_modifier years = 5 }
+		trigger_event = { id = ek2lc_giant.0003 days = 20 }
+	}
+	option = {
+		name = ek2lc_giant.0002.c
+		add_character_modifier = { modifier = ek2lc_giant_spiral_walk_modifier years = 5 }
+		trigger_event = { id = ek2lc_giant.0003 days = 20 }
+	}
+
+}
+
+ek2lc_giant.0003 = {
+	type = character_event
+	title = ek2lc_giant.0003.t
+	desc = ek2lc_giant.0003.desc
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+	option = {
+		name = ek2lc_giant.0003.a
+		add_piety = minor_piety_gain
+		stress_impact = { base = medium_stress_impact_loss }
+	}
+	option = {
+		name = ek2lc_giant.0003.b
+		add_prestige = medium_prestige_gain
+		stress_impact = { compassionate = minor_stress_impact_gain }
+	}
+
+}
+
+ek2lc_keptu.0001 = {
+	type = character_event
+	title = ek2lc_keptu.0001.t
+	desc = ek2lc_keptu.0001.desc
+	theme = hunting
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	option = {
+		name = ek2lc_keptu.0001.a
+		set_variable = { name = ek2lc_hunt_way value = 1 }
+		trigger_event = { id = ek2lc_keptu.0002 days = 20 }
+	}
+	option = {
+		name = ek2lc_keptu.0001.b
+		set_variable = { name = ek2lc_hunt_way value = 2 }
+		trigger_event = { id = ek2lc_keptu.0002 days = 20 }
+	}
+	option = {
+		name = ek2lc_keptu.0001.c
+		set_variable = { name = ek2lc_hunt_way value = 3 }
+		trigger_event = { id = ek2lc_keptu.0002 days = 20 }
+	}
+
+}
+
+ek2lc_keptu.0002 = {
+	immediate = {
+		random_list = {
+			50 = {
+				modifier = { add = prowess }
+				modifier = { add = 10 var:ek2lc_hunt_way = 1 }
+				trigger_event = ek2lc_keptu.0003
+			}
+			50 = {
+				modifier = { add = 10 var:ek2lc_hunt_way = 3 }
+				trigger_event = ek2lc_keptu.0004
+			}
+		}
+		remove_variable = ek2lc_hunt_way
+	}
+	hidden = yes
+
+}
+
+ek2lc_keptu.0003 = {
+	type = character_event
+	title = ek2lc_keptu.0003.t
+	desc = ek2lc_keptu.0003.desc
+	theme = hunting
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	option = {
+		name = ek2lc_keptu.0003.a
+		add_character_modifier = { modifier = ek2lc_keptu_marked_modifier years = 10 }
+		add_prestige = minor_prestige_gain
+	}
+	option = {
+		name = ek2lc_keptu.0003.b
+		add_piety = minor_piety_gain
+		add_prestige = minor_prestige_gain
+	}
+	option = {
+		name = ek2lc_keptu.0003.c
+		trigger = { gold >= 50 }
+		remove_short_term_gold = 50
+		add_prestige = medium_prestige_gain
+	}
+
+}
+
+ek2lc_keptu.0004 = {
+	type = character_event
+	title = ek2lc_keptu.0004.t
+	desc = ek2lc_keptu.0004.desc
+	theme = hunting
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	option = {
+		name = ek2lc_keptu.0004.a
+		stress_impact = { base = minor_stress_impact_gain humble = minor_stress_impact_loss }
+	}
+	option = {
+		name = ek2lc_keptu.0004.b
+		random_list = {
+			40 = {
+				modifier = { add = prowess }
+				desc = ek2lc_keptu.0004.b.won
+				add_character_modifier = { modifier = ek2lc_keptu_marked_modifier years = 10 }
+			}
+			60 = {
+				desc = ek2lc_keptu.0004.b.lost
+				add_prestige = minor_prestige_loss
+				increase_wounds_effect = { REASON = hunting_accident }
+			}
+		}
+	}
+
+}
+
+ek2lc_nede.0001 = {
+	type = character_event
+	title = ek2lc_nede.0001.t
+	desc = ek2lc_nede.0001.desc
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	option = {
+		name = ek2lc_nede.0001.a
+		random_list = {
+			60 = {
+				desc = ek2lc_nede.0001.bright
+				add_character_modifier = { modifier = ek2lc_nede_bright_year_modifier years = 1 }
+			}
+			40 = {
+				desc = ek2lc_nede.0001.hazy
+				add_character_modifier = { modifier = ek2lc_nede_hazy_year_modifier years = 1 }
+			}
+		}
+		trigger_event = { id = ek2lc_nede.0002 days = 1 }
+	}
+	option = {
+		name = ek2lc_nede.0001.b
+		random_list = {
+			50 = {
+				modifier = { add = learning }
+				desc = ek2lc_nede.0001.bright
+				add_character_modifier = { modifier = ek2lc_nede_bright_year_modifier years = 1 }
+			}
+			50 = {
+				desc = ek2lc_nede.0001.hazy
+				add_character_modifier = { modifier = ek2lc_nede_hazy_year_modifier years = 1 }
+			}
+		}
+		trigger_event = { id = ek2lc_nede.0002 days = 1 }
+	}
+
+}
+
+ek2lc_nede.0002 = {
+	type = character_event
+	title = ek2lc_nede.0002.t
+	desc = ek2lc_nede.0002.desc
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+	option = {
+		name = ek2lc_nede.0002.a
+		stress_impact = { base = medium_stress_impact_loss }
+		dynasty ?= { add_dynasty_prestige = 50 }
+		trigger_event = { id = ek2lc_nede.0003 days = 1 }
+	}
+	option = {
+		name = ek2lc_nede.0002.b
+		add_piety = minor_piety_gain
+		trigger_event = { id = ek2lc_nede.0003 days = 1 }
+	}
+
+}
+
+ek2lc_nede.0003 = {
+	type = character_event
+	title = ek2lc_nede.0003.t
+	desc = ek2lc_nede.0003.desc
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	option = {
+		name = ek2lc_nede.0003.a
+		remove_short_term_gold = 20
+		add_prestige = minor_prestige_gain
+	}
+	option = {
+		name = ek2lc_nede.0003.b
+		trigger = { gold >= 60 }
+		remove_short_term_gold = 60
+		add_piety = medium_piety_gain
+		add_character_modifier = { modifier = ek2lc_nede_starfed_modifier years = 3 }
+	}
+	option = {
+		name = ek2lc_nede.0003.c
+		add_piety = minor_piety_loss
+		stress_impact = { greedy = minor_stress_impact_loss }
+	}
+
+}
+
+ek2lc_yokudan.0001 = {
+	type = character_event
+	title = ek2lc_yokudan.0001.t
+	desc = ek2lc_yokudan.0001.desc
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	option = {
+		name = ek2lc_yokudan.0001.a
+		add_piety = minor_piety_gain
+		stress_impact = { gluttonous = medium_stress_impact_gain temperate = minor_stress_impact_loss }
+		trigger_event = { id = ek2lc_yokudan.0002 days = 3 }
+	}
+	option = {
+		name = ek2lc_yokudan.0001.b
+		trigger_event = { id = ek2lc_yokudan.0002 days = 3 }
+	}
+	option = {
+		name = ek2lc_yokudan.0001.c
+		add_prestige = minor_prestige_loss
+		stress_impact = { gluttonous = minor_stress_impact_loss }
+		trigger_event = { id = ek2lc_yokudan.0002 days = 3 }
+	}
+
+}
+
+ek2lc_yokudan.0002 = {
+	type = character_event
+	title = ek2lc_yokudan.0002.t
+	desc = ek2lc_yokudan.0002.desc
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	option = {
+		name = ek2lc_yokudan.0002.a
+		random_list = {
+			60 = {
+				modifier = { add = learning }
+				desc = ek2lc_yokudan.0002.good
+				add_character_modifier = { modifier = ek2lc_yokudan_good_fire_modifier years = 3 }
+			}
+			30 = {
+				desc = ek2lc_yokudan.0002.cloud
+				add_piety = minor_piety_gain
+			}
+			10 = {
+				desc = ek2lc_yokudan.0002.bad
+				add_character_modifier = { modifier = ek2lc_yokudan_bad_fire_modifier years = 1 }
+			}
+		}
+		trigger_event = { id = ek2lc_yokudan.0003 days = 1 }
+	}
+
+}
+
+ek2lc_yokudan.0003 = {
+	type = character_event
+	title = ek2lc_yokudan.0003.t
+	desc = ek2lc_yokudan.0003.desc
+	theme = martial
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	option = {
+		name = ek2lc_yokudan.0003.a
+		random_list = {
+			50 = {
+				modifier = { add = prowess }
+				desc = ek2lc_yokudan.0003.a.won
+				add_character_modifier = { modifier = ek2lc_yokudan_anseilak_modifier years = 5 }
+			}
+			50 = {
+				desc = ek2lc_yokudan.0003.a.lost
+				add_prestige = minor_prestige_loss
+			}
+		}
+		trigger_event = { id = ek2lc_yokudan.0004 days = 1 }
+	}
+	option = {
+		name = ek2lc_yokudan.0003.b
+		remove_short_term_gold = 25
+		add_prestige = minor_prestige_gain
+		trigger_event = { id = ek2lc_yokudan.0004 days = 1 }
+	}
+	option = {
+		name = ek2lc_yokudan.0003.c
+		trigger_event = { id = ek2lc_yokudan.0004 days = 1 }
+	}
+
+}
+
+ek2lc_yokudan.0004 = {
+	type = character_event
+	title = ek2lc_yokudan.0004.t
+	desc = ek2lc_yokudan.0004.desc
+	theme = party
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	option = {
+		name = ek2lc_yokudan.0004.a
+		every_vassal = {
+			limit = { culture ?= root.culture }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		stress_impact = { base = minor_stress_impact_loss }
+	}
+
+}

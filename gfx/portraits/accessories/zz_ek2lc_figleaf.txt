@@ -2,19 +2,23 @@
 # Vanilla definitions: gfx/portraits/accessories/clothes.txt; the fallback lines are vanilla's own.
 male_clothes_secular_western_nudity_01 = {
 	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso }
+	entity = { required_tags = "ek2lc_people"		shared_pose_entity = torso }
 	entity = { required_tags = ""		shared_pose_entity = torso		entity = male_clothes_secular_western_nudity_01_entity }
 }
 female_clothes_secular_western_nudity_01 = {
 	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso }
+	entity = { required_tags = "ek2lc_people"		shared_pose_entity = torso }
 	entity = { required_tags = ""		shared_pose_entity = torso		entity = female_clothes_secular_western_nudity_01_entity }
 }
 male_clothes_situational_western_bedchamber_01_common = {
 	set_tags = "shrink_arms,shrink_chest,shrink_belly"
 	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso }
+	entity = { required_tags = "ek2lc_people"		shared_pose_entity = torso }
 	entity = { required_tags = ""		shared_pose_entity = torso		entity = male_clothes_situational_western_bedchamber_01_common_entity }
 }
 female_clothes_situational_western_bedchamber_01_common = {
 	set_tags = "shrink_arms,shrink_chest,shrink_belly"
 	entity = { required_tags = "ek2lc_loincloth"		shared_pose_entity = torso }
+	entity = { required_tags = "ek2lc_people"		shared_pose_entity = torso }
 	entity = { required_tags = ""		shared_pose_entity = torso		entity = female_clothes_situational_western_bedchamber_01_common_entity }
 }

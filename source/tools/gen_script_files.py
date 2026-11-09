@@ -60,6 +60,13 @@ WRAP_TAG = "ek2lc_wrap"  # set by the wraps: our loincloth itself draws nothing 
 COWRIE_TAG = "ek2lc_cowrie"  # set by the cowrie war belt: the trophy belt draws nothing
 ROYAL_GIRDLE_TAG = "ek2lc_royal_girdle"  # set by the ducal, royal and imperial girdles (not the war girdles)
 TABARD_TAG = "ek2lc_tabard"
+PEOPLE_TAG = "ek2lc_people"  # set by the new peoples' looks (giants, Keptu, Old Nedes, Yokudans): hides the fig leaf
+# The new loincloth peoples (2026-11-09): EK2 clothing gfx input -> (key, adjective). Each has four looks, all new meshes.
+PEOPLES = {"ek_giant": ("giant", "Giant"), "ek_nedic_keptu": ("keptu", "Keptu"), "ek_nedic_old": ("nede", "Nedic"),
+           "ek_yokudan": ("yokudan", "Yokudan")}
+PEOPLE_LOOKS = [("everyday", "Loincloth"), ("ruler", "Chieftain's Loincloth"), ("warrior", "War Loincloth"), ("festive", "Celebration Loincloth")]
+CELEBRATION = {"giant": "ek2lc_giant_gathering_modifier", "keptu": "ek2lc_keptu_hunt_modifier", "nede": "ek2lc_nede_watch_modifier",
+               "yokudan": "ek2lc_yokudan_sun_modifier"}
 TOURNEY_WON = ["tournament_%s_winner_modifier" % k for k in ("duel", "melee", "wrestling", "joust", "archery", "horse_race")]
 A14 = "scope:age >= 14\n\t\t\t\t"
 # gene -> (none template, [(kind, barbershop name, game rule incl. age)], row name, its "none" name, hiding tags, own tag)
@@ -124,7 +131,8 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
         "Victor's Sash", "No Victor's Sash", [MANTLE_TAG, ROBE_TAG], ""),
     # wraps worn instead of our loincloth (it draws nothing under WRAP_TAG); one at a time, by priority
     # (common/scripted_triggers/ek2lc_wrap_triggers.txt): ragged > mourning > wedding > festival > werewolf > sailor > elder
-    "gene_ek2lc_wrap": ("ek2lc_no_wrap", [(k, n, A14 + "ek2lc_wrap_%s_trigger = yes" % w) for k, n, w in [
+    "gene_ek2lc_wrap": ("ek2lc_no_wrap", [(k, n, A14 + "ek2lc_lich_look_trigger = no  # liches keep their burial loincloth\n\t\t\t\t"
+                                               "ek2lc_wrap_%s_trigger = yes" % w) for k, n, w in [
         ("ragged_loincloth", "Ragged Loincloth", "ragged"), ("mourning_wrap", "Mourning Wrap", "mourning"),
         ("wedding_wrap", "Wedding Wrap", "wedding"), ("festival_wrap", "Festival White Wrap", "festival"),
         ("werewolf_tatters", "Werewolf's Tatters", "werewolf"), ("sailor_malo", "Sailor's Malo", "sailor"),
@@ -142,8 +150,19 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
         "\t\t\t\t\tliege ?= { government_has_flag = government_is_holy_order }\n\t\t\t\t}")],
         "Holy-Order Tabard", "No Tabard", [REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG], TABARD_TAG),
 }
-NO_LICH = {REGALIA_GENE, "gene_ek2lc_wrestler", "gene_ek2lc_hunter", "gene_ek2lc_priest", "gene_ek2lc_victor", "gene_ek2lc_wrap",
-           "gene_ek2lc_cowrie", "gene_ek2lc_tabard"}
+# 2026-11-09: these genes now have their own lich pieces (new meshes): the accessory draws "lich_<kind>" under the
+# lich tag, as the older extras do. Barbershop-only lich rows are added here. Wraps have none (liches don't wear them).
+LICH_NAMES = {"art_champion": "Lich's Shroud Apron", "art_fauld": "Lich's Barrow-Iron Fauld", "art_feather": "Lich's Ghost-Feather Girdle",
+              "art_briar": "Lich's Withered Briar Girdle", "art_amber": "Lich's Sap-Dead Wrap", "art_bone": "Lich's Vertebra Apron",
+              "art_ash": "Lich's Bonemold Tassets", "art_moon": "Lich's Eclipse Silk", "wrestler_belt": "Lich's Barrow Wrestler's Belt",
+              "hunter_gear": "Lich's Soul-Gem Pouch and Bone Knife", "priest_apron": "Lich's Bead-Net Aprons",
+              "victor_sash": "Lich's Sash of the Fallen Victor", "cowrie_1": "Lich's Tooth-and-Knucklebone Belt: Front",
+              "cowrie_2": "Lich's Tooth-and-Knucklebone Belt: Two Strings", "cowrie_3": "Lich's Tooth-and-Knucklebone Belt: Two Rows",
+              "holy_tabard": "Lich's Tabard of the Forsaken Order"}
+for _g, _x in EXTRA.items():
+    if any(k in LICH_NAMES for k, _, _ in _x[1]):
+        _x[1].extend([("lich_" + k, LICH_NAMES[k], None) for k, _, _ in list(_x[1]) if k in LICH_NAMES])
+NO_LICH = {"gene_ek2lc_wrap"}
 # kinds added to a gene later: their templates go after every existing one, so saved characters keep theirs
 LATE = {"gene_ek2lc_loincloth": ["skirt", "tunic"]}  # girls' wrap skirt (7-13), children's tunic (4-6)
 
@@ -221,6 +240,17 @@ special_genes = {
 				girl = { 1 = %s }
 			}""" % (none if k is None else "ek2lc_" + k, i, m, f, m, f))
         out.append("\t\t}")
+    out.append("\t\tgene_ek2lc_people = {")  # the new peoples' looks (2026-11-09)
+    for i, tm in enumerate(["ek2lc_no_people"] + ["ek2lc_people_%s_%s" % (k, l) for k, _ in PEOPLES.values() for l, _ in PEOPLE_LOOKS]):
+        m, f = ("ek2lc_no_people_01",) * 2 if i == 0 else tuple("ek2lc_%s_%s_01" % (s, tm[6:]) for s in ("m", "f"))
+        out.append("""			%s = {
+				index = %d
+				male = { 1 = %s }
+				female = { 1 = %s }
+				boy = { 1 = %s }
+				girl = { 1 = %s }
+			}""" % (tm, i, m, f, m, f))
+    out.append("\t\t}")
     out.append("\t}\n}\n")
     write("common/genes/ek2lc_genes.txt", "\n".join(out))
 
@@ -287,6 +317,13 @@ def accessories():
     # start event; filmed frame by frame, gone with entity-less pieces).
     for none in [n for n, _ in GENES.values()] + [x[0] for x in EXTRA.values()]:
         out.append("%s = {\n}" % none_acc(none))
+    for k, _ in PEOPLES.values():  # the new peoples' looks: their own tag (hides the fig leaf), no older extras over them
+        for l, _ in PEOPLE_LOOKS:
+            for s in ("m", "f"):
+                a = "ek2lc_%s_people_%s_%s_01" % (s, k, l)
+                out.append("%s = {\n\tset_tags = \"%s\"\n\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}"
+                           % (a, PEOPLE_TAG, entity_name(a)))
+    out.append("ek2lc_no_people_01 = {\n}")
     write("gfx/portraits/accessories/ek2lc_accessories.txt", "\n".join(out))
 
 
@@ -301,7 +338,8 @@ def figleaf():
     for sex in ("male", "female"):
         a = "%s_clothes_secular_western_nudity_01" % sex
         out.append("%s = {\n\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
-                   "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, a))
+                   "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
+                   "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, PEOPLE_TAG, a))
     # For children (boy/girl) the same no_clothes template gives vanilla's bedchamber nightshirt instead, which
     # would sit under our pieces. Same trick: nothing while our loincloth is worn (its strip covers the groin,
     # the band covers girls). set_tags is per accessory, so vanilla's shrink tags stay;
@@ -310,7 +348,8 @@ def figleaf():
         a = "%s_clothes_situational_western_bedchamber_01_common" % sex
         out.append("%s = {\n\tset_tags = \"shrink_arms,shrink_chest,shrink_belly\"\n"
                    "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
-                   "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, a))
+                   "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso }\n"
+                   "\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s_entity }\n}" % (a, LOINCLOTH_TAG, PEOPLE_TAG, a))
     write("gfx/portraits/accessories/zz_ek2lc_figleaf.txt", "\n".join(out) + "\n")
 
 
@@ -558,7 +597,56 @@ ek2lc_loincloth = {
 	}
 """ % ("ek2lc_" + k, dna([(gene, "ek2lc_" + k)]), rule, NUDE))
         out.append("}\n")
+    out.append(people_modifiers())
     write("gfx/portraits/portrait_modifiers/ek2lc_loincloths.txt", "\n".join(out))
+
+
+def people_modifiers():
+    """The new loincloth peoples (giants, Keptu, Old Nedes, Yokudans): one look each by role, all their own meshes.
+    Priority 101 as our main group: after EK2's outfits, so nothing of EK2's is worn over them."""
+    pairs0 = [("clothes", "no_clothes"), ("legwear", "no_legwear"), ("cloaks", "no_cloak")] + NO_EK2_EXTRAS
+    out = ["""# The new loincloth peoples (2026-11-09). Written by source/tools/gen_script_files.py.
+ek2lc_peoples = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_peoples_none = {
+""" + dna([("gene_ek2lc_people", "ek2lc_no_people")]) + """
+		weight = {
+			base = 1
+			modifier = {
+				add = 499  # game rule "often": two in three wear their people's loincloth (the looks weigh 1000)
+				has_game_rule = ek2lc_frequency_often
+			}
+			modifier = {
+				add = 1999  # "sometimes": one in three
+				has_game_rule = ek2lc_frequency_sometimes
+			}
+		}
+	}
+"""]
+    for inp, (k, adj) in PEOPLES.items():
+        fest = "OR = {\n\t\t\t\t\thas_character_modifier = %s\n\t\t\t\t\tliege ?= { has_character_modifier = %s }\n\t\t\t\t}" % (
+            CELEBRATION[k], CELEBRATION[k])
+        common = ["\t\t\t\tportrait_%s_clothing_trigger = yes" % inp, "\t\t\t\tek2lc_undead_look_trigger = no"]
+        conds = {
+            "festive": ["\t\t\t\tscope:age >= 7", "\t\t\t\t" + fest],
+            "warrior": ["\t\t\t\tek2lc_war_role_trigger = yes", "\t\t\t\tNOT = {\n\t\t\t\t" + fest.replace("\n", "\n\t") + "\n\t\t\t\t}"],
+            "ruler": ["\t\t\t\tscope:age >= 4", "\t\t\t\tek2lc_royal_trigger = yes", "\t\t\t\tek2lc_war_role_trigger = no",
+                      "\t\t\t\tNOT = {\n\t\t\t\t" + fest.replace("\n", "\n\t") + "\n\t\t\t\t}"],
+            "everyday": ["\t\t\t\tscope:age >= 7", "\t\t\t\tek2lc_royal_trigger = no", "\t\t\t\tek2lc_war_role_trigger = no",
+                         "\t\t\t\tOR = {\n\t\t\t\t\thas_game_rule = ek2lc_nobles_on\n\t\t\t\t\tportrait_commoner_clothing_trigger = {"
+                         "\n\t\t\t\t\t\tCULTURE_INPUT = %s\n\t\t\t\t\t}\n\t\t\t\t}" % inp,
+                         "\t\t\t\tNOT = {\n\t\t\t\t" + fest.replace("\n", "\n\t") + "\n\t\t\t\t}"],
+        }
+        for l, _ in PEOPLE_LOOKS:
+            out.append("\t# %s people, %s look\n\tek2lc_peoples_%s_%s = {\n%s\n\t\tweight = {\n\t\t\tbase = 0\n\t\t\tmodifier = {\n"
+                       "\t\t\t\tadd = 1000\n%s\n%s\n\t\t\t}\n\t\t}\n\t}\n"
+                       % (adj, l, k, l, dna(pairs0 + [("gene_ek2lc_people", "ek2lc_people_%s_%s" % (k, l))], unshrink=True),
+                          "\n".join(common + conds[l]), NUDE))
+    out.append("}\n")
+    return "\n".join(out)
 
 
 # ------------------------------------------------------------------ barbershop and names
@@ -650,6 +738,21 @@ def barbershop():
         for k, name, _ in kinds:
             loc.append(' PORTRAIT_MODIFIER_%s_%s: "%s"' % (grp, xacc("m", k), name))
             loc.append(' PORTRAIT_MODIFIER_%s_%s: "$PORTRAIT_MODIFIER_%s_%s$"' % (grp, xacc("f", k), grp, xacc("m", k)))
+    grp = "ek2lc_custom_people"
+    out += ["%s = {" % grp, "\tusage = customization", "\tinterface_position = %d" % (13 + len(EXTRA)), "\tpriority = 102", ""]
+    tms = ["ek2lc_no_people"] + ["ek2lc_people_%s_%s" % (k, l) for k, _ in PEOPLES.values() for l, _ in PEOPLE_LOOKS]
+    for tm in tms:
+        out += ["\tadd_accessory_modifiers = {", "\t\tgene = gene_ek2lc_people", "\t\ttemplate = %s" % tm, "\t}"]
+    out += ["}", ""]
+    loc.append(' PORTRAIT_MODIFIER_%s: "Peoples\' Loincloths"' % grp)
+    loc.append(' PORTRAIT_MODIFIER_%s_none: "No People\'s Loincloth"' % grp)
+    for s in ("male", "female", "boy", "girl"):
+        loc.append(' PORTRAIT_MODIFIER_%s_%s_empty: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, s, grp))
+    loc.append(' PORTRAIT_MODIFIER_%s_ek2lc_no_people_01: "$PORTRAIT_MODIFIER_%s_none$"' % (grp, grp))
+    for k, adj in PEOPLES.values():
+        for l, n in PEOPLE_LOOKS:
+            loc.append(' PORTRAIT_MODIFIER_%s_ek2lc_m_people_%s_%s_01: "%s %s"' % (grp, k, l, adj, n))
+            loc.append(' PORTRAIT_MODIFIER_%s_ek2lc_f_people_%s_%s_01: "$PORTRAIT_MODIFIER_%s_ek2lc_m_people_%s_%s_01$"' % (grp, k, l, grp, k, l))
     write("gfx/portraits/portrait_modifiers/ek2lc_custom.txt", "\n".join(out))
     write("localization/english/ek2lc_l_english.yml", "\n".join(loc) + "\n")
     # The vanilla Clothes row names EK2's "No Clothes" entry for loincloth wearers (our rules set no_clothes).

@@ -28,3 +28,19 @@ ek2lc_hircine_hunt_modifier = { icon = dread_positive dread_baseline_add = 5 pro
 ek2lc_mourning_modifier = { icon = stress_negative stress_gain_mult = 0.1 monthly_piety = 0.1 }
 ek2lc_loincloth_festival_modifier = { icon = social_positive monthly_prestige = 0.3 courtier_and_guest_opinion = 5 }
 ek2lc_gone_native_modifier = { icon = social_positive same_culture_opinion = -5 }
+
+# the peoples' celebrations
+ek2lc_giant_gathering_modifier = { icon = social_positive monthly_prestige = 0.2 courtier_opinion = 5 }
+ek2lc_giant_spiral_herd_modifier = { icon = stewardship_positive stewardship = 2 }
+ek2lc_giant_spiral_club_modifier = { icon = prowess_positive prowess_no_portrait = 2 }
+ek2lc_giant_spiral_walk_modifier = { icon = health_positive health = 0.25 }
+ek2lc_keptu_hunt_modifier = { icon = prowess_positive monthly_prestige = 0.2 }
+ek2lc_keptu_marked_modifier = { icon = dread_positive prowess_no_portrait = 2 dread_baseline_add = 5 monthly_prestige = 0.1 }
+ek2lc_nede_watch_modifier = { icon = learning_positive monthly_piety = 0.2 }
+ek2lc_nede_bright_year_modifier = { icon = stewardship_positive domain_tax_mult = 0.05 monthly_piety = 0.1 }
+ek2lc_nede_hazy_year_modifier = { icon = stewardship_negative domain_tax_mult = -0.05 }
+ek2lc_nede_starfed_modifier = { icon = learning_positive learning = 2 }
+ek2lc_yokudan_sun_modifier = { icon = prestige_positive monthly_prestige = 0.25 }
+ek2lc_yokudan_good_fire_modifier = { icon = prestige_positive monthly_prestige_gain_mult = 0.1 }
+ek2lc_yokudan_bad_fire_modifier = { icon = prestige_negative monthly_prestige_gain_mult = -0.1 }
+ek2lc_yokudan_anseilak_modifier = { icon = prowess_positive prowess_no_portrait = 2 martial = 1 }

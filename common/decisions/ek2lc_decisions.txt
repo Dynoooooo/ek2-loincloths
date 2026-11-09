@@ -141,3 +141,123 @@ ek2lc_end_native_decision = {
 	ai_potential = { always = no }
 	ai_will_do = { base = 0 }
 }
+
+# ek2lc_giant_gathering: the giant people's own celebration (events/ek2lc_peoples_events.txt); the court wears its celebration look.
+ek2lc_giant_gathering_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_giant_gathering_decision_desc
+	selection_tooltip = ek2lc_giant_gathering_decision_tooltip
+	sort_order = 86
+	cooldown = { years = 5 }
+	is_shown = {
+		has_game_rule = ek2lc_events_on
+		is_ruler = yes
+		is_landed = yes
+		culture ?= { has_clothing_gfx = ek_giant_clothing_gfx }
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	cost = {
+		gold = 25
+	}
+	effect = {
+		add_character_modifier = { modifier = ek2lc_giant_gathering_modifier days = 120 }
+		trigger_event = ek2lc_giant.0001
+	}
+	ai_check_interval = 120
+	ai_potential = { gold >= 100 }
+	ai_will_do = { base = 15 }
+}
+
+# ek2lc_keptu_hunt: the keptu people's own celebration (events/ek2lc_peoples_events.txt); the court wears its celebration look.
+ek2lc_keptu_hunt_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_keptu_hunt_decision_desc
+	selection_tooltip = ek2lc_keptu_hunt_decision_tooltip
+	sort_order = 86
+	cooldown = { years = 3 }
+	is_shown = {
+		has_game_rule = ek2lc_events_on
+		is_ruler = yes
+		is_landed = yes
+		culture ?= { has_clothing_gfx = ek_nedic_keptu_clothing_gfx }
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	cost = {
+		gold = 30
+	}
+	effect = {
+		add_character_modifier = { modifier = ek2lc_keptu_hunt_modifier days = 90 }
+		trigger_event = ek2lc_keptu.0001
+	}
+	ai_check_interval = 120
+	ai_potential = { gold >= 100 }
+	ai_will_do = { base = 15 }
+}
+
+# ek2lc_nede_watch: the nede people's own celebration (events/ek2lc_peoples_events.txt); the court wears its celebration look.
+ek2lc_nede_watch_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_nede_watch_decision_desc
+	selection_tooltip = ek2lc_nede_watch_decision_tooltip
+	sort_order = 86
+	cooldown = { years = 3 }
+	is_shown = {
+		has_game_rule = ek2lc_events_on
+		is_ruler = yes
+		is_landed = yes
+		culture ?= { has_clothing_gfx = ek_nedic_old_clothing_gfx }
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	cost = {
+		gold = 20
+	}
+	effect = {
+		add_character_modifier = { modifier = ek2lc_nede_watch_modifier days = 60 }
+		trigger_event = ek2lc_nede.0001
+	}
+	ai_check_interval = 120
+	ai_potential = { gold >= 100 }
+	ai_will_do = { base = 15 }
+}
+
+# ek2lc_yokudan_sun: the yokudan people's own celebration (events/ek2lc_peoples_events.txt); the court wears its celebration look.
+ek2lc_yokudan_sun_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_yokudan_sun_decision_desc
+	selection_tooltip = ek2lc_yokudan_sun_decision_tooltip
+	sort_order = 86
+	cooldown = { years = 3 }
+	is_shown = {
+		has_game_rule = ek2lc_events_on
+		is_ruler = yes
+		is_landed = yes
+		culture ?= { has_clothing_gfx = ek_yokudan_clothing_gfx }
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	cost = {
+		gold = 40
+	}
+	effect = {
+		add_character_modifier = { modifier = ek2lc_yokudan_sun_modifier days = 60 }
+		trigger_event = ek2lc_yokudan.0001
+	}
+	ai_check_interval = 120
+	ai_potential = { gold >= 100 }
+	ai_will_do = { base = 15 }
+}

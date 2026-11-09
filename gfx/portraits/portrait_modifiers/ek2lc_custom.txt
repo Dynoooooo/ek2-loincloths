@@ -878,6 +878,38 @@ ek2lc_custom_regalia = {
 		gene = gene_ek2lc_regalia
 		template = ek2lc_art_moon
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_champion
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_fauld
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_feather
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_briar
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_amber
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_bone
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_ash
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_lich_art_moon
+	}
 }
 
 ek2lc_custom_wrestler = {
@@ -892,6 +924,10 @@ ek2lc_custom_wrestler = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_wrestler
 		template = ek2lc_wrestler_belt
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrestler
+		template = ek2lc_lich_wrestler_belt
 	}
 }
 
@@ -908,6 +944,10 @@ ek2lc_custom_hunter = {
 		gene = gene_ek2lc_hunter
 		template = ek2lc_hunter_gear
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_hunter
+		template = ek2lc_lich_hunter_gear
+	}
 }
 
 ek2lc_custom_priest = {
@@ -923,6 +963,10 @@ ek2lc_custom_priest = {
 		gene = gene_ek2lc_priest
 		template = ek2lc_priest_apron
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_priest
+		template = ek2lc_lich_priest_apron
+	}
 }
 
 ek2lc_custom_victor = {
@@ -937,6 +981,10 @@ ek2lc_custom_victor = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_victor
 		template = ek2lc_victor_sash
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_victor
+		template = ek2lc_lich_victor_sash
 	}
 }
 
@@ -1000,6 +1048,18 @@ ek2lc_custom_cowrie = {
 		gene = gene_ek2lc_cowrie
 		template = ek2lc_cowrie_3
 	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_lich_cowrie_1
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_lich_cowrie_2
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_lich_cowrie_3
+	}
 }
 
 ek2lc_custom_tabard = {
@@ -1014,5 +1074,84 @@ ek2lc_custom_tabard = {
 	add_accessory_modifiers = {
 		gene = gene_ek2lc_tabard
 		template = ek2lc_holy_tabard
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_tabard
+		template = ek2lc_lich_holy_tabard
+	}
+}
+
+ek2lc_custom_people = {
+	usage = customization
+	interface_position = 27
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_no_people
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_giant_everyday
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_giant_ruler
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_giant_warrior
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_giant_festive
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_keptu_everyday
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_keptu_ruler
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_keptu_warrior
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_keptu_festive
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_nede_everyday
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_nede_ruler
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_nede_warrior
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_nede_festive
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_yokudan_everyday
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_yokudan_ruler
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_yokudan_warrior
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_people
+		template = ek2lc_people_yokudan_festive
 	}
 }
