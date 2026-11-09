@@ -567,6 +567,66 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_cowrie_1_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_cowrie_1_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_cowrie_2_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_cowrie_2_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_cowrie_3_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_cowrie_3_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_elder_wrap_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_elder_wrap_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_festival_wrap_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_festival_wrap_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_goblin_armour_01"
 	pattern = {
 		weight = 1
@@ -684,6 +744,18 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_goblin_war_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_holy_tabard_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_holy_tabard_01_palette.dds" }
 }
 
 variation = {
@@ -1227,6 +1299,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_mourning_wrap_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_mourning_wrap_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_orc_armour_01"
 	pattern = {
 		weight = 1
@@ -1356,6 +1440,18 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_priest_apron_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_ragged_loincloth_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_ragged_loincloth_01_palette.dds" }
 }
 
 variation = {
@@ -1491,6 +1587,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_sailor_malo_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_sailor_malo_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_victor_sash_01"
 	pattern = {
 		weight = 1
@@ -1500,6 +1608,30 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_victor_sash_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_wedding_wrap_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_wedding_wrap_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_werewolf_tatters_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_werewolf_tatters_01_palette.dds" }
 }
 
 variation = {

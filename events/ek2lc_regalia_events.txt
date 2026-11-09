@@ -141,7 +141,13 @@ ek2lc_regalia.0003 = {
 		remove_short_term_gold = ek2lc_commission_rough_cost
 		set_variable = { name = ek2lc_commission_grade value = 1 }
 		add_character_flag = ek2lc_commission_pending
-		trigger_event = { id = ek2lc_regalia.0009 days = { 60 120 } }
+		if = {
+			limit = { employs_court_position = ek2lc_loincloth_maker_court_position }
+			trigger_event = { id = ek2lc_regalia.0009 days = { 40 80 } }
+		}
+		else = {
+			trigger_event = { id = ek2lc_regalia.0009 days = { 60 120 } }
+		}
 		custom_tooltip = ek2lc_regalia.0003.wait_tt
 	}
 	option = {
@@ -150,7 +156,13 @@ ek2lc_regalia.0003 = {
 		remove_short_term_gold = ek2lc_commission_fine_cost
 		set_variable = { name = ek2lc_commission_grade value = 2 }
 		add_character_flag = ek2lc_commission_pending
-		trigger_event = { id = ek2lc_regalia.0009 days = { 90 150 } }
+		if = {
+			limit = { employs_court_position = ek2lc_loincloth_maker_court_position }
+			trigger_event = { id = ek2lc_regalia.0009 days = { 60 100 } }
+		}
+		else = {
+			trigger_event = { id = ek2lc_regalia.0009 days = { 90 150 } }
+		}
 		custom_tooltip = ek2lc_regalia.0003.wait_tt
 	}
 	option = {
@@ -159,7 +171,13 @@ ek2lc_regalia.0003 = {
 		remove_short_term_gold = ek2lc_commission_masterwork_cost
 		set_variable = { name = ek2lc_commission_grade value = 3 }
 		add_character_flag = ek2lc_commission_pending
-		trigger_event = { id = ek2lc_regalia.0009 days = { 150 240 } }
+		if = {
+			limit = { employs_court_position = ek2lc_loincloth_maker_court_position }
+			trigger_event = { id = ek2lc_regalia.0009 days = { 100 160 } }
+		}
+		else = {
+			trigger_event = { id = ek2lc_regalia.0009 days = { 150 240 } }
+		}
 		custom_tooltip = ek2lc_regalia.0003.wait_tt
 		ai_chance = { base = 0 }
 	}
@@ -181,7 +199,24 @@ ek2lc_regalia.0009 = {
 					stewardship >= 12
 					factor = 0.5
 				}
+				modifier = {
+					employs_court_position = ek2lc_loincloth_maker_court_position
+					factor = 0.25
+				}
 				trigger_event = ek2lc_regalia.0011
+			}
+			6 = {
+				modifier = {
+					any_court_position_holder = {
+						type = ek2lc_loincloth_maker_court_position
+						OR = {
+							has_trait = ek2lc_loincloth_maker_2
+							has_trait = ek2lc_loincloth_maker_3
+						}
+					}
+					factor = 0.3
+				}
+				trigger_event = ek2lc_regalia.0013
 			}
 			8 = {
 				trigger = {
@@ -207,10 +242,27 @@ ek2lc_regalia.0010 = {
 		animation = happiness
 	}
 	immediate = {
+		every_court_position_holder = {
+			type = ek2lc_loincloth_maker_court_position
+			save_scope_as = ek2lc_maker
+			if = {
+				limit = { root.var:ek2lc_commission_grade >= 3 }
+				ek2lc_maker_gain_xp_effect = { XP = 2 }
+			}
+			else = {
+				ek2lc_maker_gain_xp_effect = { XP = 1 }
+			}
+		}
 		if = {
 			limit = { var:ek2lc_commission_grade >= 3 }
 			random_list = {
-				40 = { ek2lc_create_commissioned_regalia_effect = { RARITY = illustrious } }
+				40 = {
+					modifier = {
+						any_court_position_holder = { type = ek2lc_loincloth_maker_court_position has_trait = ek2lc_loincloth_maker_3 }
+						add = 40
+					}
+					ek2lc_create_commissioned_regalia_effect = { RARITY = illustrious }
+				}
 				60 = { ek2lc_create_commissioned_regalia_effect = { RARITY = famed } }
 			}
 		}
@@ -222,6 +274,10 @@ ek2lc_regalia.0010 = {
 						stewardship >= 12
 						add = 10
 					}
+					modifier = {
+						employs_court_position = ek2lc_loincloth_maker_court_position
+						add = 20
+					}
 					ek2lc_create_commissioned_regalia_effect = { RARITY = famed }
 				}
 				85 = { ek2lc_create_commissioned_regalia_effect = { RARITY = masterwork } }
@@ -229,7 +285,13 @@ ek2lc_regalia.0010 = {
 		}
 		else = {
 			random_list = {
-				15 = { ek2lc_create_commissioned_regalia_effect = { RARITY = masterwork } }
+				15 = {
+					modifier = {
+						employs_court_position = ek2lc_loincloth_maker_court_position
+						add = 25
+					}
+					ek2lc_create_commissioned_regalia_effect = { RARITY = masterwork }
+				}
 				85 = { ek2lc_create_commissioned_regalia_effect = { RARITY = common } }
 			}
 		}
@@ -494,5 +556,141 @@ ek2lc_regalia.0040 = {
 	option = {
 		name = ek2lc_regalia.0040.b
 		add_piety = minor_piety_gain
+	}
+}
+
+# The dye ran: finished, but not as ordered.
+ek2lc_regalia.0013 = {
+	type = character_event
+	title = ek2lc_regalia.0013.t
+	desc = ek2lc_regalia.0013.desc
+	theme = stewardship
+	left_portrait = {
+		character = root
+		animation = disappointed
+	}
+	option = {
+		name = ek2lc_regalia.0013.a
+		ek2lc_create_commissioned_regalia_effect = { RARITY = common }
+		stress_impact = {
+			arrogant = minor_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0013.b
+		trigger = { gold >= 30 }
+		remove_short_term_gold = 30
+		add_character_flag = ek2lc_commission_pending
+		trigger_event = { id = ek2lc_regalia.0010 days = { 30 60 } }
+	}
+}
+
+# Regalia stolen at a feast.
+ek2lc_regalia.0050 = {
+	type = character_event
+	title = ek2lc_regalia.0050.t
+	desc = ek2lc_regalia.0050.desc
+	theme = intrigue
+	trigger = {
+		is_ruler = yes
+		any_character_artifact = { has_variable = ek2lc_regalia }
+	}
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	immediate = {
+		random_character_artifact = {
+			limit = { has_variable = ek2lc_regalia }
+			save_scope_as = ek2lc_stolen
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0050.a
+		random_list = {
+			60 = {
+				modifier = {
+					intrigue >= 12
+					add = 25
+				}
+				desc = ek2lc_regalia.0050.a.found
+				add_prestige = minor_prestige_gain
+			}
+			40 = {
+				desc = ek2lc_regalia.0050.a.lost
+				destroy_artifact = scope:ek2lc_stolen
+				add_prestige = minor_prestige_loss
+			}
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0050.b
+		destroy_artifact = scope:ek2lc_stolen
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			generous = minor_stress_impact_loss
+		}
+	}
+}
+
+# A courtier with a gift for the needle: a Loincloth Maker for the court.
+ek2lc_regalia.0060 = {
+	type = character_event
+	title = ek2lc_regalia.0060.t
+	desc = ek2lc_regalia.0060.desc
+	theme = stewardship
+	trigger = {
+		is_ruler = yes
+		NOT = { employs_court_position = ek2lc_loincloth_maker_court_position }
+		any_courtier = {
+			is_adult = yes
+			ek2lc_culture_trigger = yes
+			NOR = {
+				has_trait = ek2lc_loincloth_maker_1
+				has_trait = ek2lc_loincloth_maker_2
+				has_trait = ek2lc_loincloth_maker_3
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:ek2lc_weaver
+		animation = happiness
+	}
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				ek2lc_culture_trigger = yes
+				NOR = {
+					has_trait = ek2lc_loincloth_maker_1
+					has_trait = ek2lc_loincloth_maker_2
+					has_trait = ek2lc_loincloth_maker_3
+				}
+			}
+			weight = {
+				base = 1
+				modifier = { add = stewardship }
+			}
+			save_scope_as = ek2lc_weaver
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0060.a
+		scope:ek2lc_weaver = { add_trait = ek2lc_loincloth_maker_1 }
+		appoint_court_position = {
+			recipient = scope:ek2lc_weaver
+			court_position = ek2lc_loincloth_maker_court_position
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0060.b
+		scope:ek2lc_weaver = { add_trait = ek2lc_loincloth_maker_1 }
+	}
+	option = {
+		name = ek2lc_regalia.0060.c
 	}
 }

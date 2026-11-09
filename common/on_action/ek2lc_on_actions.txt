@@ -4,6 +4,7 @@ on_birthday = {
 }
 ek2lc_on_birthday = {
 	trigger = {
+		has_game_rule = ek2lc_events_on
 		age = 14
 		ek2lc_culture_trigger = yes
 		NOT = { has_trait = undead_character }
@@ -18,7 +19,7 @@ on_combat_end_winner = {
 	on_actions = { ek2lc_on_combat_won }
 }
 ek2lc_on_combat_won = {
-	effect = {
+	effect = {  # counted whatever the events rule says: the cowrie war belt shows battles won
 		every_side_commander = {
 			limit = { ek2lc_culture_trigger = yes }
 			ek2lc_count_battle_effect = yes
@@ -35,6 +36,7 @@ yearly_playable_pulse = {
 }
 ek2lc_yearly_pulse = {
 	trigger = {
+		has_game_rule = ek2lc_events_on
 		is_adult = yes
 		ek2lc_culture_trigger = yes
 		NOT = { has_trait = undead_character }
@@ -50,5 +52,31 @@ ek2lc_yearly_pulse = {
 		40 = ek2lc_life.0050  # Hist sap
 		40 = ek2lc_life.0070  # Hircine's night
 		40 = ek2lc_life.0080  # a cold snap
+		40 = ek2lc_regalia.0050  # regalia stolen at a feast
+		50 = ek2lc_regalia.0060  # a promising weaver at court
+	}
+}
+
+# Close family (and spouses) of a loincloth people mourn a year: the dark mourning wrap.
+on_death = {
+	on_actions = { ek2lc_on_death }
+}
+ek2lc_on_death = {
+	effect = {
+		every_close_family_member = {
+			limit = {
+				is_alive = yes
+				age >= 14
+				ek2lc_culture_trigger = yes
+			}
+			add_character_modifier = { modifier = ek2lc_mourning_modifier years = 1 }
+		}
+		every_spouse = {
+			limit = {
+				is_alive = yes
+				ek2lc_culture_trigger = yes
+			}
+			add_character_modifier = { modifier = ek2lc_mourning_modifier years = 1 }
+		}
 	}
 }

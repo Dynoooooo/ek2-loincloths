@@ -431,11 +431,11 @@ def cone(pc, bases, tips, radius, rect, w, sides=4):
 
 
 # ------------------------------------------------------------------ shapes worn at the hips
-def band(pc, z_top, z_bot, rows, nb, gap, thick, rect, extra_fn=None, tilt_fn=None, over=None):
+def band(pc, z_top, z_bot, rows, nb, gap, thick, rect, extra_fn=None, tilt_fn=None, over=None, bvhs=None, clamp=False):
     """A belt or sash round the hips from z_top to z_bot: each ring gap outside everything worn under it.
     extra_fn(a): extra offset by angle; tilt_fn(a): height shift by angle; over: more obstacles (per shape)."""
     angs = [2 * math.pi * k / nb for k in range(nb)]
-    gap = max(gap, thick + 0.1)  # its inner face stays outside the skin
+    gap = gap if clamp else max(gap, thick + 0.1)  # its inner face stays outside the skin
     P = {}
     for s in ALL:
         P[s] = []
@@ -446,10 +446,13 @@ def band(pc, z_top, z_bot, rows, nb, gap, thick, rect, extra_fn=None, tilt_fn=No
                 zz = z + (tilt_fn(a) if tilt_fn else 0.0)
                 c = Vector((0, cy(zz, s), zz))
                 d = dirv(a)
-                h = first_hit(s, c + d * 80, -d, 80, ALLB[s] + (over[s] if over else []))
+                h = first_hit(s, c + d * 80, -d, 80, (bvhs[s] if bvhs else ALLB[s]) + (over[s] if over else []))
                 pts.append((c, d, (h[0] - c).dot(d) if h else 12.0))
             rs = smooth_max([r for _, _, r in pts], 4)
-            P[s] += [c + d * (r + gap + (extra_fn(a) if extra_fn else 0.0)) for (c, d, _), r, a in zip(pts, rs, angs)]
+            ro = [r + gap + (extra_fn(a) if extra_fn else 0.0) for r, a in zip(rs, angs)]
+            if clamp:  # a wrap that replaces the loincloth: inside the loincloth's room, so what goes over it still fits
+                ro = [under_base(s, c, d, r_, r) for (c, d, _), r_, r in zip(pts, ro, rs)]
+            P[s] += [c + d * r_ for (c, d, _), r_ in zip(pts, ro)]
     ws = [norm_w(torso_w(p)) for p in P["basis"]]
     slab(pc, P, rows, nb, rect, ws, thick, lambda c: Vector((c.x, c.y - cy(BELT_Z, "basis"), 0)), closed=True)
     return P
@@ -469,22 +472,23 @@ def bvh_of(P, R, C, closed=False):
     return out
 
 
-def drape(pc, side, xs, z_top, z_bot, rows, gap, thick, rect, widen=0.0, over=None, tie_t=0.0):
+def drape(pc, side, xs, z_top, z_bot, rows, gap, thick, rect, widen=0.0, over=None, tie_t=0.0, bvhs=None, clamp=False):
     """A flat apron hanging in front (side +1) or behind (-1): each column falls straight from the most
     prominent point above it, gap clear of everything under it. xs: column x positions at the top
     (widen: extra half-width at the bottom). Returns its points."""
     D = FRONT * side
     P = {}
     for s in ALL:
-        E = []
+        E, HERE = [], {}
         for j in range(rows):
             t = j / (rows - 1)
             z = z_top + (z_bot - z_top) * t
             row = []
             for x in xs:
                 xx = x * (1 + widen * t)
-                h = first_hit(s, Vector((xx, 0, z)) + D * 80, -D, 160, ALLB[s] + (over[s] if over else []))
+                h = first_hit(s, Vector((xx, 0, z)) + D * 80, -D, 160, (bvhs[s] if bvhs else ALLB[s]) + (over[s] if over else []))
                 e = h[0].dot(D) if h else (-1e9 if j else 0.0)
+                HERE[(j, len(row))] = e
                 if j:
                     e = max(e, E[-1][len(row)])
                 row.append(e)
@@ -495,7 +499,13 @@ def drape(pc, side, xs, z_top, z_bot, rows, gap, thick, rect, widen=0.0, over=No
             t = j / (rows - 1)
             z = z_top + (z_bot - z_top) * t
             for i, x in enumerate(xs):
-                P[s].append(Vector((x * (1 + widen * t), 0, z)) + D * (E[j][i] + gap))
+                e_ = E[j][i] + gap
+                if clamp and s in BASEB:
+                    q = Vector((x * (1 + widen * t), 0, z))
+                    hb = BASEB[s].ray_cast(q + D * 80, -D, 160)[0]
+                    if hb is not None and e_ > hb.dot(D) - 0.12:
+                        e_ = max(hb.dot(D) - 0.12, HERE[(j, i)] + 0.15)
+                P[s].append(Vector((x * (1 + widen * t), 0, z)) + D * e_)
     ws = []
     top = {i: torso_w(P["basis"][i]) for i in range(len(xs))}
     for j in range(rows):
@@ -1191,6 +1201,236 @@ def build_victor(pc, at):
         a = ka + math.radians(da)
         zt = kn["basis"].z - 1.5
         radial_drape(pc, a - math.radians(5), a + math.radians(5), 3, zt, zt - ln, 6, 1.1 + 0.3 * (da > 0), 0.2, r_tail, tie_t=0.1)
+
+
+# ------------------------------------------------------------------ wraps that replace the loincloth (2026-11-09)
+# Worn instead of our loincloth (it draws nothing under them, tag ek2lc_wrap), so they sit inside the room the loincloth
+# takes (under_base): every girdle, apron and regalia built over the loincloth still fits over them.
+BASEB = OBST[0]
+WRAPB = {s: [TB[s]] + ([OBST[1][s]] if s in OBST[1] else []) for s in ALL}  # the body and the leggings
+
+
+def under_base(s, c, d, r_want, r_skin, inset=0.12):
+    """Radius r_want along c + d*r, kept inset under the loincloth where it is there (never nearer the skin than 0.15)."""
+    if s not in BASEB:
+        return r_want
+    h = BASEB[s].ray_cast(c + d * 80, -d, 80)[0]
+    if h is None:
+        return r_want
+    rb = (h - c).dot(d)
+    return max(rb - inset, r_skin + 0.15) if r_want > rb - inset else r_want
+
+
+def wrap_strip(pc, rect):
+    """The part between the legs, over the fig leaf (the loincloth's own algorithm, its own mesh and texture)."""
+    P = {s: surface_parts(s)[NB * 5:] for s in ALL}
+    ws = [weights_at(b[0], b[1]) for b in strip_bind]
+    slab(pc, P, NS, SC, rect, ws, 0.1, lambda c: c - P0)
+
+
+def wrap_common(pc, at, band_painter, strip_painter, z_top=1.6, z_bot=-1.6, gap=0.45):
+    rb = at.cell(band_painter, 2, 1)
+    rs = at.cell(strip_painter, 1, 2)
+    BP = band(pc, BELT_Z + z_top, BELT_Z + z_bot, 4, 48, gap, 0.12, rb, bvhs=WRAPB, clamp=True)
+    wrap_strip(pc, rs)
+    return BP
+
+
+def P_torn(base_painter, holes=0.08, jag=0.12, claws=False, seed=0):
+    """A painter's cloth or hide, torn: holes, a jagged lower edge (low V), and optionally three claw slashes."""
+    def f(U, V, rng, sh):
+        r = base_painter(U, V, rng, sh)
+        n = noise(sh, 9, int(rng.integers(1000000)))
+        n2 = noise(sh, 30, int(rng.integers(1000000)))
+        a = np.ones(sh, np.float32) * (r.get("a", 1.0) if np.ndim(r.get("a", 1.0)) else 1.0)
+        a = np.where(n2 > 1 - holes, 0.0, a)
+        a = np.where(V < jag * (0.35 + 0.65 * n), 0.0, a)
+        rgb = r["rgb"] * (0.75 + 0.3 * n)[..., None]
+        rgb = np.where((n2 > 1 - holes * 1.6)[..., None], rgb * 0.55, rgb)  # frayed, darker round the holes
+        if claws:
+            for k in range(3):
+                line = np.abs((U - 0.3 - 0.12 * k) - (V - 0.5) * 0.35)
+                cut = (line < 0.018) & (V > 0.25) & (V < 0.8)
+                a = np.where(cut, 0.0, a)
+                rgb = np.where(((line < 0.04) & (V > 0.22) & (V < 0.83))[..., None], rgb * 0.5, rgb)
+        r = dict(r)
+        r["rgb"], r["a"] = rgb, a
+        return r
+    return f
+
+
+@piece("festival_wrap")
+def build_festival(pc, at):
+    white, shade = C(0.93, 0.92, 0.88), C(0.8, 0.79, 0.75)
+    BP = wrap_common(pc, at, P_rope(white), P_silk(white, shade), z_top=1.4, z_bot=-1.4, gap=0.5)
+    kn = on_band(BP, 4, 48, 1.5, math.pi, 0.5)
+    o = {s: outward(kn[s], s) for s in ALL}
+    blob(pc, kn, 1.0, at.cell(P_rope(white)), norm_w(torso_w(kn["basis"])), seg=8, rings=5,
+         axes={s: (UP.cross(o[s]).normalized() * 2.6, o[s] * 1.2, UP * 2.0) for s in ALL})
+
+
+@piece("wedding_wrap")
+def build_wedding(pc, at):
+    ivory, gold, red = C(0.92, 0.88, 0.78), C(0.85, 0.65, 0.2), C(0.6, 0.08, 0.08)
+    def emb(U, V):
+        k = (V * 8) % 1
+        m = ((np.abs(U - 0.5) < 0.03) & (V > 0.2)) | ((np.abs(np.abs(U - 0.5) - k * 0.3) < 0.02) & (V > 0.2) & (V < 0.95)) \
+            | (U < 0.05) | (U > 0.95)
+        return m, np.where(((U < 0.05) | (U > 0.95))[..., None], gold, red)
+    BP = wrap_common(pc, at, P_silk(ivory, gold, stripes=[(0.1, 0.25, gold), (0.75, 0.9, gold)]), P_silk(ivory, gold))
+    zb = KNEE_Z + 4.0
+    FP = drape(pc, +1, [-9 + 18 * i / 6 for i in range(7)], BELT_Z - 0.5, zb, 14, 0.45, 0.12,
+               at.cell(P_silk(ivory, gold, emb=emb, fringe=0.06, fringe_col=gold), 2, 2), widen=0.05, bvhs=WRAPB, clamp=True)
+    drape(pc, -1, [-8 + 16 * i / 4 for i in range(5)], BELT_Z - 0.5, BELT_Z - 28.0, 11, 0.45, 0.12,
+          at.cell(P_silk(ivory, gold, stripes=[(0.1, 0.16, gold), (0.84, 0.9, gold)])), bvhs=WRAPB, clamp=True)
+    r_bead = at.cell(P_solid(red, 0.7, 0.2, 0.15))
+    for i in range(7):  # red beads along the hem
+        cs = {s: FP[s][13 * 7 + i] - UP * 0.9 + FRONT * 0.15 for s in ALL}
+        blob(pc, cs, 0.55, r_bead, hang_w(cs["basis"], 1.0), seg=6, rings=4)
+
+
+@piece("mourning_wrap")
+def build_mourning(pc, at):
+    soot, ash = C(0.09, 0.085, 0.08), C(0.45, 0.44, 0.42)
+    def smudge(U, V):
+        x = (U - 0.5) * 2
+        m = np.zeros(np.shape(U), bool)  # three fingers' smears of ash, top left to lower right
+        for k in (-0.22, 0.0, 0.22):
+            m |= (np.abs((x - k) + (V - 0.7) * 0.5) < 0.045) & (V > 0.5) & (V < 0.9)
+        return m, np.broadcast_to(ash, m.shape + (3,))
+    plain = P_leather(soot, border=False)
+    BP = wrap_common(pc, at, P_leather(soot * 1.2), P_leather(soot))
+    zb = KNEE_Z + 2.0
+    drape(pc, +1, [-10 + 20 * i / 6 for i in range(7)], BELT_Z - 0.5, zb, 14, 0.45, 0.12,
+          at.cell(P_silk(soot, ash, emb=smudge), 2, 2), widen=0.04, bvhs=WRAPB, clamp=True)
+    drape(pc, -1, [-10 + 20 * i / 6 for i in range(7)], BELT_Z - 0.5, zb + 2.0, 14, 0.45, 0.12, at.cell(plain, 2, 1),
+          widen=0.04, bvhs=WRAPB, clamp=True)
+
+
+@piece("ragged_loincloth")
+def build_ragged(pc, at):
+    dirt = C(0.36, 0.3, 0.22)
+    BP = wrap_common(pc, at, P_torn(P_leather(dirt * 0.8, border=False), 0.05, 0.0), P_torn(P_leather(dirt, border=False), 0.04, 0.0))
+    drape(pc, +1, [-8 + 16 * i / 5 for i in range(6)], BELT_Z - 0.5, BELT_Z - 27.0, 11, 0.45, 0.12,
+          at.cell(P_torn(P_leather(dirt, border=False), 0.07, 0.22), 2, 2), bvhs=WRAPB, clamp=True)
+    drape(pc, -1, [-7 + 14 * i / 4 for i in range(5)], BELT_Z - 0.5, BELT_Z - 22.0, 9, 0.45, 0.12,
+          at.cell(P_torn(P_leather(dirt * 0.9, border=False), 0.07, 0.25)), bvhs=WRAPB, clamp=True)
+
+
+@piece("elder_wrap")
+def build_elder(pc, at):
+    flax, umber = C(0.72, 0.66, 0.52), C(0.38, 0.26, 0.15)
+    BP = wrap_common(pc, at, P_silk(flax, umber, stripes=[(0.15, 0.3, umber)]), P_silk(flax, umber), z_top=2.4, z_bot=-2.0)
+    zb = KNEE_Z - 1.0
+    for side in (1, -1):
+        drape(pc, side, [-13 + 26 * i / 8 for i in range(9)], BELT_Z - 0.5, zb, 16, 0.45, 0.12,
+              at.cell(P_silk(flax, umber, stripes=[(0.04, 0.09, umber), (0.12, 0.14, umber)]), 2, 2), widen=0.03,
+              bvhs=WRAPB, clamp=True)
+
+
+@piece("sailor_malo")
+def build_sailor(pc, at):
+    indigo, tapa = C(0.12, 0.2, 0.36), C(0.74, 0.6, 0.42)
+    def tapa_pat(U, V):
+        k = (U * 10) % 1
+        m = (np.abs(k - 0.5) < 0.07) | ((np.abs(((V * 6) % 1) - 0.5) < 0.06) & (k < 0.5))
+        return m, np.broadcast_to(tapa, m.shape + (3,))
+    BP = wrap_common(pc, at, P_silk(indigo, tapa, emb=tapa_pat), P_silk(indigo, tapa, emb=tapa_pat), z_top=2.2, z_bot=-2.6, gap=0.5)
+    ak = ang_l(-75)  # knotted on the right hip
+    kn = on_band(BP, 4, 48, 1.5, ak, 0.6)
+    o = {s: outward(kn[s], s) for s in ALL}
+    blob(pc, kn, 1.0, at.cell(P_silk(indigo, tapa)), norm_w(torso_w(kn["basis"])), seg=8, rings=5,
+         axes={s: (UP.cross(o[s]).normalized() * 2.4, o[s] * 1.2, UP * 2.0) for s in ALL})
+    radial_drape(pc, ak - math.radians(5), ak + math.radians(5), 3, kn["basis"].z - 1.2, kn["basis"].z - 13.0, 7, 1.0, 0.15,
+                 at.cell(P_silk(indigo, tapa, emb=tapa_pat, fringe=0.15, fringe_col=indigo * 1.3), 1, 2), tie_t=0.1)
+
+
+@piece("werewolf_tatters")
+def build_werewolf(pc, at):
+    hide, fur = C(0.3, 0.22, 0.15), C(0.24, 0.2, 0.17)
+    BP = wrap_common(pc, at, P_torn(P_leather(hide * 0.8, border=False), 0.05, 0.0), P_torn(P_leather(hide, border=False), 0.03, 0.0))
+    drape(pc, +1, [-9 + 18 * i / 5 for i in range(6)], BELT_Z - 0.5, BELT_Z - 25.0, 10, 0.45, 0.12,
+          at.cell(P_torn(P_leather(hide, border=False), 0.04, 0.25, claws=True), 2, 2), bvhs=WRAPB, clamp=True)
+    drape(pc, -1, [-8 + 16 * i / 4 for i in range(5)], BELT_Z - 0.5, BELT_Z - 21.0, 9, 0.45, 0.12,
+          at.cell(P_torn(P_leather(hide * 0.9, border=False), 0.05, 0.3, claws=True)), bvhs=WRAPB, clamp=True)
+    r_fur = at.cell(P_feather(fur, fur * 0.6, tip=C(0.1, 0.08, 0.07)))
+    for k in range(16):  # tufts of fur at the belt
+        a = 2 * math.pi * (k + 0.5) / 16
+        top = on_band(BP, 4, 48, 3, a, 0.15)
+        card(pc, top, 4.5, 2.4, r_fur, rows=3, tilt=0.4, thick=0.05, twist=0.3 * ((k % 3) - 1))
+
+
+# ------------------------------------------------------------------ cowrie war belt and holy-order tabard
+GIRDLES = [obstacle("ek2lc_%s_reach_%s_01" % (S1, k)) for k in ("war", "armour")]
+ROYAL = [obstacle("ek2lc_%s_reach_%s_01" % (S1, k)) for k in ("duke", "king", "emperor")]
+WITH_WAR = {s: [g[s] for g in GIRDLES if s in g] for s in ALL}
+WITH_ALL = {s: [g[s] for g in GIRDLES + ROYAL if s in g] for s in ALL}
+
+
+def P_cowrie():
+    def f(U, V, rng, sh):
+        n = noise(sh, 10, int(rng.integers(1000000)))
+        rgb = C(0.92, 0.88, 0.76)[None, None, :] * (0.88 + 0.18 * n)[..., None]
+        slit = (np.abs(U - 0.25) < 0.025) & (V > 0.25) & (V < 0.75)
+        teeth = slit & ((V * 30) % 1 < 0.5)
+        rgb[slit] = C(0.45, 0.35, 0.25)
+        rgb[teeth] = C(0.8, 0.74, 0.6)
+        return {"rgb": rgb, "spec": np.full(sh, 0.6, np.float32), "rough": np.full(sh, 0.25, np.float32)}
+    return f
+
+
+def build_cowrie(pc, at, tier):
+    raw = C(0.5, 0.36, 0.22)
+    r_band = at.cell(P_leather(raw, border=True), 2, 1)
+    r_shell = at.cell(P_cowrie())
+    r_cord = at.cell(P_solid(raw * 0.8, 0.2, 0.7, 0.1, rings=16))
+    BP = band(pc, BELT_Z + 1.3, BELT_Z - 1.3, 3, 48, 0.35, 0.3, r_band, over=WITH_WAR)
+    over = bvh_of(BP, 3, 48, True)
+    span = 72 if tier == 1 else 180
+    n = 20 if tier == 1 else 48
+
+    def shell(c, w):
+        o = {s: outward(c[s], s) for s in ALL}
+        blob(pc, c, 1.0, r_shell, w, seg=8, rings=4,
+             axes={s: (UP.cross(o[s]).normalized() * 0.55, o[s] * 0.4, UP * 0.85) for s in ALL})
+
+    for k in range(n):
+        a = math.radians(-span + 2 * span * (k + 0.5) / n) if tier == 1 else 2 * math.pi * k / n
+        for row in ((1.0,) if tier < 3 else (0.4, 1.6)):
+            c = on_band(BP, 3, 48, row, a + (math.pi / n if row > 1 else 0), 0.35)
+            shell(c, norm_w(torso_w(c["basis"])))
+    strings = [] if tier == 1 else [53, -53] + ([133, -133] if tier == 3 else [])
+    for deg in strings:
+        a = math.radians(deg)
+        z0 = band_pt(BP, 3, 48, 2, a, "basis").z
+        pth = {s: hang_line(s, a, z0, 9.0, 6, 0.6, {x: over[x] + WITH_WAR[x] for x in ALL}) for s in ALL}
+        tube(pc, pth, 0.1, r_cord, [hang_w(p, 0.15 + 0.15 * j) for j, p in enumerate(pth["basis"])], sides=4)
+        for j in range(1, 6):
+            c = {s: pth[s][j] + outward(pth[s][j], s) * 0.35 for s in ALL}
+            shell(c, hang_w(c["basis"], 0.2 + 0.15 * j))
+
+
+for _t in (1, 2, 3):
+    PIECES_R["cowrie_%d" % _t] = (lambda t_: (lambda pc, at: build_cowrie(pc, at, t_)))(_t)
+
+
+@piece("holy_tabard")
+def build_tabard(pc, at):
+    white, red, gold = C(0.9, 0.88, 0.82), C(0.55, 0.06, 0.06), C(0.85, 0.66, 0.2)
+    def star(U, V):
+        x, y = (U - 0.5) * 2, (V - 0.68) * 2.6
+        ang, r = np.arctan2(y, x), np.hypot(x, y)
+        st = r < 0.25 + 0.25 * np.abs(np.cos(ang * 4)) ** 6
+        border = (U < 0.08) | (U > 0.92) | (V > 0.95) | (V < 0.05)
+        m = st | border
+        return m, np.where(st[..., None], gold, red)
+    rope = {s: radial(s, BELT_Z + 3.2, [2 * math.pi * k / 48 for k in range(48)], 0.7, over=WITH_ALL)[0] for s in ALL}
+    for s in ALL:
+        rope[s] = rope[s] + [rope[s][0]]
+    tube(pc, rope, 0.3, at.cell(P_rope(red)), [norm_w(torso_w(p)) for p in rope["basis"]], sides=5, caps=False)
+    for side, ln in ((1, 32.0), (-1, 30.0)):
+        drape(pc, side, [-6.5 + 13 * i / 4 for i in range(5)], BELT_Z + 2.6, BELT_Z + 2.6 - ln, 13, 0.6, 0.2,
+              at.cell(P_silk(white, gold, emb=star, fringe=0.05, fringe_col=red), 1, 3), over=WITH_ALL)
 
 
 # ------------------------------------------------------------------ build, export

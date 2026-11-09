@@ -939,3 +939,80 @@ ek2lc_custom_victor = {
 		template = ek2lc_victor_sash
 	}
 }
+
+ek2lc_custom_wrap = {
+	usage = customization
+	interface_position = 24
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_no_wrap
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_ragged_loincloth
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_mourning_wrap
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_wedding_wrap
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_festival_wrap
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_werewolf_tatters
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_sailor_malo
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrap
+		template = ek2lc_elder_wrap
+	}
+}
+
+ek2lc_custom_cowrie = {
+	usage = customization
+	interface_position = 25
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_no_cowrie
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_cowrie_1
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_cowrie_2
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_cowrie
+		template = ek2lc_cowrie_3
+	}
+}
+
+ek2lc_custom_tabard = {
+	usage = customization
+	interface_position = 26
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_tabard
+		template = ek2lc_no_tabard
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_tabard
+		template = ek2lc_holy_tabard
+	}
+}

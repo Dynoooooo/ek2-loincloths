@@ -38,25 +38,59 @@ ek2lc_loincloth = {
 			base = 1
 			modifier = {
 				factor = 0  # the loincloth cultures' people aged 4 and up always get one of the looks below (2026-11-07)
+				has_game_rule = ek2lc_frequency_always  # game rule (2026-11-09): or often, or sometimes (below)
 				scope:age >= 4
 				OR = {
-					portrait_ek_nedic_reach_clothing_trigger = yes
-					portrait_ek_ashlander_clothing_trigger = yes
-					portrait_ek_bosmeri_clothing_trigger = yes
-					portrait_ek_argonian_clothing_trigger = yes
+					OR = {
+						portrait_ek_nedic_reach_clothing_trigger = yes
+						has_character_flag = ek2lc_native_reach
+					}
+					OR = {
+						portrait_ek_ashlander_clothing_trigger = yes
+						has_character_flag = ek2lc_native_ashlander
+					}
+					OR = {
+						portrait_ek_bosmeri_clothing_trigger = yes
+						has_character_flag = ek2lc_native_bosmer
+					}
+					OR = {
+						portrait_ek_argonian_clothing_trigger = yes
+						has_character_flag = ek2lc_native_argonian
+					}
 					OR = {
 						portrait_ek_anequinan_clothing_trigger = yes
 						portrait_ek_pellitinian_clothing_trigger = yes
+						has_character_flag = ek2lc_native_khajiit
 					}
-					portrait_ek_orc_clothing_trigger = yes
-					portrait_ek_goblin_clothing_trigger = yes
-					portrait_ek_nedic_south_clothing_trigger = yes
-					portrait_ek_lilmothiit_clothing_trigger = yes
+					OR = {
+						portrait_ek_orc_clothing_trigger = yes
+						has_character_flag = ek2lc_native_orc
+					}
+					OR = {
+						portrait_ek_goblin_clothing_trigger = yes
+						has_character_flag = ek2lc_native_goblin
+					}
+					OR = {
+						portrait_ek_nedic_south_clothing_trigger = yes
+						has_character_flag = ek2lc_native_kothringi
+					}
+					OR = {
+						portrait_ek_lilmothiit_clothing_trigger = yes
+						has_character_flag = ek2lc_native_lilmothiit
+					}
 				}
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
 				}
+			}
+			modifier = {
+				add = 49  # "often": two in three wear a loincloth
+				has_game_rule = ek2lc_frequency_often
+			}
+			modifier = {
+				add = 199  # "sometimes": one in three
+				has_game_rule = ek2lc_frequency_sometimes
 			}
 		}
 	}
@@ -339,7 +373,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -437,7 +474,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -531,7 +571,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -540,6 +583,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -634,7 +678,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -643,6 +690,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -734,7 +782,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -831,7 +882,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -1121,7 +1175,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -1219,7 +1276,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -1314,7 +1374,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -1412,7 +1475,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -1506,7 +1572,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -1515,6 +1584,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -1609,7 +1679,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -1618,6 +1691,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -1709,7 +1783,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -1806,7 +1883,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -1900,7 +1980,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -1997,7 +2080,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -2091,7 +2177,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -2188,7 +2277,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -2282,7 +2374,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -2378,7 +2473,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -2471,7 +2569,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -2567,7 +2668,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -2660,7 +2764,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -2757,7 +2864,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -2851,7 +2961,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -2948,7 +3061,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -3042,7 +3158,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -3139,7 +3258,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -3233,7 +3355,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -3330,7 +3455,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -3424,7 +3552,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -3521,7 +3652,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -3615,7 +3749,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -3712,7 +3849,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -3806,7 +3946,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -3903,7 +4046,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -3997,7 +4143,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -4094,7 +4243,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -4188,7 +4340,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -4280,7 +4435,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_reach_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					has_character_flag = ek2lc_native_reach
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -4568,7 +4726,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -4666,7 +4827,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -4760,7 +4924,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -4769,6 +4936,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -4863,7 +5031,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -4872,6 +5043,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -4963,7 +5135,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -5060,7 +5235,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -5350,7 +5528,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -5448,7 +5629,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -5543,7 +5727,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -5641,7 +5828,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -5735,7 +5925,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -5744,6 +5937,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -5838,7 +6032,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -5847,6 +6044,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -5938,7 +6136,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -6035,7 +6236,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -6129,7 +6333,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -6226,7 +6433,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -6320,7 +6530,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -6417,7 +6630,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -6511,7 +6727,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -6607,7 +6826,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -6700,7 +6922,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -6796,7 +7021,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -6889,7 +7117,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -6986,7 +7217,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -7080,7 +7314,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -7177,7 +7414,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -7271,7 +7511,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -7368,7 +7611,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -7462,7 +7708,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -7559,7 +7808,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -7653,7 +7905,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -7750,7 +8005,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -7844,7 +8102,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -7941,7 +8202,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -8035,7 +8299,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -8132,7 +8399,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -8226,7 +8496,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -8323,7 +8596,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -8417,7 +8693,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -8509,7 +8788,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_ashlander_clothing_trigger = yes
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					has_character_flag = ek2lc_native_ashlander
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -8797,7 +9079,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -8895,7 +9180,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -8989,7 +9277,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -8998,6 +9289,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -9092,7 +9384,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -9101,6 +9396,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -9192,7 +9488,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -9289,7 +9588,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -9579,7 +9881,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -9677,7 +9982,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -9772,7 +10080,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -9870,7 +10181,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -9964,7 +10278,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -9973,6 +10290,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -10067,7 +10385,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -10076,6 +10397,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -10167,7 +10489,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -10264,7 +10589,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -10358,7 +10686,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -10455,7 +10786,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -10549,7 +10883,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -10646,7 +10983,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -10740,7 +11080,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -10836,7 +11179,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -10929,7 +11275,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -11025,7 +11374,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -11118,7 +11470,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -11215,7 +11570,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -11309,7 +11667,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -11406,7 +11767,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -11500,7 +11864,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -11597,7 +11964,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -11691,7 +12061,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -11788,7 +12161,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -11882,7 +12258,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -11979,7 +12358,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -12073,7 +12455,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -12170,7 +12555,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -12264,7 +12652,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -12361,7 +12752,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -12455,7 +12849,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -12552,7 +12949,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -12646,7 +13046,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -12738,7 +13141,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_bosmeri_clothing_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					has_character_flag = ek2lc_native_bosmer
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -13026,7 +13432,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -13124,7 +13533,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -13218,7 +13630,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -13227,6 +13642,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -13321,7 +13737,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -13330,6 +13749,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -13421,7 +13841,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -13518,7 +13941,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -14040,7 +14466,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -14138,7 +14567,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -14233,7 +14665,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -14331,7 +14766,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -14425,7 +14863,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -14434,6 +14875,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -14528,7 +14970,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -14537,6 +14982,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -14628,7 +15074,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -14725,7 +15174,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -14819,7 +15271,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -14916,7 +15371,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -15010,7 +15468,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -15107,7 +15568,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -15201,7 +15665,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -15297,7 +15764,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -15390,7 +15860,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -15486,7 +15959,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -15579,7 +16055,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -15676,7 +16155,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -15770,7 +16252,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -15867,7 +16352,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -15961,7 +16449,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -16058,7 +16549,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -16152,7 +16646,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -16249,7 +16746,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -16343,7 +16843,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -16440,7 +16943,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -16534,7 +17040,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -16631,7 +17140,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -16725,7 +17237,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -16822,7 +17337,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -16916,7 +17434,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -17013,7 +17534,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -17107,7 +17631,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -17199,7 +17726,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -17291,7 +17821,10 @@ ek2lc_loincloth = {
 				add = 500
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_argonian_clothing_trigger = yes
+				OR = {
+					portrait_ek_argonian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_argonian
+				}
 				ek2lc_grave_look_trigger = yes
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_argonian
@@ -17599,6 +18132,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -17700,6 +18234,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -17797,6 +18332,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -17811,6 +18347,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -17908,6 +18445,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -17922,6 +18460,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -18016,6 +18555,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
@@ -18116,6 +18656,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
@@ -18419,6 +18960,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -18520,6 +19062,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -18618,6 +19161,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -18719,6 +19263,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -18816,6 +19361,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -18830,6 +19376,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -18927,6 +19474,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
@@ -18941,6 +19489,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -19035,6 +19584,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
@@ -19135,6 +19685,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
@@ -19232,6 +19783,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -19332,6 +19884,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -19429,6 +19982,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -19529,6 +20083,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
@@ -19626,6 +20181,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -19725,6 +20281,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -19821,6 +20378,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
@@ -19920,6 +20478,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -20016,6 +20575,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -20116,6 +20676,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -20213,6 +20774,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -20313,6 +20875,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
@@ -20410,6 +20973,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -20510,6 +21074,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -20607,6 +21172,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -20707,6 +21273,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
@@ -20804,6 +21371,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -20904,6 +21472,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -21001,6 +21570,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -21101,6 +21671,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
@@ -21198,6 +21769,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -21298,6 +21870,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -21395,6 +21968,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -21495,6 +22069,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
@@ -21592,6 +22167,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
@@ -21687,6 +22263,7 @@ ek2lc_loincloth = {
 				OR = {
 					portrait_ek_anequinan_clothing_trigger = yes
 					portrait_ek_pellitinian_clothing_trigger = yes
+					has_character_flag = ek2lc_native_khajiit
 				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
@@ -21975,7 +22552,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -22073,7 +22653,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -22167,7 +22750,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -22176,6 +22762,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -22270,7 +22857,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -22279,6 +22869,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -22370,7 +22961,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -22467,7 +23061,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -22757,7 +23354,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -22855,7 +23455,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -22950,7 +23553,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -23048,7 +23654,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -23142,7 +23751,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -23151,6 +23763,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -23245,7 +23858,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -23254,6 +23870,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -23345,7 +23962,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -23442,7 +24062,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -23536,7 +24159,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -23633,7 +24259,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -23727,7 +24356,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -23824,7 +24456,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -23918,7 +24553,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -24014,7 +24652,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -24107,7 +24748,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -24203,7 +24847,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -24296,7 +24943,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -24393,7 +25043,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -24487,7 +25140,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -24584,7 +25240,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -24678,7 +25337,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -24775,7 +25437,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -24869,7 +25534,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -24966,7 +25634,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -25060,7 +25731,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -25157,7 +25831,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -25251,7 +25928,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -25348,7 +26028,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -25442,7 +26125,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -25539,7 +26225,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -25633,7 +26322,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -25730,7 +26422,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -25824,7 +26519,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -25916,7 +26614,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_orc_clothing_trigger = yes
+				OR = {
+					portrait_ek_orc_clothing_trigger = yes
+					has_character_flag = ek2lc_native_orc
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -26204,7 +26905,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -26302,7 +27006,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -26396,7 +27103,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -26405,6 +27115,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -26499,7 +27210,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -26508,6 +27222,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -26599,7 +27314,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -26696,7 +27414,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -26986,7 +27707,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -27084,7 +27808,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -27179,7 +27906,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -27277,7 +28007,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -27371,7 +28104,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -27380,6 +28116,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -27474,7 +28211,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -27483,6 +28223,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -27574,7 +28315,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -27671,7 +28415,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -27765,7 +28512,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -27862,7 +28612,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -27956,7 +28709,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -28053,7 +28809,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -28147,7 +28906,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -28243,7 +29005,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -28336,7 +29101,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -28432,7 +29200,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -28525,7 +29296,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -28622,7 +29396,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -28716,7 +29493,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -28813,7 +29593,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -28907,7 +29690,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -29004,7 +29790,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -29098,7 +29887,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -29195,7 +29987,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -29289,7 +30084,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -29386,7 +30184,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -29480,7 +30281,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -29577,7 +30381,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -29671,7 +30478,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -29768,7 +30578,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -29862,7 +30675,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -29959,7 +30775,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -30053,7 +30872,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -30145,7 +30967,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_goblin_clothing_trigger = yes
+				OR = {
+					portrait_ek_goblin_clothing_trigger = yes
+					has_character_flag = ek2lc_native_goblin
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -30433,7 +31258,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -30531,7 +31359,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -30625,7 +31456,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -30634,6 +31468,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -30728,7 +31563,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -30737,6 +31575,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -30828,7 +31667,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -30925,7 +31767,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -31447,7 +32292,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -31545,7 +32393,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -31640,7 +32491,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -31738,7 +32592,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -31832,7 +32689,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -31841,6 +32701,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -31935,7 +32796,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -31944,6 +32808,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -32035,7 +32900,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -32132,7 +33000,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -32226,7 +33097,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -32323,7 +33197,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -32417,7 +33294,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -32514,7 +33394,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -32608,7 +33491,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -32704,7 +33590,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -32797,7 +33686,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -32893,7 +33785,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -32986,7 +33881,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -33083,7 +33981,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -33177,7 +34078,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -33274,7 +34178,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -33368,7 +34275,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -33465,7 +34375,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -33559,7 +34472,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -33656,7 +34572,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -33750,7 +34669,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -33847,7 +34769,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -33941,7 +34866,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -34038,7 +34966,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -34132,7 +35063,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -34229,7 +35163,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -34323,7 +35260,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -34420,7 +35360,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -34514,7 +35457,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -34606,7 +35552,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -34698,7 +35647,10 @@ ek2lc_loincloth = {
 				add = 500
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_nedic_south_clothing_trigger = yes
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+					has_character_flag = ek2lc_native_kothringi
+				}
 				ek2lc_grave_look_trigger = yes
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_nedic_south
@@ -34993,7 +35945,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -35091,7 +36046,10 @@ ek2lc_loincloth = {
 				is_female = no
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -35185,7 +36143,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -35194,6 +36155,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -35288,7 +36250,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 7
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -35297,6 +36262,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -35388,7 +36354,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -35485,7 +36454,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -36007,7 +36979,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -36105,7 +37080,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 4
 				scope:age <= 6
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -36200,7 +37178,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOR = {
@@ -36298,7 +37279,10 @@ ek2lc_loincloth = {
 				is_female = yes
 				scope:age >= 7
 				scope:age <= 13
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -36392,7 +37376,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -36401,6 +37388,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
 					should_be_topless_portrait_trigger = yes
@@ -36495,7 +37483,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_war_role_trigger = no
 				NOT = {
@@ -36504,6 +37495,7 @@ ek2lc_loincloth = {
 					}
 				}
 				ek2lc_camp_follower_trigger = no
+				has_game_rule = ek2lc_nobles_on
 				ek2lc_lich_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -36595,7 +37587,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				NOR = {
@@ -36692,7 +37687,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_royal_trigger = no
 				ek2lc_camp_follower_trigger = yes
 				ek2lc_lich_look_trigger = yes
@@ -36786,7 +37784,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -36883,7 +37884,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -36977,7 +37981,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				NOR = {
@@ -37074,7 +38081,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = yes
 				ek2lc_armour_role_trigger = no
 				ek2lc_lich_look_trigger = yes
@@ -37168,7 +38178,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -37264,7 +38277,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = no
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -37357,7 +38373,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_armour_role_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -37453,7 +38472,10 @@ ek2lc_loincloth = {
 				add = 100
 				is_female = yes
 				scope:age >= 14
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_armour_role_trigger = yes
 				ek2lc_lich_look_trigger = yes
 				NOR = {
@@ -37546,7 +38568,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -37643,7 +38668,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -37737,7 +38765,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				NOR = {
@@ -37834,7 +38865,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = barony HIGH = county }
 				ek2lc_lich_look_trigger = yes
@@ -37928,7 +38962,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -38025,7 +39062,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -38119,7 +39159,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				NOR = {
@@ -38216,7 +39259,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = duchy HIGH = duchy }
 				ek2lc_lich_look_trigger = yes
@@ -38310,7 +39356,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -38407,7 +39456,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -38501,7 +39553,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				NOR = {
@@ -38598,7 +39653,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = kingdom HIGH = kingdom }
 				ek2lc_lich_look_trigger = yes
@@ -38692,7 +39750,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -38789,7 +39850,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -38883,7 +39947,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				NOR = {
@@ -38980,7 +40047,10 @@ ek2lc_loincloth = {
 				add = 100  # always (2026-11-07; was two in three)
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_war_role_trigger = no
 				ek2lc_royal_tier_trigger = { LOW = empire HIGH = hegemony }
 				ek2lc_lich_look_trigger = yes
@@ -39074,7 +40144,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = no
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -39166,7 +40239,10 @@ ek2lc_loincloth = {
 				add = 1000
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_grave_look_trigger = yes
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes
@@ -39258,7 +40334,10 @@ ek2lc_loincloth = {
 				add = 500
 				is_female = yes
 				scope:age >= 4
-				portrait_ek_lilmothiit_clothing_trigger = yes
+				OR = {
+					portrait_ek_lilmothiit_clothing_trigger = yes
+					has_character_flag = ek2lc_native_lilmothiit
+				}
 				ek2lc_grave_look_trigger = yes
 				portrait_commoner_clothing_trigger = {
 					CULTURE_INPUT = ek_lilmothiit
@@ -40027,6 +41106,355 @@ ek2lc_victor = {
 					has_character_modifier = tournament_joust_winner_modifier
 					has_character_modifier = tournament_archery_winner_modifier
 					has_character_modifier = tournament_horse_race_winner_modifier
+				}
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+}
+
+# gene_ek2lc_wrap: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_wrap = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_wrap_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_no_wrap
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_ragged_loincloth = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_ragged_loincloth
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_ragged_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_mourning_wrap = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_mourning_wrap
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_mourning_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_wedding_wrap = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_wedding_wrap
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_wedding_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_festival_wrap = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_festival_wrap
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_festival_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_werewolf_tatters = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_werewolf_tatters
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_werewolf_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_sailor_malo = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_sailor_malo
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_sailor_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_elder_wrap = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_wrap
+				template = ek2lc_elder_wrap
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				ek2lc_wrap_elder_trigger = yes
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+}
+
+# gene_ek2lc_cowrie: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_cowrie = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_cowrie_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_cowrie
+				template = ek2lc_no_cowrie
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_cowrie_1 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_cowrie
+				template = ek2lc_cowrie_1
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				has_variable = ek2lc_battles_won
+				var:ek2lc_battles_won >= 3
+				var:ek2lc_battles_won < 6
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_cowrie_2 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_cowrie
+				template = ek2lc_cowrie_2
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				has_variable = ek2lc_battles_won
+				var:ek2lc_battles_won >= 6
+				var:ek2lc_battles_won < 10
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_cowrie_3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_cowrie
+				template = ek2lc_cowrie_3
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				has_variable = ek2lc_battles_won
+				var:ek2lc_battles_won >= 10
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+}
+
+# gene_ek2lc_tabard: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_tabard = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_tabard_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_tabard
+				template = ek2lc_no_tabard
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_holy_tabard = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_tabard
+				template = ek2lc_holy_tabard
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				scope:age >= 14
+				OR = {
+					government_has_flag = government_is_holy_order
+					liege ?= { government_has_flag = government_is_holy_order }
 				}
 				NOR = {
 					should_be_fully_naked_portrait_trigger = yes

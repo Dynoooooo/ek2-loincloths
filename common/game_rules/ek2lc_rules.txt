@@ -1,0 +1,47 @@
+﻿# EK2 Loincloths game rules.
+
+ek2lc_frequency = {
+	categories = {
+		tweaks flavor
+	}
+	default = ek2lc_frequency_always
+	ek2lc_frequency_always = {
+	}
+	ek2lc_frequency_often = {
+	}
+	ek2lc_frequency_sometimes = {
+	}
+}
+
+ek2lc_nobles = {
+	categories = {
+		tweaks flavor
+	}
+	default = ek2lc_nobles_on
+	ek2lc_nobles_on = {
+	}
+	ek2lc_nobles_off = {
+	}
+}
+
+ek2lc_war_looks = {
+	categories = {
+		tweaks flavor
+	}
+	default = ek2lc_war_looks_on
+	ek2lc_war_looks_on = {
+	}
+	ek2lc_war_looks_off = {
+	}
+}
+
+ek2lc_events = {
+	categories = {
+		tweaks flavor
+	}
+	default = ek2lc_events_on
+	ek2lc_events_on = {
+	}
+	ek2lc_events_off = {
+	}
+}

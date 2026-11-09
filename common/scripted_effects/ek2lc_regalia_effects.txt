@@ -102,3 +102,40 @@ ek2lc_count_battle_effect = {
 		trigger_event = ek2lc_life.0010
 	}
 }
+
+# A Loincloth Maker (this character) finishes a work: XP, and a rank at 3 and 8 works (the first work gives the trait).
+ek2lc_maker_gain_xp_effect = {
+	if = {
+		limit = { has_variable = ek2lc_weaving_xp }
+		change_variable = { name = ek2lc_weaving_xp add = $XP$ }
+	}
+	else = {
+		set_variable = { name = ek2lc_weaving_xp value = $XP$ }
+	}
+	if = {
+		limit = {
+			NOR = {
+				has_trait = ek2lc_loincloth_maker_1
+				has_trait = ek2lc_loincloth_maker_2
+				has_trait = ek2lc_loincloth_maker_3
+			}
+		}
+		add_trait = ek2lc_loincloth_maker_1
+	}
+	if = {
+		limit = {
+			has_trait = ek2lc_loincloth_maker_1
+			var:ek2lc_weaving_xp >= 3
+		}
+		remove_trait = ek2lc_loincloth_maker_1
+		add_trait = ek2lc_loincloth_maker_2
+	}
+	else_if = {
+		limit = {
+			has_trait = ek2lc_loincloth_maker_2
+			var:ek2lc_weaving_xp >= 8
+		}
+		remove_trait = ek2lc_loincloth_maker_2
+		add_trait = ek2lc_loincloth_maker_3
+	}
+}

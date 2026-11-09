@@ -1,0 +1,193 @@
+﻿# EK2 Loincloths: the court's Loincloth Maker. Aptitude: stewardship, learning, rank in the craft, a patient or
+# diligent hand. A Loincloth Maker makes regalia commissions cheaper, quicker and finer (events/ek2lc_regalia_events.txt)
+# and rises in rank with every work (ek2lc_maker_gain_xp_effect).
+ek2lc_loincloth_maker_court_position = {
+	sort_order = 389
+	max_available_positions = 1
+	skill = stewardship
+
+	opinion = {
+		value = regular_court_position_opinion
+	}
+
+	aptitude_level_breakpoints = { 20 40 60 80 }
+
+	aptitude = {
+		value = 5
+		add = {
+			value = stewardship
+			multiply = 2
+			max = 40
+			desc = court_position_skill_stewardship
+		}
+		add = {
+			value = learning
+			max = 15
+			desc = court_position_skill_learning
+		}
+		if = {
+			limit = { has_trait = ek2lc_loincloth_maker_3 }
+			add = {
+				value = 45
+				desc = ek2lc_aptitude_master_maker
+			}
+		}
+		else_if = {
+			limit = { has_trait = ek2lc_loincloth_maker_2 }
+			add = {
+				value = 30
+				desc = ek2lc_aptitude_journeyman_maker
+			}
+		}
+		else_if = {
+			limit = { has_trait = ek2lc_loincloth_maker_1 }
+			add = {
+				value = 15
+				desc = ek2lc_aptitude_apprentice_maker
+			}
+		}
+		if = {
+			limit = { has_trait = patient }
+			add = {
+				value = 10
+				desc = court_position_patient_trait
+			}
+		}
+		if = {
+			limit = { has_trait = diligent }
+			add = {
+				value = 10
+				desc = ek2lc_aptitude_diligent
+			}
+		}
+		if = {
+			limit = { has_trait = lazy }
+			add = {
+				value = -15
+				desc = ek2lc_aptitude_lazy
+			}
+		}
+		add = general_aptitude_bonus
+	}
+
+	is_shown = {
+		ek2lc_culture_trigger = yes
+	}
+
+	valid_position = {
+		ek2lc_culture_trigger = yes
+	}
+
+	is_shown_character = {
+		scope:employee = {
+			court_position_employee_shown_trigger = yes
+		}
+	}
+
+	valid_character = {
+		scope:employee = {
+			is_adult = yes
+			is_imprisoned = no
+		}
+	}
+
+	revoke_cost = {
+		prestige = {
+			value = minor_court_position_prestige_revoke_cost
+		}
+	}
+
+	salary = {
+		gold = {
+			value = 0
+			if = {
+				limit = { scope:liege = { has_treasury = no } }
+				add = ek2lc_loincloth_maker_salary_value
+			}
+		}
+		treasury = {
+			value = 0
+			if = {
+				limit = { scope:liege = { has_treasury = yes } }
+				add = ek2lc_loincloth_maker_salary_value
+			}
+		}
+		round = no
+	}
+	received_salary = {
+		gold = {
+			value = ek2lc_loincloth_maker_salary_value
+		}
+		round = no
+	}
+
+	scaling_employer_modifiers = {
+		terrible = {
+			monthly_prestige = 0.05
+		}
+		poor = {
+			monthly_prestige = 0.1
+		}
+		average = {
+			monthly_prestige = 0.15
+			court_grandeur_baseline_add = 1
+		}
+		good = {
+			monthly_prestige = 0.2
+			court_grandeur_baseline_add = 1
+		}
+		excellent = {
+			monthly_prestige = 0.3
+			court_grandeur_baseline_add = 2
+		}
+	}
+	custom_employer_modifier_description = ek2lc_loincloth_maker_employer_desc
+
+	modifier = {
+		stewardship = 1
+	}
+
+	on_court_position_received = {
+		basic_gained_court_position_effect = yes
+		scope:employee = {
+			if = {
+				limit = {
+					NOR = {
+						has_trait = ek2lc_loincloth_maker_1
+						has_trait = ek2lc_loincloth_maker_2
+						has_trait = ek2lc_loincloth_maker_3
+					}
+				}
+				add_trait = ek2lc_loincloth_maker_1
+			}
+		}
+	}
+	on_court_position_revoked = {
+		basic_revoked_court_position_effect = yes
+	}
+	on_court_position_invalidated = {
+		basic_invalidated_court_position_effect = yes
+	}
+
+	ai_position_score = {
+		value = 25
+	}
+	ai_candidate_score = {
+		value = 50
+		add = scope:base_value
+		add = court_position_candidate_score_base_value
+		add = court_position_candidate_aptitude_value
+		if = {
+			limit = {
+				scope:employee = {
+					OR = {
+						has_trait = ek2lc_loincloth_maker_1
+						has_trait = ek2lc_loincloth_maker_2
+						has_trait = ek2lc_loincloth_maker_3
+					}
+				}
+			}
+			add = 50
+		}
+	}
+}

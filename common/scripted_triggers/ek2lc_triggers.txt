@@ -3,6 +3,7 @@
 # Adults in a war role while their realm is at war: knights, commanders, anyone in an army.
 ek2lc_war_role_trigger = {
 	exists = this
+	has_game_rule = ek2lc_war_looks_on  # game rule (2026-11-09)
 	age >= 14  # brief: teens 14+ in war roles get the war and armoured looks
 	is_incapable = no
 	is_imprisoned = no

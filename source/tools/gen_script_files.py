@@ -56,6 +56,10 @@ REGALIA_TAG = "ek2lc_regalia"  # set by an equipped regalia artifact's piece: gi
 REGALIA_GENE = "gene_ek2lc_regalia"
 WRESTLER_TAG = "ek2lc_wrestler"  # set by the wrestler's belt: trophies and hunting gear draw nothing under it
 PRIEST_TAG = "ek2lc_priest"  # set by the sacred aprons: trophies, camp wrap and hunting gear draw nothing
+WRAP_TAG = "ek2lc_wrap"  # set by the wraps: our loincloth itself draws nothing under them (they replace it)
+COWRIE_TAG = "ek2lc_cowrie"  # set by the cowrie war belt: the trophy belt draws nothing
+ROYAL_GIRDLE_TAG = "ek2lc_royal_girdle"  # set by the ducal, royal and imperial girdles (not the war girdles)
+TABARD_TAG = "ek2lc_tabard"
 TOURNEY_WON = ["tournament_%s_winner_modifier" % k for k in ("duel", "melee", "wrestling", "joust", "archery", "horse_race")]
 A14 = "scope:age >= 14\n\t\t\t\t"
 # gene -> (none template, [(kind, barbershop name, game rule incl. age)], row name, its "none" name, hiding tags, own tag)
@@ -63,7 +67,7 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     ("trophy_1", "Trophy Belt: Two Trophies", A14 + "prowess >= 8\n\t\t\t\tprowess < 12"),
     ("trophy_2", "Trophy Belt: Four Trophies", A14 + "prowess >= 12\n\t\t\t\tprowess < 16"),
     ("trophy_3", "Trophy Belt: Four Trophies and Beads", A14 + "prowess >= 16")], "Trophy Belt", "No Trophy Belt",
-    [REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG], ""),
+    [REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG, COWRIE_TAG], ""),
     # tournament fighters who have fought on foot (melee, wrestling, duels): one guard on the left shoulder
     "gene_ek2lc_arena": ("ek2lc_no_arena", [
         ("arena_guard", "Hide-and-Bone Shoulder Guard",
@@ -118,8 +122,28 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     "gene_ek2lc_victor": ("ek2lc_no_victor", [("victor_sash", "Victor's Sash",
         A14 + "OR = {\n" + "".join("\t\t\t\t\thas_character_modifier = %s\n" % m for m in TOURNEY_WON) + "\t\t\t\t}")],
         "Victor's Sash", "No Victor's Sash", [MANTLE_TAG, ROBE_TAG], ""),
+    # wraps worn instead of our loincloth (it draws nothing under WRAP_TAG); one at a time, by priority
+    # (common/scripted_triggers/ek2lc_wrap_triggers.txt): ragged > mourning > wedding > festival > werewolf > sailor > elder
+    "gene_ek2lc_wrap": ("ek2lc_no_wrap", [(k, n, A14 + "ek2lc_wrap_%s_trigger = yes" % w) for k, n, w in [
+        ("ragged_loincloth", "Ragged Loincloth", "ragged"), ("mourning_wrap", "Mourning Wrap", "mourning"),
+        ("wedding_wrap", "Wedding Wrap", "wedding"), ("festival_wrap", "Festival White Wrap", "festival"),
+        ("werewolf_tatters", "Werewolf's Tatters", "werewolf"), ("sailor_malo", "Sailor's Malo", "sailor"),
+        ("elder_wrap", "Elder's Long Wrap", "elder")]],
+        "Wrap", "No Wrap", [], WRAP_TAG),
+    # battles won (var:ek2lc_battles_won, counted by common/on_action/ek2lc_on_actions.txt): cowrie shells in three tiers
+    "gene_ek2lc_cowrie": ("ek2lc_no_cowrie", [("cowrie_%d" % i, n, A14 + "has_variable = ek2lc_battles_won\n\t\t\t\t"
+                                               "var:ek2lc_battles_won >= %d" % lo + ("\n\t\t\t\tvar:ek2lc_battles_won < %d" % hi if hi else ""))
+                                              for i, n, lo, hi in [(1, "Cowrie War Belt: Front", 3, 6), (2, "Cowrie War Belt: Two Strings", 6, 10),
+                                                                   (3, "Cowrie War Belt: Two Rows, Four Strings", 10, None)]],
+        "Cowrie War Belt", "No Cowrie War Belt", [ROYAL_GIRDLE_TAG, REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG], COWRIE_TAG),
+    # members of holy orders (their ruler's or their own government is a holy order): a tabard with a gold star
+    "gene_ek2lc_tabard": ("ek2lc_no_tabard", [("holy_tabard", "Holy-Order Tabard",
+        A14 + "OR = {\n\t\t\t\t\tgovernment_has_flag = government_is_holy_order\n"
+        "\t\t\t\t\tliege ?= { government_has_flag = government_is_holy_order }\n\t\t\t\t}")],
+        "Holy-Order Tabard", "No Tabard", [REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG], TABARD_TAG),
 }
-NO_LICH = {REGALIA_GENE, "gene_ek2lc_wrestler", "gene_ek2lc_hunter", "gene_ek2lc_priest", "gene_ek2lc_victor"}
+NO_LICH = {REGALIA_GENE, "gene_ek2lc_wrestler", "gene_ek2lc_hunter", "gene_ek2lc_priest", "gene_ek2lc_victor", "gene_ek2lc_wrap",
+           "gene_ek2lc_cowrie", "gene_ek2lc_tabard"}
 # kinds added to a gene later: their templates go after every existing one, so saved characters keep theirs
 LATE = {"gene_ek2lc_loincloth": ["skirt", "tunic"]}  # girls' wrap skirt (7-13), children's tunic (4-6)
 
@@ -236,10 +260,14 @@ def accessories():
             tag.append(LICH_TAG)
         if k == "tunic":
             tag.append(TUNIC_TAG)
-        tags = '\tset_tags = "%s"\n' % ",".join(tag) if tag else ""
         under = '\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % TUNIC_TAG if k in WOMEN_ONLY else ""
         if k in GENES["gene_ek2lc_war"][1]:  # an equipped regalia piece takes the girdle's place
             under = '\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % REGALIA_TAG
+        if k in ("duke", "king", "emperor"):
+            tag.append(ROYAL_GIRDLE_TAG)
+        if k in GENES["gene_ek2lc_loincloth"][1]:  # a wrap replaces the loincloth
+            under = '\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % WRAP_TAG
+        tags = '\tset_tags = "%s"\n' % ",".join(tag) if tag else ""
         out.append("%s = {\n%s%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}"
                    % (a, tags, under, entity_name(a)))
     for gene, (none, kinds, _, _, hide, own) in EXTRA.items():
@@ -321,11 +349,15 @@ NUDE = """				NOR = {
 				}"""
 
 
-def culture_cond(cd, commoner):
+def culture_cond(cd, commoner, native=True):
+    """The culture test of a look. native: also anyone who has gone native in this people's dress (the Go Native
+    decision sets has_character_flag = ek2lc_native_<culture>; commoners never have it)."""
     if commoner:
         one = ["portrait_commoner_clothing_trigger = {\n\t\t\t\t\tCULTURE_INPUT = %s\n\t\t\t\t}" % i for i in cd["inputs"]]
     else:
         one = ["portrait_%s_clothing_trigger = yes" % i for i in cd["inputs"]]
+        if native:
+            one.append("has_character_flag = ek2lc_native_%s" % next(k for k, v in ALL.items() if v is cd))
     if len(one) == 1:
         return "\t\t\t\t" + one[0]
     return "\t\t\t\tOR = {\n" + "\n".join("\t\t\t\t\t" + o.replace("\n", "\n\t") for o in one) + "\n\t\t\t\t}"
@@ -393,11 +425,20 @@ ek2lc_loincloth = {
 			base = 1
 			modifier = {
 				factor = 0  # the loincloth cultures' people aged 4 and up always get one of the looks below (2026-11-07)
+				has_game_rule = ek2lc_frequency_always  # game rule (2026-11-09): or often, or sometimes (below)
 				scope:age >= 4
 				OR = {
 """ + "\n".join("\t\t\t\t\t" + c.strip().replace("\n", "\n\t") for c in ALL_CULTURE_CONDS) + """
 				}
 """ + NUDE + """
+			}
+			modifier = {
+				add = 49  # "often": two in three wear a loincloth
+				has_game_rule = ek2lc_frequency_often
+			}
+			modifier = {
+				add = 199  # "sometimes": one in three
+				has_game_rule = ek2lc_frequency_sometimes
 			}
 		}
 	}
@@ -446,7 +487,8 @@ ek2lc_loincloth = {
                                     "loincloth in the finer dyed hide%s." % (adj, people, "14+" if s == "f" else "and boys 7+",
                                                                              " and the fine chest band" if s == "f" else ""),
                                     (T("fine"), top("band_fine"), None, None),
-                                    [(100, base + ["\t\t\t\tscope:age >= %d" % (14 if s == "f" else 7)] + kid_rest + noncom)]))
+                                    [(100, base + ["\t\t\t\tscope:age >= %d" % (14 if s == "f" else 7)] + kid_rest + noncom
+                                      + ["\t\t\t\thas_game_rule = ek2lc_nobles_on"])]))
                 out.extend(with_lich(c, "ek2lc_%s_camp_%s" % (c, s), "%s %s (14+) who follow an army without fighting (ek2lc_camp_follower_trigger): the plain "
                                     "loincloth%s, under the camp follower's wrap. EK2 dresses an adventurer's camp as low nobility, "
                                     "so the commoner rule alone would miss them." % (adj, people, " and the chest band" if s == "f" else ""),
@@ -557,7 +599,10 @@ def triggers():
     write("common/scripted_triggers/ek2lc_culture_triggers.txt", BOM + "# EK2 Loincloths: written by source/tools/gen_script_files.py.\n"
           "# A character of one of the loincloth cultures (EK2's clothing-gfx inputs in cultures.py).\n"
           "ek2lc_culture_trigger = {\n\tOR = {\n" + "\n".join("\t\t" + c.strip().replace("\n", "\n\t") for c in ALL_CULTURE_CONDS) +
-          "\n\t}\n}\n")
+          "\n\t}\n}\n\n"
+          "# By culture alone (not having gone native): who may Go Native.\n"
+          "ek2lc_native_culture_trigger = {\n\tOR = {\n" + "\n".join("\t\t" + culture_cond(cd, False, False).strip().replace("\n", "\n\t")
+                                                                for cd in ALL.values()) + "\n\t}\n}\n")
 
 
 def barbershop():

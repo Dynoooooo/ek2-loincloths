@@ -9,6 +9,7 @@ ek2lc_commission_regalia_decision = {
 	cooldown = { years = 2 }
 
 	is_shown = {
+		has_game_rule = ek2lc_events_on
 		is_adult = yes
 		is_landed = yes
 		ek2lc_culture_trigger = yes
@@ -37,4 +38,106 @@ ek2lc_commission_regalia_decision = {
 	ai_will_do = {
 		base = 10
 	}
+}
+
+# A season when the whole court wears the white festival wrap (events: the wrap shows while the modifier lasts).
+ek2lc_loincloth_festival_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_loincloth_festival_decision_desc
+	selection_tooltip = ek2lc_loincloth_festival_decision_tooltip
+	sort_order = 89
+	cooldown = { years = 5 }
+	is_shown = {
+		has_game_rule = ek2lc_events_on
+		is_ruler = yes
+		is_landed = yes
+		ek2lc_culture_trigger = yes
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	cost = {
+		gold = 50
+		prestige = 100
+	}
+	effect = {
+		add_character_modifier = { modifier = ek2lc_loincloth_festival_modifier days = 90 }
+		every_courtier = {
+			limit = { ek2lc_culture_trigger = yes }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_vassal = {
+			limit = { ek2lc_culture_trigger = yes }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 5
+			}
+		}
+	}
+	ai_check_interval = 120
+	ai_potential = { gold >= 200 prestige >= 300 }
+	ai_will_do = { base = 5 }
+}
+
+# A ruler of another people takes up a loincloth people's dress (flag ek2lc_native_<culture>: their looks, regalia, events).
+ek2lc_go_native_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_go_native_decision_desc
+	selection_tooltip = ek2lc_go_native_decision_tooltip
+	sort_order = 88
+	is_shown = {
+		has_game_rule = ek2lc_events_on
+		is_ruler = yes
+		is_adult = yes
+		ek2lc_native_culture_trigger = no
+		ek2lc_culture_trigger = no
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+	cost = {
+		prestige = 50
+	}
+	effect = {
+		trigger_event = ek2lc_life.0100
+	}
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+# ...and back to their own people's dress.
+ek2lc_end_native_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_end_native_decision_desc
+	selection_tooltip = ek2lc_end_native_decision_tooltip
+	sort_order = 87
+	is_shown = {
+		ek2lc_native_culture_trigger = no
+		ek2lc_culture_trigger = yes
+	}
+	effect = {
+		remove_character_flag = ek2lc_native_reach
+		remove_character_flag = ek2lc_native_ashlander
+		remove_character_flag = ek2lc_native_bosmer
+		remove_character_flag = ek2lc_native_argonian
+		remove_character_flag = ek2lc_native_khajiit
+		remove_character_flag = ek2lc_native_orc
+		remove_character_flag = ek2lc_native_goblin
+		remove_character_flag = ek2lc_native_kothringi
+		remove_character_flag = ek2lc_native_lilmothiit
+		remove_character_modifier = ek2lc_gone_native_modifier
+	}
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
 }

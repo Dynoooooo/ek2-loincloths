@@ -1,5 +1,8 @@
 # EK2 Loincloths: expansion ideas (2026-11-09)
 
+**Status (2026-11-09): everything below is built** (see progress/2026-11-09_* notes), each piece as its own mesh
+(the user: no asset reuse). Extra, not on the list: the Loincloth Maker court position and trait (three ranks).
+
 Research (exa): loincloth types worldwide, UESP lore (Reach, Argonian, Bosmer, Ashlander), CK3 artifact modding,
 Hawaiian feather regalia, sumo keshō-mawashi, Aztec reward clothing. Notes on sources at the bottom.
 

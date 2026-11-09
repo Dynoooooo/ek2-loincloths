@@ -362,3 +362,60 @@ ek2lc_life.0080 = {
 		}
 	}
 }
+
+# Going native: whose dress?
+ek2lc_life.0100 = {
+	type = character_event
+	title = ek2lc_life.0100.t
+	desc = ek2lc_life.0100.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	option = {
+		name = ek2lc_life.0100.reach
+		add_character_flag = ek2lc_native_reach
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.ashlander
+		add_character_flag = ek2lc_native_ashlander
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.bosmer
+		add_character_flag = ek2lc_native_bosmer
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.argonian
+		add_character_flag = ek2lc_native_argonian
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.khajiit
+		add_character_flag = ek2lc_native_khajiit
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.orc
+		add_character_flag = ek2lc_native_orc
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.goblin
+		add_character_flag = ek2lc_native_goblin
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.kothringi
+		add_character_flag = ek2lc_native_kothringi
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+	option = {
+		name = ek2lc_life.0100.lilmothiit
+		add_character_flag = ek2lc_native_lilmothiit
+		add_character_modifier = ek2lc_gone_native_modifier
+	}
+}

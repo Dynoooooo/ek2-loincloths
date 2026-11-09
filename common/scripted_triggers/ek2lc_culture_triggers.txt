@@ -2,6 +2,49 @@
 # A character of one of the loincloth cultures (EK2's clothing-gfx inputs in cultures.py).
 ek2lc_culture_trigger = {
 	OR = {
+		OR = {
+						portrait_ek_nedic_reach_clothing_trigger = yes
+						has_character_flag = ek2lc_native_reach
+					}
+		OR = {
+						portrait_ek_ashlander_clothing_trigger = yes
+						has_character_flag = ek2lc_native_ashlander
+					}
+		OR = {
+						portrait_ek_bosmeri_clothing_trigger = yes
+						has_character_flag = ek2lc_native_bosmer
+					}
+		OR = {
+						portrait_ek_argonian_clothing_trigger = yes
+						has_character_flag = ek2lc_native_argonian
+					}
+		OR = {
+						portrait_ek_anequinan_clothing_trigger = yes
+						portrait_ek_pellitinian_clothing_trigger = yes
+						has_character_flag = ek2lc_native_khajiit
+					}
+		OR = {
+						portrait_ek_orc_clothing_trigger = yes
+						has_character_flag = ek2lc_native_orc
+					}
+		OR = {
+						portrait_ek_goblin_clothing_trigger = yes
+						has_character_flag = ek2lc_native_goblin
+					}
+		OR = {
+						portrait_ek_nedic_south_clothing_trigger = yes
+						has_character_flag = ek2lc_native_kothringi
+					}
+		OR = {
+						portrait_ek_lilmothiit_clothing_trigger = yes
+						has_character_flag = ek2lc_native_lilmothiit
+					}
+	}
+}
+
+# By culture alone (not having gone native): who may Go Native.
+ek2lc_native_culture_trigger = {
+	OR = {
 		portrait_ek_nedic_reach_clothing_trigger = yes
 		portrait_ek_ashlander_clothing_trigger = yes
 		portrait_ek_bosmeri_clothing_trigger = yes

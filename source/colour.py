@@ -25,7 +25,7 @@ def block(name):
     """Vanilla colour block of an accessory/asset name such as ek2lc_f_reach_war_01."""
     if re.search(r"_(mantle|arena_guard|fur_robe|victor_sash)_01$", name):
         return "cloak"
-    if re.search(r"_(war|armour|duke|king|emperor|camp_wrap|trophy_\d|leggings|kid_charm|art_[a-z]+|wrestler_belt|hunter_gear|priest_apron)_01$", name):
+    if re.search(r"_(war|armour|duke|king|emperor|camp_wrap|trophy_\d|leggings|kid_charm|art_[a-z]+|wrestler_belt|hunter_gear|priest_apron|cowrie_\d|holy_tabard)_01$", name):
         return "legwear"
     return "clothes"
 

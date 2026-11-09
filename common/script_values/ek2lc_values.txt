@@ -1,13 +1,37 @@
 ﻿# EK2 Loincloths: what the weavers charge (a little more for kings and emperors).
 ek2lc_commission_rough_cost = {
 	value = 40
+	multiply = ek2lc_maker_discount_value
 	if = { limit = { highest_held_title_tier >= tier_kingdom } multiply = 1.5 }
 }
 ek2lc_commission_fine_cost = {
 	value = 120
+	multiply = ek2lc_maker_discount_value
 	if = { limit = { highest_held_title_tier >= tier_kingdom } multiply = 1.5 }
 }
 ek2lc_commission_masterwork_cost = {
 	value = 300
+	multiply = ek2lc_maker_discount_value
 	if = { limit = { highest_held_title_tier >= tier_kingdom } multiply = 1.5 }
 }
+
+# A court Loincloth Maker works for less (a Master for much less).
+ek2lc_maker_discount_value = {
+	value = 1
+	if = {
+		limit = {
+			any_court_position_holder = {
+				type = ek2lc_loincloth_maker_court_position
+				has_trait = ek2lc_loincloth_maker_3
+			}
+		}
+		value = 0.7
+	}
+	else_if = {
+		limit = { employs_court_position = ek2lc_loincloth_maker_court_position }
+		value = 0.85
+	}
+}
+
+# The Loincloth Maker's monthly pay.
+ek2lc_loincloth_maker_salary_value = 0.4

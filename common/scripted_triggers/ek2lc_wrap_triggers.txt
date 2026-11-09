@@ -1,0 +1,76 @@
+﻿# EK2 Loincloths: who wears which wrap instead of the loincloth (gene_ek2lc_wrap). One at a time, in this order.
+
+# prisoners and lunatics
+ek2lc_wrap_ragged_trigger = {
+	OR = {
+		is_imprisoned = yes
+		has_trait = lunatic_1
+		has_trait = lunatic_genetic
+	}
+}
+
+# a year after a close relative's death (ek2lc_mourning_modifier, on_death)
+ek2lc_wrap_mourning_trigger = {
+	has_character_modifier = ek2lc_mourning_modifier
+	ek2lc_wrap_ragged_trigger = no
+}
+
+# at their own wedding (a wedding activity with their spouse)
+ek2lc_wrap_wedding_trigger = {
+	involved_activity ?= { has_activity_type = activity_wedding }
+	any_spouse = {
+		exists = involved_activity
+		involved_activity = root.involved_activity
+	}
+	ek2lc_wrap_ragged_trigger = no
+	ek2lc_wrap_mourning_trigger = no
+}
+
+# at a feast or festival, or during a Loincloth Festival (their own or their liege's)
+ek2lc_wrap_festival_trigger = {
+	OR = {
+		involved_activity ?= {
+			OR = {
+				has_activity_type = activity_feast
+				has_activity_type = activity_festival
+			}
+		}
+		has_character_modifier = ek2lc_loincloth_festival_modifier
+		liege ?= { has_character_modifier = ek2lc_loincloth_festival_modifier }
+	}
+	ek2lc_wrap_ragged_trigger = no
+	ek2lc_wrap_mourning_trigger = no
+	ek2lc_wrap_wedding_trigger = no
+}
+
+# EK2's lycanthropes
+ek2lc_wrap_werewolf_trigger = {
+	has_trait = lycan_character
+	ek2lc_wrap_ragged_trigger = no
+	ek2lc_wrap_mourning_trigger = no
+	ek2lc_wrap_wedding_trigger = no
+	ek2lc_wrap_festival_trigger = no
+}
+
+# travelling at sea
+ek2lc_wrap_sailor_trigger = {
+	is_travelling = yes
+	location ?= { is_sea_province = yes }
+	ek2lc_wrap_ragged_trigger = no
+	ek2lc_wrap_mourning_trigger = no
+	ek2lc_wrap_wedding_trigger = no
+	ek2lc_wrap_festival_trigger = no
+	ek2lc_wrap_werewolf_trigger = no
+}
+
+# the old (60+) who are not rulers
+ek2lc_wrap_elder_trigger = {
+	age >= 60
+	is_ruler = no
+	ek2lc_wrap_ragged_trigger = no
+	ek2lc_wrap_mourning_trigger = no
+	ek2lc_wrap_wedding_trigger = no
+	ek2lc_wrap_festival_trigger = no
+	ek2lc_wrap_werewolf_trigger = no
+	ek2lc_wrap_sailor_trigger = no
+}

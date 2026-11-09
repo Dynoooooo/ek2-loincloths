@@ -1,0 +1,39 @@
+﻿# EK2 Loincloths: the Loincloth Maker, a craft learned in three ranks (Apprentice, Journeyman, Master).
+# Gained by making regalia (ek2lc_maker_gain_xp_effect): rank 2 at 3 works, rank 3 at 8. Icons: gfx/interface/icons/traits/.
+
+ek2lc_loincloth_maker_1 = {
+	category = lifestyle
+	group = ek2lc_loincloth_maker
+	level = 1
+	minimum_age = 12
+	stewardship = 1
+	monthly_prestige = 0.05
+	ruler_designer_cost = 10
+	shown_in_ruler_designer = yes
+}
+
+ek2lc_loincloth_maker_2 = {
+	category = lifestyle
+	group = ek2lc_loincloth_maker
+	level = 2
+	minimum_age = 12
+	stewardship = 2
+	diplomacy = 1
+	monthly_prestige = 0.1
+	ruler_designer_cost = 20
+	shown_in_ruler_designer = yes
+}
+
+ek2lc_loincloth_maker_3 = {
+	category = lifestyle
+	group = ek2lc_loincloth_maker
+	level = 3
+	minimum_age = 12
+	stewardship = 3
+	diplomacy = 1
+	learning = 1
+	monthly_prestige = 0.2
+	attraction_opinion = 5
+	ruler_designer_cost = 40
+	shown_in_ruler_designer = yes
+}
