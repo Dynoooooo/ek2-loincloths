@@ -879,3 +879,63 @@ ek2lc_custom_regalia = {
 		template = ek2lc_art_moon
 	}
 }
+
+ek2lc_custom_wrestler = {
+	usage = customization
+	interface_position = 20
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrestler
+		template = ek2lc_no_wrestler
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_wrestler
+		template = ek2lc_wrestler_belt
+	}
+}
+
+ek2lc_custom_hunter = {
+	usage = customization
+	interface_position = 21
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_hunter
+		template = ek2lc_no_hunter
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_hunter
+		template = ek2lc_hunter_gear
+	}
+}
+
+ek2lc_custom_priest = {
+	usage = customization
+	interface_position = 22
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_priest
+		template = ek2lc_no_priest
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_priest
+		template = ek2lc_priest_apron
+	}
+}
+
+ek2lc_custom_victor = {
+	usage = customization
+	interface_position = 23
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_victor
+		template = ek2lc_no_victor
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_victor
+		template = ek2lc_victor_sash
+	}
+}

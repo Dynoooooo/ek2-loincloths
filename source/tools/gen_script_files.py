@@ -54,12 +54,16 @@ ROBE_TAG = "ek2lc_robe"  # set by the fur cloak (the mantle's mesh)
 TUNIC_TAG = "ek2lc_tunic"  # set by the children's tunic: the chest band draws nothing under it
 REGALIA_TAG = "ek2lc_regalia"  # set by an equipped regalia artifact's piece: girdles, trophies, camp wrap, charms draw nothing
 REGALIA_GENE = "gene_ek2lc_regalia"
+WRESTLER_TAG = "ek2lc_wrestler"  # set by the wrestler's belt: trophies and hunting gear draw nothing under it
+PRIEST_TAG = "ek2lc_priest"  # set by the sacred aprons: trophies, camp wrap and hunting gear draw nothing
+TOURNEY_WON = ["tournament_%s_winner_modifier" % k for k in ("duel", "melee", "wrestling", "joust", "archery", "horse_race")]
 A14 = "scope:age >= 14\n\t\t\t\t"
 # gene -> (none template, [(kind, barbershop name, game rule incl. age)], row name, its "none" name, hiding tags, own tag)
 EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     ("trophy_1", "Trophy Belt: Two Trophies", A14 + "prowess >= 8\n\t\t\t\tprowess < 12"),
     ("trophy_2", "Trophy Belt: Four Trophies", A14 + "prowess >= 12\n\t\t\t\tprowess < 16"),
-    ("trophy_3", "Trophy Belt: Four Trophies and Beads", A14 + "prowess >= 16")], "Trophy Belt", "No Trophy Belt", [REGALIA_TAG], ""),
+    ("trophy_3", "Trophy Belt: Four Trophies and Beads", A14 + "prowess >= 16")], "Trophy Belt", "No Trophy Belt",
+    [REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG], ""),
     # tournament fighters who have fought on foot (melee, wrestling, duels): one guard on the left shoulder
     "gene_ek2lc_arena": ("ek2lc_no_arena", [
         ("arena_guard", "Hide-and-Bone Shoulder Guard",
@@ -69,7 +73,7 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     # non-fighters who travel with an army (ek2lc_camp_follower_trigger); the sash sits where a girdle does
     "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", A14 + "ek2lc_camp_follower_trigger = yes"),
                                           ("lich_camp_wrap", "Lich's Burial Camp Wrap", None)],
-                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG, REGALIA_TAG], ""),
+                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG, REGALIA_TAG, PRIEST_TAG], ""),
     # cold-weather layers (2026-11-06), kids from 4 too: hide leggings where it's cold, a fur cloak (the mantle's
     # mesh) in winter; the emperor's mantle wins over the cloak
     "gene_ek2lc_leggings": ("ek2lc_no_leggings", [("leggings", "Hide Leggings", "scope:age >= 4\n\t\t\t\tek2lc_cold_trigger = yes"),
@@ -91,7 +95,31 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
         ("art_amber", "Hist-Amber Wrap"), ("art_bone", "Green Pact Bone Apron"),
         ("art_ash", "Ancestor-Ash Tassets"), ("art_moon", "Mane's Moon Silk")]],
         "Regalia", "No Regalia", [], REGALIA_TAG),
+    # auto-worn pieces (2026-11-09), each its own mesh and texture (source/build_regalia.py), no lich versions:
+    # tournament wrestlers (a recent wrestling win, or veteran foot fighters of prowess 12+): a thick silk belt with
+    # stiff cords in front (a Tamrielic mawashi)
+    "gene_ek2lc_wrestler": ("ek2lc_no_wrestler", [("wrestler_belt", "Wrestler's Belt with Cords",
+        "scope:age >= 16\n\t\t\t\tOR = {\n\t\t\t\t\thas_character_modifier = tournament_wrestling_winner_modifier\n"
+        "\t\t\t\t\tAND = {\n\t\t\t\t\t\thas_trait = tourney_participant\n"
+        "\t\t\t\t\t\thas_trait_xp = { trait = tourney_participant track = foot value >= 50 }\n\t\t\t\t\t\tprowess >= 12\n"
+        "\t\t\t\t\t}\n\t\t\t\t}")],
+        "Wrestler's Belt", "No Wrestler's Belt", [GIRDLE_TAG, REGALIA_TAG], WRESTLER_TAG),
+    # hunters and Masters of the Hunt, and anyone on a hunt: a pouch on the right hip, a knife on the left
+    "gene_ek2lc_hunter": ("ek2lc_no_hunter", [("hunter_gear", "Hunter's Pouch and Knife",
+        A14 + "OR = {\n\t\t\t\t\thas_trait = lifestyle_hunter\n\t\t\t\t\thas_court_position = master_of_hunt_court_position\n"
+        "\t\t\t\t\tinvolved_activity ?= { has_activity_type = activity_hunt }\n\t\t\t\t}")],
+        "Hunting Gear", "No Hunting Gear", [GIRDLE_TAG, REGALIA_TAG, WRESTLER_TAG, PRIEST_TAG], ""),
+    # court chaplains, the devoted, mystics and theologians: long sacred aprons, a rope belt and an amulet
+    "gene_ek2lc_priest": ("ek2lc_no_priest", [("priest_apron", "Sacred Aprons with Amulet",
+        "scope:age >= 16\n\t\t\t\tOR = {\n\t\t\t\t\thas_council_position = councillor_court_chaplain\n"
+        "\t\t\t\t\thas_trait = devoted\n\t\t\t\t\thas_trait = lifestyle_mystic\n\t\t\t\t\thas_trait = theologian\n\t\t\t\t}")],
+        "Sacred Aprons", "No Sacred Aprons", [GIRDLE_TAG, REGALIA_TAG, WRESTLER_TAG], PRIEST_TAG),
+    # a tournament win (any contest of arms): a crimson sash over the right shoulder, knotted at the left waist
+    "gene_ek2lc_victor": ("ek2lc_no_victor", [("victor_sash", "Victor's Sash",
+        A14 + "OR = {\n" + "".join("\t\t\t\t\thas_character_modifier = %s\n" % m for m in TOURNEY_WON) + "\t\t\t\t}")],
+        "Victor's Sash", "No Victor's Sash", [MANTLE_TAG, ROBE_TAG], ""),
 }
+NO_LICH = {REGALIA_GENE, "gene_ek2lc_wrestler", "gene_ek2lc_hunter", "gene_ek2lc_priest", "gene_ek2lc_victor"}
 # kinds added to a gene later: their templates go after every existing one, so saved characters keep theirs
 LATE = {"gene_ek2lc_loincloth": ["skirt", "tunic"]}  # girls' wrap skirt (7-13), children's tunic (4-6)
 
@@ -218,7 +246,7 @@ def accessories():
         for k, _, _ in kinds:
             for s in ("m", "f"):
                 a = xacc(s, k)
-                lich = entity_name(a if k.startswith("lich_") or gene == REGALIA_GENE else xacc(s, "lich_" + k))
+                lich = entity_name(a if k.startswith("lich_") or gene in NO_LICH else xacc(s, "lich_" + k))
                 out.append("%s = {\n" % a + ('\tset_tags = "%s"\n' % own if own else "") +
                            "%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"

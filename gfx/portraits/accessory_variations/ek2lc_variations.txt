@@ -24,6 +24,13 @@ pattern_textures = {
 }
 
 pattern_textures = {
+	name = "ek2lc_solid_g46_a191"
+	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
+	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_solid_g46_a191_properties.dds"
+}
+
+pattern_textures = {
 	name = "ek2lc_solid_g51_a140"
 	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
 	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
@@ -680,6 +687,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_hunter_gear_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_hunter_gear_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_khajiit_armour_01"
 	pattern = {
 		weight = 1
@@ -1328,6 +1347,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_priest_apron_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_priest_apron_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_reach_armour_01"
 	pattern = {
 		weight = 1
@@ -1457,4 +1488,28 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_robe_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_victor_sash_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_victor_sash_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_wrestler_belt_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_wrestler_belt_01_palette.dds" }
 }

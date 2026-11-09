@@ -77,6 +77,8 @@ def obstacle(mesh):
 
 
 OBST = [obstacle("ek2lc_%s_reach_hide_01" % S1), obstacle("ek2lc_%s_leggings_01" % S1)]
+if SEX == "female":
+    OBST.append(obstacle("ek2lc_f_reach_band_01"))  # the sash crosses the chest band
 ALLB = {s: [TB[s]] + [o[s] for o in OBST if s in o] for s in ALL}
 print("REGALIA obstacles", [len(o) for o in OBST])
 
@@ -985,6 +987,212 @@ def build_moon(pc, at):
         disc(pc, cen, {s: outward(cen[s], s) for s in ALL}, {s: UP for s in ALL}, r, 0.4, rect, hang_w(cen["basis"], 0.8))
 
 
+# ------------------------------------------------------------------ auto-worn pieces (2026-11-09): new meshes, own textures
+def hang_line(s, a, z0, length, n, gap, over=None):
+    """Points of a stiff cord hanging from height z0 at angle a: straight down, never inside anything under it."""
+    pts, prev = [], None
+    for j in range(n):
+        z = z0 - length * j / (n - 1)
+        c = Vector((0, cy(z, s), z))
+        d = dirv(a)
+        h = first_hit(s, c + d * 80, -d, 80, ALLB[s] + (over[s] if over else []))
+        r = (h[0] - c).dot(d) if h else -1e9
+        if prev is not None:
+            r = max(r, (prev - c).dot(d) - gap)
+        p = c + d * (r + gap)
+        pts.append(p)
+        prev = p
+    return pts
+
+
+def P_rope(col):
+    def f(U, V, rng, sh):
+        n = noise(sh, 10, int(rng.integers(1000000)))
+        tw = 0.65 + 0.35 * np.sin((U * 6 + V * 40) * np.pi)
+        return {"rgb": col[None, None, :] * (tw * (0.85 + 0.25 * n))[..., None], "spec": np.full(sh, 0.18, np.float32),
+                "rough": np.full(sh, 0.75, np.float32)}
+    return f
+
+
+def emb_tree(col):
+    """A sacred tree: trunk, branches, roots and a sun disc above, in a border."""
+    def e(U, V):
+        x, y = U - 0.5, V
+        trunk = (np.abs(x) < 0.04) & (y > 0.22) & (y < 0.62)
+        crown = np.zeros(np.shape(U), bool)  # a cluster of leafy lobes
+        for cx, cy_, r in ((-0.15, 0.64, 0.085), (0.15, 0.64, 0.085), (-0.09, 0.75, 0.09), (0.09, 0.75, 0.09), (0.0, 0.83, 0.08),
+                           (-0.22, 0.72, 0.06), (0.22, 0.72, 0.06)):
+            crown |= np.hypot((x - cx) * 1.0, (y - cy_) * 1.5) < r
+        holes = np.zeros(np.shape(U), bool)
+        branches = (np.abs(np.abs(x) - (y - 0.5) * 0.9) < 0.025) & (y > 0.5) & (y < 0.8)
+        roots = (np.abs(np.abs(x) - (0.3 - y) * 1.4) < 0.025) & (y > 0.12) & (y < 0.3)
+        sun = (np.hypot(x, (y - 0.9) * 1.5) < 0.06)
+        border = (U < 0.06) | (U > 0.94) | ((V > 0.95)) | ((V > 0.14) & (V < 0.17))
+        zig = (V > 0.17) & (V < 0.2) & (np.abs(((U * 14) % 1) - 0.5) * 0.06 > np.abs(V - 0.185))
+        m = trunk | (crown & ~holes) | branches | roots | sun | border | zig
+        return m, np.broadcast_to(col, m.shape + (3,))
+    return e
+
+
+@piece("wrestler_belt")
+def build_wrestler(pc, at):
+    indigo, sheen = C(0.08, 0.1, 0.3), C(0.18, 0.22, 0.5)
+    r_belt = at.cell(P_silk(indigo, sheen, stripes=[(0.18, 0.2, indigo * 0.6), (0.38, 0.4, indigo * 0.6), (0.58, 0.6, indigo * 0.6),
+                                                    (0.78, 0.8, indigo * 0.6)]), 2, 2)
+    r_cord = at.cell(P_solid(indigo * 1.2, 0.5, 0.35, 0.12, rings=8))
+    r_knot = at.cell(P_silk(indigo, sheen))
+    nb, rows = 48, 6
+    BP = band(pc, BELT_Z + 5.0, BELT_Z - 3.0, rows, nb, 1.35, 0.9, r_belt)
+    over = bvh_of(BP, rows, nb, True)
+    # the back knot
+    kn = on_band(BP, rows, nb, 2.0, math.pi, 1.2)
+    o = {s: outward(kn[s], s) for s in ALL}
+    blob(pc, kn, 1.0, r_knot, norm_w(torso_w(kn["basis"])), seg=10, rings=6,
+         axes={s: (UP.cross(o[s]).normalized() * 4.0, o[s] * 1.6, UP * 3.0) for s in ALL})
+    # sagari: stiff cords hanging in front
+    for k in range(15):
+        a = math.radians(-36 + 72 * k / 14)
+        z0 = band_pt(BP, rows, nb, rows - 1, a, "basis").z + 0.5
+        ln = 19.0 + 2.0 * math.cos(a * 3)
+        pth = {s: hang_line(s, a, z0, ln, 7, 0.75, over) for s in ALL}
+        tube(pc, pth, 0.32, r_cord, [hang_w(p, 0.1 + 0.8 * j / 6) for j, p in enumerate(pth["basis"])], sides=5)
+
+
+@piece("hunter_gear")
+def build_hunter(pc, at):
+    hide, dark, antler = C(0.42, 0.28, 0.15), C(0.2, 0.13, 0.07), C(0.82, 0.76, 0.62)
+    r_strap = at.cell(P_leather(dark, border=False))
+    r_pouch = at.cell(P_leather(hide, tool=lambda U, V: (np.abs(V - 0.7) < 0.02) | (np.hypot(U - 0.5, V - 0.45) < 0.06)), 2, 1)
+    r_sheath = at.cell(P_leather(dark, tool=lambda U, V: np.abs(((U * 3 + V * 8) % 1) - 0.5) < 0.05), 1, 2)
+    r_antler = at.cell(P_solid(antler, 0.35, 0.45, 0.15, rings=6))
+    r_bead = at.cell(P_solid(C(0.6, 0.2, 0.08), 0.6, 0.25, 0.1))
+    r_feather = at.cell(P_feather(C(0.35, 0.25, 0.15), C(0.85, 0.82, 0.75), tip=C(0.1, 0.08, 0.06)))
+    # a strap round the hips, just under the cord belt
+    strap = {s: radial(s, BELT_Z - 1.2, [2 * math.pi * k / 48 for k in range(48)], 0.9)[0] for s in ALL}
+    for s in ALL:
+        strap[s] = strap[s] + [strap[s][0]]
+    tube(pc, strap, 0.3, r_strap, [norm_w(torso_w(p)) for p in strap["basis"]], sides=5, caps=False)
+    # the pouch on the right hip
+    ar = ang_l(-82)
+    def pouch_c(s):
+        p = radial(s, BELT_Z - 6.5, [ar], 2.9, False)[0][0]
+        return clear_pt(s, p, 2.8)
+    pc_ = {s: pouch_c(s) for s in ALL}
+    o = {s: outward(pc_[s], s) for s in ALL}
+    blob(pc, pc_, 1.0, r_pouch, hang_w(pc_["basis"], 0.35), seg=10, rings=6,
+         axes={s: (UP.cross(o[s]).normalized() * 5.6, o[s] * 2.4, UP * 6.2) for s in ALL})
+    tb = {s: pc_[s] + o[s] * 2.4 + UP * 3.0 for s in ALL}
+    blob(pc, tb, 0.55, r_bead, hang_w(tb["basis"], 0.3), seg=6, rings=4)
+    # the knife on the left hip: sheath angled forward, antler handle above
+    al = ang_l(68)
+    top = {s: radial(s, BELT_Z - 1.0, [al], 1.6, False)[0][0] for s in ALL}
+    def sheath(s, t):
+        p = top[s] - UP * (17.0 * t) + dirv(al - LSIDE * 0.35) * (3.0 * t)
+        return clear_pt(s, radial(s, p.z, [math.atan2((p - Vector((0, cy(p.z, s), p.z))).dot(RIGHT),
+                                                      (p - Vector((0, cy(p.z, s), p.z))).dot(FRONT))], 1.3, False)[0][0], 1.3)
+    sp = path_on(sheath, 8)
+    tube(pc, sp, 1.1, r_sheath, [hang_w(p, 0.2 + 0.5 * k / 7) for k, p in enumerate(sp["basis"])], sides=6,
+         rad_fn=lambda t: 1.0 - 0.6 * t)
+    hp = {s: [sp[s][0] + (sp[s][0] - sp[s][1]).normalized() * (5.5 * k / 4) for k in range(5)] for s in ALL}
+    tube(pc, hp, 0.7, r_antler, [hang_w(p, 0.15) for p in hp["basis"]], sides=6)
+    pm = {s: hp[s][-1] for s in ALL}
+    blob(pc, pm, 0.9, r_antler, hang_w(pm["basis"], 0.15), seg=6, rings=4)
+    # two fletching feathers tied at the pouch
+    for k in (-1, 1):
+        t0 = {s: pc_[s] + UP.cross(o[s]).normalized() * (3.2 * k) + UP * 3.0 + o[s] * 0.8 for s in ALL}
+        card(pc, t0, 8.0, 2.0, r_feather, rows=3, tilt=0.15, thick=0.05, twist=0.2 * k)
+
+
+@piece("priest_apron")
+def build_priest(pc, at):
+    linen, ochre, bone = C(0.86, 0.8, 0.66), C(0.55, 0.16, 0.06), C(0.85, 0.8, 0.68)
+    r_rope = at.cell(P_rope(C(0.62, 0.52, 0.34)))
+    r_front = at.cell(P_silk(linen, ochre, emb=emb_tree(ochre), fringe=0.08, fringe_col=linen * 0.9), 2, 3)
+    r_back = at.cell(P_silk(linen, ochre, stripes=[(0.86, 0.9, ochre), (0.2, 0.24, ochre)], fringe=0.08, fringe_col=linen * 0.9), 1, 3)
+    r_disc = at.cell(P_metal(bone, boss=True))
+    r_tassel = at.cell(P_silk(ochre, ochre, fringe=0.75, fringe_col=ochre))
+    rope = {s: radial(s, BELT_Z + 1.6, [2 * math.pi * k / 48 for k in range(48)], 0.8)[0] for s in ALL}
+    for s in ALL:
+        rope[s] = rope[s] + [rope[s][0]]
+    tube(pc, rope, 0.45, r_rope, [norm_w(torso_w(p)) for p in rope["basis"]], sides=6, caps=False)
+    zb = KNEE_Z + 3.0
+    drape(pc, +1, [-11 + 22 * i / 8 for i in range(9)], BELT_Z + 0.5, zb, 16, 0.45, 0.25, r_front, widen=0.05)
+    drape(pc, -1, [-10 + 20 * i / 4 for i in range(5)], BELT_Z + 0.5, zb + 3.0, 14, 0.45, 0.25, r_back, widen=0.05)
+    # the amulet over the apron's top, and tassels at the sides
+    c = {s: Vector((0, 0, BELT_Z - 3.5)) + FRONT * (first_hit(s, Vector((0, 0, BELT_Z - 3.5)) + FRONT * 80, -FRONT, 160)[0].dot(FRONT) + 1.3)
+         for s in ALL}
+    disc(pc, c, {s: FRONT for s in ALL}, {s: UP for s in ALL}, 2.2, 0.45, r_disc, hang_w(c["basis"], 0.2), seg=12)
+    cord = {s: [Vector((0, 0, BELT_Z + 1.6)) + FRONT * (first_hit(s, Vector((0, 0, BELT_Z + 1.6)) + FRONT * 80, -FRONT, 160)[0].dot(FRONT) + 1.1),
+                c[s] + UP * 2.2] for s in ALL}
+    tube(pc, cord, 0.12, r_rope, [norm_w(torso_w(cord["basis"][0])), hang_w(cord["basis"][1], 0.2)], sides=4)
+    for sgn in (-1, 1):
+        top = {s: rope[s][int(round((math.radians(95) * sgn % (2 * math.pi)) / (2 * math.pi) * 48)) % 48] for s in ALL}
+        card(pc, top, 11.0, 2.4, r_tassel, rows=4, tilt=0.1, thick=0.08)
+
+
+@piece("victor_sash")
+def build_victor(pc, at):
+    crimson, gold = C(0.62, 0.05, 0.07), C(0.86, 0.66, 0.2)
+    def lozenges(U, V):
+        k = (U * 10) % 1
+        m = (np.abs(k - 0.5) + np.abs(V - 0.5) * 0.5 < 0.18) & (V > 0.2) & (V < 0.8)
+        return m, np.broadcast_to(gold, m.shape + (3,))
+    r_sash = at.cell(P_silk(crimson, gold, emb=lozenges, stripes=[(0.03, 0.12, gold), (0.88, 0.97, gold)]), 4, 1)
+    r_knot = at.cell(P_silk(crimson, gold))
+    r_tail = at.cell(P_silk(crimson, gold, stripes=[(0.2, 0.25, gold)], fringe=0.2, fringe_col=gold), 1, 2)
+    neck = rig.matrix_world @ rig.data.bones["bn_sp_cervical"].head_local
+    # over the right shoulder, on the trapezius: the body mesh is open at the neck out to about 12.5 cm (the head mesh
+    # covers the neck), so the sash crosses further out
+    for _x in (16.0, 16.5, 17.0, 17.5, 18.0):
+        sh_x = -LSIDE * _x
+        _h = BVH["basis"].ray_cast(Vector((sh_x, neck.y, neck.z + 40)), -UP, 80)[0]
+        if _h is not None:
+            break
+    top = Vector((sh_x, neck.y, _h.z - 4.0))
+    low = Vector((LSIDE * 13.0, cy(BELT_Z + 8.0, "basis"), BELT_Z + 8.0))
+    u = (top - low).normalized()
+    nrm = u.cross(FRONT).normalized()
+    cen = (top + low) / 2
+    NL = 56
+    phis = [2 * math.pi * k / NL for k in range(NL)]
+    WD = [-2.5, 0.0, 2.5]
+    P = {}
+    for s in ALL:
+        P[s] = []
+        for w_ in WD:
+            c0 = cen + nrm * w_
+            rs, dirs = [], []
+            for ph in phis:
+                d = (u * math.cos(ph) + FRONT * math.sin(ph)).normalized()
+                # the upper half crosses the shoulder: the whole body, arms too (the lower half: arms left out, the hands
+                # hang beside the hips)
+                full = [BVH[s]] + [o[s] for o in OBST if s in o]
+                h = first_hit(s, c0 + d * 90, -d, 90, full if d.dot(UP) > 0.2 else None)
+                ok = h is not None and h[1].dot(d) > 0.05  # an outer surface, facing the ray
+                rs.append((h[0] - c0).dot(d) if ok else None)
+                dirs.append(d)
+            for k in range(NL):  # a missed or inward-facing hit: the larger of its nearest good neighbours
+                if rs[k] is None:
+                    a_ = next(rs[(k - j) % NL] for j in range(1, NL) if rs[(k - j) % NL] is not None)
+                    b_ = next(rs[(k + j) % NL] for j in range(1, NL) if rs[(k + j) % NL] is not None)
+                    rs[k] = max(a_, b_)
+            rs = smooth_max(rs, 4)
+            P[s] += [c0 + d * (r + 0.55) for d, r in zip(dirs, rs)]
+    ws = [norm_w(torso_w(p)) for p in P["basis"]]
+    slab(pc, P, len(WD), NL, r_sash, ws, 0.3, lambda c: c - cen, closed=True)
+    # the knot at the left waist and two short fringed ends
+    kn = {s: P[s][NL + NL // 2] + (P[s][NL + NL // 2] - cen).normalized() * 1.0 for s in ALL}
+    o = {s: outward(kn[s], s) for s in ALL}
+    blob(pc, kn, 1.0, r_knot, norm_w(torso_w(kn["basis"])), seg=8, rings=5,
+         axes={s: (UP.cross(o[s]).normalized() * 2.6, o[s] * 1.4, UP * 2.2) for s in ALL})
+    ka = math.atan2((kn["basis"] - Vector((0, cy(kn["basis"].z, "basis"), 0))).dot(RIGHT),
+                    (kn["basis"] - Vector((0, cy(kn["basis"].z, "basis"), 0))).dot(FRONT))
+    for da, ln in ((-6, 6.5), (5, 5.0)):
+        a = ka + math.radians(da)
+        zt = kn["basis"].z - 1.5
+        radial_drape(pc, a - math.radians(5), a + math.radians(5), 3, zt, zt - ln, 6, 1.1 + 0.3 * (da > 0), 0.2, r_tail, tie_t=0.1)
+
+
 # ------------------------------------------------------------------ build, export
 def save_set(set_name, arrays):
     images = {}
@@ -1075,7 +1283,7 @@ for key, fn in PIECES_R.items():
         MATS[tset] = make_material(tset, imgs)
     obj = finish_piece(pc.as_dict())
     BUILT.append(obj)
-    if SEX == "male":
+    if SEX == "male" and key.startswith("art_"):
         export_display(obj, key, tset)
     print("REGALIA %s: %d verts, %d faces in %.1fs" % (pc.name, len(pc.uvs), len(pc.faces), time.time() - t0))
 
