@@ -600,9 +600,14 @@ def triggers():
           "# A character of one of the loincloth cultures (EK2's clothing-gfx inputs in cultures.py).\n"
           "ek2lc_culture_trigger = {\n\tOR = {\n" + "\n".join("\t\t" + c.strip().replace("\n", "\n\t") for c in ALL_CULTURE_CONDS) +
           "\n\t}\n}\n\n"
-          "# By culture alone (not having gone native): who may Go Native.\n"
-          "ek2lc_native_culture_trigger = {\n\tOR = {\n" + "\n".join("\t\t" + culture_cond(cd, False, False).strip().replace("\n", "\n\t")
-                                                                for cd in ALL.values()) + "\n\t}\n}\n")
+          "# Outside portraits (decisions, events, on_actions, court positions) EK2's portrait_ek_*_clothing_trigger has no\n"
+          "# scope:culture, so these test the character's culture directly.\n"
+          "# A loincloth people by culture alone (not having gone native): who may Go Native.\n"
+          "ek2lc_native_culture_trigger = {\n\tculture ?= {\n\t\tOR = {\n" +
+          "".join("\t\t\thas_clothing_gfx = %s_clothing_gfx\n" % i for cd in ALL.values() for i in cd["inputs"]) + "\t\t}\n\t}\n}\n\n"
+          "# A loincloth people, or gone native in one's dress.\n"
+          "ek2lc_loincloth_people_trigger = {\n\tOR = {\n\t\tek2lc_native_culture_trigger = yes\n" +
+          "".join("\t\thas_character_flag = ek2lc_native_%s\n" % c for c in ALL) + "\t}\n}\n")
 
 
 def barbershop():

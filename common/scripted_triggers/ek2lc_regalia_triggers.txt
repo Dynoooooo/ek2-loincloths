@@ -18,31 +18,31 @@ ek2lc_owns_regalia_trigger = {
 # Kothringi and Lilmothiit: the feather girdle; orcs and goblins: the iron fauld.
 ek2lc_home_art_fauld_trigger = {
 	OR = {
-		portrait_ek_orc_clothing_trigger = yes
-		portrait_ek_goblin_clothing_trigger = yes
+		culture ?= { has_clothing_gfx = ek_orc_clothing_gfx }
+		culture ?= { has_clothing_gfx = ek_goblin_clothing_gfx }
 	}
 }
 ek2lc_home_art_feather_trigger = {
 	OR = {
-		portrait_ek_nedic_south_clothing_trigger = yes
-		portrait_ek_lilmothiit_clothing_trigger = yes
+		culture ?= { has_clothing_gfx = ek_nedic_south_clothing_gfx }
+		culture ?= { has_clothing_gfx = ek_lilmothiit_clothing_gfx }
 	}
 }
 ek2lc_home_art_briar_trigger = {
-	portrait_ek_nedic_reach_clothing_trigger = yes
+	culture ?= { has_clothing_gfx = ek_nedic_reach_clothing_gfx }
 }
 ek2lc_home_art_amber_trigger = {
-	portrait_ek_argonian_clothing_trigger = yes
+	culture ?= { has_clothing_gfx = ek_argonian_clothing_gfx }
 }
 ek2lc_home_art_bone_trigger = {
-	portrait_ek_bosmeri_clothing_trigger = yes
+	culture ?= { has_clothing_gfx = ek_bosmeri_clothing_gfx }
 }
 ek2lc_home_art_ash_trigger = {
-	portrait_ek_ashlander_clothing_trigger = yes
+	culture ?= { has_clothing_gfx = ek_ashlander_clothing_gfx }
 }
 ek2lc_home_art_moon_trigger = {
 	OR = {
-		portrait_ek_anequinan_clothing_trigger = yes
-		portrait_ek_pellitinian_clothing_trigger = yes
+		culture ?= { has_clothing_gfx = ek_anequinan_clothing_gfx }
+		culture ?= { has_clothing_gfx = ek_pellitinian_clothing_gfx }
 	}
 }

@@ -71,11 +71,11 @@ ek2lc_loincloth_maker_court_position = {
 	}
 
 	is_shown = {
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 	}
 
 	valid_position = {
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 	}
 
 	is_shown_character = {

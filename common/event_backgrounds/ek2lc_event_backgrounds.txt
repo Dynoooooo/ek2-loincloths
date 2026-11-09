@@ -1,0 +1,8 @@
+﻿# EK2 Loincloths: event backgrounds (art made by the user with an image generator, 2026-11-09).
+ek2lc_going_native = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_going_native.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}

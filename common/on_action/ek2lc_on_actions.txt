@@ -6,7 +6,7 @@ ek2lc_on_birthday = {
 	trigger = {
 		has_game_rule = ek2lc_events_on
 		age = 14
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 		NOT = { has_trait = undead_character }
 	}
 	events = {
@@ -21,11 +21,11 @@ on_combat_end_winner = {
 ek2lc_on_combat_won = {
 	effect = {  # counted whatever the events rule says: the cowrie war belt shows battles won
 		every_side_commander = {
-			limit = { ek2lc_culture_trigger = yes }
+			limit = { ek2lc_loincloth_people_trigger = yes }
 			ek2lc_count_battle_effect = yes
 		}
 		every_side_knight = {
-			limit = { ek2lc_culture_trigger = yes }
+			limit = { ek2lc_loincloth_people_trigger = yes }
 			ek2lc_count_battle_effect = yes
 		}
 	}
@@ -38,7 +38,7 @@ ek2lc_yearly_pulse = {
 	trigger = {
 		has_game_rule = ek2lc_events_on
 		is_adult = yes
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 		NOT = { has_trait = undead_character }
 	}
 	random_events = {
@@ -67,14 +67,14 @@ ek2lc_on_death = {
 			limit = {
 				is_alive = yes
 				age >= 14
-				ek2lc_culture_trigger = yes
+				ek2lc_loincloth_people_trigger = yes
 			}
 			add_character_modifier = { modifier = ek2lc_mourning_modifier years = 1 }
 		}
 		every_spouse = {
 			limit = {
 				is_alive = yes
-				ek2lc_culture_trigger = yes
+				ek2lc_loincloth_people_trigger = yes
 			}
 			add_character_modifier = { modifier = ek2lc_mourning_modifier years = 1 }
 		}

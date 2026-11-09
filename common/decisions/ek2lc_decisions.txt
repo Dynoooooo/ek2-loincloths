@@ -12,7 +12,7 @@ ek2lc_commission_regalia_decision = {
 		has_game_rule = ek2lc_events_on
 		is_adult = yes
 		is_landed = yes
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 	}
 
 	is_valid_showing_failures_only = {
@@ -53,7 +53,7 @@ ek2lc_loincloth_festival_decision = {
 		has_game_rule = ek2lc_events_on
 		is_ruler = yes
 		is_landed = yes
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 	}
 	is_valid_showing_failures_only = {
 		is_available_adult = yes
@@ -65,7 +65,7 @@ ek2lc_loincloth_festival_decision = {
 	effect = {
 		add_character_modifier = { modifier = ek2lc_loincloth_festival_modifier days = 90 }
 		every_courtier = {
-			limit = { ek2lc_culture_trigger = yes }
+			limit = { ek2lc_loincloth_people_trigger = yes }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -73,7 +73,7 @@ ek2lc_loincloth_festival_decision = {
 			}
 		}
 		every_vassal = {
-			limit = { ek2lc_culture_trigger = yes }
+			limit = { ek2lc_loincloth_people_trigger = yes }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -99,7 +99,7 @@ ek2lc_go_native_decision = {
 		is_ruler = yes
 		is_adult = yes
 		ek2lc_native_culture_trigger = no
-		ek2lc_culture_trigger = no
+		ek2lc_loincloth_people_trigger = no
 	}
 	is_valid_showing_failures_only = {
 		is_available_adult = yes
@@ -124,7 +124,7 @@ ek2lc_end_native_decision = {
 	sort_order = 87
 	is_shown = {
 		ek2lc_native_culture_trigger = no
-		ek2lc_culture_trigger = yes
+		ek2lc_loincloth_people_trigger = yes
 	}
 	effect = {
 		remove_character_flag = ek2lc_native_reach

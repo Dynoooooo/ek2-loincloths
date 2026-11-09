@@ -42,20 +42,38 @@ ek2lc_culture_trigger = {
 	}
 }
 
-# By culture alone (not having gone native): who may Go Native.
+# Outside portraits (decisions, events, on_actions, court positions) EK2's portrait_ek_*_clothing_trigger has no
+# scope:culture, so these test the character's culture directly.
+# A loincloth people by culture alone (not having gone native): who may Go Native.
 ek2lc_native_culture_trigger = {
-	OR = {
-		portrait_ek_nedic_reach_clothing_trigger = yes
-		portrait_ek_ashlander_clothing_trigger = yes
-		portrait_ek_bosmeri_clothing_trigger = yes
-		portrait_ek_argonian_clothing_trigger = yes
+	culture ?= {
 		OR = {
-						portrait_ek_anequinan_clothing_trigger = yes
-						portrait_ek_pellitinian_clothing_trigger = yes
-					}
-		portrait_ek_orc_clothing_trigger = yes
-		portrait_ek_goblin_clothing_trigger = yes
-		portrait_ek_nedic_south_clothing_trigger = yes
-		portrait_ek_lilmothiit_clothing_trigger = yes
+			has_clothing_gfx = ek_nedic_reach_clothing_gfx
+			has_clothing_gfx = ek_ashlander_clothing_gfx
+			has_clothing_gfx = ek_bosmeri_clothing_gfx
+			has_clothing_gfx = ek_argonian_clothing_gfx
+			has_clothing_gfx = ek_anequinan_clothing_gfx
+			has_clothing_gfx = ek_pellitinian_clothing_gfx
+			has_clothing_gfx = ek_orc_clothing_gfx
+			has_clothing_gfx = ek_goblin_clothing_gfx
+			has_clothing_gfx = ek_nedic_south_clothing_gfx
+			has_clothing_gfx = ek_lilmothiit_clothing_gfx
+		}
+	}
+}
+
+# A loincloth people, or gone native in one's dress.
+ek2lc_loincloth_people_trigger = {
+	OR = {
+		ek2lc_native_culture_trigger = yes
+		has_character_flag = ek2lc_native_reach
+		has_character_flag = ek2lc_native_ashlander
+		has_character_flag = ek2lc_native_bosmer
+		has_character_flag = ek2lc_native_argonian
+		has_character_flag = ek2lc_native_khajiit
+		has_character_flag = ek2lc_native_orc
+		has_character_flag = ek2lc_native_goblin
+		has_character_flag = ek2lc_native_kothringi
+		has_character_flag = ek2lc_native_lilmothiit
 	}
 }

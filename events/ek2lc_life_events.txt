@@ -191,7 +191,7 @@ ek2lc_life.0040 = {
 		is_ruler = yes
 		any_courtier_or_guest = {
 			is_adult = yes
-			NOT = { ek2lc_culture_trigger = yes }
+			NOT = { ek2lc_loincloth_people_trigger = yes }
 		}
 	}
 	left_portrait = {
@@ -206,7 +206,7 @@ ek2lc_life.0040 = {
 		random_courtier_or_guest = {
 			limit = {
 				is_adult = yes
-				NOT = { ek2lc_culture_trigger = yes }
+				NOT = { ek2lc_loincloth_people_trigger = yes }
 			}
 			save_scope_as = ek2lc_envoy
 		}
@@ -255,7 +255,7 @@ ek2lc_life.0050 = {
 	theme = faith
 	trigger = {
 		is_ai = no
-		portrait_ek_argonian_clothing_trigger = yes
+		culture ?= { has_clothing_gfx = ek_argonian_clothing_gfx }
 	}
 	left_portrait = {
 		character = root
@@ -316,7 +316,7 @@ ek2lc_life.0080 = {
 		ek2lc_winter_trigger = yes
 		any_courtier = {
 			is_adult = yes
-			ek2lc_culture_trigger = yes
+			ek2lc_loincloth_people_trigger = yes
 		}
 	}
 	left_portrait = {
@@ -331,7 +331,7 @@ ek2lc_life.0080 = {
 		random_courtier = {
 			limit = {
 				is_adult = yes
-				ek2lc_culture_trigger = yes
+				ek2lc_loincloth_people_trigger = yes
 			}
 			save_scope_as = ek2lc_cold
 		}
@@ -369,6 +369,7 @@ ek2lc_life.0100 = {
 	title = ek2lc_life.0100.t
 	desc = ek2lc_life.0100.desc
 	theme = realm
+	override_background = { reference = ek2lc_going_native }
 	left_portrait = {
 		character = root
 		animation = personality_bold
