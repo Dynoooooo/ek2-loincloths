@@ -1,0 +1,41 @@
+﻿# EK2 Loincloths: icons (rendered from the pieces in Blender, source/tools/render_regalia_icons.py) and the artifact window's models.
+
+ek2lc_art_champion = {
+	icon = "ek2lc_art_champion.dds"
+	asset = ek2lc_art_champion_artifact_entity
+}
+
+ek2lc_art_fauld = {
+	icon = "ek2lc_art_fauld.dds"
+	asset = ek2lc_art_fauld_artifact_entity
+}
+
+ek2lc_art_feather = {
+	icon = "ek2lc_art_feather.dds"
+	asset = ek2lc_art_feather_artifact_entity
+}
+
+ek2lc_art_briar = {
+	icon = "ek2lc_art_briar.dds"
+	asset = ek2lc_art_briar_artifact_entity
+}
+
+ek2lc_art_amber = {
+	icon = "ek2lc_art_amber.dds"
+	asset = ek2lc_art_amber_artifact_entity
+}
+
+ek2lc_art_bone = {
+	icon = "ek2lc_art_bone.dds"
+	asset = ek2lc_art_bone_artifact_entity
+}
+
+ek2lc_art_ash = {
+	icon = "ek2lc_art_ash.dds"
+	asset = ek2lc_art_ash_artifact_entity
+}
+
+ek2lc_art_moon = {
+	icon = "ek2lc_art_moon.dds"
+	asset = ek2lc_art_moon_artifact_entity
+}

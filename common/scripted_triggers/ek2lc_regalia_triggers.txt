@@ -1,0 +1,48 @@
+﻿# EK2 Loincloths: commissioned regalia (artifacts) and the events around them.
+
+# The equipped regalia of style $STYLE$ (portrait modifiers; vanilla's portrait_reichskrone_trigger works the same way).
+ek2lc_regalia_worn_trigger = {
+	exists = this
+	any_equipped_character_artifact = {
+		has_variable = ek2lc_regalia
+		var:ek2lc_regalia = flag:$STYLE$
+	}
+}
+
+# Owns any of our regalia.
+ek2lc_owns_regalia_trigger = {
+	any_character_artifact = { has_variable = ek2lc_regalia }
+}
+
+# The style each people's weavers make (the Champion's Apron is no one's own: anyone may order it).
+# Kothringi and Lilmothiit: the feather girdle; orcs and goblins: the iron fauld.
+ek2lc_home_art_fauld_trigger = {
+	OR = {
+		portrait_ek_orc_clothing_trigger = yes
+		portrait_ek_goblin_clothing_trigger = yes
+	}
+}
+ek2lc_home_art_feather_trigger = {
+	OR = {
+		portrait_ek_nedic_south_clothing_trigger = yes
+		portrait_ek_lilmothiit_clothing_trigger = yes
+	}
+}
+ek2lc_home_art_briar_trigger = {
+	portrait_ek_nedic_reach_clothing_trigger = yes
+}
+ek2lc_home_art_amber_trigger = {
+	portrait_ek_argonian_clothing_trigger = yes
+}
+ek2lc_home_art_bone_trigger = {
+	portrait_ek_bosmeri_clothing_trigger = yes
+}
+ek2lc_home_art_ash_trigger = {
+	portrait_ek_ashlander_clothing_trigger = yes
+}
+ek2lc_home_art_moon_trigger = {
+	OR = {
+		portrait_ek_anequinan_clothing_trigger = yes
+		portrait_ek_pellitinian_clothing_trigger = yes
+	}
+}

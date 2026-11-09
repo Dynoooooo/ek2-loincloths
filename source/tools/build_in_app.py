@@ -1,6 +1,7 @@
 """Build the pieces inside the live Blender app (the user's rule: the app, not headless), through MCP for Blender:
 
     exec(open("<mod>/source/tools/build_in_app.py").read()); start("male")      # or start("male", "female")
+    start("male", "female", script="build_regalia.py", args=["art_fauld"])   # another build script, its own args
 
 The build runs from a Blender timer, so the MCP call returns at once (a build takes ~2 minutes; an MCP call
 times out after 180 s). Blender is busy until it finishes. Each body writes source/build_logs/build_<sex>.log
@@ -17,19 +18,20 @@ MOD = os.path.expanduser("~/Documents/Paradox Interactive/Crusader Kings III/mod
 GAME = os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game")
 
 
-def _run(sexes):
+def _run(sexes, script="build_reach_hide.py", args=()):
+    tag = os.path.splitext(script)[0].replace("build_", "")
     for sex in sexes:
-        log = os.path.join(MOD, "source/build_logs/build_%s.log" % sex)
+        log = os.path.join(MOD, "source/build_logs/build_%s%s.log" % ("" if tag == "reach_hide" else tag + "_", sex))
         for m in ("cultures", "colour", "undead", "weight_solver", "fitting"):  # re-read build modules every run
             sys.modules.pop(m, None)
         saved = sys.stdout, sys.stderr, sys.argv
         ok = True
         with open(log, "w", buffering=1) as f:
             sys.stdout = sys.stderr = f
-            sys.argv = ["blender", "--", GAME, MOD, sex]
+            sys.argv = ["blender", "--", GAME, MOD, sex] + list(args)
             try:  # the build's globals are kept for looking into afterwards (bpy.app.driver_namespace)
                 bpy.app.driver_namespace["ek2lc_build_" + sex] = runpy.run_path(
-                    os.path.join(MOD, "source/build_reach_hide.py"), run_name="__main__")
+                    os.path.join(MOD, "source", script), run_name="__main__")
             except BaseException:
                 traceback.print_exc()
                 ok = False
@@ -41,6 +43,6 @@ def _run(sexes):
     return None  # run once
 
 
-def start(*sexes):
-    bpy.app.timers.register(lambda: _run(sexes or ("male", "female")), first_interval=0.2)
+def start(*sexes, script="build_reach_hide.py", args=()):
+    bpy.app.timers.register(lambda: _run(sexes or ("male", "female"), script, args), first_interval=0.2)
     return "build of %s started" % ", ".join(sexes or ("male", "female"))

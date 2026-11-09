@@ -1,0 +1,54 @@
+﻿# EK2 Loincloths: hooks for the loincloth events (appended to vanilla's on_actions, nothing replaced).
+on_birthday = {
+	on_actions = { ek2lc_on_birthday }
+}
+ek2lc_on_birthday = {
+	trigger = {
+		age = 14
+		ek2lc_culture_trigger = yes
+		NOT = { has_trait = undead_character }
+	}
+	events = {
+		ek2lc_life.0001  # a player's own rite
+		ek2lc_life.0002  # a player's child's rite
+	}
+}
+
+on_combat_end_winner = {
+	on_actions = { ek2lc_on_combat_won }
+}
+ek2lc_on_combat_won = {
+	effect = {
+		every_side_commander = {
+			limit = { ek2lc_culture_trigger = yes }
+			ek2lc_count_battle_effect = yes
+		}
+		every_side_knight = {
+			limit = { ek2lc_culture_trigger = yes }
+			ek2lc_count_battle_effect = yes
+		}
+	}
+}
+
+yearly_playable_pulse = {
+	on_actions = { ek2lc_yearly_pulse }
+}
+ek2lc_yearly_pulse = {
+	trigger = {
+		is_adult = yes
+		ek2lc_culture_trigger = yes
+		NOT = { has_trait = undead_character }
+	}
+	random_events = {
+		900 = 0
+		60 = ek2lc_regalia.0020  # a patron's gift of a Champion's Apron
+		60 = ek2lc_regalia.0030  # moths in the regalia
+		40 = ek2lc_regalia.0040  # wearing an inherited regalia at court
+		50 = ek2lc_life.0020  # the knot gives way at a feast
+		40 = ek2lc_life.0030  # the weavers' sumptuary petition
+		40 = ek2lc_life.0040  # a scandalised envoy
+		40 = ek2lc_life.0050  # Hist sap
+		40 = ek2lc_life.0070  # Hircine's night
+		40 = ek2lc_life.0080  # a cold snap
+	}
+}

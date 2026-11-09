@@ -1,0 +1,20 @@
+﻿# EK2 Loincloths: commissioned regalia. Anyone may wear one; it shows on the portrait over our loincloths
+# (gfx/portraits/portrait_modifiers/ek2lc_loincloths.txt, gene_ek2lc_regalia).
+ek2lc_regalia_template = {
+	can_equip = {
+		always = yes
+	}
+	can_benefit = {
+		always = yes
+	}
+	can_reforge = {
+		always = no
+	}
+	can_repair = {
+		always = yes
+	}
+	ai_score = {
+		value = 60
+	}
+	unique = yes
+}

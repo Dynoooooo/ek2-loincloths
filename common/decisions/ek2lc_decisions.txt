@@ -1,0 +1,40 @@
+﻿# EK2 Loincloths: order ceremonial regalia from the weavers (events/ek2lc_regalia_events.txt).
+ek2lc_commission_regalia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ek2lc_commission_regalia.dds"
+	}
+	desc = ek2lc_commission_regalia_decision_desc
+	selection_tooltip = ek2lc_commission_regalia_decision_tooltip
+	sort_order = 90
+	cooldown = { years = 2 }
+
+	is_shown = {
+		is_adult = yes
+		is_landed = yes
+		ek2lc_culture_trigger = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		custom_tooltip = {
+			text = ek2lc_commission_pending_tt
+			NOT = { has_character_flag = ek2lc_commission_pending }
+		}
+		gold >= ek2lc_commission_rough_cost
+	}
+
+	effect = {
+		custom_tooltip = ek2lc_commission_regalia_decision_effect_tt
+		trigger_event = ek2lc_regalia.0001
+	}
+
+	ai_check_interval = 120
+	ai_potential = {
+		highest_held_title_tier >= tier_county
+		gold >= 300
+		NOT = { ek2lc_owns_regalia_trigger = yes }
+	}
+	ai_will_do = {
+		base = 10
+	}
+}

@@ -39612,3 +39612,217 @@ ek2lc_charm = {
 	}
 
 }
+
+# gene_ek2lc_regalia: drawn only over one of our loincloths (see EXTRA in gen_script_files.py).
+ek2lc_regalia = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 101
+
+	ek2lc_regalia_none = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_no_regalia
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 1
+		}
+	}
+
+	ek2lc_art_champion = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_champion
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_champion }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_fauld = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_fauld
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_fauld }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_feather = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_feather
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_feather }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_briar = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_briar
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_briar }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_amber = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_amber
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_amber }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_bone = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_bone
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_bone }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_ash = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_ash
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_ash }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+	ek2lc_art_moon = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = gene_ek2lc_regalia
+				template = ek2lc_art_moon
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
+				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
+				ek2lc_regalia_worn_trigger = { STYLE = art_moon }
+				NOR = {
+					should_be_fully_naked_portrait_trigger = yes
+					should_be_topless_portrait_trigger = yes
+				}
+			}
+		}
+	}
+
+}

@@ -1,0 +1,104 @@
+﻿# EK2 Loincloths: making the regalia.
+
+# A regalia artifact of style STYLE (art_champion, art_fauld, ...) for OWNER, at RARITY (common, masterwork, famed,
+# illustrious), equipped at once so it shows on the portrait. var:ek2lc_regalia = flag:STYLE is what the portrait
+# modifiers look for; var:ek2lc_first_owner remembers who it was made for (heirloom events).
+ek2lc_create_regalia_effect = {
+	set_artifact_rarity_$RARITY$ = yes
+	$OWNER$ = {
+		save_scope_as = ek2lc_regalia_owner
+		create_artifact = {
+			name = ek2lc_regalia_$STYLE$_name
+			description = ek2lc_regalia_$STYLE$_desc
+			type = ek2lc_loincloth_regalia
+			template = ek2lc_regalia_template
+			visuals = ek2lc_$STYLE$
+			modifier = ek2lc_regalia_$STYLE$_modifier
+			wealth = scope:wealth
+			quality = scope:quality
+			save_scope_as = ek2lc_new_regalia
+		}
+	}
+	scope:ek2lc_new_regalia = {
+		set_variable = { name = ek2lc_regalia value = flag:$STYLE$ }
+		set_variable = { name = ek2lc_first_owner value = scope:ek2lc_regalia_owner }
+		if = {
+			limit = { scope:quality >= 70 }
+			add_artifact_modifier = ek2lc_regalia_masterwork_modifier
+		}
+		else_if = {
+			limit = { scope:quality >= 30 }
+			add_artifact_modifier = ek2lc_regalia_fine_modifier
+		}
+		equip_artifact_to_owner_replace = yes
+	}
+}
+
+# The commission root ordered (var:ek2lc_commission_style), at RARITY.
+ek2lc_create_commissioned_regalia_effect = {
+	if = {
+		limit = { var:ek2lc_commission_style = flag:art_champion }
+		ek2lc_create_regalia_effect = { STYLE = art_champion RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_fauld }
+		ek2lc_create_regalia_effect = { STYLE = art_fauld RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_feather }
+		ek2lc_create_regalia_effect = { STYLE = art_feather RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_briar }
+		ek2lc_create_regalia_effect = { STYLE = art_briar RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_amber }
+		ek2lc_create_regalia_effect = { STYLE = art_amber RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_bone }
+		ek2lc_create_regalia_effect = { STYLE = art_bone RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_ash }
+		ek2lc_create_regalia_effect = { STYLE = art_ash RARITY = $RARITY$ OWNER = root }
+	}
+	else_if = {
+		limit = { var:ek2lc_commission_style = flag:art_moon }
+		ek2lc_create_regalia_effect = { STYLE = art_moon RARITY = $RARITY$ OWNER = root }
+	}
+	remove_variable = ek2lc_commission_style
+	remove_variable = ek2lc_commission_grade
+	remove_character_flag = ek2lc_commission_pending
+}
+
+# The commission called off or lost: forget it.
+ek2lc_clear_commission_effect = {
+	remove_variable = ek2lc_commission_style
+	remove_variable = ek2lc_commission_grade
+	remove_character_flag = ek2lc_commission_pending
+}
+
+# One more battle won by a warrior of a loincloth people (on_combat_end_winner); every few, an event for players.
+ek2lc_count_battle_effect = {
+	if = {
+		limit = { has_variable = ek2lc_battles_won }
+		change_variable = { name = ek2lc_battles_won add = 1 }
+	}
+	else = {
+		set_variable = { name = ek2lc_battles_won value = 1 }
+	}
+	if = {
+		limit = {
+			is_ai = no
+			OR = {
+				var:ek2lc_battles_won = 3
+				var:ek2lc_battles_won = 6
+				var:ek2lc_battles_won = 10
+				var:ek2lc_battles_won = 15
+			}
+		}
+		trigger_event = ek2lc_life.0010
+	}
+}

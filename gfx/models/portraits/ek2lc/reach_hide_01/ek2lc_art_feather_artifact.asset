@@ -1,0 +1,18 @@
+pdxmesh = {
+	name = "ek2lc_art_feather_artifact_mesh"
+	file = "ek2lc_art_feather_artifact.mesh"
+	meshsettings = {
+		name = "ek2lc_art_feather_artifactShape"
+		index = 0
+		texture_diffuse = "ek2lc_art_feather_01_display_diffuse.dds"
+		texture_normal = "ek2lc_art_feather_01_normal.dds"
+		texture_specular = "ek2lc_art_feather_01_properties.dds"
+		shader = "court_alpha_to_coverage"
+		shader_file = "gfx/FX/court_scene.shader"
+	}
+}
+
+entity = {
+	name = "ek2lc_art_feather_artifact_entity"
+	pdxmesh = "ek2lc_art_feather_artifact_mesh"
+}

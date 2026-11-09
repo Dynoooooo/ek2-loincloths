@@ -836,3 +836,46 @@ ek2lc_custom_charm = {
 		template = ek2lc_lich_kid_charm
 	}
 }
+
+ek2lc_custom_regalia = {
+	usage = customization
+	interface_position = 19
+	priority = 102
+
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_no_regalia
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_champion
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_fauld
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_feather
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_briar
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_amber
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_bone
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_ash
+	}
+	add_accessory_modifiers = {
+		gene = gene_ek2lc_regalia
+		template = ek2lc_art_moon
+	}
+}

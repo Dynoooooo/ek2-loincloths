@@ -1,0 +1,4 @@
+﻿# EK2 Loincloths: the commissioned regalia (loincloth girdles and aprons), worn in the regalia slot.
+ek2lc_loincloth_regalia = {
+	slot = regalia
+}

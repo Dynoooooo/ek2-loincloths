@@ -221,6 +221,8 @@ def assets():
     """{asset name: (diffuse set, properties set)} from the .asset files."""
     out = {}
     for p in sorted(glob.glob(os.path.join(OUT, "*.asset"))):
+        if p.endswith("_artifact.asset"):  # an artifact window's model (court shader, own display diffuse): not recoloured
+            continue
         t = open(p).read()
         out[os.path.basename(p)[:-6]] = (re.search(r'texture_diffuse = "(.+?)_diffuse\.dds"', t).group(1),
                                          re.search(r'texture_specular = "(.+?)_properties\.dds"', t).group(1))

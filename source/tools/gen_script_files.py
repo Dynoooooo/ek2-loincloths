@@ -52,12 +52,14 @@ GIRDLE_TAG = "ek2lc_girdle"  # set by every piece of gene_ek2lc_war (war, armour
 MANTLE_TAG = "ek2lc_mantle"  # set by the emperor's mantle
 ROBE_TAG = "ek2lc_robe"  # set by the fur cloak (the mantle's mesh)
 TUNIC_TAG = "ek2lc_tunic"  # set by the children's tunic: the chest band draws nothing under it
+REGALIA_TAG = "ek2lc_regalia"  # set by an equipped regalia artifact's piece: girdles, trophies, camp wrap, charms draw nothing
+REGALIA_GENE = "gene_ek2lc_regalia"
 A14 = "scope:age >= 14\n\t\t\t\t"
 # gene -> (none template, [(kind, barbershop name, game rule incl. age)], row name, its "none" name, hiding tags, own tag)
 EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     ("trophy_1", "Trophy Belt: Two Trophies", A14 + "prowess >= 8\n\t\t\t\tprowess < 12"),
     ("trophy_2", "Trophy Belt: Four Trophies", A14 + "prowess >= 12\n\t\t\t\tprowess < 16"),
-    ("trophy_3", "Trophy Belt: Four Trophies and Beads", A14 + "prowess >= 16")], "Trophy Belt", "No Trophy Belt", [], ""),
+    ("trophy_3", "Trophy Belt: Four Trophies and Beads", A14 + "prowess >= 16")], "Trophy Belt", "No Trophy Belt", [REGALIA_TAG], ""),
     # tournament fighters who have fought on foot (melee, wrestling, duels): one guard on the left shoulder
     "gene_ek2lc_arena": ("ek2lc_no_arena", [
         ("arena_guard", "Hide-and-Bone Shoulder Guard",
@@ -67,7 +69,7 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     # non-fighters who travel with an army (ek2lc_camp_follower_trigger); the sash sits where a girdle does
     "gene_ek2lc_camp": ("ek2lc_no_camp", [("camp_wrap", "Patched Camp Wrap", A14 + "ek2lc_camp_follower_trigger = yes"),
                                           ("lich_camp_wrap", "Lich's Burial Camp Wrap", None)],
-                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG], ""),
+                        "Camp Follower's Wrap", "No Camp Wrap", [GIRDLE_TAG, REGALIA_TAG], ""),
     # cold-weather layers (2026-11-06), kids from 4 too: hide leggings where it's cold, a fur cloak (the mantle's
     # mesh) in winter; the emperor's mantle wins over the cloak
     "gene_ek2lc_leggings": ("ek2lc_no_leggings", [("leggings", "Hide Leggings", "scope:age >= 4\n\t\t\t\tek2lc_cold_trigger = yes"),
@@ -80,7 +82,15 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
     "gene_ek2lc_charm": ("ek2lc_no_charm", [("kid_charm", "Quill, Shell and Tooth Charms",
                                              "scope:age >= 4\n\t\t\t\tscope:age <= 13\n\t\t\t\tek2lc_royal_trigger = no"),
                                             ("lich_kid_charm", "Lich's Burial Charms", None)],
-                         "Charms", "No Charms", [GIRDLE_TAG], ""),
+                         "Charms", "No Charms", [GIRDLE_TAG, REGALIA_TAG], ""),
+    # commissioned regalia (2026-11-09): drawn while the character has the artifact equipped (common/artifacts,
+    # events/ek2lc_regalia_events.txt). Each is its own mesh and texture (source/build_regalia.py).
+    REGALIA_GENE: ("ek2lc_no_regalia", [(k, n, "ek2lc_regalia_worn_trigger = { STYLE = %s }" % k) for k, n in [
+        ("art_champion", "Champion's Apron"), ("art_fauld", "Malacath's Iron Fauld"),
+        ("art_feather", "Feather Girdle of the Ancestors"), ("art_briar", "Briarheart Girdle"),
+        ("art_amber", "Hist-Amber Wrap"), ("art_bone", "Green Pact Bone Apron"),
+        ("art_ash", "Ancestor-Ash Tassets"), ("art_moon", "Mane's Moon Silk")]],
+        "Regalia", "No Regalia", [], REGALIA_TAG),
 }
 # kinds added to a gene later: their templates go after every existing one, so saved characters keep theirs
 LATE = {"gene_ek2lc_loincloth": ["skirt", "tunic"]}  # girls' wrap skirt (7-13), children's tunic (4-6)
@@ -200,13 +210,15 @@ def accessories():
             tag.append(TUNIC_TAG)
         tags = '\tset_tags = "%s"\n' % ",".join(tag) if tag else ""
         under = '\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % TUNIC_TAG if k in WOMEN_ONLY else ""
+        if k in GENES["gene_ek2lc_war"][1]:  # an equipped regalia piece takes the girdle's place
+            under = '\tentity = { required_tags = "%s"\t\tshared_pose_entity = torso }\n' % REGALIA_TAG
         out.append("%s = {\n%s%s\tentity = { required_tags = \"\"\t\tshared_pose_entity = torso\t\tentity = %s }\n}"
                    % (a, tags, under, entity_name(a)))
     for gene, (none, kinds, _, _, hide, own) in EXTRA.items():
         for k, _, _ in kinds:
             for s in ("m", "f"):
                 a = xacc(s, k)
-                lich = entity_name(a if k.startswith("lich_") else xacc(s, "lich_" + k))
+                lich = entity_name(a if k.startswith("lich_") or gene == REGALIA_GENE else xacc(s, "lich_" + k))
                 out.append("%s = {\n" % a + ('\tset_tags = "%s"\n' % own if own else "") +
                            "%s\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"
                            "\tentity = { required_tags = \"%s\"\t\tshared_pose_entity = torso\t\tentity = %s }\n"

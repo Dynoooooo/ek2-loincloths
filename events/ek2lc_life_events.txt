@@ -1,0 +1,364 @@
+﻿namespace = ek2lc_life
+
+# A player's own rite of passage at 14: the first warrior's loincloth, and the clan mark painted on it.
+ek2lc_life.0001 = {
+	type = character_event
+	title = ek2lc_life.0001.t
+	desc = ek2lc_life.0001.desc
+	theme = family
+	trigger = { is_ai = no }
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	option = {
+		name = ek2lc_life.0001.bear
+		add_character_modifier = { modifier = ek2lc_clan_mark_bear_modifier years = 10 }
+	}
+	option = {
+		name = ek2lc_life.0001.raven
+		add_character_modifier = { modifier = ek2lc_clan_mark_raven_modifier years = 10 }
+	}
+	option = {
+		name = ek2lc_life.0001.elk
+		add_character_modifier = { modifier = ek2lc_clan_mark_elk_modifier years = 10 }
+	}
+}
+
+# A player's child's rite of passage at 14.
+ek2lc_life.0002 = {
+	type = character_event
+	title = ek2lc_life.0002.t
+	desc = ek2lc_life.0002.desc
+	theme = family
+	trigger = {
+		is_ai = yes
+		OR = {
+			father ?= { is_ai = no }
+			mother ?= { is_ai = no }
+		}
+	}
+	left_portrait = {
+		character = scope:ek2lc_parent
+		animation = personality_honorable
+	}
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	immediate = {
+		if = {
+			limit = { father ?= { is_ai = no } }
+			father = { save_scope_as = ek2lc_parent }
+		}
+		else = {
+			mother = { save_scope_as = ek2lc_parent }
+		}
+	}
+	option = {
+		name = ek2lc_life.0002.a
+		add_character_modifier = { modifier = ek2lc_clan_mark_bear_modifier years = 10 }
+		add_opinion = {
+			target = scope:ek2lc_parent
+			modifier = grateful_opinion
+			opinion = 20
+		}
+		scope:ek2lc_parent = { add_prestige = minor_prestige_gain }
+	}
+	option = {
+		name = ek2lc_life.0002.b
+		add_character_modifier = { modifier = ek2lc_clan_mark_elk_modifier years = 10 }
+	}
+}
+
+# Another trophy for the belt (ek2lc_count_battle_effect: 3, 6, 10 and 15 battles won).
+ek2lc_life.0010 = {
+	type = character_event
+	title = ek2lc_life.0010.t
+	desc = ek2lc_life.0010.desc
+	theme = martial
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	option = {
+		name = ek2lc_life.0010.a
+		add_prestige = medium_prestige_gain
+	}
+	option = {
+		name = ek2lc_life.0010.b
+		add_dread = 5
+		add_prestige = minor_prestige_gain
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+		}
+	}
+}
+
+# The knot gives way at a feast.
+ek2lc_life.0020 = {
+	type = character_event
+	title = ek2lc_life.0020.t
+	desc = ek2lc_life.0020.desc
+	theme = party
+	trigger = {
+		is_ai = no
+		age >= 16
+	}
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	option = {
+		name = ek2lc_life.0020.a
+		add_prestige = minor_prestige_loss
+		stress_impact = {
+			shy = medium_stress_impact_gain
+			gregarious = minor_stress_impact_loss
+		}
+	}
+	option = {
+		name = ek2lc_life.0020.b
+		add_dread = 3
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			just = minor_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek2lc_life.0020.c
+		trigger = {
+			OR = {
+				diplomacy >= 12
+				has_trait = gregarious
+			}
+		}
+		add_character_modifier = { modifier = ek2lc_loincloth_fashion_modifier years = 5 }
+	}
+	after = {
+		if = {
+			limit = { NOT = { has_character_modifier = ek2lc_loincloth_fashion_modifier } }
+			add_character_modifier = { modifier = ek2lc_tie_snapped_modifier years = 1 }
+		}
+	}
+}
+
+# The weavers ask that fine cloth be kept for the nobility.
+ek2lc_life.0030 = {
+	type = character_event
+	title = ek2lc_life.0030.t
+	desc = ek2lc_life.0030.desc
+	theme = realm
+	trigger = {
+		is_ai = no
+		highest_held_title_tier >= tier_duchy
+	}
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	option = {
+		name = ek2lc_life.0030.a
+		add_character_modifier = { modifier = ek2lc_sumptuary_enforced_modifier years = 10 }
+		stress_impact = {
+			humble = minor_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek2lc_life.0030.b
+		add_character_modifier = { modifier = ek2lc_sumptuary_relaxed_modifier years = 10 }
+		stress_impact = {
+			arrogant = minor_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek2lc_life.0030.c
+		add_character_modifier = { modifier = ek2lc_fine_cloth_tax_modifier years = 10 }
+		stress_impact = {
+			generous = minor_stress_impact_gain
+		}
+	}
+}
+
+# A foreign guest is scandalised by court dress.
+ek2lc_life.0040 = {
+	type = character_event
+	title = ek2lc_life.0040.t
+	desc = ek2lc_life.0040.desc
+	theme = diplomacy
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		any_courtier_or_guest = {
+			is_adult = yes
+			NOT = { ek2lc_culture_trigger = yes }
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:ek2lc_envoy
+		animation = disgust
+	}
+	immediate = {
+		random_courtier_or_guest = {
+			limit = {
+				is_adult = yes
+				NOT = { ek2lc_culture_trigger = yes }
+			}
+			save_scope_as = ek2lc_envoy
+		}
+	}
+	option = {
+		name = ek2lc_life.0040.a
+		add_character_modifier = { modifier = ek2lc_proud_dress_modifier years = 3 }
+		scope:ek2lc_envoy = {
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -10
+			}
+		}
+	}
+	option = {
+		name = ek2lc_life.0040.b
+		remove_short_term_gold = 10
+		scope:ek2lc_envoy = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 15
+			}
+		}
+	}
+	option = {
+		name = ek2lc_life.0040.c
+		trigger = { diplomacy >= 10 }
+		add_prestige = minor_prestige_gain
+		scope:ek2lc_envoy = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+}
+
+# Argonians: steep the loincloth in the sap of the Hist.
+ek2lc_life.0050 = {
+	type = character_event
+	title = ek2lc_life.0050.t
+	desc = ek2lc_life.0050.desc
+	theme = faith
+	trigger = {
+		is_ai = no
+		portrait_ek_argonian_clothing_trigger = yes
+	}
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	option = {
+		name = ek2lc_life.0050.a
+		add_character_modifier = { modifier = ek2lc_hist_blessed_modifier years = 5 }
+		every_character_artifact = {
+			limit = { has_variable = ek2lc_regalia }
+			add_durability = 20
+		}
+	}
+	option = {
+		name = ek2lc_life.0050.b
+		add_piety = minor_piety_gain
+	}
+}
+
+# Lycanthropes: a night with Hircine leaves the loincloth in shreds.
+ek2lc_life.0070 = {
+	type = character_event
+	title = ek2lc_life.0070.t
+	desc = ek2lc_life.0070.desc
+	theme = hunting
+	trigger = {
+		is_ai = no
+		has_trait = lycan_character
+	}
+	left_portrait = {
+		character = root
+		animation = shame
+	}
+	option = {
+		name = ek2lc_life.0070.a
+		remove_short_term_gold = 5
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+	}
+	option = {
+		name = ek2lc_life.0070.b
+		add_character_modifier = { modifier = ek2lc_hircine_hunt_modifier years = 2 }
+		stress_impact = {
+			calm = minor_stress_impact_gain
+		}
+	}
+}
+
+# A cold snap: a courtier of a loincloth people is freezing.
+ek2lc_life.0080 = {
+	type = character_event
+	title = ek2lc_life.0080.t
+	desc = ek2lc_life.0080.desc
+	theme = physical_health
+	trigger = {
+		is_ai = no
+		ek2lc_winter_trigger = yes
+		any_courtier = {
+			is_adult = yes
+			ek2lc_culture_trigger = yes
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:ek2lc_cold
+		animation = sick
+	}
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				ek2lc_culture_trigger = yes
+			}
+			save_scope_as = ek2lc_cold
+		}
+	}
+	option = {
+		name = ek2lc_life.0080.a
+		remove_short_term_gold = 10
+		scope:ek2lc_cold = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+	}
+	option = {
+		name = ek2lc_life.0080.b
+		add_dread = 2
+		scope:ek2lc_cold = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+		}
+	}
+}

@@ -17,6 +17,13 @@ pattern_textures = {
 }
 
 pattern_textures = {
+	name = "ek2lc_solid_g46_a179"
+	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
+	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_solid_g46_a179_properties.dds"
+}
+
+pattern_textures = {
 	name = "ek2lc_solid_g51_a140"
 	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
 	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
@@ -31,10 +38,31 @@ pattern_textures = {
 }
 
 pattern_textures = {
+	name = "ek2lc_solid_g51_a166"
+	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
+	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_solid_g51_a166_properties.dds"
+}
+
+pattern_textures = {
+	name = "ek2lc_solid_g51_a170"
+	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
+	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_solid_g51_a170_properties.dds"
+}
+
+pattern_textures = {
 	name = "ek2lc_solid_g56_a148"
 	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
 	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
 	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_solid_g56_a148_properties.dds"
+}
+
+pattern_textures = {
+	name = "ek2lc_solid_g56_a153"
+	colormask = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_colormask.dds"
+	normal = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_pattern_normal.dds"
+	properties = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_solid_g56_a153_properties.dds"
 }
 
 pattern_textures = {
@@ -169,6 +197,102 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_argonian_war_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_amber_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_amber_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_ash_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_ash_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_bone_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a170"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_bone_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_briar_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_briar_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_champion_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_champion_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_fauld_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_fauld_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_feather_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_feather_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_art_moon_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_moon_01_palette.dds" }
 }
 
 variation = {

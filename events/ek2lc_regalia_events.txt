@@ -1,0 +1,498 @@
+﻿namespace = ek2lc_regalia
+
+# The weavers ask which tradition to work in.
+ek2lc_regalia.0001 = {
+	type = character_event
+	title = ek2lc_regalia.0001.t
+	desc = ek2lc_regalia.0001.desc
+	theme = stewardship
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_fauld
+		trigger = { ek2lc_home_art_fauld_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_fauld }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_feather
+		trigger = { ek2lc_home_art_feather_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_feather }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_briar
+		trigger = { ek2lc_home_art_briar_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_briar }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_amber
+		trigger = { ek2lc_home_art_amber_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_amber }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_bone
+		trigger = { ek2lc_home_art_bone_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_bone }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_ash
+		trigger = { ek2lc_home_art_ash_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_ash }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {  # our own people's tradition
+		name = ek2lc_regalia.0001.home_art_moon
+		trigger = { ek2lc_home_art_moon_trigger = yes }
+		set_variable = { name = ek2lc_commission_style value = flag:art_moon }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0001.champion
+		set_variable = { name = ek2lc_commission_style value = flag:art_champion }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0001.feather
+		trigger = { NOT = { ek2lc_home_art_feather_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_feather }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0001.foreign
+		trigger_event = ek2lc_regalia.0002
+	}
+	option = {
+		name = ek2lc_regalia.0001.cancel
+	}
+}
+
+# Another people's style.
+ek2lc_regalia.0002 = {
+	type = character_event
+	title = ek2lc_regalia.0002.t
+	desc = ek2lc_regalia.0002.desc
+	theme = stewardship
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	option = {
+		name = ek2lc_regalia.0002.art_fauld
+		trigger = { NOT = { ek2lc_home_art_fauld_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_fauld }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0002.art_briar
+		trigger = { NOT = { ek2lc_home_art_briar_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_briar }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0002.art_amber
+		trigger = { NOT = { ek2lc_home_art_amber_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_amber }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0002.art_bone
+		trigger = { NOT = { ek2lc_home_art_bone_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_bone }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0002.art_ash
+		trigger = { NOT = { ek2lc_home_art_ash_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_ash }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0002.art_moon
+		trigger = { NOT = { ek2lc_home_art_moon_trigger = yes } }
+		set_variable = { name = ek2lc_commission_style value = flag:art_moon }
+		trigger_event = ek2lc_regalia.0003
+	}
+	option = {
+		name = ek2lc_regalia.0002.back
+		trigger_event = ek2lc_regalia.0001
+	}
+}
+
+# How fine a work: the price, and how good it can turn out.
+ek2lc_regalia.0003 = {
+	type = character_event
+	title = ek2lc_regalia.0003.t
+	desc = ek2lc_regalia.0003.desc
+	theme = stewardship
+	left_portrait = {
+		character = root
+		animation = personality_greedy
+	}
+	option = {
+		name = ek2lc_regalia.0003.rough
+		remove_short_term_gold = ek2lc_commission_rough_cost
+		set_variable = { name = ek2lc_commission_grade value = 1 }
+		add_character_flag = ek2lc_commission_pending
+		trigger_event = { id = ek2lc_regalia.0009 days = { 60 120 } }
+		custom_tooltip = ek2lc_regalia.0003.wait_tt
+	}
+	option = {
+		name = ek2lc_regalia.0003.fine
+		trigger = { gold >= ek2lc_commission_fine_cost }
+		remove_short_term_gold = ek2lc_commission_fine_cost
+		set_variable = { name = ek2lc_commission_grade value = 2 }
+		add_character_flag = ek2lc_commission_pending
+		trigger_event = { id = ek2lc_regalia.0009 days = { 90 150 } }
+		custom_tooltip = ek2lc_regalia.0003.wait_tt
+	}
+	option = {
+		name = ek2lc_regalia.0003.masterwork
+		trigger = { gold >= ek2lc_commission_masterwork_cost }
+		remove_short_term_gold = ek2lc_commission_masterwork_cost
+		set_variable = { name = ek2lc_commission_grade value = 3 }
+		add_character_flag = ek2lc_commission_pending
+		trigger_event = { id = ek2lc_regalia.0009 days = { 150 240 } }
+		custom_tooltip = ek2lc_regalia.0003.wait_tt
+		ai_chance = { base = 0 }
+	}
+	option = {
+		name = ek2lc_regalia.0003.cancel
+		ek2lc_clear_commission_effect = yes
+		ai_chance = { base = 0 }
+	}
+}
+
+# What becomes of the commission.
+ek2lc_regalia.0009 = {
+	hidden = yes
+	immediate = {
+		random_list = {
+			84 = { trigger_event = ek2lc_regalia.0010 }
+			8 = {
+				modifier = {
+					stewardship >= 12
+					factor = 0.5
+				}
+				trigger_event = ek2lc_regalia.0011
+			}
+			8 = {
+				trigger = {
+					any_vassal = {
+						is_ai = yes
+						gold >= 150
+					}
+				}
+				trigger_event = ek2lc_regalia.0012
+			}
+		}
+	}
+}
+
+# The work is done: the regalia, worn at once.
+ek2lc_regalia.0010 = {
+	type = character_event
+	title = ek2lc_regalia.0010.t
+	desc = ek2lc_regalia.0010.desc
+	theme = stewardship
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	immediate = {
+		if = {
+			limit = { var:ek2lc_commission_grade >= 3 }
+			random_list = {
+				40 = { ek2lc_create_commissioned_regalia_effect = { RARITY = illustrious } }
+				60 = { ek2lc_create_commissioned_regalia_effect = { RARITY = famed } }
+			}
+		}
+		else_if = {
+			limit = { var:ek2lc_commission_grade = 2 }
+			random_list = {
+				15 = {
+					modifier = {
+						stewardship >= 12
+						add = 10
+					}
+					ek2lc_create_commissioned_regalia_effect = { RARITY = famed }
+				}
+				85 = { ek2lc_create_commissioned_regalia_effect = { RARITY = masterwork } }
+			}
+		}
+		else = {
+			random_list = {
+				15 = { ek2lc_create_commissioned_regalia_effect = { RARITY = masterwork } }
+				85 = { ek2lc_create_commissioned_regalia_effect = { RARITY = common } }
+			}
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0010.a
+		add_prestige = minor_prestige_gain
+		stress_impact = {
+			humble = minor_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0010.b
+		add_piety = minor_piety_gain
+		stress_impact = {
+			arrogant = minor_stress_impact_gain
+		}
+	}
+}
+
+# The weaver has fled with the gold.
+ek2lc_regalia.0011 = {
+	type = character_event
+	title = ek2lc_regalia.0011.t
+	desc = ek2lc_regalia.0011.desc
+	theme = intrigue
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	option = {
+		name = ek2lc_regalia.0011.a
+		random_list = {
+			50 = {
+				modifier = {
+					prowess >= 12
+					add = 20
+				}
+				desc = ek2lc_regalia.0011.a.found
+				trigger_event = ek2lc_regalia.0010
+			}
+			50 = {
+				desc = ek2lc_regalia.0011.a.lost
+				add_prestige = minor_prestige_loss
+				ek2lc_clear_commission_effect = yes
+			}
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0011.b
+		ek2lc_clear_commission_effect = yes
+		stress_impact = {
+			vengeful = medium_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}
+	}
+}
+
+# A vassal wants it before it is even finished.
+ek2lc_regalia.0012 = {
+	type = character_event
+	title = ek2lc_regalia.0012.t
+	desc = ek2lc_regalia.0012.desc
+	theme = stewardship
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:ek2lc_bidder
+		animation = personality_greedy
+	}
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_ai = yes
+				gold >= 150
+			}
+			save_scope_as = ek2lc_bidder
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0012.a
+		scope:ek2lc_bidder = {
+			pay_short_term_gold = {
+				target = root
+				gold = 150
+			}
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+		ek2lc_clear_commission_effect = yes
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0012.b
+		scope:ek2lc_bidder = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+		trigger_event = ek2lc_regalia.0010
+	}
+}
+
+# A patron of the court sends a Champion's Apron for your best fighter.
+ek2lc_regalia.0020 = {
+	type = character_event
+	title = ek2lc_regalia.0020.t
+	desc = ek2lc_regalia.0020.desc
+	theme = martial
+	trigger = {
+		is_ruler = yes
+		any_knight = {
+			prowess >= 12
+			ek2lc_culture_trigger = yes
+			NOT = { ek2lc_owns_regalia_trigger = yes }
+		}
+		any_vassal = { is_ai = yes }
+	}
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:ek2lc_champion
+		animation = personality_bold
+	}
+	lower_right_portrait = scope:ek2lc_patron
+	immediate = {
+		random_knight = {
+			limit = {
+				prowess >= 12
+				ek2lc_culture_trigger = yes
+				NOT = { ek2lc_owns_regalia_trigger = yes }
+			}
+			save_scope_as = ek2lc_champion
+		}
+		random_vassal = {
+			limit = { is_ai = yes }
+			save_scope_as = ek2lc_patron
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0020.a
+		ek2lc_create_regalia_effect = { STYLE = art_champion RARITY = masterwork OWNER = scope:ek2lc_champion }
+		scope:ek2lc_champion = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+		scope:ek2lc_patron = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0020.b
+		ek2lc_create_regalia_effect = { STYLE = art_champion RARITY = masterwork OWNER = root }
+		scope:ek2lc_champion = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			generous = medium_stress_impact_gain
+		}
+		ai_chance = { base = 10 }
+	}
+}
+
+# Moths in the regalia.
+ek2lc_regalia.0030 = {
+	type = character_event
+	title = ek2lc_regalia.0030.t
+	desc = ek2lc_regalia.0030.desc
+	theme = stewardship
+	trigger = {
+		any_character_artifact = {
+			has_variable = ek2lc_regalia
+			artifact_durability > 30
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	immediate = {
+		random_character_artifact = {
+			limit = {
+				has_variable = ek2lc_regalia
+				artifact_durability > 30
+			}
+			save_scope_as = ek2lc_moth_regalia
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0030.a
+		remove_short_term_gold = 15
+		scope:ek2lc_moth_regalia = { add_durability = 10 }
+	}
+	option = {
+		name = ek2lc_regalia.0030.b
+		scope:ek2lc_moth_regalia = { add_durability = -25 }
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+	}
+}
+
+# An inherited regalia, worn before the court for the first time.
+ek2lc_regalia.0040 = {
+	type = character_event
+	title = ek2lc_regalia.0040.t
+	desc = ek2lc_regalia.0040.desc
+	theme = dynasty
+	trigger = {
+		is_ruler = yes
+		NOT = { has_character_flag = ek2lc_wore_heirloom }
+		any_character_artifact = {
+			has_variable = ek2lc_regalia
+			exists = var:ek2lc_first_owner
+			NOT = { var:ek2lc_first_owner = root }
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	immediate = {
+		add_character_flag = ek2lc_wore_heirloom
+		random_character_artifact = {
+			limit = {
+				has_variable = ek2lc_regalia
+				exists = var:ek2lc_first_owner
+				NOT = { var:ek2lc_first_owner = root }
+			}
+			save_scope_as = ek2lc_heirloom
+			var:ek2lc_first_owner = { save_scope_as = ek2lc_forebear }
+		}
+	}
+	option = {
+		name = ek2lc_regalia.0040.a
+		scope:ek2lc_heirloom = { equip_artifact_to_owner_replace = yes }
+		add_legitimacy = minor_legitimacy_gain
+		add_prestige = minor_prestige_gain
+	}
+	option = {
+		name = ek2lc_regalia.0040.b
+		add_piety = minor_piety_gain
+	}
+}

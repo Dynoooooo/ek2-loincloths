@@ -1,0 +1,13 @@
+﻿# EK2 Loincloths: what the weavers charge (a little more for kings and emperors).
+ek2lc_commission_rough_cost = {
+	value = 40
+	if = { limit = { highest_held_title_tier >= tier_kingdom } multiply = 1.5 }
+}
+ek2lc_commission_fine_cost = {
+	value = 120
+	if = { limit = { highest_held_title_tier >= tier_kingdom } multiply = 1.5 }
+}
+ek2lc_commission_masterwork_cost = {
+	value = 300
+	if = { limit = { highest_held_title_tier >= tier_kingdom } multiply = 1.5 }
+}
