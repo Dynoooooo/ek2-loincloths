@@ -1296,14 +1296,66 @@ def P_torn(base_painter, holes=0.08, jag=0.12, claws=False, seed=0):
     return f
 
 
+def P_rope2(a, b):
+    """A rope twisted from two colours (red and white for the festival)."""
+    def f(U, V, rng, sh):
+        n = noise(sh, 10, int(rng.integers(1000000)))
+        ph = (U * 48 + V * 2.5) % 2  # bold diagonal twists round the ring
+        tw = 0.72 + 0.28 * np.sin(ph * np.pi)
+        col = np.where((ph < 1)[..., None], a, b)
+        return {"rgb": col * (tw * (0.88 + 0.2 * n))[..., None], "spec": np.full(sh, 0.2, np.float32),
+                "rough": np.full(sh, 0.7, np.float32)}
+    return f
+
+
+def emb_festival(red):
+    """A red festival sunburst (a disc ringed with short rays, a white eye) and red hem stripes on white cloth."""
+    def e(U, V):
+        x, y = (U - 0.5) * 2, (V - 0.6) * 2.2
+        r, a = np.hypot(x, y), np.arctan2(y, x)
+        disc = (r < 0.26) & ~(r < 0.09)
+        rays = (np.cos(a * 12) > 0.35) & (r > 0.31) & (r < 0.46)
+        bands = ((V > 0.9) & (V < 0.94)) | ((V > 0.13) & (V < 0.16))
+        m = disc | rays | bands
+        return m, np.broadcast_to(red, m.shape + (3,))
+    return e
+
+
+def P_streamer(white):
+    """A zigzag cloth streamer: a strip folded into four steps (alpha cut)."""
+    base = P_silk(white, white * 0.85)
+    def f(U, V, rng, sh):
+        r = dict(base(U, V, rng, sh))
+        d = (1 - V) * 4
+        step, loc = np.floor(d), d % 1
+        cx = np.where(step % 2 == 0, 0.32, 0.68)
+        m = (np.abs(U - cx) < 0.2) | ((loc < 0.22) & (U > 0.32) & (U < 0.68))
+        r["a"] = m.astype(np.float32)
+        r["rgb"] = r["rgb"] * np.where(loc < 0.22, 0.85, 1.0)[..., None]
+        return r
+    return f
+
+
 @piece("festival_wrap")
 def build_festival(pc, at):
-    white, shade = C(0.93, 0.92, 0.88), C(0.8, 0.79, 0.75)
-    BP = wrap_common(pc, at, P_rope(white), P_silk(white, shade), z_top=1.4, z_bot=-1.4, gap=0.5)
+    white, shade, red = C(0.95, 0.94, 0.9), C(0.84, 0.83, 0.79), C(0.68, 0.08, 0.08)
+    BP = wrap_common(pc, at, P_rope2(white, red), P_silk(white, shade), z_top=1.4, z_bot=-1.4, gap=0.5)
+    # the white front apron with the festival sun-mon, and a shorter back flap (inside the loincloth's room)
+    drape(pc, +1, [-9.5 + 19 * i / 6 for i in range(7)], BELT_Z - 0.5, BELT_Z - 30.0, 12, 0.45, 0.12,
+          at.cell(P_silk(white, shade, emb=emb_festival(red), fringe=0.07, fringe_col=white), 2, 2), widen=0.05, bvhs=WRAPB, clamp=True)
+    drape(pc, -1, [-12 + 24 * i / 6 for i in range(7)], BELT_Z - 0.5, BELT_Z - 27.0, 11, 0.45, 0.12,
+          at.cell(P_silk(white, shade, stripes=[(0.86, 0.9, red), (0.1, 0.13, red)], fringe=0.06, fringe_col=white)),
+          widen=0.04, bvhs=WRAPB, clamp=True)  # wide enough to hide the strip over the buttocks
+    # zigzag white streamers tied at the hips
+    r_st = at.cell(P_streamer(white), 1, 2)
+    for sgn in (-1, 1):
+        for k in range(3):
+            top = on_band(BP, 4, 48, 3, math.radians(72 + 12 * k) * sgn, 0.4)
+            card(pc, top, 16.0 - 2.0 * k, 4.6, r_st, rows=5, tilt=0.12, thick=0.05, twist=0.15 * (k - 1))
     kn = on_band(BP, 4, 48, 1.5, math.pi, 0.5)
     o = {s: outward(kn[s], s) for s in ALL}
-    blob(pc, kn, 1.0, at.cell(P_rope(white)), norm_w(torso_w(kn["basis"])), seg=8, rings=5,
-         axes={s: (UP.cross(o[s]).normalized() * 2.6, o[s] * 1.2, UP * 2.0) for s in ALL})
+    blob(pc, kn, 1.0, at.cell(P_rope2(white, red)), norm_w(torso_w(kn["basis"])), seg=8, rings=5,
+         axes={s: (UP.cross(o[s]).normalized() * 2.8, o[s] * 1.3, UP * 2.2) for s in ALL})
 
 
 @piece("wedding_wrap")
