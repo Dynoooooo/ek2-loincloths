@@ -1,0 +1,416 @@
+# Audit checklist (supersedes nothing yet: the newest feature note stays the build state)
+
+Ticked = checked and fixed. Written by the audit job (EK2_AUDIT_PROMPT.md). Baseline commit f46aadd.
+
+## 1. Meshes (base mesh, its blendshapes, the .asset files that use it)
+Shapes checked: male argdigi, draugr, dwarf, fat, gaunt, giantish, infant, khadigi, khajiit, muscular, old; female adds breast_max, breast_min, pregnant.
+
+- [ ] `ek2lc_art_amber_artifact` — 0 shapes; assets (1): art_amber_artifact
+- [ ] `ek2lc_art_ash_artifact` — 0 shapes; assets (1): art_ash_artifact
+- [ ] `ek2lc_art_bone_artifact` — 0 shapes; assets (1): art_bone_artifact
+- [ ] `ek2lc_art_briar_artifact` — 0 shapes; assets (1): art_briar_artifact
+- [ ] `ek2lc_art_champion_artifact` — 0 shapes; assets (1): art_champion_artifact
+- [ ] `ek2lc_art_fauld_artifact` — 0 shapes; assets (1): art_fauld_artifact
+- [ ] `ek2lc_art_feather_artifact` — 0 shapes; assets (1): art_feather_artifact
+- [ ] `ek2lc_art_moon_artifact` — 0 shapes; assets (1): art_moon_artifact
+- [ ] `ek2lc_f_arena_guard_01` — 13 shapes, **missing: giantish**; assets (2): f_arena_guard_01, f_lich_arena_guard_01
+- [ ] `ek2lc_f_art_amber_01` — 13 shapes, **missing: giantish**; assets (1): f_art_amber_01
+- [ ] `ek2lc_f_art_ash_01` — 13 shapes, **missing: giantish**; assets (1): f_art_ash_01
+- [ ] `ek2lc_f_art_bone_01` — 13 shapes, **missing: giantish**; assets (1): f_art_bone_01
+- [ ] `ek2lc_f_art_briar_01` — 13 shapes, **missing: giantish**; assets (1): f_art_briar_01
+- [ ] `ek2lc_f_art_champion_01` — 13 shapes, **missing: giantish**; assets (1): f_art_champion_01
+- [ ] `ek2lc_f_art_fauld_01` — 13 shapes, **missing: giantish**; assets (1): f_art_fauld_01
+- [ ] `ek2lc_f_art_feather_01` — 13 shapes, **missing: giantish**; assets (1): f_art_feather_01
+- [ ] `ek2lc_f_art_moon_01` — 13 shapes, **missing: giantish**; assets (1): f_art_moon_01
+- [ ] `ek2lc_f_camp_wrap_01` — 13 shapes, **missing: giantish**; assets (2): f_camp_wrap_01, f_lich_camp_wrap_01
+- [ ] `ek2lc_f_cowrie_1_01` — 13 shapes, **missing: giantish**; assets (1): f_cowrie_1_01
+- [ ] `ek2lc_f_cowrie_2_01` — 13 shapes, **missing: giantish**; assets (1): f_cowrie_2_01
+- [ ] `ek2lc_f_cowrie_3_01` — 13 shapes, **missing: giantish**; assets (1): f_cowrie_3_01
+- [ ] `ek2lc_f_elder_wrap_01` — 13 shapes, **missing: giantish**; assets (1): f_elder_wrap_01
+- [ ] `ek2lc_f_festival_wrap_01` — 14 shapes; assets (1): f_festival_wrap_01
+- [ ] `ek2lc_f_holy_tabard_01` — 13 shapes, **missing: giantish**; assets (1): f_holy_tabard_01
+- [ ] `ek2lc_f_hunter_gear_01` — 13 shapes, **missing: giantish**; assets (1): f_hunter_gear_01
+- [ ] `ek2lc_f_kid_charm_01` — 13 shapes, **missing: giantish**; assets (2): f_kid_charm_01, f_lich_kid_charm_01
+- [ ] `ek2lc_f_leggings_01` — 13 shapes, **missing: giantish**; assets (2): f_leggings_01, f_lich_leggings_01
+- [ ] `ek2lc_f_lich_art_amber_01` — 14 shapes; assets (1): f_lich_art_amber_01
+- [ ] `ek2lc_f_lich_art_ash_01` — 14 shapes; assets (1): f_lich_art_ash_01
+- [ ] `ek2lc_f_lich_art_bone_01` — 14 shapes; assets (1): f_lich_art_bone_01
+- [ ] `ek2lc_f_lich_art_briar_01` — 14 shapes; assets (1): f_lich_art_briar_01
+- [ ] `ek2lc_f_lich_art_champion_01` — 14 shapes; assets (1): f_lich_art_champion_01
+- [ ] `ek2lc_f_lich_art_fauld_01` — 14 shapes; assets (1): f_lich_art_fauld_01
+- [ ] `ek2lc_f_lich_art_feather_01` — 14 shapes; assets (1): f_lich_art_feather_01
+- [ ] `ek2lc_f_lich_art_moon_01` — 14 shapes; assets (1): f_lich_art_moon_01
+- [ ] `ek2lc_f_lich_cowrie_1_01` — 14 shapes; assets (1): f_lich_cowrie_1_01
+- [ ] `ek2lc_f_lich_cowrie_2_01` — 14 shapes; assets (1): f_lich_cowrie_2_01
+- [ ] `ek2lc_f_lich_cowrie_3_01` — 14 shapes; assets (1): f_lich_cowrie_3_01
+- [ ] `ek2lc_f_lich_holy_tabard_01` — 14 shapes; assets (1): f_lich_holy_tabard_01
+- [ ] `ek2lc_f_lich_hunter_gear_01` — 14 shapes; assets (1): f_lich_hunter_gear_01
+- [ ] `ek2lc_f_lich_priest_apron_01` — 14 shapes; assets (1): f_lich_priest_apron_01
+- [ ] `ek2lc_f_lich_victor_sash_01` — 14 shapes; assets (1): f_lich_victor_sash_01
+- [ ] `ek2lc_f_lich_wrestler_belt_01` — 14 shapes; assets (1): f_lich_wrestler_belt_01
+- [ ] `ek2lc_f_mourning_wrap_01` — 13 shapes, **missing: giantish**; assets (1): f_mourning_wrap_01
+- [ ] `ek2lc_f_people_giant_everyday_01` — 14 shapes; assets (1): f_people_giant_everyday_01
+- [ ] `ek2lc_f_people_giant_festive_01` — 14 shapes; assets (1): f_people_giant_festive_01
+- [ ] `ek2lc_f_people_giant_ruler_01` — 14 shapes; assets (1): f_people_giant_ruler_01
+- [ ] `ek2lc_f_people_giant_warrior_01` — 14 shapes; assets (1): f_people_giant_warrior_01
+- [ ] `ek2lc_f_people_keptu_everyday_01` — 14 shapes; assets (1): f_people_keptu_everyday_01
+- [ ] `ek2lc_f_people_keptu_festive_01` — 14 shapes; assets (1): f_people_keptu_festive_01
+- [ ] `ek2lc_f_people_keptu_ruler_01` — 14 shapes; assets (1): f_people_keptu_ruler_01
+- [ ] `ek2lc_f_people_keptu_warrior_01` — 14 shapes; assets (1): f_people_keptu_warrior_01
+- [ ] `ek2lc_f_people_nede_everyday_01` — 14 shapes; assets (1): f_people_nede_everyday_01
+- [ ] `ek2lc_f_people_nede_festive_01` — 14 shapes; assets (1): f_people_nede_festive_01
+- [ ] `ek2lc_f_people_nede_ruler_01` — 14 shapes; assets (1): f_people_nede_ruler_01
+- [ ] `ek2lc_f_people_nede_warrior_01` — 14 shapes; assets (1): f_people_nede_warrior_01
+- [ ] `ek2lc_f_people_yokudan_everyday_01` — 14 shapes; assets (1): f_people_yokudan_everyday_01
+- [ ] `ek2lc_f_people_yokudan_festive_01` — 14 shapes; assets (1): f_people_yokudan_festive_01
+- [ ] `ek2lc_f_people_yokudan_ruler_01` — 14 shapes; assets (1): f_people_yokudan_ruler_01
+- [ ] `ek2lc_f_people_yokudan_warrior_01` — 14 shapes; assets (1): f_people_yokudan_warrior_01
+- [ ] `ek2lc_f_priest_apron_01` — 13 shapes, **missing: giantish**; assets (1): f_priest_apron_01
+- [ ] `ek2lc_f_ragged_loincloth_01` — 13 shapes, **missing: giantish**; assets (1): f_ragged_loincloth_01
+- [ ] `ek2lc_f_reach_armour_01` — 13 shapes, **missing: giantish**; assets (10): f_argonian_armour_01, f_ashlander_armour_01, f_bosmer_armour_01, f_goblin_armour_01, f_khajiit_armour_01, f_kothringi_armour_01, f_lich_armour_01, f_lilmothiit_armour_01, f_orc_armour_01, f_reach_armour_01
+- [ ] `ek2lc_f_reach_band_01` — 13 shapes, **missing: giantish**; assets (39): f_argonian_band_01, f_argonian_band_fine_01, f_argonian_band_royal_01, f_argonian_grave_band_01, f_ashlander_band_01, f_ashlander_band_fine_01, f_ashlander_band_royal_01, f_ashlander_grave_band_01, f_bosmer_band_01, f_bosmer_band_fine_01, f_bosmer_band_royal_01, f_bosmer_grave_band_01, f_goblin_band_01, f_goblin_band_fine_01, f_goblin_band_royal_01, f_goblin_grave_band_01, f_khajiit_band_01, f_khajiit_band_fine_01, f_khajiit_band_royal_01, f_khajiit_grave_band_01, f_kothringi_band_01, f_kothringi_band_fine_01, f_kothringi_band_royal_01, f_kothringi_grave_band_01, f_lich_band_01, f_lich_band_fine_01, f_lich_band_royal_01, f_lilmothiit_band_01, f_lilmothiit_band_fine_01, f_lilmothiit_band_royal_01, f_lilmothiit_grave_band_01, f_orc_band_01, f_orc_band_fine_01, f_orc_band_royal_01, f_orc_grave_band_01, f_reach_band_01, f_reach_band_fine_01, f_reach_band_royal_01, f_reach_grave_band_01
+- [ ] `ek2lc_f_reach_duke_01` — 13 shapes, **missing: giantish**; assets (10): f_argonian_duke_01, f_ashlander_duke_01, f_bosmer_duke_01, f_goblin_duke_01, f_khajiit_duke_01, f_kothringi_duke_01, f_lich_duke_01, f_lilmothiit_duke_01, f_orc_duke_01, f_reach_duke_01
+- [ ] `ek2lc_f_reach_hide_01` — 13 shapes, **missing: giantish**; assets (39): f_argonian_fine_01, f_argonian_grave_01, f_argonian_hide_01, f_argonian_royal_01, f_ashlander_fine_01, f_ashlander_grave_01, f_ashlander_hide_01, f_ashlander_royal_01, f_bosmer_fine_01, f_bosmer_grave_01, f_bosmer_hide_01, f_bosmer_royal_01, f_goblin_fine_01, f_goblin_grave_01, f_goblin_hide_01, f_goblin_royal_01, f_khajiit_fine_01, f_khajiit_grave_01, f_khajiit_hide_01, f_khajiit_royal_01, f_kothringi_fine_01, f_kothringi_grave_01, f_kothringi_hide_01, f_kothringi_royal_01, f_lich_fine_01, f_lich_hide_01, f_lich_royal_01, f_lilmothiit_fine_01, f_lilmothiit_grave_01, f_lilmothiit_hide_01, f_lilmothiit_royal_01, f_orc_fine_01, f_orc_grave_01, f_orc_hide_01, f_orc_royal_01, f_reach_fine_01, f_reach_grave_01, f_reach_hide_01, f_reach_royal_01
+- [ ] `ek2lc_f_reach_king_01` — 13 shapes, **missing: giantish**; assets (20): f_argonian_emperor_01, f_argonian_king_01, f_ashlander_emperor_01, f_ashlander_king_01, f_bosmer_emperor_01, f_bosmer_king_01, f_goblin_emperor_01, f_goblin_king_01, f_khajiit_emperor_01, f_khajiit_king_01, f_kothringi_emperor_01, f_kothringi_king_01, f_lich_emperor_01, f_lich_king_01, f_lilmothiit_emperor_01, f_lilmothiit_king_01, f_orc_emperor_01, f_orc_king_01, f_reach_emperor_01, f_reach_king_01
+- [ ] `ek2lc_f_reach_mantle_01` — 13 shapes, **missing: giantish**; assets (12): f_argonian_mantle_01, f_ashlander_mantle_01, f_bosmer_mantle_01, f_fur_robe_01, f_goblin_mantle_01, f_khajiit_mantle_01, f_kothringi_mantle_01, f_lich_fur_robe_01, f_lich_mantle_01, f_lilmothiit_mantle_01, f_orc_mantle_01, f_reach_mantle_01
+- [ ] `ek2lc_f_reach_skirt_01` — 13 shapes, **missing: giantish**; assets (10): f_argonian_skirt_01, f_ashlander_skirt_01, f_bosmer_skirt_01, f_goblin_skirt_01, f_khajiit_skirt_01, f_kothringi_skirt_01, f_lich_skirt_01, f_lilmothiit_skirt_01, f_orc_skirt_01, f_reach_skirt_01
+- [ ] `ek2lc_f_reach_tunic_01` — 13 shapes, **missing: giantish**; assets (10): f_argonian_tunic_01, f_ashlander_tunic_01, f_bosmer_tunic_01, f_goblin_tunic_01, f_khajiit_tunic_01, f_kothringi_tunic_01, f_lich_tunic_01, f_lilmothiit_tunic_01, f_orc_tunic_01, f_reach_tunic_01
+- [ ] `ek2lc_f_reach_war_01` — 13 shapes, **missing: giantish**; assets (10): f_argonian_war_01, f_ashlander_war_01, f_bosmer_war_01, f_goblin_war_01, f_khajiit_war_01, f_kothringi_war_01, f_lich_war_01, f_lilmothiit_war_01, f_orc_war_01, f_reach_war_01
+- [ ] `ek2lc_f_sailor_malo_01` — 13 shapes, **missing: giantish**; assets (1): f_sailor_malo_01
+- [ ] `ek2lc_f_trophy_1_01` — 13 shapes, **missing: giantish**; assets (2): f_lich_trophy_1_01, f_trophy_1_01
+- [ ] `ek2lc_f_trophy_2_01` — 13 shapes, **missing: giantish**; assets (2): f_lich_trophy_2_01, f_trophy_2_01
+- [ ] `ek2lc_f_trophy_3_01` — 13 shapes, **missing: giantish**; assets (2): f_lich_trophy_3_01, f_trophy_3_01
+- [ ] `ek2lc_f_victor_sash_01` — 13 shapes, **missing: giantish**; assets (1): f_victor_sash_01
+- [ ] `ek2lc_f_wedding_wrap_01` — 13 shapes, **missing: giantish**; assets (1): f_wedding_wrap_01
+- [ ] `ek2lc_f_werewolf_tatters_01` — 13 shapes, **missing: giantish**; assets (1): f_werewolf_tatters_01
+- [ ] `ek2lc_f_wrestler_belt_01` — 13 shapes, **missing: giantish**; assets (1): f_wrestler_belt_01
+- [ ] `ek2lc_m_arena_guard_01` — 10 shapes, **missing: giantish**; assets (2): m_arena_guard_01, m_lich_arena_guard_01
+- [ ] `ek2lc_m_art_amber_01` — 10 shapes, **missing: giantish**; assets (1): m_art_amber_01
+- [ ] `ek2lc_m_art_ash_01` — 10 shapes, **missing: giantish**; assets (1): m_art_ash_01
+- [ ] `ek2lc_m_art_bone_01` — 10 shapes, **missing: giantish**; assets (1): m_art_bone_01
+- [ ] `ek2lc_m_art_briar_01` — 10 shapes, **missing: giantish**; assets (1): m_art_briar_01
+- [ ] `ek2lc_m_art_champion_01` — 10 shapes, **missing: giantish**; assets (1): m_art_champion_01
+- [ ] `ek2lc_m_art_fauld_01` — 10 shapes, **missing: giantish**; assets (1): m_art_fauld_01
+- [ ] `ek2lc_m_art_feather_01` — 10 shapes, **missing: giantish**; assets (1): m_art_feather_01
+- [ ] `ek2lc_m_art_moon_01` — 10 shapes, **missing: giantish**; assets (1): m_art_moon_01
+- [ ] `ek2lc_m_camp_wrap_01` — 10 shapes, **missing: giantish**; assets (2): m_camp_wrap_01, m_lich_camp_wrap_01
+- [ ] `ek2lc_m_cowrie_1_01` — 10 shapes, **missing: giantish**; assets (1): m_cowrie_1_01
+- [ ] `ek2lc_m_cowrie_2_01` — 10 shapes, **missing: giantish**; assets (1): m_cowrie_2_01
+- [ ] `ek2lc_m_cowrie_3_01` — 10 shapes, **missing: giantish**; assets (1): m_cowrie_3_01
+- [ ] `ek2lc_m_elder_wrap_01` — 10 shapes, **missing: giantish**; assets (1): m_elder_wrap_01
+- [ ] `ek2lc_m_festival_wrap_01` — 11 shapes; assets (1): m_festival_wrap_01
+- [ ] `ek2lc_m_holy_tabard_01` — 10 shapes, **missing: giantish**; assets (1): m_holy_tabard_01
+- [ ] `ek2lc_m_hunter_gear_01` — 10 shapes, **missing: giantish**; assets (1): m_hunter_gear_01
+- [ ] `ek2lc_m_kid_charm_01` — 10 shapes, **missing: giantish**; assets (2): m_kid_charm_01, m_lich_kid_charm_01
+- [ ] `ek2lc_m_leggings_01` — 10 shapes, **missing: giantish**; assets (2): m_leggings_01, m_lich_leggings_01
+- [ ] `ek2lc_m_lich_art_amber_01` — 11 shapes; assets (1): m_lich_art_amber_01
+- [ ] `ek2lc_m_lich_art_ash_01` — 11 shapes; assets (1): m_lich_art_ash_01
+- [ ] `ek2lc_m_lich_art_bone_01` — 11 shapes; assets (1): m_lich_art_bone_01
+- [ ] `ek2lc_m_lich_art_briar_01` — 11 shapes; assets (1): m_lich_art_briar_01
+- [ ] `ek2lc_m_lich_art_champion_01` — 11 shapes; assets (1): m_lich_art_champion_01
+- [ ] `ek2lc_m_lich_art_fauld_01` — 11 shapes; assets (1): m_lich_art_fauld_01
+- [ ] `ek2lc_m_lich_art_feather_01` — 11 shapes; assets (1): m_lich_art_feather_01
+- [ ] `ek2lc_m_lich_art_moon_01` — 11 shapes; assets (1): m_lich_art_moon_01
+- [ ] `ek2lc_m_lich_cowrie_1_01` — 11 shapes; assets (1): m_lich_cowrie_1_01
+- [ ] `ek2lc_m_lich_cowrie_2_01` — 11 shapes; assets (1): m_lich_cowrie_2_01
+- [ ] `ek2lc_m_lich_cowrie_3_01` — 11 shapes; assets (1): m_lich_cowrie_3_01
+- [ ] `ek2lc_m_lich_holy_tabard_01` — 11 shapes; assets (1): m_lich_holy_tabard_01
+- [ ] `ek2lc_m_lich_hunter_gear_01` — 11 shapes; assets (1): m_lich_hunter_gear_01
+- [ ] `ek2lc_m_lich_priest_apron_01` — 11 shapes; assets (1): m_lich_priest_apron_01
+- [ ] `ek2lc_m_lich_victor_sash_01` — 11 shapes; assets (1): m_lich_victor_sash_01
+- [ ] `ek2lc_m_lich_wrestler_belt_01` — 11 shapes; assets (1): m_lich_wrestler_belt_01
+- [ ] `ek2lc_m_mourning_wrap_01` — 10 shapes, **missing: giantish**; assets (1): m_mourning_wrap_01
+- [ ] `ek2lc_m_people_giant_everyday_01` — 11 shapes; assets (1): m_people_giant_everyday_01
+- [ ] `ek2lc_m_people_giant_festive_01` — 11 shapes; assets (1): m_people_giant_festive_01
+- [ ] `ek2lc_m_people_giant_ruler_01` — 11 shapes; assets (1): m_people_giant_ruler_01
+- [ ] `ek2lc_m_people_giant_warrior_01` — 11 shapes; assets (1): m_people_giant_warrior_01
+- [ ] `ek2lc_m_people_keptu_everyday_01` — 11 shapes; assets (1): m_people_keptu_everyday_01
+- [ ] `ek2lc_m_people_keptu_festive_01` — 11 shapes; assets (1): m_people_keptu_festive_01
+- [ ] `ek2lc_m_people_keptu_ruler_01` — 11 shapes; assets (1): m_people_keptu_ruler_01
+- [ ] `ek2lc_m_people_keptu_warrior_01` — 11 shapes; assets (1): m_people_keptu_warrior_01
+- [ ] `ek2lc_m_people_nede_everyday_01` — 11 shapes; assets (1): m_people_nede_everyday_01
+- [ ] `ek2lc_m_people_nede_festive_01` — 11 shapes; assets (1): m_people_nede_festive_01
+- [ ] `ek2lc_m_people_nede_ruler_01` — 11 shapes; assets (1): m_people_nede_ruler_01
+- [ ] `ek2lc_m_people_nede_warrior_01` — 11 shapes; assets (1): m_people_nede_warrior_01
+- [ ] `ek2lc_m_people_yokudan_everyday_01` — 11 shapes; assets (1): m_people_yokudan_everyday_01
+- [ ] `ek2lc_m_people_yokudan_festive_01` — 11 shapes; assets (1): m_people_yokudan_festive_01
+- [ ] `ek2lc_m_people_yokudan_ruler_01` — 11 shapes; assets (1): m_people_yokudan_ruler_01
+- [ ] `ek2lc_m_people_yokudan_warrior_01` — 11 shapes; assets (1): m_people_yokudan_warrior_01
+- [ ] `ek2lc_m_priest_apron_01` — 10 shapes, **missing: giantish**; assets (1): m_priest_apron_01
+- [ ] `ek2lc_m_ragged_loincloth_01` — 10 shapes, **missing: giantish**; assets (1): m_ragged_loincloth_01
+- [ ] `ek2lc_m_reach_armour_01` — 10 shapes, **missing: giantish**; assets (10): m_argonian_armour_01, m_ashlander_armour_01, m_bosmer_armour_01, m_goblin_armour_01, m_khajiit_armour_01, m_kothringi_armour_01, m_lich_armour_01, m_lilmothiit_armour_01, m_orc_armour_01, m_reach_armour_01
+- [ ] `ek2lc_m_reach_duke_01` — 10 shapes, **missing: giantish**; assets (10): m_argonian_duke_01, m_ashlander_duke_01, m_bosmer_duke_01, m_goblin_duke_01, m_khajiit_duke_01, m_kothringi_duke_01, m_lich_duke_01, m_lilmothiit_duke_01, m_orc_duke_01, m_reach_duke_01
+- [ ] `ek2lc_m_reach_hide_01` — 10 shapes, **missing: giantish**; assets (39): m_argonian_fine_01, m_argonian_grave_01, m_argonian_hide_01, m_argonian_royal_01, m_ashlander_fine_01, m_ashlander_grave_01, m_ashlander_hide_01, m_ashlander_royal_01, m_bosmer_fine_01, m_bosmer_grave_01, m_bosmer_hide_01, m_bosmer_royal_01, m_goblin_fine_01, m_goblin_grave_01, m_goblin_hide_01, m_goblin_royal_01, m_khajiit_fine_01, m_khajiit_grave_01, m_khajiit_hide_01, m_khajiit_royal_01, m_kothringi_fine_01, m_kothringi_grave_01, m_kothringi_hide_01, m_kothringi_royal_01, m_lich_fine_01, m_lich_hide_01, m_lich_royal_01, m_lilmothiit_fine_01, m_lilmothiit_grave_01, m_lilmothiit_hide_01, m_lilmothiit_royal_01, m_orc_fine_01, m_orc_grave_01, m_orc_hide_01, m_orc_royal_01, m_reach_fine_01, m_reach_grave_01, m_reach_hide_01, m_reach_royal_01
+- [ ] `ek2lc_m_reach_king_01` — 10 shapes, **missing: giantish**; assets (20): m_argonian_emperor_01, m_argonian_king_01, m_ashlander_emperor_01, m_ashlander_king_01, m_bosmer_emperor_01, m_bosmer_king_01, m_goblin_emperor_01, m_goblin_king_01, m_khajiit_emperor_01, m_khajiit_king_01, m_kothringi_emperor_01, m_kothringi_king_01, m_lich_emperor_01, m_lich_king_01, m_lilmothiit_emperor_01, m_lilmothiit_king_01, m_orc_emperor_01, m_orc_king_01, m_reach_emperor_01, m_reach_king_01
+- [ ] `ek2lc_m_reach_mantle_01` — 10 shapes, **missing: giantish**; assets (12): m_argonian_mantle_01, m_ashlander_mantle_01, m_bosmer_mantle_01, m_fur_robe_01, m_goblin_mantle_01, m_khajiit_mantle_01, m_kothringi_mantle_01, m_lich_fur_robe_01, m_lich_mantle_01, m_lilmothiit_mantle_01, m_orc_mantle_01, m_reach_mantle_01
+- [ ] `ek2lc_m_reach_skirt_01` — 10 shapes, **missing: giantish**; assets (10): m_argonian_skirt_01, m_ashlander_skirt_01, m_bosmer_skirt_01, m_goblin_skirt_01, m_khajiit_skirt_01, m_kothringi_skirt_01, m_lich_skirt_01, m_lilmothiit_skirt_01, m_orc_skirt_01, m_reach_skirt_01
+- [ ] `ek2lc_m_reach_tunic_01` — 10 shapes, **missing: giantish**; assets (10): m_argonian_tunic_01, m_ashlander_tunic_01, m_bosmer_tunic_01, m_goblin_tunic_01, m_khajiit_tunic_01, m_kothringi_tunic_01, m_lich_tunic_01, m_lilmothiit_tunic_01, m_orc_tunic_01, m_reach_tunic_01
+- [ ] `ek2lc_m_reach_war_01` — 10 shapes, **missing: giantish**; assets (10): m_argonian_war_01, m_ashlander_war_01, m_bosmer_war_01, m_goblin_war_01, m_khajiit_war_01, m_kothringi_war_01, m_lich_war_01, m_lilmothiit_war_01, m_orc_war_01, m_reach_war_01
+- [ ] `ek2lc_m_sailor_malo_01` — 10 shapes, **missing: giantish**; assets (1): m_sailor_malo_01
+- [ ] `ek2lc_m_trophy_1_01` — 10 shapes, **missing: giantish**; assets (2): m_lich_trophy_1_01, m_trophy_1_01
+- [ ] `ek2lc_m_trophy_2_01` — 10 shapes, **missing: giantish**; assets (2): m_lich_trophy_2_01, m_trophy_2_01
+- [ ] `ek2lc_m_trophy_3_01` — 10 shapes, **missing: giantish**; assets (2): m_lich_trophy_3_01, m_trophy_3_01
+- [ ] `ek2lc_m_victor_sash_01` — 10 shapes, **missing: giantish**; assets (1): m_victor_sash_01
+- [ ] `ek2lc_m_wedding_wrap_01` — 10 shapes, **missing: giantish**; assets (1): m_wedding_wrap_01
+- [ ] `ek2lc_m_werewolf_tatters_01` — 10 shapes, **missing: giantish**; assets (1): m_werewolf_tatters_01
+- [ ] `ek2lc_m_wrestler_belt_01` — 10 shapes, **missing: giantish**; assets (1): m_wrestler_belt_01
+
+## 2. Textures (gfx/models, by set)
+- [ ] `ek2lc_argonian_armour_01`: diffuse, masks
+- [ ] `ek2lc_argonian_duke_01`: diffuse, masks
+- [ ] `ek2lc_argonian_emperor_01`: diffuse, masks
+- [ ] `ek2lc_argonian_fine_01`: diffuse, masks
+- [ ] `ek2lc_argonian_grave_01`: diffuse, masks
+- [ ] `ek2lc_argonian_hide_01`: diffuse, masks
+- [ ] `ek2lc_argonian_king_01`: diffuse, masks
+- [ ] `ek2lc_argonian_mantle_01`: diffuse, masks
+- [ ] `ek2lc_argonian_royal_01`: diffuse, masks
+- [ ] `ek2lc_argonian_war_01`: diffuse, masks
+- [ ] `ek2lc_art_amber_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_amber_01_display`: diffuse
+- [ ] `ek2lc_art_ash_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_ash_01_display`: diffuse
+- [ ] `ek2lc_art_bone_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_bone_01_display`: diffuse
+- [ ] `ek2lc_art_briar_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_briar_01_display`: diffuse
+- [ ] `ek2lc_art_champion_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_champion_01_display`: diffuse
+- [ ] `ek2lc_art_fauld_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_fauld_01_display`: diffuse
+- [ ] `ek2lc_art_feather_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_feather_01_display`: diffuse
+- [ ] `ek2lc_art_moon_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_art_moon_01_display`: diffuse
+- [ ] `ek2lc_ashlander_armour_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_duke_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_emperor_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_fine_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_grave_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_hide_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_king_01`: diffuse
+- [ ] `ek2lc_ashlander_mantle_01`: diffuse, masks
+- [ ] `ek2lc_ashlander_royal_01`: diffuse
+- [ ] `ek2lc_ashlander_war_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_armour_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_duke_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_emperor_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_fine_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_grave_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_hide_01`: diffuse
+- [ ] `ek2lc_bosmer_king_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_mantle_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_royal_01`: diffuse, masks
+- [ ] `ek2lc_bosmer_war_01`: diffuse, masks
+- [ ] `ek2lc_camp_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_charm_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_cowrie_1_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_cowrie_2_01`: diffuse, normal, properties
+- [ ] `ek2lc_cowrie_3_01`: diffuse, normal, properties
+- [ ] `ek2lc_elder_wrap_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_festival_wrap_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_goblin_armour_01`: diffuse, masks
+- [ ] `ek2lc_goblin_duke_01`: diffuse, masks
+- [ ] `ek2lc_goblin_emperor_01`: diffuse, masks
+- [ ] `ek2lc_goblin_fine_01`: diffuse, masks
+- [ ] `ek2lc_goblin_grave_01`: diffuse, masks
+- [ ] `ek2lc_goblin_hide_01`: diffuse, masks
+- [ ] `ek2lc_goblin_king_01`: diffuse, masks
+- [ ] `ek2lc_goblin_mantle_01`: diffuse, masks
+- [ ] `ek2lc_goblin_royal_01`: diffuse, masks
+- [ ] `ek2lc_goblin_war_01`: diffuse, masks
+- [ ] `ek2lc_holy_tabard_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_hunter_gear_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_khajiit_armour_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_duke_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_emperor_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_fine_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_grave_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_hide_01`: diffuse
+- [ ] `ek2lc_khajiit_king_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_mantle_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_royal_01`: diffuse, masks
+- [ ] `ek2lc_khajiit_war_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_armour_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_duke_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_emperor_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_fine_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_grave_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_hide_01`: diffuse
+- [ ] `ek2lc_kothringi_king_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_mantle_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_royal_01`: diffuse, masks
+- [ ] `ek2lc_kothringi_war_01`: diffuse, masks
+- [ ] `ek2lc_leggings_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_armour_01`: diffuse, masks
+- [ ] `ek2lc_lich_art_amber_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_art_ash_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_art_bone_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_art_briar_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_art_champion_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_art_fauld_01`: diffuse, normal, properties
+- [ ] `ek2lc_lich_art_feather_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_art_moon_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_camp_01`: diffuse, masks
+- [ ] `ek2lc_lich_charm_01`: diffuse, masks
+- [ ] `ek2lc_lich_cowrie_1_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_cowrie_2_01`: diffuse, normal, properties
+- [ ] `ek2lc_lich_cowrie_3_01`: diffuse, normal, properties
+- [ ] `ek2lc_lich_duke_01`: diffuse
+- [ ] `ek2lc_lich_emperor_01`: diffuse
+- [ ] `ek2lc_lich_fine_01`: diffuse, masks
+- [ ] `ek2lc_lich_hide_01`: diffuse, masks
+- [ ] `ek2lc_lich_holy_tabard_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_hunter_gear_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_king_01`: diffuse, masks
+- [ ] `ek2lc_lich_leggings_01`: diffuse, masks
+- [ ] `ek2lc_lich_mantle_01`: diffuse
+- [ ] `ek2lc_lich_priest_apron_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_robe_01`: diffuse, masks
+- [ ] `ek2lc_lich_royal_01`: diffuse, masks
+- [ ] `ek2lc_lich_victor_sash_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lich_war_01`: diffuse, masks
+- [ ] `ek2lc_lich_wrestler_belt_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_lilmothiit_armour_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_duke_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_emperor_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_fine_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_grave_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_hide_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_king_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_mantle_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_royal_01`: diffuse, masks
+- [ ] `ek2lc_lilmothiit_war_01`: diffuse, masks
+- [ ] `ek2lc_mourning_wrap_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_orc_armour_01`: diffuse
+- [ ] `ek2lc_orc_duke_01`: diffuse, masks
+- [ ] `ek2lc_orc_emperor_01`: diffuse, masks
+- [ ] `ek2lc_orc_fine_01`: diffuse, masks
+- [ ] `ek2lc_orc_grave_01`: diffuse, masks
+- [ ] `ek2lc_orc_hide_01`: diffuse, masks
+- [ ] `ek2lc_orc_king_01`: diffuse
+- [ ] `ek2lc_orc_mantle_01`: diffuse, masks
+- [ ] `ek2lc_orc_royal_01`: diffuse
+- [ ] `ek2lc_orc_war_01`: diffuse, masks
+- [ ] `ek2lc_people_giant_everyday_01`: diffuse, normal, properties
+- [ ] `ek2lc_people_giant_festive_01`: diffuse, normal, properties
+- [ ] `ek2lc_people_giant_ruler_01`: diffuse, normal, properties
+- [ ] `ek2lc_people_giant_warrior_01`: diffuse, normal, properties
+- [ ] `ek2lc_people_keptu_everyday_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_keptu_festive_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_keptu_ruler_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_keptu_warrior_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_nede_everyday_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_nede_festive_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_nede_ruler_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_nede_warrior_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_yokudan_everyday_01`: diffuse, normal, properties
+- [ ] `ek2lc_people_yokudan_festive_01`: diffuse, normal, properties
+- [ ] `ek2lc_people_yokudan_ruler_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_people_yokudan_warrior_01`: diffuse, normal, properties
+- [ ] `ek2lc_priest_apron_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_ragged_loincloth_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_armour_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_duke_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_emperor_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_fine_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_grave_01`: diffuse, masks
+- [ ] `ek2lc_reach_hide_01`: diffuse, normal, properties
+- [ ] `ek2lc_reach_king_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_mantle_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_reach_royal_01`: diffuse, normal, properties
+- [ ] `ek2lc_reach_war_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_robe_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_sailor_malo_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_victor_sash_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_wedding_wrap_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_werewolf_tatters_01`: diffuse, masks, normal, properties
+- [ ] `ek2lc_wrestler_belt_01`: diffuse, masks, normal, properties
+- [ ] accessory_variations/textures/ek2lc: 178 files (colour masks/palettes)
+
+## 3. Accessories, variations, genes, portrait modifiers
+- [ ] ek2lc_accessories.txt: 432 accessories
+- [ ] zz_ek2lc_figleaf.txt: male_clothes_secular_western_nudity_01, female_clothes_secular_western_nudity_01, male_clothes_situational_western_bedchamber_01_common, female_clothes_situational_western_bedchamber_01_common
+- [ ] ek2lc_variations.txt: 176 variations
+- [ ] gene `gene_ek2lc_loincloth`: 60 templates
+- [ ] gene `gene_ek2lc_top`: 40 templates
+- [ ] gene `gene_ek2lc_war`: 51 templates
+- [ ] gene `gene_ek2lc_mantle`: 11 templates
+- [ ] gene `gene_ek2lc_trophy`: 4 templates
+- [ ] gene `gene_ek2lc_arena`: 3 templates
+- [ ] gene `gene_ek2lc_camp`: 3 templates
+- [ ] gene `gene_ek2lc_leggings`: 3 templates
+- [ ] gene `gene_ek2lc_robe`: 3 templates
+- [ ] gene `gene_ek2lc_charm`: 3 templates
+- [ ] gene `gene_ek2lc_regalia`: 17 templates
+- [ ] gene `gene_ek2lc_wrestler`: 3 templates
+- [ ] gene `gene_ek2lc_hunter`: 3 templates
+- [ ] gene `gene_ek2lc_priest`: 3 templates
+- [ ] gene `gene_ek2lc_victor`: 3 templates
+- [ ] gene `gene_ek2lc_wrap`: 8 templates
+- [ ] gene `gene_ek2lc_cowrie`: 7 templates
+- [ ] gene `gene_ek2lc_tabard`: 3 templates
+- [ ] gene `gene_ek2lc_people`: 17 templates
+- [ ] `ek2lc_custom.txt`: 19 groups: ek2lc_custom_loincloth, ek2lc_custom_top, ek2lc_custom_girdle, ek2lc_custom_mantle, ek2lc_custom_trophy, ek2lc_custom_arena, ek2lc_custom_camp, ek2lc_custom_leggings, ek2lc_custom_robe, ek2lc_custom_charm, ek2lc_custom_regalia, ek2lc_custom_wrestler, ek2lc_custom_hunter, ek2lc_custom_priest, ek2lc_custom_victor, ek2lc_custom_wrap, ek2lc_custom_cowrie, ek2lc_custom_tabard, ek2lc_custom_people
+- [ ] `ek2lc_loincloths.txt`: 16 groups: ek2lc_loincloth, ek2lc_trophy, ek2lc_arena, ek2lc_camp, ek2lc_leggings, ek2lc_robe, ek2lc_charm, ek2lc_regalia, ek2lc_wrestler, ek2lc_hunter, ek2lc_priest, ek2lc_victor, ek2lc_wrap, ek2lc_cowrie, ek2lc_tabard, ek2lc_peoples
+
+## 4. Script
+- [ ] `events/ek2lc_life_events.txt`: 10 events: ek2lc_life.0001, ek2lc_life.0002, ek2lc_life.0010, ek2lc_life.0020, ek2lc_life.0030, ek2lc_life.0040, ek2lc_life.0050, ek2lc_life.0070, ek2lc_life.0080, ek2lc_life.0100
+- [ ] `events/ek2lc_peoples_events.txt`: 14 events: ek2lc_giant.0001, ek2lc_giant.0002, ek2lc_giant.0003, ek2lc_keptu.0001, ek2lc_keptu.0002, ek2lc_keptu.0003, ek2lc_keptu.0004, ek2lc_nede.0001, ek2lc_nede.0002, ek2lc_nede.0003, ek2lc_yokudan.0001, ek2lc_yokudan.0002, ek2lc_yokudan.0003, ek2lc_yokudan.0004
+- [ ] `events/ek2lc_regalia_events.txt`: 13 events: ek2lc_regalia.0001, ek2lc_regalia.0002, ek2lc_regalia.0003, ek2lc_regalia.0009, ek2lc_regalia.0010, ek2lc_regalia.0011, ek2lc_regalia.0012, ek2lc_regalia.0020, ek2lc_regalia.0030, ek2lc_regalia.0040, ek2lc_regalia.0013, ek2lc_regalia.0050, ek2lc_regalia.0060
+- [ ] `common/decisions/ek2lc_decisions.txt` (8): ek2lc_commission_regalia_decision, ek2lc_loincloth_festival_decision, ek2lc_go_native_decision, ek2lc_end_native_decision, ek2lc_giant_gathering_decision, ek2lc_keptu_hunt_decision, ek2lc_nede_watch_decision, ek2lc_yokudan_sun_decision
+- [ ] `common/artifacts/templates/ek2lc_templates.txt` (1): ek2lc_regalia_template
+- [ ] `common/artifacts/types/ek2lc_types.txt` (1): ek2lc_loincloth_regalia
+- [ ] `common/artifacts/visuals/ek2lc_visuals.txt` (8): ek2lc_art_champion, ek2lc_art_fauld, ek2lc_art_feather, ek2lc_art_briar, ek2lc_art_amber, ek2lc_art_bone, ek2lc_art_ash, ek2lc_art_moon
+- [ ] `common/court_positions/types/ek2lc_court_positions.txt` (1): ek2lc_loincloth_maker_court_position
+- [ ] `common/traits/ek2lc_traits.txt` (3): ek2lc_loincloth_maker_1, ek2lc_loincloth_maker_2, ek2lc_loincloth_maker_3
+- [ ] `common/game_rules/ek2lc_rules.txt` (4): ek2lc_frequency, ek2lc_nobles, ek2lc_war_looks, ek2lc_events
+- [ ] `common/modifiers/ek2lc_modifiers.txt` (38): ek2lc_regalia_art_champion_modifier, ek2lc_regalia_art_fauld_modifier, ek2lc_regalia_art_feather_modifier, ek2lc_regalia_art_briar_modifier, ek2lc_regalia_art_amber_modifier, ek2lc_regalia_art_bone_modifier, ek2lc_regalia_art_ash_modifier, ek2lc_regalia_art_moon_modifier, ek2lc_regalia_fine_modifier, ek2lc_regalia_masterwork_modifier, ek2lc_clan_mark_bear_modifier, ek2lc_clan_mark_raven_modifier, ek2lc_clan_mark_elk_modifier, ek2lc_tie_snapped_modifier, ek2lc_loincloth_fashion_modifier, ek2lc_sumptuary_enforced_modifier, ek2lc_sumptuary_relaxed_modifier, ek2lc_fine_cloth_tax_modifier, ek2lc_hist_blessed_modifier, ek2lc_proud_dress_modifier, ek2lc_hircine_hunt_modifier, ek2lc_mourning_modifier, ek2lc_loincloth_festival_modifier, ek2lc_gone_native_modifier, ek2lc_giant_gathering_modifier, ek2lc_giant_spiral_herd_modifier, ek2lc_giant_spiral_club_modifier, ek2lc_giant_spiral_walk_modifier, ek2lc_keptu_hunt_modifier, ek2lc_keptu_marked_modifier, ek2lc_nede_watch_modifier, ek2lc_nede_bright_year_modifier, ek2lc_nede_hazy_year_modifier, ek2lc_nede_starfed_modifier, ek2lc_yokudan_sun_modifier, ek2lc_yokudan_good_fire_modifier, ek2lc_yokudan_bad_fire_modifier, ek2lc_yokudan_anseilak_modifier
+- [ ] `common/on_action/ek2lc_on_actions.txt` (8): on_birthday, ek2lc_on_birthday, on_combat_end_winner, ek2lc_on_combat_won, yearly_playable_pulse, ek2lc_yearly_pulse, on_death, ek2lc_on_death
+- [ ] `common/script_values/ek2lc_values.txt` (4): ek2lc_commission_rough_cost, ek2lc_commission_fine_cost, ek2lc_commission_masterwork_cost, ek2lc_maker_discount_value
+- [ ] `common/scripted_effects/ek2lc_regalia_effects.txt` (5): ek2lc_create_regalia_effect, ek2lc_create_commissioned_regalia_effect, ek2lc_clear_commission_effect, ek2lc_count_battle_effect, ek2lc_maker_gain_xp_effect
+- [ ] `common/scripted_triggers/ek2lc_culture_triggers.txt` (3): ek2lc_culture_trigger, ek2lc_native_culture_trigger, ek2lc_loincloth_people_trigger
+- [ ] `common/scripted_triggers/ek2lc_regalia_triggers.txt` (9): ek2lc_regalia_worn_trigger, ek2lc_owns_regalia_trigger, ek2lc_home_art_fauld_trigger, ek2lc_home_art_feather_trigger, ek2lc_home_art_briar_trigger, ek2lc_home_art_amber_trigger, ek2lc_home_art_bone_trigger, ek2lc_home_art_ash_trigger, ek2lc_home_art_moon_trigger
+- [ ] `common/scripted_triggers/ek2lc_triggers.txt` (10): ek2lc_war_role_trigger, ek2lc_armour_role_trigger, ek2lc_royal_trigger, ek2lc_royal_tier_trigger, ek2lc_camp_follower_trigger, ek2lc_lich_look_trigger, ek2lc_grave_look_trigger, ek2lc_undead_look_trigger, ek2lc_cold_trigger, ek2lc_winter_trigger
+- [ ] `common/scripted_triggers/ek2lc_wrap_triggers.txt` (7): ek2lc_wrap_ragged_trigger, ek2lc_wrap_mourning_trigger, ek2lc_wrap_wedding_trigger, ek2lc_wrap_festival_trigger, ek2lc_wrap_werewolf_trigger, ek2lc_wrap_sailor_trigger, ek2lc_wrap_elder_trigger
+- [ ] `common/event_backgrounds/ek2lc_event_backgrounds.txt` (13): ek2lc_weavers_hall, ek2lc_feast_hall, ek2lc_going_native, ek2lc_rite_lodge, ek2lc_war_camp, ek2lc_hist_grove, ek2lc_moonlit_forest, ek2lc_winter_hall, ek2lc_standing_stones, ek2lc_mammoth_spring, ek2lc_bloodroot_valley, ek2lc_star_hill, ek2lc_sun_temple
+
+## 5. Interface art
+- [ ] `icons/artifact/ek2lc_art_amber.dds`
+- [ ] `icons/artifact/ek2lc_art_ash.dds`
+- [ ] `icons/artifact/ek2lc_art_bone.dds`
+- [ ] `icons/artifact/ek2lc_art_briar.dds`
+- [ ] `icons/artifact/ek2lc_art_champion.dds`
+- [ ] `icons/artifact/ek2lc_art_fauld.dds`
+- [ ] `icons/artifact/ek2lc_art_feather.dds`
+- [ ] `icons/artifact/ek2lc_art_moon.dds`
+- [ ] `icons/court_position_types/ek2lc_loincloth_maker_court_position.dds`
+- [ ] `icons/traits/ek2lc_loincloth_maker_1.dds`
+- [ ] `icons/traits/ek2lc_loincloth_maker_2.dds`
+- [ ] `icons/traits/ek2lc_loincloth_maker_3.dds`
+- [ ] `illustrations/decisions/ek2lc_commission_regalia.dds`
+- [ ] `illustrations/decisions/ek2lc_end_native.dds`
+- [ ] `illustrations/decisions/ek2lc_festival.dds`
+- [ ] `illustrations/decisions/ek2lc_giant_gathering.dds`
+- [ ] `illustrations/decisions/ek2lc_go_native.dds`
+- [ ] `illustrations/decisions/ek2lc_keptu_hunt.dds`
+- [ ] `illustrations/decisions/ek2lc_nede_watch.dds`
+- [ ] `illustrations/decisions/ek2lc_yokudan_sun.dds`
+- [ ] `illustrations/event_scenes/ek2lc_bloodroot_valley.dds`
+- [ ] `illustrations/event_scenes/ek2lc_feast_hall.dds`
+- [ ] `illustrations/event_scenes/ek2lc_going_native.dds`
+- [ ] `illustrations/event_scenes/ek2lc_hist_grove.dds`
+- [ ] `illustrations/event_scenes/ek2lc_mammoth_spring.dds`
+- [ ] `illustrations/event_scenes/ek2lc_moonlit_forest.dds`
+- [ ] `illustrations/event_scenes/ek2lc_rite_lodge.dds`
+- [ ] `illustrations/event_scenes/ek2lc_standing_stones.dds`
+- [ ] `illustrations/event_scenes/ek2lc_star_hill.dds`
+- [ ] `illustrations/event_scenes/ek2lc_sun_temple.dds`
+- [ ] `illustrations/event_scenes/ek2lc_war_camp.dds`
+- [ ] `illustrations/event_scenes/ek2lc_weavers_hall.dds`
+- [ ] `illustrations/event_scenes/ek2lc_winter_hall.dds`
+
+## 6. Localisation
+- [ ] `localization/english/ek2lc_l_english.yml`: 546 keys
+- [ ] `localization/english/ek2lc_regalia_l_english.yml`: 344 keys
+- [ ] `localization/replace/english/ek2lc_replace_l_english.yml`: 3 keys

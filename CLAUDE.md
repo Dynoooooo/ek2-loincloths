@@ -34,3 +34,18 @@ Add new facts here, one short bullet each, with the date.
 ## Meshy
 - The user has Meshy Premium. Models: geometry `meshy-7.1`, texture `meshy-7`. Images: `gpt-image-2-5-sunburst`; MCP v0.6.10 (latest on 2026-11-10) refuses `gpt-image-2-6-sunburst`, so re-check with `npm view @meshy-ai/meshy-mcp-server version`.
 - Sources go in `source/meshy/<key>/` (concept.png, model.glb, textures).
+
+## Audit tools in Maya (2026-11-10)
+- `source/maya/ck3scene.py`: body + every vanilla/EK2 body shape (blendShape targets named by game attribute), pieces with their shapes on the same skeleton, game poses (`pose(sex, clip, frame)`). `audit.py` measures clipping, poke-through, stretch, weights, shells, UVs; `run_audit.py` runs every piece x shape x pose, results in `source/build_logs/audit/<sex>.json` (ignored).
+- 2026-11-10: the maya MCP's calls time out after about 60 s, but Maya keeps running the code to the end; split long jobs (2 poses per call) or check the state afterwards.
+- 2026-11-10: io_pdx_mesh's `import_animfile` zeroes every joint's jointOrient and puts every bone in the clip at the clip's initial pose. `ck3scene.pose()` restores the rest pose (with jointOrient), puts bones the clip doesn't key back at rest, and gives every bone but the roots its rest length (the old Blender rule; still not checked against the game).
+- 2026-11-10: women's clips key `bn_l_sleeve`/`bn_r_sleeve`, which the body lacks; `pose()` adds them under the elbows.
+- 2026-11-10: io_pdx_mesh makes Maya vertex i from file vertex i (no welding), so weights can be written straight into a `.mesh` skin block (`skin_io.patch_mesh`; unused slots are ix -1, w 0.0) and the shape files stay valid.
+- 2026-11-10: `MMeshIntersector.create` needs the shape node (`dagPath.extendToShape()`), not the transform.
+- 2026-11-10: the game body is low-res (male 3,206 verts); our pieces carry the full 134-bone skeleton (skirt and cloak chains included).
+- 2026-11-10: the `sitting` clip is played by no vanilla or EK2 event; kneels are (57 events), throne poses everywhere. EK2's steppe/Indian courts seat rulers cross-legged (`throneRoom_ruler3_1`).
+- 2026-11-10: EK2 body shapes our pieces lack: `giantish_body_bs` (75 pieces), `imgan_body_bs` (all), `bs_briarheart_body` (men, all). EK2's own clothes lack them too (only one fur follows Briarheart).
+
+## Validation (2026-11-10)
+- ck3-tiger loads EK2 through `source/tools/ek2_for_tiger.mod` (EK2's own `ugc_2887120253.mod` makes tiger 1.19 stop with "Invalid config"). Remaining reports sit in EK2/vanilla files (tiger 1.19 doesn't know CK3 1.20); read only our files' lines.
+- clausewitz `validate_mod` with EK2 indexed: the full run and `unknown_script` time out; run `syntax`/`encoding`/`localisation` alone. Its "missing loc" hits for `set_variable` names are false positives.
