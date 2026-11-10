@@ -967,7 +967,7 @@ def double_exposed(name, body, folder=cs.OUT, tilt=0.5, maxd=300.0, log=print):
     return len(k)
 
 
-def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, log=print):
+def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, skip=None, log=print):
     """After write_mesh: rest-pose and poke-through repairs, flipped copies of triangles seen from behind, every body
     shape (+ the .asset lines), shape repairs."""
     import shapes as shp
@@ -984,7 +984,7 @@ def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, lo
         mc.delete(t)
         t = cs.load_piece(name)
         for suf, attr, f in cs.body_shapes(sex):
-            if suf in SKIP_SHAPES or not os.path.exists(f):
+            if suf in (SKIP_SHAPES if skip is None else skip) or not os.path.exists(f):
                 continue
             G0, G1, _ = shp.shape_field(t, body, attr)
             shp.write_shape(t, suf, G0, G1)

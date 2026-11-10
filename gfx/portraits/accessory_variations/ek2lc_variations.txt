@@ -1037,12 +1037,24 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_lich_arena_guard_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_arena_guard_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_lich_armour_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_armour_01_palette.dds" }
@@ -1145,27 +1157,51 @@ variation = {
 }
 
 variation = {
-	name = "ek2lc_lich_camp_01"
+	name = "ek2lc_lich_band_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g38_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g38_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g38_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
-	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_camp_01_palette.dds" }
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_band_01_palette.dds" }
 }
 
 variation = {
-	name = "ek2lc_lich_charm_01"
+	name = "ek2lc_lich_band_fine_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a140"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a140"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a140"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
-	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_charm_01_palette.dds" }
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_band_fine_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_band_royal_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_camp_wrap_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_camp_wrap_01_palette.dds" }
 }
 
 variation = {
@@ -1208,9 +1244,9 @@ variation = {
 	name = "ek2lc_lich_duke_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_duke_01_palette.dds" }
@@ -1220,9 +1256,9 @@ variation = {
 	name = "ek2lc_lich_emperor_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_emperor_01_palette.dds" }
@@ -1232,21 +1268,33 @@ variation = {
 	name = "ek2lc_lich_fine_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_fine_01_palette.dds" }
 }
 
 variation = {
+	name = "ek2lc_lich_fur_robe_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_fur_robe_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_lich_hide_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_hide_01_palette.dds" }
@@ -1277,12 +1325,24 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_lich_kid_charm_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_kid_charm_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_lich_king_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_king_01_palette.dds" }
@@ -1292,9 +1352,9 @@ variation = {
 	name = "ek2lc_lich_leggings_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a158"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a158"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a158"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_leggings_01_palette.dds" }
@@ -1304,9 +1364,9 @@ variation = {
 	name = "ek2lc_lich_mantle_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_mantle_01_palette.dds" }
@@ -1325,27 +1385,75 @@ variation = {
 }
 
 variation = {
-	name = "ek2lc_lich_robe_01"
-	pattern = {
-		weight = 1
-		r = { textures = "ek2lc_solid_g31_a179"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g31_a179"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g31_a179"	layout = "ek2lc_flat" }
-		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
-	}
-	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_robe_01_palette.dds" }
-}
-
-variation = {
 	name = "ek2lc_lich_royal_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_royal_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_skirt_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_skirt_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_trophy_1_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_trophy_1_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_trophy_2_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_trophy_2_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_trophy_3_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_trophy_3_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_lich_tunic_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_tunic_01_palette.dds" }
 }
 
 variation = {
@@ -1364,9 +1472,9 @@ variation = {
 	name = "ek2lc_lich_war_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a148"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lich_war_01_palette.dds" }

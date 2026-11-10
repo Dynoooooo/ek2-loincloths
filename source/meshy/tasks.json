@@ -95,5 +95,93 @@
  "lich_art_ash": {
   "concept": "01a1c683-e768-7430-ae23-54d271cb7f73",
   "model": "01a1c684-f0ac-7699-b250-dd412b8d8c8c"
+ },
+ "lich_hide": {
+  "concept": "01a1c734-f190-7075-9463-7f58e4a8030a",
+  "model": "01a1c738-f14b-7175-8522-09ab89141596"
+ },
+ "lich_fine": {
+  "concept": "01a1c734-f241-750c-a8ec-73223324617d",
+  "model": "01a1c738-fe84-763f-b008-735a59331061"
+ },
+ "lich_royal": {
+  "concept": "01a1c734-f2cf-73f2-9ddf-58459394859f",
+  "model": "01a1c739-0885-71cd-bcd8-90e5fcce2234"
+ },
+ "lich_skirt": {
+  "concept": "01a1c734-f35f-75e7-b4af-abd918d48619",
+  "model": "01a1c739-12b1-749e-9a8c-33c577291685"
+ },
+ "lich_tunic": {
+  "concept": "01a1c734-f3e8-7102-92a4-45d1d6c99c11",
+  "model": "01a1c739-1e51-7264-8fe1-bb5db3163dd6"
+ },
+ "lich_band": {
+  "concept": "01a1c734-f47d-71fb-a1c9-d7cd87693b9c",
+  "model": "01a1c739-29a5-73f1-af73-7ec2f40c41cb"
+ },
+ "lich_band_fine": {
+  "concept": "01a1c734-f516-7684-826b-fc4c18ad7411",
+  "model": "01a1c739-481e-760f-8ddd-11b1f0202b3d"
+ },
+ "lich_band_royal": {
+  "concept": "01a1c734-f59c-71c2-b96a-3d7c0367d0b8",
+  "model": "01a1c739-5645-7406-88c1-5d68de10d955"
+ },
+ "lich_war": {
+  "concept": "01a1c734-f633-7166-a68f-9f5aa62df1eb",
+  "model": "01a1c739-6163-75ed-8164-8a9d36e6146a"
+ },
+ "lich_armour": {
+  "concept": "01a1c734-f6bc-72ac-a8f0-f7b9a4bdf2b3",
+  "model": "01a1c739-6d68-7573-9b2f-6c0ce2176502"
+ },
+ "lich_duke": {
+  "concept": "01a1c734-f744-777d-a33b-001c37347ae8",
+  "model": "01a1c739-7b99-73b3-949e-54f5dc7c933b"
+ },
+ "lich_king": {
+  "concept": "01a1c734-f7cc-751a-ab75-7bef6f9c2f1a",
+  "model": "01a1c739-87b7-77f3-857d-87d36324e862"
+ },
+ "lich_emperor": {
+  "concept": "01a1c734-f860-774a-b5c8-be17e7bfcca3",
+  "model": "01a1c739-967a-7579-bd5c-57d167daa732"
+ },
+ "lich_camp_wrap": {
+  "concept": "01a1c734-f8f5-706e-99a8-a5b549dc3038",
+  "model": "01a1c739-a0a2-7394-a458-696964a58a66"
+ },
+ "lich_kid_charm": {
+  "concept": "01a1c734-f985-7566-a067-e0a8da7a49e9",
+  "model": "01a1c739-ac4b-77ba-91d6-519a3d528006"
+ },
+ "lich_trophy_1": {
+  "concept": "01a1c734-fa1c-72fd-b538-068a7fa923ed",
+  "model": "01a1c739-b683-7787-89f4-c992ac55797b"
+ },
+ "lich_trophy_2": {
+  "concept": "01a1c734-fab1-7048-9386-31ef26f25553",
+  "model": "01a1c739-c5a3-754e-af54-2a777f67507c"
+ },
+ "lich_trophy_3": {
+  "concept": "01a1c734-fb55-736a-9c77-071fe702d1cc",
+  "model": "01a1c739-d179-71fc-8277-01bebe033735"
+ },
+ "lich_leggings": {
+  "concept": "01a1c734-fbeb-71e0-8f5a-26d75c8d22ef",
+  "model": "01a1c739-dde2-7469-93e8-c77ef7c25e14"
+ },
+ "lich_mantle": {
+  "concept": "01a1c734-fc85-7471-a1dc-0292f2b6766b",
+  "model": "01a1c739-e74a-7132-832f-a882f541208a"
+ },
+ "lich_fur_robe": {
+  "concept": "01a1c734-fd10-754e-a2c8-b8eefe54ba3c",
+  "model": "01a1c739-f3b2-7049-904c-de7eec4bed27"
+ },
+ "lich_arena_guard": {
+  "concept": "01a1c734-fd9b-7461-bf79-92374bcdd11b",
+  "model": "01a1c739-fd25-7412-9716-0ada48a3eae3"
  }
 }

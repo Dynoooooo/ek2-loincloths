@@ -27,8 +27,12 @@ def _load(sex, keys):
     ps = {}
     for k in keys:
         n = "ek2lc_%s_%s_01" % (sex[0], k)
+        if not mc.objExists(n) and not __import__("os").path.exists("%s/%s.mesh" % (cs.OUT, n)):
+            continue                      # women-only pieces (chest bands)
         ps[k] = cs.load_piece(n)
         _tex(ps[k], k)
+    for m in mc.ls(type="mesh"):          # as the game draws attachments (2026-11-10)
+        mc.setAttr(m + ".backfaceCulling", 3)
     look.setup_view()
     return ps
 
@@ -54,7 +58,8 @@ def rows(keys, out, tmp="/tmp"):
     cs.rest_pose()
     ps = _load("male", keys)
     for k in keys:
-        shots[k].insert(3, _shot(ps, k, (0, 110, 190), (0, 90, 0), "%s/sh_%s_m.jpg" % (tmp, k)))
+        if k in ps:
+            shots[k].insert(3, _shot(ps, k, (0, 110, 190), (0, 90, 0), "%s/sh_%s_m.jpg" % (tmp, k)))
     rws = []
     for k in keys:
         r = "%s/shrow_%s.jpg" % (tmp, k)
