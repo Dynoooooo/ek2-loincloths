@@ -183,5 +183,10 @@
  "lich_arena_guard": {
   "concept": "01a1c734-fd9b-7461-bf79-92374bcdd11b",
   "model": "01a1c739-fd25-7412-9716-0ada48a3eae3"
+ },
+ "argonian_hide": {
+  "concept": "01a1c7a3-b7b8-7682-a73a-c98153977bb9",
+  "model": "01a1c7a6-7a47-7238-82db-5fd19efc0bc7",
+  "model_kind": "meshy-t2.5 smart topology 8000 + meshy-7 PBR"
  }
 }

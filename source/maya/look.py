@@ -67,3 +67,26 @@ def sheet(pieces, views=("front", "left", "back"), out=None, dist=95, label=True
         for p, s in shown.items():
             mc.setAttr(p + ".visibility", s)
     return out
+
+
+def pose_strip(sex, pieces, out, clips=(("idle_1", (60, 95, 170), (0, 75, 0)),
+                                        ("throneRoom_kneel1_1", (150, 70, 120), (0, 35, 10)),
+                                        ("throneRoom_ruler3_1", (40, 110, 160), (0, 50, 0))), w=300, h=340):
+    """One row of shots of the pieces on the body in game poses (back faces culled, as the game draws them)."""
+    import sheet
+    cs.new_scene()
+    cs.load_body(sex)
+    for k in pieces:
+        p = cs.load_piece("ek2lc_%s_%s_01" % (sex[0], k))
+        sheet._tex(p, k)
+    for m in mc.ls(type="mesh"):
+        mc.setAttr(m + ".backfaceCulling", 3)
+    setup_view()
+    shots = []
+    for i, (clip, cam, aim) in enumerate(clips):
+        cs.pose(sex, clip)
+        mc.xform("persp", ws=True, t=cam)
+        mc.viewLookAt("persp", pos=aim)
+        shots.append(shot("%s_%d.jpg" % (out[:-4], i), w, h))
+    subprocess.run([MAGICK] + shots + ["+append", out], check=True)
+    return out
