@@ -1361,6 +1361,63 @@ def meshy_load(key):
     return co, faces, luv
 
 
+def meshy_parts(n, faces):
+    """The connected parts of a Meshy mesh (Smart Topology keeps rope, knot, each tassel... apart): vertex lists."""
+    par = list(range(n))
+
+    def root(a):
+        while par[a] != a:
+            par[a] = par[par[a]]
+            a = par[a]
+        return a
+    for f in faces:
+        for v in f[1:]:
+            a, b = root(f[0]), root(v)
+            if a != b:
+                par[a] = b
+    parts = {}
+    for i in range(n):
+        parts.setdefault(root(i), []).append(i)
+    return list(parts.values())
+
+
+def meshy_symmetric(co, faces, luv):
+    """The small parts on the hips made the same on both sides: the side with more of them is mirrored onto the other
+    (Meshy gave the festival wrap three tassels on one hip and two on the other). Meshy's own parts, mirrored."""
+    zs, lat = [c.z for c in co], [c.dot(RIGHT) for c in co]
+    h, mid, half = max(zs) - min(zs), (min(lat) + max(lat)) / 2, (max(lat) - min(lat)) / 2
+    side = {1: [], -1: []}
+    for p in meshy_parts(len(co), faces):
+        l = sum(lat[i] for i in p) / len(p)
+        if abs(l - mid) > 0.45 * half and max(zs[i] for i in p) - min(zs[i] for i in p) < 0.35 * h:
+            side[1 if l > mid else -1].append(p)
+    src = max(side, key=lambda k: len(side[k]))
+    if len(side[src]) == len(side[-src]):
+        return co, faces, luv
+    mean = lambda ps: sum(lat[i] for p in ps for i in p) / sum(len(p) for p in ps)
+    l0 = (mean(side[1]) + mean(side[-1])) / 2  # the plane between the two hips' parts
+    gone = {i for p in side[-src] for i in p}
+    copy = {i for p in side[src] for i in p}
+    keep = [i for i in range(len(co)) if i not in gone]
+    new = {i: k for k, i in enumerate(keep)}
+    co2 = [co[i] for i in keep]
+    mirror = {}
+    for i in sorted(copy):
+        mirror[i] = len(co2)
+        co2.append(co[i] - RIGHT * (2 * (lat[i] - l0)))
+    f2, uv2 = [], []
+    for f, u in zip(faces, luv):
+        if f[0] not in gone:
+            f2.append([new[v] for v in f])
+            uv2.append(u)
+    for f, u in zip(faces, luv):
+        if f[0] in copy:  # a mirror turns the faces inside out: reverse their corners
+            f2.append([mirror[v] for v in reversed(f)])
+            uv2.append(list(reversed(u)))
+    print("MESHY symmetric: %d hip parts mirrored over the other side's %d" % (len(side[src]), len(side[-src])))
+    return co2, f2, uv2
+
+
 def _ang(p, c):
     d = p - c
     return math.atan2(d.dot(RIGHT), d.dot(FRONT)) % (2 * math.pi)
@@ -1382,8 +1439,9 @@ def _fill(vals):
     return out
 
 
-def meshy_fit(co, s, gap=0.6, z_scale=0.72, ring_h=0.05, tight=0.75):
-    """Meshy positions co fitted to body shape s (see above)."""
+def meshy_fit(co, s, gap=0.6, z_scale=0.72, ring_h=0.05, tight=0.75, parts=None):
+    """Meshy positions co fitted to body shape s (see above). With parts (meshy_parts), the rope keeps its own
+    thickness all round instead of being stretched with the body's width (it was thickest over the buttocks)."""
     xs, ys = [c.x for c in co], [c.y for c in co]
     gc = Vector(((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2, 0.0))
     r_ext = max(Vector((c.x - gc.x, c.y - gc.y)).length for c in co)
@@ -1417,10 +1475,30 @@ def meshy_fit(co, s, gap=0.6, z_scale=0.72, ring_h=0.05, tight=0.75):
         t = f - k0
         return vals[k0 % MB] * (1 - t) + vals[(k0 + 1) % MB] * t
 
-    out = []
-    for c in co:
+    rad = lambda c: Vector((c.x - gc.x, c.y - gc.y)).length
+
+    def belt_shift(c):  # rope: its inner edge on the body as before, its thickness scaled like its height
         a = _ang(c, gc)
-        r = Vector((c.x - gc.x, c.y - gc.y)).length * lerp_bins(q, a)
+        ri, qa = lerp_bins(rin, a), lerp_bins(q, a)
+        return ri * qa + (rad(c) - ri) * sz - rad(c) * qa
+    wt, anchor = [0.0] * len(co), list(range(len(co)))
+    h = max(c.z for c in co) - min(c.z for c in co)
+    for p in parts or ():
+        z0, z1 = min(co[i].z for i in p), max(co[i].z for i in p)
+        if z1 >= zt - ring_h and z1 - z0 <= 3 * ring_h:  # the rope, its knot, a tassel's top
+            for i in p:
+                wt[i] = 1.0
+        elif z1 - z0 < 0.35 * h:  # a small part (tassel, fringe): moved as one with its top, if that is at the rope
+            top = max(p, key=lambda i: co[i].z)
+            for i in p:
+                wt[i], anchor[i] = (1.0 if z1 >= zr - 3 * ring_h else 0.0), top
+        else:  # a panel: its top (folded over the rope) follows the rope, eased into the plain fit below it
+            for i in p:
+                wt[i] = min(1.0, max(0.0, (co[i].z - (zr - 3 * ring_h)) / (2 * ring_h)))
+    out = []
+    for i, c in enumerate(co):
+        a = _ang(c, gc)
+        r = rad(c) * lerp_bins(q, a) + (wt[i] * belt_shift(co[anchor[i]]) if wt[i] else 0.0)
         out.append(cb + dirv(a) * r + Vector((0.0, 0.0, BELT_Z + (c.z - zr) * sz)))
     # the body's outermost radius per angle and height, from the belt line down the most of it above
     z_hi = max(p.z for p in out) + MZ
@@ -1512,16 +1590,19 @@ def meshy_fit(co, s, gap=0.6, z_scale=0.72, ring_h=0.05, tight=0.75):
     return res
 
 
-def meshy_piece(pc, at, key, hang=26.0, extra=None, **fit):
+def meshy_piece(pc, at, key, hang=26.0, extra=None, symmetric=False, **fit):
     """A piece from Meshy (pc must be empty): positions per body shape, weights, Meshy's UVs and texture; extra(pc,
-    at) adds our own parts after it (their cells in the set's bottom row)."""
+    at) adds our own parts after it (their cells in the set's bottom row); symmetric: see meshy_symmetric."""
     global CUR_B
     assert not pc.faces, "a Meshy piece starts the piece"
     at.meshy(os.path.join(MESHY, key, "model_base_color.png"))
     co, faces, luv = meshy_load(key)
+    if symmetric:
+        co, faces, luv = meshy_symmetric(co, faces, luv)
+    parts = meshy_parts(len(co), faces)
     keep, CUR_B = CUR_B, WRAPB  # wraps are fitted to the body and leggings (the loincloth is not drawn under them)
     try:
-        pos = {s: meshy_fit(co, s, **fit) for s in ALL}
+        pos = {s: meshy_fit(co, s, parts=parts, **fit) for s in ALL}
     finally:
         CUR_B = keep
     ws = [hang_w(p, min(1.0, max(0.0, (BELT_Z - 2.0 - p.z) / hang))) for p in pos["basis"]]
@@ -1537,9 +1618,9 @@ def meshy_piece(pc, at, key, hang=26.0, extra=None, **fit):
 
 @piece("festival_wrap")
 def build_festival(pc, at):
-    # white festival wrap: red-and-white rope belt knotted at the back, sun apron, back flap, paper streamers
+    # white festival wrap (Meshy): red-and-white rope belt, ring-sun apron, back flap, three cloth tassels per hip
     # under it, the wraps' strip between the legs in plain linen (the apron alone leaves the groin bare at the sides)
-    meshy_piece(pc, at, "festival_wrap", gap=1.0,
+    meshy_piece(pc, at, "festival_wrap", symmetric=True, gap=1.0,
                 extra=lambda pc, at: wrap_strip(pc, at.cell(P_silk(C(0.93, 0.92, 0.88), C(0.83, 0.82, 0.78)))))
 
 

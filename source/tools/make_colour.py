@@ -24,8 +24,8 @@ mask and variation). The patterns are solid (colour channel 1, flat normal, the 
 properties), so they need no second UV set.
 
 Reads the PNG sources (source/textures, source/textures/cultures), never its own output, so it
-can be re-run; run it after build_reach_hide.py. Needs numpy: run it with Blender's Python:
-  /Applications/Blender.app/Contents/Resources/5.2/python/bin/python3.13 -I source/tools/make_colour.py
+can be re-run; run it after build_reach_hide.py. Needs numpy: run it with Maya's Python (mayapy):
+  /Applications/Autodesk/maya2027/Maya.app/Contents/bin/mayapy -I source/tools/make_colour.py
 """
 import glob
 import hashlib

@@ -9,7 +9,7 @@ soft paint on the hide: pixels whose red is over twice their green (the Reach zi
   python3 source/tools/check_colour.py [--old <git rev>] [--preview <png>] [set ...]
 With --old it also checks that revision's files (from git), and --preview writes a side-by-side of the
 Reach zigzag: rows mip 0 and mip 2 (magnified like the GPU does); columns original, old, new, and new
-with a blue colour picked. Needs numpy (Blender's Python, or any Python with numpy).
+with a blue colour picked. Needs numpy (Maya's mayapy, or any Python with numpy).
 """
 import os
 import re
