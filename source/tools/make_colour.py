@@ -231,7 +231,6 @@ def assets():
 
 def main():
     os.makedirs(PAT, exist_ok=True)
-    rng = np.random.default_rng(7)
     sets = {}
     for name, (tset, nset) in assets().items():
         sets.setdefault(tset, nset)
@@ -248,6 +247,8 @@ def main():
         base_g = props[..., 1].min()
         soft = props[..., 1] <= base_g + 0.01
         px = dif[soft][:, :3]
+        # each set its own random stream, from its name: a change to one set never shifts another's colour groups
+        rng = np.random.default_rng(int(hashlib.sha1(tset.encode()).hexdigest()[:8], 16))
         cent = groups(features(px), rng)
         lab_soft = np.argmin(((features(px)[:, None] - cent[None]) ** 2).sum(-1), 1)
         main_grp = np.zeros(soft.shape, bool)

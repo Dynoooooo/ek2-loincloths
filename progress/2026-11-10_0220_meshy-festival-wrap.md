@@ -13,7 +13,9 @@
   painted cell under Meshy's texture (the set is 2048: Meshy's image on top, one row of our cells below).
 - Removed the procedural festival wrap.
 
-**Note**: make_colour.py re-derived masks for goblin royal, Kothringi duke, lich armour/duke/king, orc armour/duke and
-the Reach mantle on its first run today; not this change, so those files were restored to the committed state.
+**Fix (make_colour.py)**: one random stream was shared by every texture set in name order, so changing one set (the
+festival wrap's texture grew to 2048) shifted the colour groups of borderline sets after it (goblin, Kothringi, lich,
+orc, Reach). Each set now seeds its own stream from its name; 13 sets were regrouped once (default-look error
+0.3-4%), and a rerun changes nothing.
 
 **Next step**: in game, proclaim the festival. Next Meshy pieces: same flow (`meshy_piece(pc, at, key)`).
