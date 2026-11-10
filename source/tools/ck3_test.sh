@@ -42,7 +42,7 @@ PY
   cd "$BIN"
   ARGS="-gdpr-compliant -debug_mode -skip -bookmark=bm_interregnum -play=${PLAY:-d_druadach}"
   if [ -n "$OPEN" ]; then  # through LaunchServices: a registered app, so Computer Use can type into it (2026-11-10)
-    open -a "$BIN/ck3.app" --args $ARGS
+    open ${BG:+-g} -a "$BIN/ck3.app" --args $ARGS   # BG=1: launch behind the user's windows
     sleep 3; echo "launched, pid $(pgrep -x ck3)"
   else
     nohup ./ck3.app/Contents/MacOS/ck3 $ARGS >/dev/null 2>&1 &
