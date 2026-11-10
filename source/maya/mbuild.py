@@ -967,7 +967,7 @@ def double_exposed(name, body, folder=cs.OUT, tilt=0.5, maxd=300.0, log=print):
     return len(k)
 
 
-def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, skip=None, log=print):
+def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, skip=None, seat=True, log=print):
     """After write_mesh: rest-pose and poke-through repairs, flipped copies of triangles seen from behind, every body
     shape (+ the .asset lines), shape repairs."""
     import shapes as shp
@@ -998,6 +998,9 @@ def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, sk
         out = dict(verts=nv, tris=nt, rest_fixed=(n_in, round(deep, 2)), shapes=made,
                    repair={k: v for k, v in r.items() if v[0] > 0})
     log("BUILT %s: %d verts, %d tris, rest pushed %d (deepest %.2f cm), %d shapes" % (name, nv, nt, n_in, deep, len(made)))
+    if shapes_ and seat:   # vanilla's throne drape (seated.py): run last, it starts its own scene
+        import seated
+        seated.make(name, sex, log=log)
     return out
 
 

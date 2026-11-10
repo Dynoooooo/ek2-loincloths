@@ -188,5 +188,181 @@
   "concept": "01a1c7a3-b7b8-7682-a73a-c98153977bb9",
   "model": "01a1c7a6-7a47-7238-82db-5fd19efc0bc7",
   "model_kind": "meshy-t2.5 smart topology 8000 + meshy-7 PBR"
+ },
+ "argonian_band": {
+  "concept": "01a1c7d3-80b9-7315-a26f-57cfe64e44dd",
+  "model": "01a1c7d9-6108-74b9-86b0-f5f8e27a012e"
+ },
+ "argonian_fine": {
+  "concept": "01a1c7d3-8148-747c-b973-46dc6e8d6f21",
+  "model": "01a1c7d9-7986-7145-9de4-286b9b50f9bc"
+ },
+ "argonian_band_fine": {
+  "concept": "01a1c7d3-81ed-71cf-908f-90c8983c5799",
+  "model": "01a1c7d9-83e2-70cd-a9c0-7672976fd204"
+ },
+ "argonian_war": {
+  "concept": "01a1c7d3-828a-758e-98f3-954d3a14b9f8",
+  "model": "01a1c7d9-8e68-7269-862e-7cf93947c46b"
+ },
+ "ashlander_hide": {
+  "concept": "01a1c7d3-8315-7373-8b82-de7bf0f504b9",
+  "model": "01a1c7d9-9a02-766d-b543-97e0185dc0c4"
+ },
+ "ashlander_band": {
+  "concept": "01a1c7d3-83b2-754a-ba18-80a99c022445",
+  "model": "01a1c7d9-a40f-749d-be71-469cbe29e5ba"
+ },
+ "ashlander_fine": {
+  "concept": "01a1c7d3-8438-728d-a000-f250c9704422",
+  "model": "01a1c7d9-add2-74bc-bc9d-99af569f26db"
+ },
+ "ashlander_band_fine": {
+  "concept": "01a1c7d3-84bf-7537-a109-bb383f3e98fc",
+  "model": "01a1c7d9-c5f8-770c-88c4-2fda9e6b02cf"
+ },
+ "ashlander_war": {
+  "concept": "01a1c7d3-854f-7384-970e-5d0ef2139460",
+  "model": "01a1c7d9-e7fb-76af-9963-a762be80aa65"
+ },
+ "bosmer_hide": {
+  "concept": "01a1c7d3-85da-765b-98e2-6263ff2de56a",
+  "model": "01a1c7d9-f32c-74a1-9e56-bb64d38424ee"
+ },
+ "bosmer_band": {
+  "concept": "01a1c7d3-8665-77d4-9367-1b6c2c34cb9a",
+  "model": "01a1c7da-0d5b-70d7-b441-0779d95355f3"
+ },
+ "bosmer_fine": {
+  "concept": "01a1c7d4-1a85-7607-8e8f-41ad18251eb5",
+  "model": "01a1c7da-9ea8-72d8-a7ca-4bec02958ff5"
+ },
+ "bosmer_band_fine": {
+  "concept": "01a1c7d4-1afa-72be-ae82-22b67262b6fd",
+  "model": "01a1c7da-bb04-74bc-8e3b-c5e84d981445"
+ },
+ "bosmer_war": {
+  "concept": "01a1c7d4-1b7e-70dc-baef-47855957d4ce",
+  "model": "01a1c7da-c56d-72e1-894a-6fad3cdec3b2"
+ },
+ "khajiit_hide": {
+  "concept": "01a1c7d4-1c06-71c4-828c-0e4843eacaf7",
+  "model": "01a1c7da-d21b-7208-abde-18b724450cd6"
+ },
+ "khajiit_band": {
+  "concept": "01a1c7d8-b7d2-7195-ae99-147ce9f02e42",
+  "model": "01a1c7dd-699f-7200-aaf9-fc5fd38feef4"
+ },
+ "khajiit_fine": {
+  "concept": "01a1c7d4-1d0b-76ec-b7c0-73dbb23b589f",
+  "model": "01a1c7da-ec73-728f-b1cd-bb2718d28a6d"
+ },
+ "khajiit_band_fine": {
+  "concept": "01a1c7d4-1d8b-7081-bfd6-3024e90f83af",
+  "model": "01a1c7da-f8be-743d-9df4-2a3ed4ce0e12"
+ },
+ "khajiit_war": {
+  "concept": "01a1c7d4-1e1a-75c3-b9c0-fd930297dae3",
+  "model": "01a1c7db-049e-72d2-8f96-0e472b8ee85b"
+ },
+ "orc_hide": {
+  "concept": "01a1c7d4-1ea0-742c-bc52-46aa7f83892e",
+  "model": "01a1c7db-112e-7458-b0b3-22e1729bbc81"
+ },
+ "orc_band": {
+  "concept": "01a1c7d4-1f1d-727e-945a-0fd6f3959f57",
+  "model": "01a1c7db-1b32-7746-bb4a-4e161d3f7f86"
+ },
+ "orc_fine": {
+  "concept": "01a1c7d4-1f98-761a-8fe6-a84765ce4d42",
+  "model": "01a1c7db-2562-76cf-9c88-e22000e338c5"
+ },
+ "orc_band_fine": {
+  "concept": "01a1c7d4-d668-71c0-bf17-491c952737a8",
+  "model": "01a1c7db-3d84-704a-a96e-1d4172fe1205"
+ },
+ "orc_war": {
+  "concept": "01a1c7d4-d711-7331-b78f-54d81a0633ac",
+  "model": "01a1c7db-eb3a-70c3-b0b3-da1089e742e4"
+ },
+ "goblin_hide": {
+  "concept": "01a1c7d4-d7c1-740c-93c6-1151764798c0",
+  "model": "01a1c7db-f504-724c-a140-c5ffb56955b7"
+ },
+ "goblin_band": {
+  "concept": "01a1c7d4-d867-76ba-bf1f-83b453b7035b",
+  "model": "01a1c7db-ff61-7069-a8c4-3a724acd4acd"
+ },
+ "goblin_fine": {
+  "concept": "01a1c7d4-d911-766d-840e-4b737af70ad9",
+  "model": "01a1c7dc-0a06-7768-aba8-c3c6792edfba"
+ },
+ "goblin_band_fine": {
+  "concept": "01a1c7d4-d9bc-7592-bf6b-cd2c7eb54045",
+  "model": "01a1c7dc-1cbe-725c-8b91-eb4d7567abdc"
+ },
+ "goblin_war": {
+  "concept": "01a1c7d4-da69-771b-aa92-6bdb20fd28f7",
+  "model": "01a1c7dc-2626-7333-8f99-b2a7c010e6ad"
+ },
+ "kothringi_hide": {
+  "concept": "01a1c7d4-db14-7455-a37b-2337c6da5714",
+  "model": "01a1c7dc-344c-75a1-8715-40c071370f0a"
+ },
+ "kothringi_band": {
+  "concept": "01a1c7d4-dbc9-74ea-84b3-5e3287e92f97",
+  "model": "01a1c7dc-4067-7797-92e2-20a858113e9d"
+ },
+ "kothringi_fine": {
+  "concept": "01a1c7d4-dc6c-71bc-8f7a-55f1ffeeb933",
+  "model": "01a1c7dc-515f-7705-9637-b0509091be42"
+ },
+ "kothringi_band_fine": {
+  "concept": "01a1c7d4-dd0f-70af-a822-83e18b39a344",
+  "model": "01a1c7dc-60f6-7047-a0f3-afb741795833"
+ },
+ "kothringi_war": {
+  "concept": "01a1c7d5-64fd-72be-ad79-143fba4cc203",
+  "model": "01a1c7dc-6a4d-71f8-97bc-bab9bdfef9c2"
+ },
+ "lilmothiit_hide": {
+  "concept": "01a1c7d5-65a0-75ec-a678-7a6f99612b09",
+  "model": "01a1c7dd-74b0-71ba-be3c-6336466beb17"
+ },
+ "lilmothiit_band": {
+  "concept": "01a1c7d5-6633-71ad-b243-2bf89b735c76",
+  "model": "01a1c7dd-855e-762e-b522-1a5816449406"
+ },
+ "lilmothiit_fine": {
+  "concept": "01a1c7d5-66c2-737c-8f14-d8eb027424e6",
+  "model": "01a1c7dd-90e1-71b2-8b38-e106fedcbf39"
+ },
+ "lilmothiit_band_fine": {
+  "concept": "01a1c7d5-6750-722b-be97-c7303b1d172b",
+  "model": "01a1c7dd-9cb8-76d1-820b-d41866e171e0"
+ },
+ "lilmothiit_war": {
+  "concept": "01a1c7d5-67dd-750c-8ff2-625112bb6b6b",
+  "model": "01a1c7dd-abfb-757d-a3aa-efebd2c8f444"
+ },
+ "reach_fine": {
+  "concept": "01a1c7d5-6878-70f8-8654-cb0d195afc68",
+  "model": "01a1c7dd-b8c4-76b2-899f-cf9b4b778b10"
+ },
+ "reach_band_fine": {
+  "concept": "01a1c7d5-690d-7197-ad76-663f26c676af",
+  "model": "01a1c7dd-c769-72e3-84a3-fd0df763b552"
+ },
+ "reach_royal": {
+  "concept": "01a1c7d5-699a-7063-9bdc-57fb22a49ba9",
+  "model": "01a1c7dd-d2ae-7087-95e9-0ea751436204"
+ },
+ "reach_band_royal": {
+  "concept": "01a1c7d5-6a2e-7068-a236-daae10bd8aac",
+  "model": "01a1c7dd-dbef-7008-8c05-0e47aeb231b6"
+ },
+ "fur_robe": {
+  "concept": "01a1c7d5-6abd-70bc-b3f8-8e5ccbd214f2",
+  "model": "01a1c7dd-e6df-7657-b005-b8bd91b86616"
  }
 }

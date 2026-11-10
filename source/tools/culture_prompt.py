@@ -23,7 +23,23 @@ def prompt(key):
     return re.sub(r"^A (?=[AEIOU])", "An ", t)
 
 
+TEX = {"hide": "{plain}, {cord}, {plain_trim}", "band": "{plain_soft}, {plain_trim}",
+       "fine": "{fine}, {fine_trim}, {fine_belt}", "band_fine": "{fine}, {fine_trim}, {fine_clasp}",
+       "royal": "{royal}, {motif}, {royal_trim}, {royal_belt}", "band_royal": "{royal}, {motif}, {royal_clasp}, {royal_trim}",
+       "war": "{war_belt}, {trophy}, {war_extra}", "fur_robe": "{cape}, {cape_collar}, {cape_clasp}"}
+
+
+def texture(key):
+    c, k = split(key)
+    t = TEX[k].format(**D["cultures"][c])
+    return (t[0].upper() + t[1:] + ". Flat even colours as in the image, no baked shadows or highlights.")[:800]
+
+
 if __name__ == "__main__":
+    if sys.argv[1] == "--texture":
+        for k in sys.argv[2:]:
+            print("%s\t%s" % (k, texture(k)))
+        sys.exit()
     keys = D["batch1"] if sys.argv[1:] == ["batch1"] else sys.argv[1:]
     for k in keys:
         print("%s\t%s" % (k, prompt(k)))

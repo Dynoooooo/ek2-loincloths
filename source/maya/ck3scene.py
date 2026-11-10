@@ -48,7 +48,9 @@ def body_shapes(sex):
 
 
 def suffix_attr(sex):
-    return {k: a for k, a, f in body_shapes(sex)}
+    d = {k: a for k, a, f in body_shapes(sex)}
+    d["seated"] = "bs_body_seated"   # pieces only: vanilla's throne drape (gene_seated), no body file
+    return d
 
 
 def new_scene():
