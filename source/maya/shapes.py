@@ -42,6 +42,17 @@ def _weld_ids(P, tol=1e-4):
     return inv.ravel()
 
 
+def facing_weld(P, N, tol=1e-4):
+    """Weld ids for shading normals: one position AND facing the same way (by the stored normals N). Meshy's cloth
+    has its two layers at one position; a position-only weld averages opposite normals (2026-11-10)."""
+    w = _weld_ids(P, tol)
+    rep = np.zeros(w.max() + 1, np.int64)
+    rep[w[::-1]] = np.arange(len(w))[::-1]
+    side = (N * N[rep[w]]).sum(1) < 0
+    _, inv = np.unique(w * 2 + side, return_inverse=True)
+    return inv.ravel()
+
+
 def shape_field(piece, body, attr, k=8, keep=0.3):
     """Piece points in the shape (Maya space), from the body's displacement."""
     cs.rest_pose()
@@ -89,8 +100,8 @@ def write_shape(piece, suffix, G0, G1, folder=cs.OUT):
     assert np.abs(Pf0 - G0 * flip).max() < 0.05, "file/Maya vertex order or space mismatch"
     T = np.array(mb.attrib["tri"]).reshape(-1, 3)
     P1 = Pf0 + (G1 - G0) * flip
-    weld = _weld_ids(Pf0)
     n0 = np.array(mb.attrib["n"]).reshape(-1, 3)
+    weld = facing_weld(Pf0, n0)
     c0 = _vertex_normals(Pf0, T, weld)
     c1 = _vertex_normals(P1, T, weld)
     n1 = n0 + (c1 - c0)
@@ -256,7 +267,8 @@ def repair(piece, body, states, keep=0.3, folder=cs.OUT, passes=1):
         P = np.array(m.attrib["p"]).reshape(-1, 3) + e * flip
         n0 = np.array(m.attrib["n"]).reshape(-1, 3)
         Pold = np.array(m.attrib["p"]).reshape(-1, 3)
-        n1 = n0 + (_vertex_normals(P, T, weld) - _vertex_normals(Pold, T, weld))
+        nw = facing_weld(Pold, n0)
+        n1 = n0 + (_vertex_normals(P, T, nw) - _vertex_normals(Pold, T, nw))
         n1 /= np.maximum(np.linalg.norm(n1, axis=1, keepdims=True), 1e-12)
         m.attrib["p"] = [float(x) for x in P.ravel()]
         m.attrib["n"] = [float(x) for x in n1.ravel()]
@@ -296,7 +308,8 @@ def repair_base(piece, body, want=0.15, folder=cs.OUT):
         Pold = np.array(m.attrib["p"]).reshape(-1, 3)
         P = Pold + c
         n0 = np.array(m.attrib["n"]).reshape(-1, 3)
-        n1 = n0 + (_vertex_normals(P, T, weld) - _vertex_normals(Pold, T, weld))
+        nw = facing_weld(Pold, n0)
+        n1 = n0 + (_vertex_normals(P, T, nw) - _vertex_normals(Pold, T, nw))
         n1 /= np.maximum(np.linalg.norm(n1, axis=1, keepdims=True), 1e-12)
         m.attrib["p"] = [float(x) for x in P.ravel()]
         m.attrib["n"] = [float(x) for x in n1.ravel()]

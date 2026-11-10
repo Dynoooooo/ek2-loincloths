@@ -34,7 +34,7 @@ class Garment:
     def __init__(self, key, path=None):
         self.key = key
         V, N, UV, T, self.images = glb.load(path or os.path.join(MESHY, key, "model.glb"))
-        self.V, self.UV, self.T = V, UV, T
+        self.V, self.N, self.UV, self.T = V, N, UV, T
         self.wid = weld_ids(V)
         self.part = parts(self.wid, T)
 
@@ -52,8 +52,8 @@ class Sub:
         new[idx] = np.arange(len(idx))
         T = g.T[keep[g.T].all(1)]
         self.key, self.images = g.key, g.images
-        self.V, self.UV, self.T = g.V[idx], g.UV[idx], new[T]
-        self.wid = new[g.wid[idx]]
+        self.V, self.N, self.UV, self.T = g.V[idx], g.N[idx], g.UV[idx], new[T]
+        self.wid = weld_ids(self.V)   # representatives among the kept vertices (new[g.wid] was -1 where dropped)
         self.part = g.part[idx]
         self.idx = idx
 
@@ -64,13 +64,24 @@ def join(subs, Ps):
         pass
     j = J()
     off = 0
-    V, UV, T, wid, part = [], [], [], [], []
+    V, N, UV, T, wid, part = [], [], [], [], [], []
     for s, P in zip(subs, Ps):
-        V.append(P), UV.append(s.UV), T.append(s.T + off), wid.append(s.wid + off), part.append(s.part)
+        V.append(P), N.append(s.N), UV.append(s.UV), T.append(s.T + off), wid.append(s.wid + off), part.append(s.part)
         off += len(P)
     j.key, j.images = subs[0].key, subs[0].images
-    j.V, j.UV, j.T, j.wid, j.part = np.vstack(V), np.vstack(UV), np.vstack(T), np.concatenate(wid), np.concatenate(part)
+    j.V, j.N, j.UV, j.T = np.vstack(V), np.vstack(N), np.vstack(UV), np.vstack(T)
+    j.wid, j.part = np.concatenate(wid), np.concatenate(part)
     return j
+
+
+def normal_ids(wid, N):
+    """Weld ids for shading normals: vertices at one position that face the same way (Meshy's normals). 2026-11-10:
+    Meshy's thin cloth has its outer and inner layers at the same positions; welding by position alone averaged
+    opposite normals, and a quarter of the vertices of some pieces came out facing inward (black patches, unlit in
+    game)."""
+    side = (N * N[wid]).sum(1) < 0
+    _, first, inv = np.unique(wid * 2 + side, return_index=True, return_inverse=True)
+    return first[inv.ravel()]
 
 
 def split_top(g, overlap=0.04):
@@ -640,7 +651,7 @@ def write_mesh(name, sex, P, g, bones, w, tset, folder=cs.OUT, shader="portrait_
     flip = np.array([1.0, 1.0, -1.0])
     Pf = P * flip
     Tf = g.T[:, ::-1]                                   # Z negated: corners reversed keeps the faces outward
-    Nf = _vertex_normals(Pf, Tf, g.wid)
+    Nf = _vertex_normals(Pf, Tf, normal_ids(g.wid, g.N) if getattr(g, "N", None) is not None else g.wid)
     ta = _tangents(Pf, Nf, g.UV, Tf)
     m.attrib["p"] = [float(x) for x in Pf.ravel()]
     m.attrib["n"] = [float(x) for x in Nf.ravel()]
@@ -697,7 +708,40 @@ def make_shapes(name, body, folder=cs.OUT, repair=True, log=print):
 
 
 # ---------------------------------------------------------------- textures
-def textures(key, tset, size=2048, props=(0.0, 0.221, 0.0, 0.598), metal=(1.0, 0.5, 0.75, 0.35), log=print):
+def _boxmean(a, r):
+    """Mean over a (2r+1)^2 window (edges clamped), by integral image; a: (h, w) or (h, w, c)."""
+    p = np.pad(a, ((r + 1, r), (r + 1, r)) + ((0, 0),) * (a.ndim - 2), mode="edge").astype(np.float64)
+    c = p.cumsum(0).cumsum(1)
+    k = 2 * r + 1
+    s = c[k:, k:] - c[:-k, k:] - c[k:, :-k] + c[:-k, :-k]
+    return s / (k * k)
+
+
+def fill_holes(rgb, ratio=0.4, r=10, floor=0.12):
+    """Texels far darker than their surroundings (2026-11-10: Meshy bakes the gaps of its high-res model, e.g. between
+    wound strips, as black flecks on the remeshed surface; they read as holes): replaced by the colour around them.
+    Black cloth stays, as its surroundings are dark too. Returns (rgb, share of texels filled)."""
+    lum = rgb @ np.array([0.2126, 0.7152, 0.0722])
+    L = _boxmean(lum, r)
+    hole = (lum < ratio * L) & (L > floor)
+    hole = _boxmean(hole.astype(np.float32), 1) > 0
+    out = rgb.copy()
+    todo = hole.copy()
+    rr = r
+    for _ in range(4):
+        keep = (~hole).astype(np.float64)
+        num = _boxmean(rgb * keep[..., None], rr)
+        den = _boxmean(keep, rr)
+        ok = todo & (den > 0.05)
+        out[ok] = num[ok] / den[ok][:, None]
+        todo &= ~ok
+        if not todo.any():
+            break
+        rr *= 2
+    return out, float(hole.mean())
+
+
+def textures(key, tset, size=2048, props=(0.0, 0.221, 0.0, 0.598), metal=(1.0, 0.5, 0.75, 0.35), fill=True, log=print):
     """source/meshy/<key>/ textures -> source/textures/<tset>_{diffuse,normal,properties}.png and the normal and
     properties .dds (DXT5, full mips) in the model folder. The diffuse .dds and the colour mask are written by
     tools/make_colour.py afterwards (it reads the PNG). Normal: Meshy's tangent-space map with X in alpha and Y in
@@ -723,6 +767,9 @@ def textures(key, tset, size=2048, props=(0.0, 0.221, 0.0, 0.598), metal=(1.0, 0
         return a
     d = rd(base)
     d[..., 3] = 1.0
+    if fill:
+        d[..., :3], n_fill = fill_holes(d[..., :3])
+        log("TEX %s: %.2f%% dark flecks filled" % (key, 100 * n_fill))
     _png(d, "%s/%s_diffuse.png" % (tex, tset), mk)
     if nrm:
         n = rd(nrm)
@@ -800,34 +847,158 @@ def build(key, base, tset=None, sexes=("male", "female"), fit_kw=None, band_kw=N
         top_only = np.r_[np.zeros(len(Ps[0]), bool), np.ones(len(j.V) - len(Ps[0]), bool)]
         bones, w = weights(j.V, B, top_only=top_only)
         write_mesh(name, sex, j.V, j, bones, w, tset)
-        t = cs.load_piece(name)
-        n_in, deep = shp.repair_base(t, body)
-        repair_poke(name, body, log=log)
-        mc.delete(t)
-        t = cs.load_piece(name)
-        made = []
-        if shapes_:
-            mc.delete(t)
-            t = cs.load_piece(name)
-            for suf, attr, f in cs.body_shapes(sex):
-                if suf in SKIP_SHAPES or not os.path.exists(f):
-                    continue
-                G0, G1, _ = shp.shape_field(t, body, attr)
-                shp.write_shape(t, suf, G0, G1)
-                shp.link_assets(name, suf, attr)
-                made.append(suf)
-            for x in (t, t + "_BS"):
-                if mc.objExists(x):
-                    mc.delete(x)
-            t = cs.load_piece(name)
-            r = shp.repair(t, body, shp.repair_states(sex))
-            rep[name] = dict(verts=len(j.V), tris=len(j.T), rest_fixed=(n_in, round(deep, 2)), shapes=made,
-                             repair={k: v for k, v in r.items() if v[0] > 0})
-        log("BUILT %s: %d verts, %d tris, rest pushed %d (deepest %.2f cm), %d shapes" % (
-            name, len(j.V), len(j.T), n_in, deep, len(made)))
+        rep[name] = finish(name, sex, body, len(j.V), len(j.T), shapes_, log=log)
     if tex:
         textures(key, tset, log=log)
     return rep
+
+
+def fix_normals(name, folder=cs.OUT, log=print):
+    """Shading normals of an existing piece and its shape files rebuilt from the triangles' own winding, welded only
+    between vertices at one position that face the same way (pieces written before normal_ids, 2026-11-10).
+    Returns (triangles shaded against their winding before, after) for the base mesh."""
+    import shapes as shp
+    from io_pdx_mesh import pdx_data
+    f0 = "%s/%s.mesh" % (folder, name)
+    files = [f0] + ["%s/%s" % (folder, f) for f in sorted(os.listdir(folder)) if f.startswith(name + "_bs_") and f.endswith(".mesh")]
+    weld, out, ta = None, [], None
+    for f in files:
+        root = pdx_data.read_meshfile(f)
+        m = root.find("object")[0].find("mesh")
+        P = np.array(m.attrib["p"]).reshape(-1, 3)
+        T = np.array(m.attrib["tri"]).reshape(-1, 3)
+        fn = np.cross(P[T[:, 1]] - P[T[:, 0]], P[T[:, 2]] - P[T[:, 0]])
+        bad = lambda N_: int(((fn * N_[T].mean(1)).sum(1) < 0).sum())
+        if weld is None:
+            own = _vertex_normals(P, T, np.arange(len(P)))
+            weld = shp.facing_weld(P, own)
+            out.append(bad(np.array(m.attrib["n"]).reshape(-1, 3)))
+        N = _vertex_normals(P, T, weld)
+        if f == f0:
+            out.append(bad(N))
+            if "u0" in m.attrib and "ta" in m.attrib:   # tangents were made against the old normals
+                ta = [float(x) for x in _tangents(P, N, np.array(m.attrib["u0"]).reshape(-1, 2), T).ravel()]
+        m.attrib["n"] = [float(x) for x in N.ravel()]
+        if ta is not None and "ta" in m.attrib:
+            m.attrib["ta"] = list(ta)
+        pdx_data.write_meshfile(f, root)
+    log("NORMALS %s: %d -> %d triangles shaded against their winding (%d files)" % (name, out[0], out[1], len(files)))
+    return tuple(out)
+
+
+def double_exposed(name, body, folder=cs.OUT, tilt=0.5, maxd=300.0, log=print):
+    """Give a flipped copy to every triangle whose back side can be seen from outside (2026-11-10: CK3 culls back
+    faces on attachments, and Meshy's remesh leaves gaps in the outer layer of its two-sided cloth, through which the
+    inner layer's back shows; in game that is a hole onto the skin). A triangle counts when one of 5 rays from just
+    behind it (along its back normal and tilted round it) escapes past the garment and the body. Rewrites the base
+    .mesh (run before the shapes). Returns the number of triangles copied."""
+    from io_pdx_mesh import pdx_data
+    flip = np.array([1.0, 1.0, -1.0])
+    f0 = "%s/%s.mesh" % (folder, name)
+    root = pdx_data.read_meshfile(f0)
+    m = root.find("object")[0].find("mesh")
+    T = np.array(m.attrib["tri"]).reshape(-1, 3)
+    P = np.array(m.attrib["p"]).reshape(-1, 3)
+    cs.rest_pose()
+    cs.set_shape(None)
+    BP = au.pts(body) * flip
+    BT, _ = au.tris(body)
+    occ = np.concatenate([P[T], BP[BT]])
+    A, E1, E2 = occ[:, 0], occ[:, 1] - occ[:, 0], occ[:, 2] - occ[:, 0]
+    a, b, c = P[T[:, 0]], P[T[:, 1]], P[T[:, 2]]
+    fn = np.cross(b - a, c - a)
+    ln = np.linalg.norm(fn, axis=1)
+    good = ln > 1e-10
+    nb = -fn / np.maximum(ln, 1e-12)[:, None]                       # the back side's normal
+    t1 = np.cross(nb, np.where(np.abs(nb[:, :1]) < 0.9, [[1.0, 0, 0]], [[0, 1.0, 0]]))
+    t1 /= np.maximum(np.linalg.norm(t1, axis=1, keepdims=True), 1e-12)
+    t2 = np.cross(nb, t1)
+    cen = (a + b + c) / 3 + nb * 0.02
+    exposed = np.zeros(len(T), bool)
+    for d in (nb, nb + tilt * t1, nb - tilt * t1, nb + tilt * t2, nb - tilt * t2):
+        d = d / np.linalg.norm(d, axis=1, keepdims=True)
+        todo = np.nonzero(good & ~exposed)[0]
+        hit = _ray_first(cen[todo], d[todo], A, E1, E2, maxd)
+        exposed[todo[~np.isfinite(hit)]] = True
+    k = np.nonzero(exposed)[0]
+    if len(k):
+        nv = len(P)
+        vids = np.unique(T[k])
+        remap = -np.ones(nv, np.int64)
+        remap[vids] = nv + np.arange(len(vids))
+        for key, width, sign in (("p", 3, None), ("n", 3, -1.0), ("ta", 4, "w"), ("u0", 2, None), ("u1", 2, None)):
+            if key not in m.attrib:
+                continue
+            arr = np.array(m.attrib[key], float).reshape(nv, width)
+            add = arr[vids].copy()
+            if sign == -1.0:
+                add = -add
+            elif sign == "w":
+                add[:, 3] = -add[:, 3]                                # same tangent, mirrored handedness
+            m.attrib[key] = [float(x) for x in np.vstack([arr, add]).ravel()]
+        sk = m.find("skin")
+        nbn = int(sk.attrib["bones"][0])
+        for key in ("ix", "w"):
+            arr = np.array(sk.attrib[key]).reshape(nv, nbn)
+            out = np.vstack([arr, arr[vids]]).ravel()
+            sk.attrib[key] = [int(x) for x in out] if key == "ix" else [float(x) for x in out]
+        newT = remap[T[k]][:, ::-1]
+        m.attrib["tri"] = [int(x) for x in np.vstack([T, newT]).ravel()]
+        pdx_data.write_meshfile(f0, root)
+        for f in sorted(os.listdir(folder)):  # shape files already made (an existing piece): the same copies
+            if not (f.startswith(name + "_bs_") and f.endswith(".mesh")):
+                continue
+            r2 = pdx_data.read_meshfile("%s/%s" % (folder, f))
+            m2 = r2.find("object")[0].find("mesh")
+            for key, width, sign in (("p", 3, None), ("n", 3, -1.0), ("ta", 4, "w"), ("u0", 2, None), ("u1", 2, None)):
+                if key not in m2.attrib:
+                    continue
+                arr = np.array(m2.attrib[key], float).reshape(nv, width)
+                add = arr[vids].copy()
+                if sign == -1.0:
+                    add = -add
+                elif sign == "w":
+                    add[:, 3] = -add[:, 3]
+                m2.attrib[key] = [float(x) for x in np.vstack([arr, add]).ravel()]
+            m2.attrib["tri"] = list(m.attrib["tri"])
+            pdx_data.write_meshfile("%s/%s" % (folder, f), r2)
+    log("DOUBLE %s: %d of %d triangles seen from behind, copied flipped (%d vertices added)" % (
+        name, len(k), len(T), len(np.unique(T[k])) if len(k) else 0))
+    return len(k)
+
+
+def finish(name, sex, body, nv=0, nt=0, shapes_=True, poke=True, double=True, log=print):
+    """After write_mesh: rest-pose and poke-through repairs, flipped copies of triangles seen from behind, every body
+    shape (+ the .asset lines), shape repairs."""
+    import shapes as shp
+    t = cs.load_piece(name)
+    n_in, deep = shp.repair_base(t, body)
+    if poke:
+        repair_poke(name, body, log=log)
+    if double:
+        double_exposed(name, body, log=log)
+    mc.delete(t)
+    t = cs.load_piece(name)
+    made, out = [], {}
+    if shapes_:
+        mc.delete(t)
+        t = cs.load_piece(name)
+        for suf, attr, f in cs.body_shapes(sex):
+            if suf in SKIP_SHAPES or not os.path.exists(f):
+                continue
+            G0, G1, _ = shp.shape_field(t, body, attr)
+            shp.write_shape(t, suf, G0, G1)
+            shp.link_assets(name, suf, attr)
+            made.append(suf)
+        for x in (t, t + "_BS"):
+            if mc.objExists(x):
+                mc.delete(x)
+        t = cs.load_piece(name)
+        r = shp.repair(t, body, shp.repair_states(sex))
+        out = dict(verts=nv, tris=nt, rest_fixed=(n_in, round(deep, 2)), shapes=made,
+                   repair={k: v for k, v in r.items() if v[0] > 0})
+    log("BUILT %s: %d verts, %d tris, rest pushed %d (deepest %.2f cm), %d shapes" % (name, nv, nt, n_in, deep, len(made)))
+    return out
 
 
 # ---------------------------------------------------------------- weights copied from the solved Reach pieces
@@ -1008,6 +1179,7 @@ def repair_poke(name, body, want=0.6, passes=8, folder=cs.OUT, log=print):
     T = np.array(m.attrib["tri"]).reshape(-1, 3)
     P = np.array(m.attrib["p"]).reshape(-1, 3) * flip
     weld = shp._weld_ids(P * flip)
+    nweld = shp.facing_weld(P * flip, np.array(m.attrib["n"]).reshape(-1, 3))
     nb = shp._neighbours(T, weld)
     cs.rest_pose()
     cs.set_shape(None)
@@ -1067,7 +1239,7 @@ def repair_poke(name, body, want=0.6, passes=8, folder=cs.OUT, log=print):
     m.attrib["p"] = [float(x) for x in (P * flip).ravel()]
     n0 = np.array(m.attrib["n"]).reshape(-1, 3)
     Pf = P * flip
-    m.attrib["n"] = [float(x) for x in _vertex_normals(Pf, T, weld).ravel()]
+    m.attrib["n"] = [float(x) for x in _vertex_normals(Pf, T, nweld).ravel()]
     lo_, hi_ = Pf.min(0), Pf.max(0)
     m.find("aabb").attrib["min"] = [float(x) for x in lo_]
     m.find("aabb").attrib["max"] = [float(x) for x in hi_]
