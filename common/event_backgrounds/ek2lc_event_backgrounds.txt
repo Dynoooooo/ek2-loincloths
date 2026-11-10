@@ -1,7 +1,91 @@
-﻿# EK2 Loincloths: event backgrounds (art made by the user with an image generator, 2026-11-09).
+﻿# EK2 Loincloths: event backgrounds. Art made by the user's image generator (GPT Image 2.6); written by source/tools/install_art.py.
+ek2lc_weavers_hall = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_weavers_hall.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_feast_hall = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_feast_hall.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
 ek2lc_going_native = {
 	background = {
 		reference = "gfx/interface/illustrations/event_scenes/ek2lc_going_native.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_rite_lodge = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_rite_lodge.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_war_camp = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_war_camp.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_hist_grove = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_hist_grove.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_moonlit_forest = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_moonlit_forest.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_winter_hall = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_winter_hall.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_standing_stones = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_standing_stones.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_mammoth_spring = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_mammoth_spring.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_bloodroot_valley = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_bloodroot_valley.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_star_hill = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_star_hill.dds"
+		environment = "environment_frontend_west_main"
+		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
+	}
+}
+ek2lc_sun_temple = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/ek2lc_sun_temple.dds"
 		environment = "environment_frontend_west_main"
 		ambience = "event:/SFX/Events/Backgrounds/throneroom_western"
 	}

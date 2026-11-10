@@ -6,6 +6,7 @@ ek2lc_regalia.0001 = {
 	title = ek2lc_regalia.0001.t
 	desc = ek2lc_regalia.0001.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = personality_rational
@@ -79,6 +80,7 @@ ek2lc_regalia.0002 = {
 	title = ek2lc_regalia.0002.t
 	desc = ek2lc_regalia.0002.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = thinking
@@ -132,6 +134,7 @@ ek2lc_regalia.0003 = {
 	title = ek2lc_regalia.0003.t
 	desc = ek2lc_regalia.0003.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = personality_greedy
@@ -237,6 +240,7 @@ ek2lc_regalia.0010 = {
 	title = ek2lc_regalia.0010.t
 	desc = ek2lc_regalia.0010.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = happiness
@@ -318,6 +322,7 @@ ek2lc_regalia.0011 = {
 	title = ek2lc_regalia.0011.t
 	desc = ek2lc_regalia.0011.desc
 	theme = intrigue
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = anger
@@ -356,6 +361,7 @@ ek2lc_regalia.0012 = {
 	title = ek2lc_regalia.0012.t
 	desc = ek2lc_regalia.0012.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = thinking
@@ -410,6 +416,7 @@ ek2lc_regalia.0020 = {
 	title = ek2lc_regalia.0020.t
 	desc = ek2lc_regalia.0020.desc
 	theme = martial
+	override_background = { reference = ek2lc_weavers_hall }
 	trigger = {
 		is_ruler = yes
 		any_knight = {
@@ -483,6 +490,7 @@ ek2lc_regalia.0030 = {
 	title = ek2lc_regalia.0030.t
 	desc = ek2lc_regalia.0030.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	trigger = {
 		any_character_artifact = {
 			has_variable = ek2lc_regalia
@@ -522,6 +530,7 @@ ek2lc_regalia.0040 = {
 	title = ek2lc_regalia.0040.t
 	desc = ek2lc_regalia.0040.desc
 	theme = dynasty
+	override_background = { reference = ek2lc_going_native }
 	trigger = {
 		is_ruler = yes
 		NOT = { has_character_flag = ek2lc_wore_heirloom }
@@ -565,6 +574,7 @@ ek2lc_regalia.0013 = {
 	title = ek2lc_regalia.0013.t
 	desc = ek2lc_regalia.0013.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	left_portrait = {
 		character = root
 		animation = disappointed
@@ -591,6 +601,7 @@ ek2lc_regalia.0050 = {
 	title = ek2lc_regalia.0050.t
 	desc = ek2lc_regalia.0050.desc
 	theme = intrigue
+	override_background = { reference = ek2lc_feast_hall }
 	trigger = {
 		is_ruler = yes
 		any_character_artifact = { has_variable = ek2lc_regalia }
@@ -639,6 +650,7 @@ ek2lc_regalia.0060 = {
 	title = ek2lc_regalia.0060.t
 	desc = ek2lc_regalia.0060.desc
 	theme = stewardship
+	override_background = { reference = ek2lc_weavers_hall }
 	trigger = {
 		is_ruler = yes
 		NOT = { employs_court_position = ek2lc_loincloth_maker_court_position }

@@ -6,6 +6,7 @@ ek2lc_life.0001 = {
 	title = ek2lc_life.0001.t
 	desc = ek2lc_life.0001.desc
 	theme = family
+	override_background = { reference = ek2lc_rite_lodge }
 	trigger = { is_ai = no }
 	left_portrait = {
 		character = root
@@ -31,6 +32,7 @@ ek2lc_life.0002 = {
 	title = ek2lc_life.0002.t
 	desc = ek2lc_life.0002.desc
 	theme = family
+	override_background = { reference = ek2lc_rite_lodge }
 	trigger = {
 		is_ai = yes
 		OR = {
@@ -77,6 +79,7 @@ ek2lc_life.0010 = {
 	title = ek2lc_life.0010.t
 	desc = ek2lc_life.0010.desc
 	theme = martial
+	override_background = { reference = ek2lc_war_camp }
 	left_portrait = {
 		character = root
 		animation = personality_bold
@@ -101,6 +104,7 @@ ek2lc_life.0020 = {
 	title = ek2lc_life.0020.t
 	desc = ek2lc_life.0020.desc
 	theme = party
+	override_background = { reference = ek2lc_feast_hall }
 	trigger = {
 		is_ai = no
 		age >= 16
@@ -149,6 +153,7 @@ ek2lc_life.0030 = {
 	title = ek2lc_life.0030.t
 	desc = ek2lc_life.0030.desc
 	theme = realm
+	override_background = { reference = ek2lc_feast_hall }
 	trigger = {
 		is_ai = no
 		highest_held_title_tier >= tier_duchy
@@ -186,6 +191,7 @@ ek2lc_life.0040 = {
 	title = ek2lc_life.0040.t
 	desc = ek2lc_life.0040.desc
 	theme = diplomacy
+	override_background = { reference = ek2lc_feast_hall }
 	trigger = {
 		is_ai = no
 		is_ruler = yes
@@ -253,6 +259,7 @@ ek2lc_life.0050 = {
 	title = ek2lc_life.0050.t
 	desc = ek2lc_life.0050.desc
 	theme = faith
+	override_background = { reference = ek2lc_hist_grove }
 	trigger = {
 		is_ai = no
 		culture ?= { has_clothing_gfx = ek_argonian_clothing_gfx }
@@ -281,6 +288,7 @@ ek2lc_life.0070 = {
 	title = ek2lc_life.0070.t
 	desc = ek2lc_life.0070.desc
 	theme = hunting
+	override_background = { reference = ek2lc_moonlit_forest }
 	trigger = {
 		is_ai = no
 		has_trait = lycan_character
@@ -311,6 +319,7 @@ ek2lc_life.0080 = {
 	title = ek2lc_life.0080.t
 	desc = ek2lc_life.0080.desc
 	theme = physical_health
+	override_background = { reference = ek2lc_winter_hall }
 	trigger = {
 		is_ai = no
 		ek2lc_winter_trigger = yes
