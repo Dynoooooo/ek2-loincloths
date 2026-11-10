@@ -1640,9 +1640,9 @@ variation = {
 	name = "ek2lc_people_giant_everyday_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_giant_everyday_01_palette.dds" }
@@ -1652,9 +1652,9 @@ variation = {
 	name = "ek2lc_people_giant_festive_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_giant_festive_01_palette.dds" }
@@ -1664,9 +1664,9 @@ variation = {
 	name = "ek2lc_people_giant_ruler_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_giant_ruler_01_palette.dds" }
@@ -1676,9 +1676,9 @@ variation = {
 	name = "ek2lc_people_giant_warrior_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_giant_warrior_01_palette.dds" }
@@ -1688,9 +1688,9 @@ variation = {
 	name = "ek2lc_people_keptu_everyday_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_keptu_everyday_01_palette.dds" }
@@ -1700,9 +1700,9 @@ variation = {
 	name = "ek2lc_people_keptu_festive_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_keptu_festive_01_palette.dds" }
@@ -1724,9 +1724,9 @@ variation = {
 	name = "ek2lc_people_keptu_warrior_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_keptu_warrior_01_palette.dds" }
@@ -1736,9 +1736,9 @@ variation = {
 	name = "ek2lc_people_nede_everyday_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_nede_everyday_01_palette.dds" }
@@ -1748,9 +1748,9 @@ variation = {
 	name = "ek2lc_people_nede_festive_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_nede_festive_01_palette.dds" }
@@ -1760,9 +1760,9 @@ variation = {
 	name = "ek2lc_people_nede_ruler_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_nede_ruler_01_palette.dds" }
@@ -1772,9 +1772,9 @@ variation = {
 	name = "ek2lc_people_nede_warrior_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a179"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_nede_warrior_01_palette.dds" }
@@ -1784,9 +1784,9 @@ variation = {
 	name = "ek2lc_people_yokudan_everyday_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_yokudan_everyday_01_palette.dds" }
@@ -1796,9 +1796,9 @@ variation = {
 	name = "ek2lc_people_yokudan_festive_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_yokudan_festive_01_palette.dds" }
@@ -1808,9 +1808,9 @@ variation = {
 	name = "ek2lc_people_yokudan_ruler_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_yokudan_ruler_01_palette.dds" }
@@ -1820,9 +1820,9 @@ variation = {
 	name = "ek2lc_people_yokudan_warrior_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_people_yokudan_warrior_01_palette.dds" }

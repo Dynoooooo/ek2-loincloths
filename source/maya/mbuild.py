@@ -73,19 +73,40 @@ def join(subs, Ps):
     return j
 
 
-def split_top(g):
-    """Mask of the parts above the widest empty height band between parts (a chest wrap above a loincloth)."""
+def split_top(g, overlap=0.04):
+    """Mask of the chest wrap: the parts lying above the main (largest) part, allowing them to dip `overlap` of the
+    garment's height below its top (a wrap's hem can reach down past the belt's top edge)."""
     y = g.V[:, 1]
-    rng = sorted((y[g.part == p].min(), y[g.part == p].max(), p) for p in np.unique(g.part))
-    best, cut, hi = 0.0, None, rng[0][1]
-    for lo_, hi_, p in rng[1:]:
-        if lo_ - hi > best:
-            best, cut = lo_ - hi, (hi + lo_) / 2
-        hi = max(hi, hi_)
     h = y.max() - y.min()
-    if cut is None or best < 0.008 * h:
-        return np.zeros(len(y), bool)
-    return y > cut
+    ids, cnt = np.unique(g.part, return_counts=True)
+    main = ids[np.argmax(cnt)]
+    top_main = y[g.part == main].max()
+    mask = np.zeros(len(y), bool)
+    for p in ids:
+        if p == main:
+            continue
+        m = g.part == p
+        if (y[m].min() > top_main - overlap * h and np.median(y[m]) > top_main) or (y[m] > top_main).mean() > 0.7:
+            mask |= m   # (the second: a wrap whose tie hangs down past the belt)
+    return mask
+
+
+def crotch_mask(g, frac=0.4, ring_h=0.05):
+    """Vertices of a strip passing between the legs (near the garment's axis, below its belt ring), in Meshy's
+    coordinates. The radial fit can't pass between the legs (it lays them across both thighs as a bar), so they are
+    dropped; the strip's front and back ends still hang as narrow aprons."""
+    co = g.V
+    y = co[:, 1]
+    gc = np.array([(co[:, 0].min() + co[:, 0].max()) / 2, 0.0, (co[:, 2].min() + co[:, 2].max()) / 2])
+    rad = np.hypot(co[:, 0] - gc[0], co[:, 2] - gc[2])
+    a = _ang(co, gc)
+    kb = (a / (2 * math.pi) * MB).astype(int) % MB
+    far = rad > 0.3 * rad.max()
+    top = np.array([y[far & (kb == k)].max() if (far & (kb == k)).any() else np.nan for k in range(MB)])
+    zt = np.nanmedian(top)
+    ring = (y >= zt - ring_h) & (y <= zt + 0.01)
+    zr, r_med = y[ring].mean(), np.median(rad[ring])
+    return (rad < frac * r_med) & (y < zr - 2 * ring_h)
 
 
 def _hull_radii(R, angs):
@@ -144,7 +165,7 @@ def fit_band(g, body, top=3.5, bot=-7.5, gap=0.35, max_thick=1.0, log=print):
     rows = np.arange(math.floor(yt.min()) - 1, math.ceil(yt.max()) + 2, MZ)
     R = np.zeros((MB, len(rows)))
     for j, yy in enumerate(rows):
-        R[:, j] = _hull_radii(B.radii(yy, angs), angs)
+        R[:, j] = _hull_radii(B.radii(yy, angs, chest=True), angs)
     kb = (a / (2 * math.pi) * MB).astype(int) % MB
     jb = np.clip(np.round((yt - rows[0]) / MZ).astype(int), 0, len(rows) - 1)
     inner_k = np.array([np.percentile(rad[kb == k], 20) if (kb == k).sum() > 3 else np.nan for k in range(MB)])
@@ -228,8 +249,10 @@ class Body:
         arm = info["arm"]
         keep = ~(arm[T].any(1))
         self.P, self.T_all, self.T = P, T, T[keep]
-        shoulder = np.array([("shoulder" in j or "clavicle" in j) for j in info["dom"]]) | arm
+        shoulder = np.array([any(k in j for k in ("shoulder", "clavicle", "deltoid", "upperarm", "bicep")) for j in info["dom"]]) | arm
         self.T_chest = T[~(shoulder[T].any(1))]   # a chest wrap follows the chest and spine, not the upper arms
+        tc = P[self.T_chest]
+        self.chest_tri = (tc[:, 0], tc[:, 1] - tc[:, 0], tc[:, 2] - tc[:, 0])
         Ts = [P[self.T]]
         for o in over:
             Po = au.pts(o)
@@ -245,8 +268,9 @@ class Body:
         self.W, self.infl = au.skin_weights(body)
         self._cz = {}
 
-    def hits(self, O, D, maxd=400.0):
-        return _ray_first(np.asarray(O, float), np.asarray(D, float), self.A, self.E1, self.E2, maxd)
+    def hits(self, O, D, maxd=400.0, chest=False):
+        A, E1, E2 = self.chest_tri if chest else (self.A, self.E1, self.E2)
+        return _ray_first(np.asarray(O, float), np.asarray(D, float), A, E1, E2, maxd)
 
     def cz(self, y):
         """Centre (z) at height y: half way between the front and back of the body; between the legs, the crotch's."""
@@ -261,11 +285,11 @@ class Body:
             self._cz[key] = ((200 - t[0]) + (-200 + t[1])) / 2
         return self._cz[key]
 
-    def radii(self, y, angs):
-        """Outermost body radius at height y for each angle, from the centre at that height."""
+    def radii(self, y, angs, chest=False):
+        """Outermost body radius at height y for each angle, from the centre at that height (chest: torso only)."""
         c = np.array([0.0, y, self.cz(y)])
         d = np.c_[np.sin(angs), np.zeros(len(angs)), np.cos(angs)]
-        t = self.hits(c + d * 80.0, -d, 80.0)
+        t = self.hits(c + d * 80.0, -d, 80.0, chest)
         r = 80.0 - t
         r[~np.isfinite(t)] = np.nan
         if np.isnan(r).all():
@@ -710,7 +734,7 @@ SKIP_SHAPES = ("imgan", "briarheart")  # feet only / chest cavity only: nothing 
 
 
 def build(key, base, tset=None, sexes=("male", "female"), fit_kw=None, band_kw=None, band=True, shapes_=True,
-          tex=True, log=print):
+          tex=True, strip=True, log=print):
     """source/meshy/<key> -> gfx/.../ek2lc_<m|f>_<base>_01.mesh (+ shapes, asset lines) and texture set `tset`
     (default ek2lc_<base>_01). Women get the garment's top part as a chest wrap (band=True), men never."""
     import shapes as shp
@@ -724,7 +748,11 @@ def build(key, base, tset=None, sexes=("male", "female"), fit_kw=None, band_kw=N
         B = Body(body)
         g = load(key)
         top = split_top(g)
+        drop = crotch_mask(Sub(g, ~top)) if strip else None
         lo = Sub(g, ~top)
+        if drop is not None and drop.any():
+            lo = Sub(lo, ~drop)
+            log("STRIP %s: %d vertices between the legs dropped" % (key, drop.sum()))
         subs, Ps = [lo], [fit(lo, B, log=log, **(fit_kw or {}))]
         if sex == "female" and band and top.any():
             hi = Sub(g, top)
@@ -736,6 +764,9 @@ def build(key, base, tset=None, sexes=("male", "female"), fit_kw=None, band_kw=N
         write_mesh(name, sex, j.V, j, bones, w, tset)
         t = cs.load_piece(name)
         n_in, deep = shp.repair_base(t, body)
+        repair_poke(name, body, log=log)
+        mc.delete(t)
+        t = cs.load_piece(name)
         made = []
         if shapes_:
             mc.delete(t)
@@ -923,3 +954,87 @@ def solved_weights(name, P, k=4):
             out_b.append([b for b, _ in row] + [""] * (4 - len(row)))
             out_w.append([x / ssum for _, x in row] + [0.0] * (4 - len(row)))
     return out_b, np.array(out_w)
+
+
+def repair_poke(name, body, want=0.6, passes=8, folder=cs.OUT, log=print):
+    """Push the base mesh out where body vertices poke through it (Meshy's remesh leaves big flat triangles over the
+    curved buttocks and belly): each poking body vertex pushes the three corners of the garment triangle in front of
+    it out along its normal to `want` cm outside, spread to their neighbours. Rewrites <name>.mesh only (run it before
+    the shapes are made). Returns (poking before, after, deepest before)."""
+    import shapes as shp
+    from io_pdx_mesh import pdx_data
+    flip = np.array([1.0, 1.0, -1.0])
+    f0 = "%s/%s.mesh" % (folder, name)
+    root = pdx_data.read_meshfile(f0)
+    m = root.find("object")[0].find("mesh")
+    T = np.array(m.attrib["tri"]).reshape(-1, 3)
+    P = np.array(m.attrib["p"]).reshape(-1, 3) * flip
+    weld = shp._weld_ids(P * flip)
+    nb = shp._neighbours(T, weld)
+    cs.rest_pose()
+    cs.set_shape(None)
+    Bp0, Bn0 = au.pts(body), au.vnormals(body)
+    arm0 = au.body_info(body)["arm"]
+    BT, _ = au.tris(body)
+    # the body's vertices and points on its faces (centres, edge middles): a low-res body pokes through between
+    # its vertices too
+    samp = [Bp0]
+    nrm = [Bn0]
+    armv = [arm0]
+    for bc in ((1 / 3, 1 / 3, 1 / 3), (0.5, 0.5, 0.0), (0.0, 0.5, 0.5), (0.5, 0.0, 0.5)):
+        samp.append(sum(Bp0[BT[:, i]] * bc[i] for i in range(3)))
+        nn = sum(Bn0[BT[:, i]] * bc[i] for i in range(3))
+        nrm.append(nn / np.maximum(np.linalg.norm(nn, axis=1, keepdims=True), 1e-12))
+        armv.append(arm0[BT].any(1))
+    Bp, Bn, arm = np.vstack(samp), np.vstack(nrm), np.concatenate(armv)
+    first = None
+    for it in range(passes):
+        A, Bv, C = P[T[:, 0]], P[T[:, 1]], P[T[:, 2]]
+        fn = np.cross(Bv - A, C - A)
+        fn /= np.maximum(np.linalg.norm(fn, axis=1, keepdims=True), 1e-12)
+        cen = (A + Bv + C) / 3
+        lo, hi = P.min(0) - 2, P.max(0) + 2
+        near = np.nonzero(~arm & (Bp >= lo).all(1) & (Bp <= hi).all(1))[0]
+        push = np.zeros(len(P))
+        dirs = np.zeros_like(P)
+        worst, n = 0.0, 0
+        for s in range(0, len(near), 256):
+            ii = near[s:s + 256]
+            b = Bp[ii]
+            d2 = ((b[:, None, :] - cen[None]) ** 2).sum(-1)
+            cand = np.argpartition(d2, 12, axis=1)[:, :12]
+            R = wsolve.closest_on_tris(b[:, None, :], A[cand], Bv[cand], C[cand])
+            dd = ((R - b[:, None, :]) ** 2).sum(-1)
+            k = dd.argmin(1)
+            f = cand[np.arange(len(ii)), k]
+            q = R[np.arange(len(ii)), k]
+            dist = np.sqrt(dd[np.arange(len(ii)), k])
+            # the body vertex is in front of the garment (outside it) if it lies on the side the body normal points to
+            side = ((b - q) * Bn[ii]).sum(1)
+            poke = (side > 0) & (dist < 3.0) & ((fn[f] * Bn[ii]).sum(1) > 0.2)
+            for r in np.nonzero(poke)[0]:
+                need = side[r] + want
+                for v in T[f[r]]:
+                    if need > push[v]:
+                        push[v] = need
+                        dirs[v] = Bn[ii[r]]
+                worst = max(worst, side[r])
+                n += 1
+        if first is None:
+            first = (n, worst)
+        if n == 0:
+            break
+        c = shp._spread(shp.spatial_spread(P, push[:, None] * dirs), nb)
+        P = P + c
+    m.attrib["p"] = [float(x) for x in (P * flip).ravel()]
+    n0 = np.array(m.attrib["n"]).reshape(-1, 3)
+    Pf = P * flip
+    m.attrib["n"] = [float(x) for x in _vertex_normals(Pf, T, weld).ravel()]
+    lo_, hi_ = Pf.min(0), Pf.max(0)
+    m.find("aabb").attrib["min"] = [float(x) for x in lo_]
+    m.find("aabb").attrib["max"] = [float(x) for x in hi_]
+    cc = (lo_ + hi_) / 2
+    m.attrib["boundingsphere"] = [float(x) for x in cc] + [float(np.linalg.norm(Pf - cc, axis=1).max())]
+    pdx_data.write_meshfile(f0, root)
+    log("POKE %s: %d body vertices through (deepest %.2f cm), %d after %d passes" % (name, first[0], first[1], n, it + 1))
+    return first[0], n, first[1]

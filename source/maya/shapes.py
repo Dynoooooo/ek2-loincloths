@@ -143,6 +143,28 @@ def _neighbours(T, weld):
     return out
 
 
+def spatial_spread(P, c, r0=0.6, r1=2.5):
+    """A per-vertex push (V x 3) carried to every vertex within r1 cm (full up to r0, smooth falloff), taking the
+    strongest; so both layers of a two-sided Meshy panel move together (pushing only the layer touching the skin
+    pops it through the outer one, 2026-11-10)."""
+    m = np.linalg.norm(c, axis=1)
+    src = np.nonzero(m > 1e-6)[0]
+    out = c.copy()
+    best = m.copy()
+    for s in range(0, len(src), 256):
+        ii = src[s:s + 256]
+        d = np.sqrt(((P[None, :, :] - P[ii, None, :]) ** 2).sum(-1))       # (k, V)
+        w = np.clip((r1 - d) / (r1 - r0), 0.0, 1.0)
+        w = w * w * (3 - 2 * w)
+        val = w * m[ii, None]                                              # pushed amount each source gives
+        k = val.argmax(0)
+        v = val[k, np.arange(len(P))]
+        take = v > best
+        out[take] = c[ii[k[take]]] * w[k[take], np.nonzero(take)[0]][:, None]
+        best = np.maximum(best, v)
+    return out
+
+
 def _spread(c, nb, iters=4):
     """Spread a per-vertex push (V x 3) to neighbours, never lowering a vertex's own push (as smooth_max)."""
     m = np.linalg.norm(c, axis=1)
@@ -203,7 +225,7 @@ def repair(piece, body, states, keep=0.3, folder=cs.OUT, passes=1):
             report[name] = (round(before, 2), round(before, 2))
             cs.set_shape(None)
             continue
-        c = _spread(need[:, None] * N, nb)
+        c = _spread(spatial_spread(G0, need[:, None] * N), nb)
         # share between the state's shapes by the body's outward move at each point (nearest body vertex)
         moves = {}
         for a in ws:
@@ -266,7 +288,7 @@ def repair_base(piece, body, want=0.15, folder=cs.OUT):
     T = np.array(mb.attrib["tri"]).reshape(-1, 3)
     Pf0 = np.array(mb.attrib["p"]).reshape(-1, 3)
     weld = _weld_ids(Pf0)
-    c = _spread(need[:, None] * N, _neighbours(T, weld)) * flip
+    c = _spread(spatial_spread(G0, need[:, None] * N), _neighbours(T, weld)) * flip
     files = [f0] + ["%s/%s" % (folder, f) for f in sorted(os.listdir(folder)) if f.startswith(piece + "_bs_") and f.endswith(".mesh")]
     for f in files:
         root = base if f == f0 else pdx_data.read_meshfile(f)
