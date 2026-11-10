@@ -33,6 +33,7 @@ BACKGROUNDS = {
 }
 # decision -> picture key (gfx/interface/illustrations/decisions/<key>.dds)
 DECISIONS = {
+    "ek2lc_commission_regalia_decision": "ek2lc_commission_regalia",  # replaced the headless Blender render (2026-11-10)
     "ek2lc_loincloth_festival_decision": "ek2lc_festival",
     "ek2lc_go_native_decision": "ek2lc_go_native",
     "ek2lc_end_native_decision": "ek2lc_end_native",
