@@ -272,9 +272,9 @@ variation = {
 	name = "ek2lc_art_champion_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_art_champion_01_palette.dds" }
@@ -620,9 +620,9 @@ variation = {
 	name = "ek2lc_elder_wrap_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_elder_wrap_01_palette.dds" }
@@ -764,9 +764,9 @@ variation = {
 	name = "ek2lc_holy_tabard_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_holy_tabard_01_palette.dds" }
@@ -1508,9 +1508,9 @@ variation = {
 	name = "ek2lc_mourning_wrap_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g51_a166"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_mourning_wrap_01_palette.dds" }
@@ -1832,9 +1832,9 @@ variation = {
 	name = "ek2lc_priest_apron_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g46_a191"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_priest_apron_01_palette.dds" }
@@ -2012,9 +2012,9 @@ variation = {
 	name = "ek2lc_wedding_wrap_01"
 	pattern = {
 		weight = 1
-		r = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
-		g = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
-		b = { textures = "ek2lc_solid_g56_a153"	layout = "ek2lc_flat" }
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_wedding_wrap_01_palette.dds" }

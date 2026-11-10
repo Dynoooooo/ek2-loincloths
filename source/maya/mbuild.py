@@ -91,6 +91,21 @@ def split_top(g, overlap=0.04):
     return mask
 
 
+def auto_yaw(g, ring_h=0.05):
+    """Turn (degrees) that puts the garment's two biggest hanging panels at the front and back: the axis through the
+    angle pair (a, a + 180) holding the most hanging vertices."""
+    co = g.V
+    y = co[:, 1]
+    gc = np.array([(co[:, 0].min() + co[:, 0].max()) / 2, 0.0, (co[:, 2].min() + co[:, 2].max()) / 2])
+    hang = y < y.max() - 0.25 * (y.max() - y.min())
+    a = _ang(co[hang], gc)
+    h, _ = np.histogram(a, bins=72, range=(0, 2 * math.pi))
+    w = np.convolve(np.r_[h, h, h], np.ones(7), "same")[72:144]
+    pair = w + np.roll(w, 36)
+    k = int(np.argmax(pair[:36]))
+    return -math.degrees((k + 0.5) * 2 * math.pi / 72)
+
+
 def crotch_mask(g, frac=0.4, ring_h=0.05):
     """Vertices of a strip passing between the legs (near the garment's axis, below its belt ring), in Meshy's
     coordinates. The radial fit can't pass between the legs (it lays them across both thighs as a bar), so they are
@@ -734,7 +749,7 @@ SKIP_SHAPES = ("imgan", "briarheart")  # feet only / chest cavity only: nothing 
 
 
 def build(key, base, tset=None, sexes=("male", "female"), fit_kw=None, band_kw=None, band=True, shapes_=True,
-          tex=True, strip=True, log=print):
+          tex=True, strip=True, over=(), yaw=0.0, log=print):
     """source/meshy/<key> -> gfx/.../ek2lc_<m|f>_<base>_01.mesh (+ shapes, asset lines) and texture set `tset`
     (default ek2lc_<base>_01). Women get the garment's top part as a chest wrap (band=True), men never."""
     import shapes as shp
@@ -745,8 +760,20 @@ def build(key, base, tset=None, sexes=("male", "female"), fit_kw=None, band_kw=N
         cs.new_scene()
         au._BODY.clear()
         body = cs.load_body(sex)
-        B = Body(body)
+        obst = [cs.load_piece("ek2lc_%s_%s_01" % (sex[0], o)) for o in over]   # worn under it: fitted over them
+        B = Body(body, obst)
+        for o in obst:
+            for x in (o, o + "_BS"):
+                if mc.objExists(x):
+                    mc.delete(x)
         g = load(key)
+        if yaw == "auto":
+            yaw = auto_yaw(g)
+            log("YAW %s: %.0f deg" % (key, yaw))
+        if yaw:  # Meshy took a three-quarter concept's view as the front: turn the garment round its axis
+            c_, s_ = math.cos(math.radians(yaw)), math.sin(math.radians(yaw))
+            x, z = g.V[:, 0].copy(), g.V[:, 2].copy()
+            g.V[:, 0], g.V[:, 2] = c_ * x + s_ * z, -s_ * x + c_ * z
         top = split_top(g)
         drop = crotch_mask(Sub(g, ~top)) if strip else None
         lo = Sub(g, ~top)
@@ -1038,3 +1065,36 @@ def repair_poke(name, body, want=0.6, passes=8, folder=cs.OUT, log=print):
     pdx_data.write_meshfile(f0, root)
     log("POKE %s: %d body vertices through (deepest %.2f cm), %d after %d passes" % (name, first[0], first[1], n, it + 1))
     return first[0], n, first[1]
+
+
+def write_display(key, tset=None, sex="male", folder=cs.OUT, log=print):
+    """The artifact window's model of a regalia piece (art_*): the worn mesh of `sex`, unskinned and centred on the
+    origin, written into the existing ek2lc_<key>_artifact.mesh (vanilla's inventory artifacts are static meshes with
+    the court shader); its diffuse is the original PNG (make_colour.py divides the worn piece's by its mask)."""
+    import subprocess
+    import sys
+    from io_pdx_mesh import pdx_data
+    sys.path.insert(0, cs.MOD + "/source/tools")
+    import make_colour as mk
+    tset = tset or "ek2lc_%s_01" % key
+    src = pdx_data.read_meshfile("%s/ek2lc_%s_%s_01.mesh" % (folder, sex[0], key))
+    sm = src.find("object")[0].find("mesh")
+    out_p = "%s/ek2lc_%s_artifact.mesh" % (folder, key)
+    root = pdx_data.read_meshfile(out_p)
+    m = root.find("object")[0].find("mesh")
+    P = np.array(sm.attrib["p"]).reshape(-1, 3)
+    P = P - P.mean(0)
+    m.attrib["p"] = [float(x) for x in P.ravel()]
+    for k in ("n", "ta", "u0", "tri"):
+        m.attrib[k] = list(sm.attrib[k])
+    lo, hi = P.min(0), P.max(0)
+    m.find("aabb").attrib["min"] = [float(x) for x in lo]
+    m.find("aabb").attrib["max"] = [float(x) for x in hi]
+    c = (lo + hi) / 2
+    m.attrib["boundingsphere"] = [float(x) for x in c] + [float(np.linalg.norm(P - c, axis=1).max())]
+    if m.find("skin") is not None:
+        m.remove(m.find("skin"))
+    pdx_data.write_meshfile(out_p, root)
+    subprocess.run([mk.MAGICK, "%s/source/textures/%s_diffuse.png" % (cs.MOD, tset), "-define", "dds:compression=dxt5",
+                    "-define", "dds:mipmaps=10", "%s/%s_display_diffuse.dds" % (folder, tset)], check=True)
+    log("DISPLAY %s: %d verts" % (key, len(P)))

@@ -62,5 +62,29 @@
  "people_yokudan_festive": {
   "concept": "01a1c63a-3123-779c-a090-61b4841ebd48",
   "model": "01a1c63c-ce6d-75ad-ae8d-2f7b508345f7"
+ },
+ "art_champion": {
+  "concept": "01a1c665-2579-74c1-b72c-a6183039af63",
+  "model": "01a1c666-7071-7310-a7e9-3603039a2e45"
+ },
+ "priest_apron": {
+  "concept": "01a1c665-25f8-7457-b18a-959d86228c7b",
+  "model": "01a1c666-7da8-74ca-bc96-c848745dbd15"
+ },
+ "holy_tabard": {
+  "concept": "01a1c665-2665-718f-be6e-df63f7c26647",
+  "model": "01a1c666-8c0e-701f-8e5a-c6f1242c412c"
+ },
+ "wedding_wrap": {
+  "concept": "01a1c665-26d7-7433-8259-a03e5880ee46",
+  "model": "01a1c666-9f43-73e3-ba4f-7d672e5a9964"
+ },
+ "mourning_wrap": {
+  "concept": "01a1c665-27a1-7277-afd1-dc330649ace1",
+  "model": "01a1c666-abb0-7185-9fb8-bf75dd907178"
+ },
+ "elder_wrap": {
+  "concept": "01a1c665-2873-72cf-8c15-73d2383e36e4",
+  "model": "01a1c666-b62b-704b-b841-2cc0ecb73bfa"
  }
 }
