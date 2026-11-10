@@ -697,7 +697,7 @@ def make_shapes(name, body, folder=cs.OUT, repair=True, log=print):
 
 
 # ---------------------------------------------------------------- textures
-def textures(key, tset, size=2048, props=(0.0, 0.221, 0.0, 0.598), log=print):
+def textures(key, tset, size=2048, props=(0.0, 0.221, 0.0, 0.598), metal=(1.0, 0.5, 0.75, 0.35), log=print):
     """source/meshy/<key>/ textures -> source/textures/<tset>_{diffuse,normal,properties}.png and the normal and
     properties .dds (DXT5, full mips) in the model folder. The diffuse .dds and the colour mask are written by
     tools/make_colour.py afterwards (it reads the PNG). Normal: Meshy's tangent-space map with X in alpha and Y in
@@ -732,6 +732,17 @@ def textures(key, tset, size=2048, props=(0.0, 0.221, 0.0, 0.598), log=print):
     _png(out, "%s/%s_normal.png" % (tex, tset), mk)
     mk.write_dds(out.astype(np.float32), "%s/%s_normal.dds" % (cs.OUT, tset), "dxt5")
     pr = np.broadcast_to(np.array(props, float), (size, size, 4)).copy()
+    met = pick("metallic")
+    if met:  # metal as vanilla marks it (R 1, B ~0.75, A ~0.35): it then keeps its colour when a colour is picked
+        rgb = d[..., :3]
+        mx, mn = rgb.max(-1), rgb.min(-1)
+        sat = np.where(mx > 1e-6, (mx - mn) / np.maximum(mx, 1e-6), 0.0)
+        r_, g_, b_ = rgb[..., 0], rgb[..., 1], rgb[..., 2]
+        hue = (np.degrees(np.arctan2(np.sqrt(3) * (g_ - b_), 2 * r_ - g_ - b_)) + 360) % 360
+        looks = ((hue > 25) & (hue < 65) & (mx > 0.4)) | (sat < 0.25)   # gold, brass, or grey iron and silver
+        mm = (rd(met)[..., 0] > 0.5) & looks   # Meshy grades silk as half metal: the colour has to look metal too
+        pr[mm] = metal
+        log("TEX %s: %.1f%% metal" % (key, 100 * mm.mean()))
     _png(pr, "%s/%s_properties.png" % (tex, tset), mk)
     mk.write_dds(pr.astype(np.float32), "%s/%s_properties.dds" % (cs.OUT, tset), "dxt5")
     log("TEX %s -> %s (normal %s)" % (key, tset, "Meshy" if nrm else "flat"))
