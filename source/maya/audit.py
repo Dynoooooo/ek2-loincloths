@@ -162,6 +162,51 @@ def measure(piece, body, rest_lengths=None, e=None):
     return res
 
 
+_IMG = {}
+
+
+def _alpha_image(path):
+    if path not in _IMG:
+        import subprocess
+        mg = "/opt/homebrew/bin/magick"
+        wh = subprocess.run([mg, "identify", "-format", "%w %h", path + "[0]"], capture_output=True, text=True).stdout.split()
+        w, h = int(wh[0]), int(wh[1])
+        raw = subprocess.run([mg, path + "[0]", "-alpha", "extract", "-depth", "8", "gray:-"], capture_output=True).stdout
+        _IMG[path] = np.frombuffer(raw, dtype=np.uint8).reshape(h, w).astype(np.float32) / 255.0  # row 0 = top
+    return _IMG[path]
+
+
+def alpha_area(piece, tex_path, samples=((1/3, 1/3), (0.6, 0.2), (0.2, 0.6), (0.2, 0.2))):
+    """Fraction of the piece's area whose texture alpha is under 0.5 (what alpha-to-coverage cuts away), and the
+    same per shell. Fringes and cut-out edges are meant; a big fraction in the middle of a panel is a hole."""
+    A_ = _alpha_image(tex_path)
+    H, W_ = A_.shape
+    P = pts(piece)
+    T, _ = tris(piece)
+    fn = om.MFnMesh(_dag(piece))
+    us, vs = fn.getUVs()
+    us, vs = np.array(us), np.array(vs)
+    tri_uv = []
+    it = om.MItMeshPolygon(_dag(piece))
+    while not it.isDone():
+        vl = list(it.getVertices())
+        for t_ in range(it.numTriangles()):
+            _, tv = it.getTriangle(t_)
+            tri_uv.append([it.getUVIndex(vl.index(v)) for v in tv])
+        it.next()
+    tri_uv = np.array(tri_uv)
+    UV = np.stack([us, vs], 1)[tri_uv]  # T x 3 x 2
+    area = np.linalg.norm(np.cross(P[T[:, 1]] - P[T[:, 0]], P[T[:, 2]] - P[T[:, 0]]), axis=1) / 2
+    cut = np.zeros(len(T))
+    for a, b in samples:
+        uv = UV[:, 0] * (1 - a - b) + UV[:, 1] * a + UV[:, 2] * b
+        x = np.clip((uv[:, 0] % 1.0) * W_, 0, W_ - 1).astype(int)
+        y = np.clip((uv[:, 1] % 1.0) * H, 0, H - 1).astype(int)
+        cut += A_[H - 1 - y, x] < 0.5
+    cut /= len(samples)
+    return float((area * cut).sum() / area.sum()), cut, area
+
+
 def static(piece, body):
     """Rest pose, no shapes: influences, shells (floating, facing inwards), UV stretch."""
     out = {}

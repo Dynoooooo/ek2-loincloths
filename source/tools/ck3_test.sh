@@ -3,7 +3,7 @@
 # runs CK3 in a window, and puts everything back afterwards.
 #   ck3_test.sh start [mod ...]   back up, switch to windowed 2560x1600, load only EK2 + this mod (+ the named mods
 #                       after it, e.g. ugc_2220326926 = Better Barbershop), start as Aldrydd of Druadach
-#                       (PLAY=<title> to start as someone else, e.g. PLAY=k_falkreath for Yashnag; NOMOD=1 for EK2 alone)
+#                       (OPEN=1 to launch through LaunchServices; PLAY=<title> to start as someone else, e.g. PLAY=k_falkreath for Yashnag; NOMOD=1 for EK2 alone)
 #   ck3_test.sh wait    wait until the map is running (up to 5 minutes)
 #   ck3_test.sh stop    quit CK3 and restore the backups
 set -e
@@ -40,8 +40,14 @@ json.dump(d, open(p, "w"), indent=2)
 PY
   date +%s > "$B/launched_at"
   cd "$BIN"
-  nohup ./ck3.app/Contents/MacOS/ck3 -gdpr-compliant -debug_mode -skip -bookmark=bm_interregnum -play=${PLAY:-d_druadach} >/dev/null 2>&1 &
-  echo "launched, pid $!"
+  ARGS="-gdpr-compliant -debug_mode -skip -bookmark=bm_interregnum -play=${PLAY:-d_druadach}"
+  if [ -n "$OPEN" ]; then  # through LaunchServices: a registered app, so Computer Use can type into it (2026-11-10)
+    open -a "$BIN/ck3.app" --args $ARGS
+    sleep 3; echo "launched, pid $(pgrep -x ck3)"
+  else
+    nohup ./ck3.app/Contents/MacOS/ck3 $ARGS >/dev/null 2>&1 &
+    echo "launched, pid $!"
+  fi
   ;;
 wait)
   t0=$(cat "$B/launched_at")

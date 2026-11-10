@@ -110,6 +110,7 @@ ek2lc_go_native_decision = {
 	effect = {
 		trigger_event = ek2lc_life.0100
 	}
+	ai_check_interval = 0
 	ai_potential = { always = no }
 	ai_will_do = { base = 0 }
 }
@@ -138,6 +139,7 @@ ek2lc_end_native_decision = {
 		remove_character_flag = ek2lc_native_lilmothiit
 		remove_character_modifier = ek2lc_gone_native_modifier
 	}
+	ai_check_interval = 0
 	ai_potential = { always = no }
 	ai_will_do = { base = 0 }
 }
