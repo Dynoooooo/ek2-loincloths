@@ -1382,7 +1382,7 @@ def _fill(vals):
     return out
 
 
-def meshy_fit(co, s, gap=0.6, z_scale=0.85, ring_h=0.05):
+def meshy_fit(co, s, gap=0.6, z_scale=0.72, ring_h=0.05, tight=0.75):
     """Meshy positions co fitted to body shape s (see above)."""
     xs, ys = [c.x for c in co], [c.y for c in co]
     gc = Vector(((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2, 0.0))
@@ -1437,7 +1437,51 @@ def meshy_fit(co, s, gap=0.6, z_scale=0.85, ring_h=0.05):
                 best = max(best, r)
                 r = best
             R[k][j] = r
-    # how far out each vertex must go; the field's bins take the most of theirs
+    def rh(p):
+        return Vector((p.x - cb.x, p.y - cb.y)).length
+
+    def bin_of(p):
+        k = int(_ang(p, cb) / (2 * math.pi) * MB) % MB
+        return k, min(nz - 1, max(0, int(round((z_hi - p.z) / MZ))))
+
+    def field_at(F, p):
+        f = _ang(p, cb) / (2 * math.pi) * MB - 0.5
+        k0 = math.floor(f)
+        t = f - k0
+        g = min(nz - 1.001, max(0.0, (z_hi - p.z) / MZ))
+        j0 = int(g)
+        u = g - j0
+        return ((F[k0 % MB][j0] * (1 - t) + F[(k0 + 1) % MB][j0] * t) * (1 - u)
+                + (F[k0 % MB][j0 + 1] * (1 - t) + F[(k0 + 1) % MB][j0 + 1] * t) * u)
+
+    # tighten: Meshy's skirt flares off the body; pull each bin's innermost layer in by `tight` of its slack, every
+    # layer of the bin by the same amount (so they keep their order), the field filled and smoothed between bins
+    E = [[None] * nz for _ in range(MB)]
+    for p in out:
+        k, j = bin_of(p)
+        e = rh(p) - (R[k][j] + gap)
+        E[k][j] = e if E[k][j] is None else min(E[k][j], e)
+    T = [[(-max(0.0, e) * tight if e is not None else None) for e in row] for row in E]
+    for _ in range(200):  # empty bins from their filled neighbours
+        todo = False
+        nxt = [list(row) for row in T]
+        for k in range(MB):
+            for j in range(nz):
+                if T[k][j] is None:
+                    nb = [T[kk % MB][jj] for kk, jj in ((k - 1, j), (k + 1, j), (k, j - 1), (k, j + 1))
+                          if 0 <= jj < nz and T[kk % MB][jj] is not None]
+                    if nb:
+                        nxt[k][j] = sum(nb) / len(nb)
+                    else:
+                        todo = True
+        T = nxt
+        if not todo:
+            break
+    for _ in range(10):  # smooth, so a strip or streamer is moved as one (no kinks)
+        T = [[(T[k][j] * 2 + T[(k - 1) % MB][j] + T[(k + 1) % MB][j] + T[k][max(0, j - 1)] + T[k][min(nz - 1, j + 1)]) / 6
+              for j in range(nz)] for k in range(MB)]
+    out = [p + dirv(_ang(p, cb)) * field_at(T, p) for p in out]
+    # then how far out each vertex must still go; the field's bins take the most of theirs
     D = [[0.0] * nz for _ in range(MB)]
     for p in out:
         a = _ang(p, cb)
