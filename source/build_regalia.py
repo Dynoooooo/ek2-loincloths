@@ -208,8 +208,14 @@ class Atlas:
     def __init__(self, tset, size=1024, cells=4):
         self.tset, self.size, self.cells, self.used, self.mats = tset, size, cells, set(), []
 
+    def meshy(self, png, size=2048):
+        """Meshy's texture in the top 7/8 of the set; the bottom row of an 8x8 grid holds painted cells."""
+        self.image_png, self.size, self.cells = png, size, 8
+
     def cell(self, painter, w=1, h=1):
-        for j in range(self.cells - h + 1):
+        meshy = getattr(self, "image_png", None)
+        assert not meshy or h == 1, "a Meshy set has one row of cells"
+        for j in ([self.cells - 1] if meshy else range(self.cells - h + 1)):
             for i in range(self.cells - w + 1):
                 spots = {(i + a, j + b) for a in range(w) for b in range(h)}
                 if not spots & self.used:
@@ -228,6 +234,9 @@ class Atlas:
         nrm[..., 0] = nrm[..., 1] = nrm[..., 3] = 0.5
         props = np.zeros((S, S, 4), np.float32)
         props[..., 1], props[..., 3] = 0.22, 0.6
+        if getattr(self, "image_png", None):  # a Meshy piece: its texture on top, the painted cells below
+            top = meshy_image(self.image_png, S, px(c - 1))
+            img[:px(c - 1)] = top
         for k, (i, j, w, h, painter) in enumerate(self.mats):
             H, WD = px(j + h) - px(j), px(i + w) - px(i)
             yy, xx = np.mgrid[0:H, 0:WD].astype(np.float32)
@@ -253,6 +262,7 @@ class Piece:
         self.pos = {s: [] for s in ALL}
         self.faces, self.part, self.uvs, self.vw = [], [], [], []
         self.orient, self.wrap, self.wrap_u, self.np = [], set(), {}, 0
+        self.loop_uvs = None  # per-corner UVs (a Meshy piece)
 
     def verts(self, P, uvs, ws):
         b = len(self.uvs)
@@ -275,8 +285,11 @@ class Piece:
         self.part.append(part)
 
     def as_dict(self):
-        return dict(name=self.name, set=self.set, pos=self.pos, faces=self.faces, part=self.part, wrap=self.wrap,
-                    wrap_u=self.wrap_u, uvs=self.uvs, vw=self.vw, orient=self.orient)
+        d = dict(name=self.name, set=self.set, pos=self.pos, faces=self.faces, part=self.part, wrap=self.wrap,
+                 wrap_u=self.wrap_u, uvs=self.uvs, vw=self.vw, orient=self.orient)
+        if self.loop_uvs:
+            d["loop_uvs"] = self.loop_uvs
+        return d
 
 
 def _grid_n(P, R, C):
@@ -1296,66 +1309,194 @@ def P_torn(base_painter, holes=0.08, jag=0.12, claws=False, seed=0):
     return f
 
 
-def P_rope2(a, b):
-    """A rope twisted from two colours (red and white for the festival)."""
-    def f(U, V, rng, sh):
-        n = noise(sh, 10, int(rng.integers(1000000)))
-        ph = (U * 48 + V * 2.5) % 2  # bold diagonal twists round the ring
-        tw = 0.72 + 0.28 * np.sin(ph * np.pi)
-        col = np.where((ph < 1)[..., None], a, b)
-        return {"rgb": col * (tw * (0.88 + 0.2 * n))[..., None], "spec": np.full(sh, 0.2, np.float32),
-                "rough": np.full(sh, 0.7, np.float32)}
-    return f
+# ------------------------------------------------------------------ Meshy pieces
+# Made with Meshy (image to 3D: Smart Topology meshy-t2.5, about 4,000 triangles, textured by meshy-n1) from a GPT
+# Image design picture made on Meshy too; sources in source/meshy/<key>/ (concept.png, model.glb,
+# model_base_color.png). Fitted here to every body shape: the ring at the top goes on the belt line, scaled angle by
+# angle to the body's outline there; then everything is pushed out by a smooth field over angle and height (so
+# layers keep their order) until it clears the outermost of the body and leggings above it, as cloth hangs from the
+# widest part. Weights from the skin, blending into the skirt chains as it hangs (as the flaps).
+MESHY = os.path.join(SRC, "meshy")
+MB = 48  # angle bins round the body
+MZ = 1.0  # height rows (cm)
 
 
-def emb_festival(red):
-    """A red festival sunburst (a disc ringed with short rays, a white eye) and red hem stripes on white cloth."""
-    def e(U, V):
-        x, y = (U - 0.5) * 2, (V - 0.6) * 2.2
-        r, a = np.hypot(x, y), np.arctan2(y, x)
-        disc = (r < 0.26) & ~(r < 0.09)
-        rays = (np.cos(a * 12) > 0.35) & (r > 0.31) & (r < 0.46)
-        bands = ((V > 0.9) & (V < 0.94)) | ((V > 0.13) & (V < 0.16))
-        m = disc | rays | bands
-        return m, np.broadcast_to(red, m.shape + (3,))
-    return e
+def meshy_image(png, w, h):
+    """Meshy's base colour scaled to w x h, top row first (as the painters' arrays), opaque."""
+    im = bpy.data.images.load(png, check_existing=False)
+    im.scale(w, h)
+    a = np.empty(w * h * 4, np.float32)
+    im.pixels.foreach_get(a)
+    bpy.data.images.remove(im)
+    img = np.flipud(a.reshape(h, w, 4)).copy()
+    img[..., 3] = 1.0
+    return img
 
 
-def P_streamer(white):
-    """A zigzag cloth streamer: a strip folded into four steps (alpha cut)."""
-    base = P_silk(white, white * 0.85)
-    def f(U, V, rng, sh):
-        r = dict(base(U, V, rng, sh))
-        d = (1 - V) * 4
-        step, loc = np.floor(d), d % 1
-        cx = np.where(step % 2 == 0, 0.32, 0.68)
-        m = (np.abs(U - cx) < 0.2) | ((loc < 0.22) & (U > 0.32) & (U < 0.68))
-        r["a"] = m.astype(np.float32)
-        r["rgb"] = r["rgb"] * np.where(loc < 0.22, 0.85, 1.0)[..., None]
-        return r
-    return f
+def meshy_load(key):
+    """Meshy's GLB: welded positions (front turned to the body's front), triangles, per-corner UVs."""
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=os.path.join(MESHY, key, "model.glb"))
+    new = [o for o in bpy.data.objects if o not in before]
+    ob = next(o for o in new if o.type == "MESH")
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    bm.transform(ob.matrix_world)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5)
+    bm.verts.ensure_lookup_table()
+    uvl = bm.loops.layers.uv.active
+    co = [v.co.copy() for v in bm.verts]
+    faces = [[v.index for v in f.verts] for f in bm.faces]
+    luv = [[tuple(l[uvl].uv) for l in f.loops] for f in bm.faces]
+    bm.free()
+    data = [(o.data, list(o.data.materials)) for o in new if o.type == "MESH"]
+    drop(new)
+    for me, mats in data:
+        bpy.data.meshes.remove(me)
+        for m in mats:
+            if m and m.users == 0:
+                bpy.data.materials.remove(m)
+    if FRONT.y > 0:  # Meshy's front is -y: turn it round (a turn, not a mirror)
+        co = [Vector((-c.x, -c.y, c.z)) for c in co]
+    return co, faces, luv
+
+
+def _ang(p, c):
+    d = p - c
+    return math.atan2(d.dot(RIGHT), d.dot(FRONT)) % (2 * math.pi)
+
+
+def _fill(vals):
+    """Empty bins (None) filled from the nearest filled ones round the ring."""
+    n = len(vals)
+    out = list(vals)
+    for k in range(n):
+        if out[k] is None:
+            for d in range(1, n):
+                for kk in ((k - d) % n, (k + d) % n):
+                    if vals[kk] is not None:
+                        out[k] = vals[kk]
+                        break
+                if out[k] is not None:
+                    break
+    return out
+
+
+def meshy_fit(co, s, gap=0.6, z_scale=0.85, ring_h=0.05):
+    """Meshy positions co fitted to body shape s (see above)."""
+    xs, ys = [c.x for c in co], [c.y for c in co]
+    gc = Vector(((min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2, 0.0))
+    r_ext = max(Vector((c.x - gc.x, c.y - gc.y)).length for c in co)
+    top = [None] * MB  # the highest point per angle; their median is the ring's top (a knot on it sticks up)
+    for c in co:
+        if Vector((c.x - gc.x, c.y - gc.y)).length > 0.3 * r_ext:
+            k = int(_ang(c, gc) / (2 * math.pi) * MB) % MB
+            top[k] = c.z if top[k] is None else max(top[k], c.z)
+    zt = sorted(z for z in top if z is not None)[sum(z is not None for z in top) // 2]
+    ring = [c for c in co if zt - ring_h <= c.z <= zt + 0.01]
+    zr = sum(c.z for c in ring) / len(ring)
+    rr = sorted(Vector((c.x - gc.x, c.y - gc.y)).length for c in ring)
+    r_med = rr[len(rr) // 2]
+    rin = [None] * MB
+    for c in ring:  # the ring's inner edge per angle (anything well inside it, a knot's end, left out)
+        r = Vector((c.x - gc.x, c.y - gc.y)).length
+        if r < 0.75 * r_med:
+            continue
+        k = int(_ang(c, gc) / (2 * math.pi) * MB) % MB
+        rin[k] = r if rin[k] is None else min(rin[k], r)
+    rin = _fill(rin)
+    angs = [2 * math.pi * (k + 0.5) / MB for k in range(MB)]
+    _, rb = radial(s, BELT_Z, angs, 0.0)
+    q = [(rb[k] + gap) / rin[k] for k in range(MB)]
+    sz = sorted(q)[MB // 2] * z_scale
+    cb = Vector((0.0, cy(BELT_Z, s), 0.0))
+
+    def lerp_bins(vals, a):
+        f = a / (2 * math.pi) * MB - 0.5
+        k0 = math.floor(f)
+        t = f - k0
+        return vals[k0 % MB] * (1 - t) + vals[(k0 + 1) % MB] * t
+
+    out = []
+    for c in co:
+        a = _ang(c, gc)
+        r = Vector((c.x - gc.x, c.y - gc.y)).length * lerp_bins(q, a)
+        out.append(cb + dirv(a) * r + Vector((0.0, 0.0, BELT_Z + (c.z - zr) * sz)))
+    # the body's outermost radius per angle and height, from the belt line down the most of it above
+    z_hi = max(p.z for p in out) + MZ
+    nz = int((z_hi - min(p.z for p in out)) / MZ) + 3
+    R = [[0.0] * nz for _ in range(MB)]
+    for k, a in enumerate(angs):
+        d, best = dirv(a), 0.0
+        for j in range(nz):
+            z = z_hi - j * MZ
+            c = cb + Vector((0.0, 0.0, z))
+            h = first_hit(s, c + d * 80, -d, 80)
+            r = (h[0] - c).dot(d) if h else 0.0
+            if z <= BELT_Z:
+                best = max(best, r)
+                r = best
+            R[k][j] = r
+    # how far out each vertex must go; the field's bins take the most of theirs
+    D = [[0.0] * nz for _ in range(MB)]
+    for p in out:
+        a = _ang(p, cb)
+        k = int(a / (2 * math.pi) * MB) % MB
+        j = min(nz - 1, max(0, int(round((z_hi - p.z) / MZ))))
+        need = R[k][j] + gap - Vector((p.x - cb.x, p.y - cb.y)).length
+        D[k][j] = max(D[k][j], need)
+    # dilate (so the interpolated push never falls short of a vertex's own need), then smooth upwards only
+    D = [[max(D[(k + dk) % MB][min(nz - 1, max(0, j + dj))] for dk in (-1, 0, 1) for dj in (-1, 0, 1))
+          for j in range(nz)] for k in range(MB)]
+    for _ in range(4):
+        D = [[max(D[k][j], (D[(k - 1) % MB][j] + D[(k + 1) % MB][j] + D[k][max(0, j - 1)] + D[k][min(nz - 1, j + 1)]) / 4)
+              for j in range(nz)] for k in range(MB)]
+    print("MESHYFIT %-10s belt r %.1f-%.1f  cy %.1f  R max %.1f  D max %.1f  z %.1f..%.1f" % (
+        s, min(rb), max(rb), cb.y, max(max(r) for r in R), max(max(d) for d in D), min(p.z for p in out), z_hi))
+    res = []
+    for p in out:
+        a = _ang(p, cb)
+        f = a / (2 * math.pi) * MB - 0.5
+        k0 = math.floor(f)
+        t = f - k0
+        g = min(nz - 1.001, max(0.0, (z_hi - p.z) / MZ))
+        j0 = int(g)
+        u = g - j0
+        dv = ((D[k0 % MB][j0] * (1 - t) + D[(k0 + 1) % MB][j0] * t) * (1 - u)
+              + (D[k0 % MB][j0 + 1] * (1 - t) + D[(k0 + 1) % MB][j0 + 1] * t) * u)
+        res.append(p + dirv(a) * max(0.0, dv))
+    return res
+
+
+def meshy_piece(pc, at, key, hang=26.0, extra=None, **fit):
+    """A piece from Meshy (pc must be empty): positions per body shape, weights, Meshy's UVs and texture; extra(pc,
+    at) adds our own parts after it (their cells in the set's bottom row)."""
+    global CUR_B
+    assert not pc.faces, "a Meshy piece starts the piece"
+    at.meshy(os.path.join(MESHY, key, "model_base_color.png"))
+    co, faces, luv = meshy_load(key)
+    keep, CUR_B = CUR_B, WRAPB  # wraps are fitted to the body and leggings (the loincloth is not drawn under them)
+    try:
+        pos = {s: meshy_fit(co, s, **fit) for s in ALL}
+    finally:
+        CUR_B = keep
+    ws = [hang_w(p, min(1.0, max(0.0, (BELT_Z - 2.0 - p.z) / hang))) for p in pos["basis"]]
+    pc.verts(pos, [(0.0, 0.0)] * len(co), ws)
+    for f in faces:
+        pc.face(f, "meshy")
+    n = len(pc.faces)
+    if extra:
+        extra(pc, at)
+    fr = (at.cells - 1) / at.cells  # Meshy's texture fills the top of the set
+    pc.loop_uvs = [[(u, 1 - fr + v * fr) for u, v in f] for f in luv] + [[pc.uvs[i] for i in f] for f in pc.faces[n:]]
 
 
 @piece("festival_wrap")
 def build_festival(pc, at):
-    white, shade, red = C(0.95, 0.94, 0.9), C(0.84, 0.83, 0.79), C(0.68, 0.08, 0.08)
-    BP = wrap_common(pc, at, P_rope2(white, red), P_silk(white, shade), z_top=1.4, z_bot=-1.4, gap=0.5)
-    # the white front apron with the festival sun-mon, and a shorter back flap (inside the loincloth's room)
-    drape(pc, +1, [-9.5 + 19 * i / 6 for i in range(7)], BELT_Z - 0.5, BELT_Z - 30.0, 12, 0.45, 0.12,
-          at.cell(P_silk(white, shade, emb=emb_festival(red), fringe=0.07, fringe_col=white), 2, 2), widen=0.05, bvhs=WRAPB, clamp=True)
-    drape(pc, -1, [-12 + 24 * i / 6 for i in range(7)], BELT_Z - 0.5, BELT_Z - 27.0, 11, 0.45, 0.12,
-          at.cell(P_silk(white, shade, stripes=[(0.86, 0.9, red), (0.1, 0.13, red)], fringe=0.06, fringe_col=white)),
-          widen=0.04, bvhs=WRAPB, clamp=True)  # wide enough to hide the strip over the buttocks
-    # zigzag white streamers tied at the hips
-    r_st = at.cell(P_streamer(white), 1, 2)
-    for sgn in (-1, 1):
-        for k in range(3):
-            top = on_band(BP, 4, 48, 3, math.radians(72 + 12 * k) * sgn, 0.4)
-            card(pc, top, 16.0 - 2.0 * k, 4.6, r_st, rows=5, tilt=0.12, thick=0.05, twist=0.15 * (k - 1))
-    kn = on_band(BP, 4, 48, 1.5, math.pi, 0.5)
-    o = {s: outward(kn[s], s) for s in ALL}
-    blob(pc, kn, 1.0, at.cell(P_rope2(white, red)), norm_w(torso_w(kn["basis"])), seg=8, rings=5,
-         axes={s: (UP.cross(o[s]).normalized() * 2.8, o[s] * 1.3, UP * 2.2) for s in ALL})
+    # white festival wrap: red-and-white rope belt knotted at the back, sun apron, back flap, paper streamers
+    # under it, the wraps' strip between the legs in plain linen (the apron alone leaves the groin bare at the sides)
+    meshy_piece(pc, at, "festival_wrap", gap=1.0,
+                extra=lambda pc, at: wrap_strip(pc, at.cell(P_silk(C(0.93, 0.92, 0.88), C(0.83, 0.82, 0.78)))))
 
 
 @piece("wedding_wrap")
