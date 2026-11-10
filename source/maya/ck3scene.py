@@ -207,7 +207,7 @@ def anim_path(sex, anim):
 ROOTS = ("ground_joint", "body_root")
 
 
-def pose(sex, anim, frame=None):
+def pose(sex, anim, frame=None, static="clip"):
     """Play a portrait clip and hold one frame. As the game plays clips (see legacy weight_solver.game_pose),
     only the roots keep their translation keys; every other bone keeps its own length."""
     rest_pose()
@@ -233,12 +233,16 @@ def pose(sex, anim, frame=None):
     for j in mc.ls(type="joint"):
         keyed = any(mc.listConnections("%s.%s%s" % (j, at, ax), source=True, destination=False, type="animCurve")
                     for at in ("translate", "rotate", "scale") for ax in "XYZ")
-        if not keyed and j in _REST:  # bones a clip doesn't key stay at rest, as in the game (not at the clip's initial pose)
+        if not keyed and j in _REST:
             t, r, s, jo = _REST[j]
-            mc.setAttr(j + ".translate", *t)
-            mc.setAttr(j + ".rotate", *r)
+            if static == "rest":  # the old rule (2026-11-07): bones a clip doesn't key stay at rest
+                mc.setAttr(j + ".rotate", *r)
+                mc.setAttr(j + ".jointOrient", *jo)
+            # static == "clip" (2026-11-10, seen in game): a bone the clip lists without keys holds the clip's own
+            # value (the throne clips seat the legs that way); only its length (and a root's position) as below
+            if j not in ROOTS or static == "rest":
+                mc.setAttr(j + ".translate", *t)
             mc.setAttr(j + ".scale", *s)
-            mc.setAttr(j + ".jointOrient", *jo)
             continue
         if j in ROOTS:
             continue

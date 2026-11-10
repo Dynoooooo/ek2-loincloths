@@ -139,7 +139,7 @@ EXTRA = {"gene_ek2lc_trophy": ("ek2lc_no_trophy", [
         ("elder_wrap", "Elder's Long Wrap", "elder")]],
         "Wrap", "No Wrap", [], WRAP_TAG),
     # battles won (var:ek2lc_battles_won, counted by common/on_action/ek2lc_on_actions.txt): cowrie shells in three tiers
-    "gene_ek2lc_cowrie": ("ek2lc_no_cowrie", [("cowrie_%d" % i, n, A14 + "has_variable = ek2lc_battles_won\n\t\t\t\t"
+    "gene_ek2lc_cowrie": ("ek2lc_no_cowrie", [("cowrie_%d" % i, n, A14 + "is_alive = yes  # dead (weak) characters hold no variables\n\t\t\t\thas_variable = ek2lc_battles_won\n\t\t\t\t"
                                                "var:ek2lc_battles_won >= %d" % lo + ("\n\t\t\t\tvar:ek2lc_battles_won < %d" % hi if hi else ""))
                                               for i, n, lo, hi in [(1, "Cowrie War Belt: Front", 3, 6), (2, "Cowrie War Belt: Two Strings", 6, 10),
                                                                    (3, "Cowrie War Belt: Two Rows, Four Strings", 10, None)]],

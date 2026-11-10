@@ -41357,6 +41357,7 @@ ek2lc_cowrie = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				is_alive = yes  # dead (weak) characters hold no variables
 				has_variable = ek2lc_battles_won
 				var:ek2lc_battles_won >= 3
 				var:ek2lc_battles_won < 6
@@ -41384,6 +41385,7 @@ ek2lc_cowrie = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				is_alive = yes  # dead (weak) characters hold no variables
 				has_variable = ek2lc_battles_won
 				var:ek2lc_battles_won >= 6
 				var:ek2lc_battles_won < 10
@@ -41411,6 +41413,7 @@ ek2lc_cowrie = {
 				ek2lc_culture_trigger = yes  # only our wearers' cultures: others keep the entity-less "no" piece
 				ek2lc_grave_look_trigger = no  # a grave wrap hides every extra: don't hand out a hidden one
 				scope:age >= 14
+				is_alive = yes  # dead (weak) characters hold no variables
 				has_variable = ek2lc_battles_won
 				var:ek2lc_battles_won >= 10
 				NOR = {

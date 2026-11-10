@@ -1,0 +1,66 @@
+{
+ "people_keptu_ruler": {
+  "concept": "01a1c62a-55bb-73b6-b783-f278707f5367",
+  "model": "01a1c62b-52ca-7628-8f81-e9a383fe8473"
+ },
+ "people_keptu_everyday": {
+  "concept": "01a1c639-cc49-777a-b05f-0521d0410f07",
+  "model": "01a1c63b-a410-72c7-ba0b-c06a760b2708"
+ },
+ "people_keptu_warrior": {
+  "concept": "01a1c639-ccf4-7561-8fde-c2afa89e561f",
+  "model": "01a1c63b-b23c-77c8-b66f-792e38b01cad"
+ },
+ "people_keptu_festive": {
+  "concept": "01a1c639-cd6d-72ae-ac1a-b96b88c6427f",
+  "model": "01a1c63b-bca0-7335-8607-4ab3dbb9d16c"
+ },
+ "people_giant_everyday": {
+  "concept": "01a1c639-ce3d-7371-9b92-b3f587ed15fa",
+  "model": "01a1c63b-ca64-775e-9f17-8328af9dec22"
+ },
+ "people_giant_ruler": {
+  "concept": "01a1c639-cf67-75cb-accc-6d1296999e31",
+  "model": "01a1c63b-d575-7206-8672-6879f396ae8c"
+ },
+ "people_giant_warrior": {
+  "concept": "01a1c639-d067-73e5-a747-8e99fe5c5119",
+  "model": "01a1c63b-e04c-7505-bca7-b7a7fe4bcceb"
+ },
+ "people_giant_festive": {
+  "concept": "01a1c639-d0e0-741c-8a25-4732b2371845",
+  "model": "01a1c63c-0015-75b5-b891-8dbeeb9fc505"
+ },
+ "people_nede_everyday": {
+  "concept": "01a1c639-d152-72ce-89ae-babb1db5c2ee",
+  "model": "01a1c63c-0c39-748f-9ad8-dd39e31ac459"
+ },
+ "people_nede_ruler": {
+  "concept": "01a1c63a-2d45-7051-b7fb-a69d71dd4849",
+  "model": "01a1c63c-6edf-7538-b05e-e6da51af610f"
+ },
+ "people_nede_warrior": {
+  "concept": "01a1c63a-2dbf-77f3-9f03-f0ff12497056",
+  "model": "01a1c63c-7bd7-747b-ada0-5017a2c2e7fb"
+ },
+ "people_nede_festive": {
+  "concept": "01a1c63a-2e33-71f2-acf4-636ed4476c33",
+  "model": "01a1c63c-8640-70e1-90e5-1dd40fac6bb7"
+ },
+ "people_yokudan_everyday": {
+  "concept": "01a1c63a-2f08-7640-b3aa-52ad912967f0",
+  "model": "01a1c63c-a8d8-778a-b8fc-7903d0228c3c"
+ },
+ "people_yokudan_ruler": {
+  "concept": "01a1c63a-2fd5-77c7-ba19-1cbceb3e8e33",
+  "model": "01a1c63c-b3d2-746e-9c11-09dc8a15ff37"
+ },
+ "people_yokudan_warrior": {
+  "concept": "01a1c63a-30a1-7212-a3ec-ab6cf28a6fb2",
+  "model": "01a1c63c-c30a-7701-aaf7-c2a31bc4e1c7"
+ },
+ "people_yokudan_festive": {
+  "concept": "01a1c63a-3123-779c-a090-61b4841ebd48",
+  "model": "01a1c63c-ce6d-75ad-ae8d-2f7b508345f7"
+ }
+}

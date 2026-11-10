@@ -403,7 +403,7 @@ def solve(name, P, free=None, cap=1.0, allowed_fn=None, tie_d=1.0, iters=250, in
             dd = rest[a] - rest[b]
             if abs(dd[UP]) > 0.8 * np.linalg.norm(dd):
                 down.append((a, b) if dd[UP] > 0 else (b, a))
-    lam = dict(pen=20.0, ref=1.0, len=2.0, smooth=30.0, stick=5.0, down=20.0, grav=0.5)
+    lam = dict(pen=20.0, ref=float(os.environ.get("WS_REF", "1.0")), len=2.0, smooth=30.0, stick=5.0, down=20.0, grav=0.5)
     lside = 1 if P["joints_rest"][P["bi"]["bn_l_hip"]][0] > 0 else -1
     best = None
     free_names = {p["name"] for p in poses if p["ref"] is None}
@@ -461,7 +461,8 @@ if __name__ == "__main__":
     print("poses", len(P["poses"]), flush=True)
     for nm in args:
         try:
-            solve(nm, P, log=lambda s: print(s, flush=True))
+            solve(nm, P, iters=int(os.environ.get("WS_ITERS", "250")),
+                  inits=tuple(os.environ.get("WS_INITS", "orig,half").split(",")), log=lambda s: print(s, flush=True))
         except Exception as e:  # noqa
             import traceback
             print("FAILED", nm, traceback.format_exc()[-600:], flush=True)

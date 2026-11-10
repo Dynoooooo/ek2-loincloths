@@ -49,3 +49,16 @@ Add new facts here, one short bullet each, with the date.
 ## Validation (2026-11-10)
 - ck3-tiger loads EK2 through `source/tools/ek2_for_tiger.mod` (EK2's own `ugc_2887120253.mod` makes tiger 1.19 stop with "Invalid config"). Remaining reports sit in EK2/vanilla files (tiger 1.19 doesn't know CK3 1.20); read only our files' lines.
 - clausewitz `validate_mod` with EK2 indexed: the full run and `unknown_script` time out; run `syntax`/`encoding`/`localisation` alone. Its "missing loc" hits for `set_variable` names are false positives.
+
+## Meshy pieces in Maya (2026-11-10)
+- `source/maya/mbuild.py` + `glb.py`: Meshy GLB -> fitted piece. `mb.build(key, base, fit_kw=..)` does both bodies: fit round the hips (port of the Blender meshy_fit), women's chest wrap from the garment's top part (`fit_band`, hull over the bust), weights (skin at the belt, skirt chains below, as vanilla skirts), writes the `.mesh` straight with `pdx_data` (template: the festival wrap's file; Z negated, triangle corners reversed), every body shape (`shapes.py`) and the `.asset` lines, then textures. Then run `mayapy -I source/tools/make_colour.py` for the diffuse and colour mask.
+- 2026-11-10: Meshy GLBs load as Maya space directly (glTF Y up, front +Z); their UVs are already the file's u0 (v down).
+- 2026-11-10: Meshy's image_to_3d with `should_remesh` + `target_polycount 8000` gives ~7-8k tris and PBR maps in `model_textures/` (base_color, normal, roughness, metallic). Fur comes out as a thick volume: `fit_kw={"thin": 0.2, "tight": 0.9}`.
+- 2026-11-10: `ck3scene.pose()` must keep the clip's own value on bones the clip lists without keys: the throne clips (`throneRoom_ruler2_1`) seat the legs that way (seen in game; the "unkeyed bones at rest" rule stood the throne pose up). Re-dump `pose_dump.dump_poses(sex)` after changing pose().
+- 2026-11-10: plain skin-to-skirt weights clip 2-5 cm kneeling/cross-legged (vanilla robes ~15); the solved Reach pieces ~0. `wsolve.py` on a proxy (`mb.dump_proxy`, `tools/solve_bg.sh`) runs in 2-4 min but moves the standing look ~4 cm: not used yet.
+
+## In-game checks (2026-11-10)
+- Rebuild `ck3ctl` each session: `swiftc -O -o <scratchpad>/ck3ctl source/tools/ck3ctl.swift` (`~/.copilot/bin` is gone). Console keys through it work with CK3 in the background.
+- Computer Use can click CK3 (app "ck3", full screen tools) but refuses to type into it (dev-path app, "focus anomaly"): type only through the console with ck3ctl.
+- Barbershop Scene tab: pose dropdown (Kneeling, Sit on Throne Version One/Two, Curtsey, Bowing...), Zoom +/- buttons, Hide UI; the pose list scrolls ~1.5 entries per pixel of its scrollbar. Good for pose checks without events.
+- Portrait-modifier triggers that read variables need `is_alive = yes` first (dead "weak" characters hold none; vanilla does the same): the cowrie belt logged 990 errors per launch before.
