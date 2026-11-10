@@ -65,7 +65,8 @@
  },
  "art_champion": {
   "concept": "01a1c665-2579-74c1-b72c-a6183039af63",
-  "model": "01a1c666-7071-7310-a7e9-3603039a2e45"
+  "model": "01a1c666-7071-7310-a7e9-3603039a2e45",
+  "icon": "rendered in Maya (source/maya/icons.py)"
  },
  "priest_apron": {
   "concept": "01a1c665-25f8-7457-b18a-959d86228c7b",
@@ -86,5 +87,13 @@
  "elder_wrap": {
   "concept": "01a1c665-2873-72cf-8c15-73d2383e36e4",
   "model": "01a1c666-b62b-704b-b841-2cc0ecb73bfa"
+ },
+ "lich_art_fauld": {
+  "concept": "01a1c683-e6e5-70c6-aeca-f7ed79be092d",
+  "model": "01a1c684-e4b8-75bb-b002-b803f621a104"
+ },
+ "lich_art_ash": {
+  "concept": "01a1c683-e768-7430-ae23-54d271cb7f73",
+  "model": "01a1c684-f0ac-7699-b250-dd412b8d8c8c"
  }
 }
