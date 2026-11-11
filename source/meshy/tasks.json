@@ -364,5 +364,69 @@
  "fur_robe": {
   "concept": "01a1c7d5-6abd-70bc-b3f8-8e5ccbd214f2",
   "model": "01a1c7dd-e6df-7657-b005-b8bd91b86616"
+ },
+ "argonian_royal": {
+  "concept": "01a1c817-03c5-737c-bc2b-85f8aa722631",
+  "model": "01a1c818-ce07-7133-a806-34cb0039b128"
+ },
+ "argonian_band_royal": {
+  "concept": "01a1c817-0457-7665-b654-6184d71802ab",
+  "model": "01a1c818-d88f-762b-916b-bc421baada84"
+ },
+ "ashlander_royal": {
+  "concept": "01a1c817-0524-71ac-84ef-bfa47b0f2838",
+  "model": "01a1c818-e241-7791-8092-45a6e330f9bc"
+ },
+ "ashlander_band_royal": {
+  "concept": "01a1c817-05aa-770f-8afb-35638dfe2152",
+  "model": "01a1c818-f02f-73da-8a5f-86439a2ede91"
+ },
+ "bosmer_royal": {
+  "concept": "01a1c817-063f-7258-a22b-ba71701242da",
+  "model": "01a1c818-fae8-7082-9823-4aba2a2bed8c"
+ },
+ "bosmer_band_royal": {
+  "concept": "01a1c817-06ba-7031-a0e9-c3995b5ea599",
+  "model": "01a1c819-09bd-76ef-a9e5-bbf3c86ef6df"
+ },
+ "khajiit_royal": {
+  "concept": "01a1c817-074a-72d6-a214-ba2a2c4213a7",
+  "model": "01a1c819-1424-74c0-992d-ffabdf9fac4c"
+ },
+ "khajiit_band_royal": {
+  "concept": "01a1c817-07d9-73bb-b763-25c362a3d88e",
+  "model": "01a1c819-201b-7121-b0f6-d515efe462c4"
+ },
+ "orc_royal": {
+  "concept": "01a1c817-5f8d-71f2-9c1f-f6fd9099a4f7",
+  "model": "01a1c819-82c4-7076-abd0-51a730298c6a"
+ },
+ "orc_band_royal": {
+  "concept": "01a1c817-601d-76fe-aa44-333d09209018",
+  "model": "01a1c819-8e89-73c3-81b3-adc33bccbdd8"
+ },
+ "goblin_royal": {
+  "concept": "01a1c817-60bc-76fb-882f-022376b91683",
+  "model": "01a1c819-9955-761d-a0cb-832afe26011b"
+ },
+ "goblin_band_royal": {
+  "concept": "01a1c817-6152-7530-a4c1-b23b2e29da97",
+  "model": "01a1c819-a4cf-71d8-96f5-7398941bff17"
+ },
+ "kothringi_royal": {
+  "concept": "01a1c817-61e4-73e7-96b0-98fe3c0ea06a",
+  "model": "01a1c819-af55-7170-880a-b136539f3b57"
+ },
+ "kothringi_band_royal": {
+  "concept": "01a1c817-6278-748e-bc2c-ece886d85384",
+  "model": "01a1c819-b9c4-77e7-8728-c0e16ec03c1c"
+ },
+ "lilmothiit_royal": {
+  "concept": "01a1c817-6348-70bb-b026-ca07269bc25c",
+  "model": "01a1c819-c39e-7798-9e43-956beac49488"
+ },
+ "lilmothiit_band_royal": {
+  "concept": "01a1c817-63dc-70d2-bd03-f75ecc60f045",
+  "model": "01a1c819-ce2c-76f6-91fc-de14ec2b6ea0"
  }
 }

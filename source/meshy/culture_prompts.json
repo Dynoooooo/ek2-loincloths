@@ -144,7 +144,7 @@
    "fine_belt": "a braided sash with a brass crescent clasp",
    "fine_clasp": "a gold crescent-moon clasp",
    "royal": "deep blue silk with gold patterns",
-   "motif": "crescent and full moons in their phases",
+   "motif": "crescent and full moons in their phases (moons only: no suns, no rays)",
    "royal_trim": "gold fringe and small moonstones",
    "royal_belt": "a sash with a large gold double-moon plaque",
    "royal_clasp": "a gold clasp of two moons",
@@ -354,5 +354,23 @@
   "reach_royal",
   "reach_band_royal",
   "fur_robe"
+ ],
+ "batch2": [
+  "argonian_royal",
+  "argonian_band_royal",
+  "ashlander_royal",
+  "ashlander_band_royal",
+  "bosmer_royal",
+  "bosmer_band_royal",
+  "khajiit_royal",
+  "khajiit_band_royal",
+  "orc_royal",
+  "orc_band_royal",
+  "goblin_royal",
+  "goblin_band_royal",
+  "kothringi_royal",
+  "kothringi_band_royal",
+  "lilmothiit_royal",
+  "lilmothiit_band_royal"
  ]
 }

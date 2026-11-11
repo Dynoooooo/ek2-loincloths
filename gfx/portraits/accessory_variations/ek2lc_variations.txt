@@ -130,6 +130,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_argonian_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_argonian_band_royal_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_argonian_duke_01"
 	pattern = {
 		weight = 1
@@ -370,6 +382,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_ashlander_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_ashlander_band_royal_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_ashlander_duke_01"
 	pattern = {
 		weight = 1
@@ -511,6 +535,18 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_bosmer_band_fine_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_bosmer_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_bosmer_band_royal_01_palette.dds" }
 }
 
 variation = {
@@ -754,6 +790,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_goblin_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_goblin_band_royal_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_goblin_duke_01"
 	pattern = {
 		weight = 1
@@ -922,6 +970,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_khajiit_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_khajiit_band_royal_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_khajiit_duke_01"
 	pattern = {
 		weight = 1
@@ -1063,6 +1123,18 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_kothringi_band_fine_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_kothringi_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_kothringi_band_royal_01_palette.dds" }
 }
 
 variation = {
@@ -1678,6 +1750,18 @@ variation = {
 }
 
 variation = {
+	name = "ek2lc_lilmothiit_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_lilmothiit_band_royal_01_palette.dds" }
+}
+
+variation = {
 	name = "ek2lc_lilmothiit_duke_01"
 	pattern = {
 		weight = 1
@@ -1831,6 +1915,18 @@ variation = {
 		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
 	}
 	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_orc_band_fine_01_palette.dds" }
+}
+
+variation = {
+	name = "ek2lc_orc_band_royal_01"
+	pattern = {
+		weight = 1
+		r = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		g = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		b = { textures = "ek2lc_solid_g56_a152"	layout = "ek2lc_flat" }
+		a = { textures = "ek2lc_none"	layout = "ek2lc_flat" }
+	}
+	color_palette = { weight = 1	texture = "gfx/portraits/accessory_variations/textures/ek2lc/ek2lc_orc_band_royal_01_palette.dds" }
 }
 
 variation = {
