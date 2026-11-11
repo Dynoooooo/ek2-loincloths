@@ -109,7 +109,7 @@ def lbs(P, W, M):
     return out
 
 
-def _sd(o, X, N, maxd=8.0):
+def _sd(o, X, N, maxd=15.0):
     """Signed distance to the body by its smooth vertex normals at the closest point (face normals flip in the
     crotch and other hollows); deeper than maxd is not a real penetration (a leg is ~8 cm thick): counted as 0."""
     T = o.T[o.cand]
@@ -139,7 +139,7 @@ def signed(X, body, tris):
 
 
 def fix(name, sex, gap=0.4, mu=4.0, nu=0.3, smooth_r=2.5, coarse=(24, 6.0), alt="leg", waist=3.0, above_knee=None,
-        log=print, write=True):
+        pose_w=None, front=None, log=print, write=True):
     S = poses(sex)
     root, m, skel, P, ix, w = _read(name)
     Wc = _dense(ix, w, skel, S["bones"])
@@ -152,6 +152,8 @@ def fix(name, sex, gap=0.4, mu=4.0, nu=0.3, smooth_r=2.5, coarse=(24, 6.0), alt=
         if above_knee is not None:   # only the thigh-height part (below the knees the kneeling shin pulls it down)
             knee_y = (joints["bn_l_knee"][1] + joints["bn_r_knee"][1]) / 2
             hang &= P[:, 1] > knee_y + above_knee
+        if front is not None:        # only within `front` degrees of straight ahead (the hip crease of a raised thigh)
+            hang &= np.abs(np.degrees(np.arctan2(P[:, 0], P[:, 2]))) < front
         Ws = leg_weights(P, S, joints)
     else:
         hang = Wc[:, chain].sum(1) > 0.05
@@ -171,7 +173,7 @@ def fix(name, sex, gap=0.4, mu=4.0, nu=0.3, smooth_r=2.5, coarse=(24, 6.0), alt=
         for a_i, a in enumerate(ALPHAS):
             X = (1 - a) * Pc + a * Ps
             sd = _sd(o, X, S["nrm"][k])
-            E[:, a_i] += np.maximum(gap - sd, 0.0) ** 2
+            E[:, a_i] += (pose_w or {}).get(S["names"][k].split(":")[0], 1.0) * np.maximum(gap - sd, 0.0) ** 2
             if a_i == 0:
                 worst0 = np.maximum(worst0, -sd)
     for k in ref:
