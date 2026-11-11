@@ -138,7 +138,8 @@ def signed(X, body, tris):
     return ((X - loc) * nrm).sum(1)
 
 
-def fix(name, sex, gap=0.4, mu=4.0, nu=0.3, smooth_r=2.5, coarse=(24, 6.0), alt="leg", waist=3.0, log=print, write=True):
+def fix(name, sex, gap=0.4, mu=4.0, nu=0.3, smooth_r=2.5, coarse=(24, 6.0), alt="leg", waist=3.0, above_knee=None,
+        log=print, write=True):
     S = poses(sex)
     root, m, skel, P, ix, w = _read(name)
     Wc = _dense(ix, w, skel, S["bones"])
@@ -148,6 +149,9 @@ def fix(name, sex, gap=0.4, mu=4.0, nu=0.3, smooth_r=2.5, coarse=(24, 6.0), alt=
         joints = {b: d["joints_rest"][k] for k, b in enumerate(S["bones"])}
         hip_y = (joints["bn_l_hip"][1] + joints["bn_r_hip"][1]) / 2
         hang = P[:, 1] < hip_y + waist
+        if above_knee is not None:   # only the thigh-height part (below the knees the kneeling shin pulls it down)
+            knee_y = (joints["bn_l_knee"][1] + joints["bn_r_knee"][1]) / 2
+            hang &= P[:, 1] > knee_y + above_knee
         Ws = leg_weights(P, S, joints)
     else:
         hang = Wc[:, chain].sum(1) > 0.05
