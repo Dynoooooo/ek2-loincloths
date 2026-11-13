@@ -10,7 +10,7 @@ import copy
 import os
 from io_pdx_mesh import pdx_data
 
-GAME = os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game")
+GAME = os.environ.get("CK3_GAME") or os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game")
 
 
 def body_skeleton(sex):

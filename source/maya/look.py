@@ -11,7 +11,7 @@ import tempfile
 import maya.cmds as mc
 import ck3scene as cs
 
-MAGICK = "/opt/homebrew/bin/magick" if os.path.exists("/opt/homebrew/bin/magick") else "magick"
+MAGICK = os.environ.get("MAGICK") or ("/opt/homebrew/bin/magick" if os.path.exists("/opt/homebrew/bin/magick") else "magick")
 FONT = "/System/Library/Fonts/Supplemental/Arial.ttf"  # ImageMagick here has no default font for -annotate
 
 

@@ -14,9 +14,9 @@ import maya.cmds as mc
 import maya.api.OpenMaya as om
 import numpy as np
 
-GAME = os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game")
-EK2 = os.path.expanduser("~/Library/Application Support/Steam/steamapps/workshop/content/1158310/2887120253")
-MOD = os.path.expanduser("~/Documents/Paradox Interactive/Crusader Kings III/mod/ek2_loincloths")
+GAME = os.environ.get("CK3_GAME") or os.path.expanduser("~/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game")
+EK2 = os.environ.get("EK2_DIR") or os.path.expanduser("~/Library/Application Support/Steam/steamapps/workshop/content/1158310/2887120253")
+MOD = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 OUT = MOD + "/gfx/models/portraits/ek2lc/reach_hide_01"
 
 

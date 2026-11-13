@@ -47,7 +47,7 @@ Add new facts here, one short bullet each, with the date.
 - 2026-11-10: EK2 body shapes our pieces lack: `giantish_body_bs` (75 pieces), `imgan_body_bs` (all), `bs_briarheart_body` (men, all). EK2's own clothes lack them too (only one fur follows Briarheart).
 
 ## Validation (2026-11-10)
-- ck3-tiger loads EK2 through `source/tools/ek2_for_tiger.mod` (EK2's own `ugc_2887120253.mod` makes tiger 1.19 stop with "Invalid config"). Remaining reports sit in EK2/vanilla files (tiger 1.19 doesn't know CK3 1.20); read only our files' lines.
+- ck3-tiger loads EK2 through `source/tools/tiger.sh`, which writes a minimal EK2 descriptor (EK2's own `ugc_2887120253.mod` makes tiger 1.19 stop with "Invalid config"). Remaining reports sit in EK2/vanilla files (tiger 1.19 doesn't know CK3 1.20); read only our files' lines.
 - clausewitz `validate_mod` with EK2 indexed: the full run and `unknown_script` time out; run `syntax`/`encoding`/`localisation` alone. Its "missing loc" hits for `set_variable` names are false positives.
 
 ## Meshy pieces in Maya (2026-11-10)

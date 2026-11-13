@@ -43,7 +43,7 @@ MOD = os.path.dirname(SRC)
 sys.path.insert(0, SRC)
 import colour  # noqa: E402
 
-MAGICK = "/opt/homebrew/bin/magick"
+MAGICK = os.environ.get("MAGICK") or ("/opt/homebrew/bin/magick" if os.path.exists("/opt/homebrew/bin/magick") else "magick")
 OUT = os.path.join(MOD, colour.MODEL_DIR)
 PAT = os.path.join(MOD, colour.PATTERN_DIR)
 TEX = os.path.join(SRC, "textures")

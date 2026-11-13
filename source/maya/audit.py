@@ -168,7 +168,8 @@ _IMG = {}
 def _alpha_image(path):
     if path not in _IMG:
         import subprocess
-        mg = "/opt/homebrew/bin/magick"
+        import os
+        mg = os.environ.get("MAGICK") or ("/opt/homebrew/bin/magick" if os.path.exists("/opt/homebrew/bin/magick") else "magick")
         wh = subprocess.run([mg, "identify", "-format", "%w %h", path + "[0]"], capture_output=True, text=True).stdout.split()
         w, h = int(wh[0]), int(wh[1])
         raw = subprocess.run([mg, path + "[0]", "-alpha", "extract", "-depth", "8", "gray:-"], capture_output=True).stdout

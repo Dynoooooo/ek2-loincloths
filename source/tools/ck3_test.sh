@@ -7,8 +7,8 @@
 #   ck3_test.sh wait    wait until the map is running (up to 5 minutes)
 #   ck3_test.sh stop    quit CK3 and restore the backups
 set -e
-CK="$HOME/Documents/Paradox Interactive/Crusader Kings III"
-BIN="$HOME/Library/Application Support/Steam/steamapps/common/Crusader Kings III/binaries"
+CK="${CK3_USER_DIR:-$HOME/Documents/Paradox Interactive/Crusader Kings III}"
+BIN="${CK3_GAME:-$HOME/Library/Application Support/Steam/steamapps/common/Crusader Kings III/game}/../binaries"
 B="$CK/ek2lc_backup"   # outside the mod; removed after a successful restore
 
 case "$1" in

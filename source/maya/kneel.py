@@ -563,7 +563,7 @@ def free_attrs():
     other model uses: the ones the kneel genes may drive."""
     import glob
     import re
-    W = os.path.expanduser("~/Library/Application Support/Steam/steamapps/workshop/content/1158310/2887120253")
+    W = os.environ.get("EK2_DIR") or os.path.expanduser("~/Library/Application Support/Steam/steamapps/workshop/content/1158310/2887120253")
     att = re.compile(r'attribute\s*=\s*\{\s*name\s*=\s*"([^"]+)"\s*blend_shape\s*=\s*"([^"]+)"')
     base, other, genes = {}, set(), set()
     for root in (cs.GAME, W):

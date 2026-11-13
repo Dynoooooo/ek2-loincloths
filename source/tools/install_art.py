@@ -12,7 +12,7 @@ import subprocess
 
 MOD = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 ART = os.path.join(MOD, "source/textures/art")
-MAGICK = "/opt/homebrew/bin/magick"
+MAGICK = os.environ.get("MAGICK") or ("/opt/homebrew/bin/magick" if os.path.exists("/opt/homebrew/bin/magick") else "magick")
 BOM = "﻿"
 
 # background key -> events using it

@@ -9,7 +9,7 @@ io_pdx_mesh creates Maya vertex i from file vertex i (no welding), so the weight
 import os
 import numpy as np
 
-MOD = os.path.expanduser("~/Documents/Paradox Interactive/Crusader Kings III/mod/ek2_loincloths")
+MOD = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 OUT = MOD + "/gfx/models/portraits/ek2lc/reach_hide_01"
 D = MOD + "/source/build_logs/solve"
 

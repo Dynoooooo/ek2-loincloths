@@ -1129,7 +1129,7 @@ def run_solver(names, sex, iters=150, inits="half", ref=1.0, wait=True):
     """mayapy wsolve.py on dumped proxies, one process per piece (in parallel); returns the report lines."""
     import subprocess
     env = dict(os.environ, WS_ITERS=str(iters), WS_INITS=inits, WS_REF=str(ref))
-    py = "/Applications/Autodesk/maya2027/Maya.app/Contents/bin/mayapy"
+    py = os.environ.get("MAYAPY") or "/Applications/Autodesk/maya2027/Maya.app/Contents/bin/mayapy"
     logd = "%s/source/build_logs/solve" % cs.MOD
     procs = [(n, subprocess.Popen([py, "-I", "%s/source/maya/wsolve.py" % cs.MOD, sex, n], env=env,
                                   stdout=open("%s/log_%s.txt" % (logd, n), "w"), stderr=subprocess.STDOUT)) for n in names]
