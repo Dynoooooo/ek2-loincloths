@@ -50,6 +50,10 @@ def body_shapes(sex):
 def suffix_attr(sex):
     d = {k: a for k, a, f in body_shapes(sex)}
     d["seated"] = "bs_body_seated"   # pieces only: vanilla's throne drape (gene_seated), no body file
+    d["kneel1"] = "whiskers_thin_1"   # pieces only: our kneel shapes (kneel.py) on EK2's unused whiskers attributes
+    d["kneel2"] = "whiskers_thin_2"
+    d["kneel1_fat"] = "whiskers_droop"   # the extra a heavy body needs (weight_for_portrait)
+    d["kneel2_fat"] = "whiskers_wavy"
     return d
 
 

@@ -12,6 +12,8 @@ pdxmesh = {
 	blend_shape = { id = "ek2lc_m_lich_cowrie_1_01_bs_khadigi"	type = "ek2lc_m_lich_cowrie_1_01_bs_khadigi.mesh" }
 	blend_shape = { id = "ek2lc_m_lich_cowrie_1_01_bs_draugr"	type = "ek2lc_m_lich_cowrie_1_01_bs_draugr.mesh" }
 	blend_shape = { id = "ek2lc_m_lich_cowrie_1_01_bs_giantish"	type = "ek2lc_m_lich_cowrie_1_01_bs_giantish.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_1_01_bs_kneel1"	type = "ek2lc_m_lich_cowrie_1_01_bs_kneel1.mesh" }
+	blend_shape = { id = "ek2lc_m_lich_cowrie_1_01_bs_kneel1_fat"	type = "ek2lc_m_lich_cowrie_1_01_bs_kneel1_fat.mesh" }
 
 	meshsettings = {
 		name = "ek2lc_m_lich_cowrie_1_01Shape"
@@ -38,6 +40,8 @@ entity = {
 	attribute = { name = "khajiit_digitigrade_bs"	blend_shape = "ek2lc_m_lich_cowrie_1_01_bs_khadigi" }
 	attribute = { name = "bs_draugr_body"	blend_shape = "ek2lc_m_lich_cowrie_1_01_bs_draugr" }
 	attribute = { name = "giantish_body_bs"	blend_shape = "ek2lc_m_lich_cowrie_1_01_bs_giantish" }
+	attribute = { name = "whiskers_thin_1"	blend_shape = "ek2lc_m_lich_cowrie_1_01_bs_kneel1" }
+	attribute = { name = "whiskers_droop"	blend_shape = "ek2lc_m_lich_cowrie_1_01_bs_kneel1_fat" }
 	game_data = {
 		portrait_entity_user_data = {
 			portrait_accessory = {

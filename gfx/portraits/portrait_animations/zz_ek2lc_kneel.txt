@@ -1,0 +1,23 @@
+﻿# EK2 Loincloths: the two kneeling animations, as in EK2 0.21.2 / vanilla 1.20, plus one line each that switches on
+# a kneel shape for our pieces (the way throne_room_ruler switches on seated_skirt). Nothing else changes.
+# If EK2 or vanilla changes these two entries, copy the new ones here and add the line again.
+
+throne_room_kneel_1 = {
+	default = {
+		default = { head = "throneRoom_kneel1_entry" torso = "throneRoom_kneel1_entry" }
+		portrait_modifier = {
+			animations = no_cloak
+			ek2lc_pose = kneel1
+		}
+	}
+}
+
+throne_room_kneel_2 = {
+	default = {
+		default = { head = "throneRoom_kneel2_entry" torso = "throneRoom_kneel2_entry" }
+		portrait_modifier = {
+			animations = no_cloak
+			ek2lc_pose = kneel2
+		}
+	}
+}

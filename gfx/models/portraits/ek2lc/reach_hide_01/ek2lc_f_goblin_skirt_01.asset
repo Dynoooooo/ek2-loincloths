@@ -16,6 +16,10 @@ pdxmesh = {
 	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_draugr"	type = "ek2lc_f_reach_skirt_01_bs_draugr.mesh" }
 	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_giantish"	type = "ek2lc_f_reach_skirt_01_bs_giantish.mesh" }
 	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_seated"	type = "ek2lc_f_reach_skirt_01_bs_seated.mesh" }
+	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_kneel1"	type = "ek2lc_f_reach_skirt_01_bs_kneel1.mesh" }
+	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_kneel2"	type = "ek2lc_f_reach_skirt_01_bs_kneel2.mesh" }
+	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_kneel1_fat"	type = "ek2lc_f_reach_skirt_01_bs_kneel1_fat.mesh" }
+	blend_shape = { id = "ek2lc_f_goblin_skirt_01_bs_kneel2_fat"	type = "ek2lc_f_reach_skirt_01_bs_kneel2_fat.mesh" }
 
 	meshsettings = {
 		name = "ek2lc_f_reach_skirt_01Shape"
@@ -46,6 +50,10 @@ entity = {
 	attribute = { name = "bs_draugr_body"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_draugr" }
 	attribute = { name = "giantish_body_bs"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_giantish" }
 	attribute = { name = "bs_body_seated"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_seated" }
+	attribute = { name = "whiskers_thin_1"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_kneel1" }
+	attribute = { name = "whiskers_thin_2"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_kneel2" }
+	attribute = { name = "whiskers_droop"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_kneel1_fat" }
+	attribute = { name = "whiskers_wavy"	blend_shape = "ek2lc_f_goblin_skirt_01_bs_kneel2_fat" }
 	game_data = {
 		portrait_entity_user_data = {
 			portrait_accessory = {

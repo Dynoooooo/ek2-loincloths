@@ -1,0 +1,6 @@
+﻿l_english:
+ # Hand-written: the kneel pose genes (common/genes/ek2lc_pose_genes.txt), never shown in the barbershop
+ gene_ek2lc_kneel1:0 "Kneeling drape"
+ gene_ek2lc_kneel2:0 "Kneeling drape (both knees)"
+ gene_ek2lc_kneel1_fat:0 "Kneeling drape, heavy body"
+ gene_ek2lc_kneel2_fat:0 "Kneeling drape (both knees), heavy body"

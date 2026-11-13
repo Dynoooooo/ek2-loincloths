@@ -1,0 +1,59 @@
+﻿# EK2 Loincloths: pose shapes, switched on by the kneeling animations (gfx/portraits/portrait_animations/
+# zz_ek2lc_kneel.txt), the way vanilla's `seated_skirt` is switched on by throne_room_ruler. Hand-written.
+ek2lc_pose = {
+	usage = none
+
+	kneel1 = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_ek2lc_kneel1
+				template = kneel
+				value = 1.0
+			}
+			morph = {	# heavy bodies: as far as vanilla's weight modifier pushes bs_body_fat_1
+				mode = add
+				gene = gene_ek2lc_kneel1_fat
+				template = kneel
+				value = {
+					value = 0
+					if = {
+						limit = {
+							exists = root
+							scope:current_weight > overweight_threshold
+						}
+						value = scope:weight_for_portrait
+						max = 1
+					}
+				}
+			}
+		}
+	}
+
+	kneel2 = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_ek2lc_kneel2
+				template = kneel
+				value = 1.0
+			}
+			morph = {	# heavy bodies: as far as vanilla's weight modifier pushes bs_body_fat_1
+				mode = add
+				gene = gene_ek2lc_kneel2_fat
+				template = kneel
+				value = {
+					value = 0
+					if = {
+						limit = {
+							exists = root
+							scope:current_weight > overweight_threshold
+						}
+						value = scope:weight_for_portrait
+						max = 1
+					}
+				}
+			}
+		}
+	}
+}
